@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noesis Group — Owner's Representation, Development Management &amp; Investment</title>
+  <meta name="description" content="Noesis is an international development management and investment firm based in Beverly Hills. As owner's representative and development manager, we deliver landmark luxury residential ($5M+) and large commercial projects from entitlement to delivery — and align private capital with disciplined, design-led real estate investment.">
+  <meta property="og:title" content="Noesis Group — Owner's Representation, Development Management &amp; Investment">
+  <meta property="og:description" content="An international owner's representation, development management and investment firm. From entitlement to delivery — and the capital behind it.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Geist:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css?v=1780959439">
+
+  <!-- Motion stack: GSAP + ScrollTrigger + Lenis smooth-scroll + SplitType -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+  <script>
+    /* Gate the "hide-before-reveal" CSS on motion actually being available,
+       so a CDN failure or reduced-motion never leaves content invisible. */
+    (function () {
+      try {
+        var rm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        // Only pre-hide content for the reveal animation when motion is available AND
+        // the tab is visible (rAF runs). Hidden tabs freeze rAF, so we must not hide.
+        if (window.gsap && window.ScrollTrigger && !rm && !document.hidden) {
+          document.documentElement.classList.add("motion-ready");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="#F4F1EA"/>
+      <text x="100" y="118" text-anchor="middle" font-family="Fraunces, Georgia, serif"
+            font-size="96" font-style="italic" fill="#16140E">N</text>
+      <circle cx="100" cy="150" r="3" fill="#6E1F1F"/>
+    </svg>
+  </template>
+</head>
+<body style="background-color: #F4F1EA">
+
+  <!-- Cinematic preloader (removed by motion.js; auto-cleared after 6s as a safety net) -->
+  <div id="preloader" class="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <div class="preloader__brand">NOESIS<i class="preloader__dot"></i></div>
+      <div class="preloader__line"><span></span></div>
+    </div>
+    <div class="preloader__count">00</div>
+  </div>
+
+  <!-- Film-grain + custom cursor overlays -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><div class="cursor__ring"></div><div class="cursor__dot"></div></div>
+
+  <div id="root"></div>
+
+  <!-- React + Babel (pinned + integrity) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Tweaks panel (gives us useTweaks, TweaksPanel, controls) -->
+  <script type="text/babel" src="tweaks-panel.jsx?v=1780959439"></script>
+
+  <!-- Components -->
+  <script type="text/babel" src="components/Placeholder.jsx?v=1780959439"></script>
+  <script type="text/babel" src="components/Shell.jsx?v=1780959439"></script>
+
+  <!-- Pages -->
+  <script type="text/babel" src="pages/Home.jsx?v=1780959439"></script>
+  <script type="text/babel" src="pages/Services.jsx?v=1780959439"></script>
+  <script type="text/babel" src="pages/Projects.jsx?v=1780959439"></script>
+  <script type="text/babel" src="pages/Investment.jsx?v=1780959439"></script>
+  <script type="text/babel" src="pages/About.jsx?v=1780959439"></script>
+  <script type="text/babel" src="pages/Contact.jsx?v=1780959439"></script>
+
+  <!-- Motion layer (plain JS) -->
+  <script src="motion.js?v=1780959439"></script>
+
+  <!-- App -->
+  <script type="text/babel" src="app.jsx?v=1780959439"></script>
+
+</body>
+</html>
