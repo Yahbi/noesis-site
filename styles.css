@@ -269,8 +269,8 @@ img.img-in { animation: img-fade .6s ease both; }
 .nav {
   position: sticky; top: 0; z-index: 50;
   background: color-mix(in oklab, var(--ink) 82%, transparent);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
   border-bottom: 1px solid transparent;
   transition: border-color .25s, background .25s;
 }
@@ -644,10 +644,10 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 
 /* Film grain ------------------------------------------------------------- */
 .grain {
-  position: fixed; top: -60%; left: -60%; width: 220%; height: 220%;
-  z-index: 160; pointer-events: none; opacity: .045; mix-blend-mode: overlay;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 160; pointer-events: none; opacity: .025;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 0.9s steps(2) infinite;
+  /* static — animating this layer cost full-viewport compositing per frame */
 }
 @keyframes grain {
   0%   { transform: translate(0, 0); }
@@ -880,8 +880,8 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .cursor__dot  { background: var(--accent); }
 html.cursor-hot .cursor__ring { border-color: var(--accent); background: rgba(110,31,31,.06); }
 
-/* Film grain — subtle, multiply so it reads on paper */
-.grain { mix-blend-mode: multiply; opacity: .04; }
+/* Film grain — subtle, static, cheap (no blend mode, no animation) */
+.grain { mix-blend-mode: normal; opacity: .025; }
 
 /* Preloader — ivory */
 .preloader { background: var(--bone); }
@@ -1034,7 +1034,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .cine--video .cine__vid {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; border: 0; pointer-events: none;
-  filter: saturate(.86) sepia(.07) contrast(1.05) brightness(.985);
+  /* color grade is baked into the encoded file — no per-frame CSS filter */
 }
 @media (prefers-reduced-motion: reduce) { .cine--video .cine__vid { display: none; } }
 
