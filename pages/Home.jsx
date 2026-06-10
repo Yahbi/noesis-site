@@ -14,42 +14,45 @@ function Home({ setPage }) {
   return (
     <main className="page-enter">
 
-      {/* ── HERO — type as the statement ───────────────────────────── */}
-      <section style={{ minHeight: "94vh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(40px,7vh,80px)", paddingBottom: "clamp(36px,6vh,64px)", borderTop: 0 }}>
-        <div className="wrap u-flex u-between" style={{ width: "100%" }}>
-          <div className="eyebrow"><span className="dot" /> Noesis — Est. 2009</div>
-          <div className="eyebrow u-hide-720">Beverly Hills · International</div>
+      {/* ── HERO — the film, immediately. Self-hosted Casa Mani footage
+          (recovered from the client's YouTube; no third-party embed that can
+          die upstream). Poster beneath; reduced-motion shows the photo. ── */}
+      <section className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(84px,12vh,130px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
+        <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="Casa Mani — a Noesis-delivered residence" />
+        <video className="cine__vid" autoPlay loop muted playsInline preload="auto"
+          src="assets/noesis-film.mp4"
+          ref={(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }} />
+        <div className="cine__grad" style={{ background: "linear-gradient(180deg, rgba(18,15,10,.5) 0%, rgba(18,15,10,.16) 42%, rgba(18,15,10,.82) 100%)" }} />
+
+        <div className="wrap u-flex u-between" style={{ position: "relative", zIndex: 1, width: "100%" }}>
+          <div className="eyebrow" style={{ color: "rgba(244,241,234,.65)" }}><span className="dot" /> Noesis — Est. 2009</div>
+          <div className="eyebrow u-hide-720" style={{ color: "rgba(244,241,234,.65)" }}>Beverly Hills · International</div>
         </div>
 
-        <div className="wrap" style={{ width: "100%" }}>
-          <h1 className="h-display lx-h" style={{ maxWidth: "16ch" }}>
+        <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%" }}>
+          <h1 className="h-display lx-h" style={{ maxWidth: "16ch", color: "var(--bone)" }}>
             <span className="ln"><span>We build</span></span>
-            <span className="ln"><span>what <em className="accent" style={{ fontStyle: "italic" }}>endures.</em></span></span>
+            <span className="ln"><span>what <em style={{ fontStyle: "italic" }}>endures.</em></span></span>
           </h1>
           <div className="grid-12 u-mt-40" style={{ alignItems: "end" }}>
             <div className="col-6">
-              <p className="lede" data-hero-fade style={{ maxWidth: "46ch" }}>
+              <p className="lede" data-hero-fade style={{ maxWidth: "46ch", color: "rgba(244,241,234,.85)" }}>
                 An international development-management and investment firm — entrusted with landmark
                 residential and commercial projects, from entitlement to delivery.
               </p>
             </div>
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
               <button className="btn" onClick={() => setPage("services")} data-magnetic>Our Practice <span className="arr" /></button>
-              <button className="btn btn--ghost" onClick={() => setPage("investment")} data-magnetic>Investment</button>
+              <button className="btn btn--ghost" onClick={() => setPage("investment")} data-magnetic
+                style={{ color: "var(--bone)", borderColor: "rgba(244,241,234,.75)" }}>Investment</button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CINEMATIC PLATE — ambient film, self-hosted (Casa Mani, 2018).
-          Native <video> (the firm's own film, recovered from their YouTube and
-          served from /assets) — no third-party embed that can die upstream.
-          Poster image sits beneath; reduced-motion hides the video. */}
-      <section className="cine cine--video" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
-        <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="Casa Mani — a Noesis-delivered residence" />
-        <video className="cine__vid" autoPlay loop muted playsInline preload="metadata"
-          src="assets/noesis-film.mp4"
-          ref={(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }} />
+      {/* ── CINEMATIC PLATE — still photography, a different asset ───── */}
+      <section className="cine" style={{ height: "min(88vh, 860px)", minHeight: 520 }}>
+        <img className="cine__img" data-parallax="0.12" src={wix(PHOTO.ying_wide, { w: 2600 })} alt="Ying Yang Lofts — Los Angeles" />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>

@@ -1431,42 +1431,78 @@ function Home({
   return React.createElement("main", {
     className: "page-enter"
   }, React.createElement("section", {
+    className: "cine cine--video",
     style: {
-      minHeight: "94vh",
+      minHeight: "100svh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      paddingTop: "clamp(40px,7vh,80px)",
-      paddingBottom: "clamp(36px,6vh,64px)",
-      borderTop: 0
+      paddingTop: "clamp(84px,12vh,130px)",
+      paddingBottom: "clamp(34px,6vh,60px)"
     }
-  }, React.createElement("div", {
+  }, React.createElement("img", {
+    className: "cine__img",
+    src: wix(SHOT.casaMani, {
+      w: 2600
+    }),
+    alt: "Casa Mani \u2014 a Noesis-delivered residence"
+  }), React.createElement("video", {
+    className: "cine__vid",
+    autoPlay: true,
+    loop: true,
+    muted: true,
+    playsInline: true,
+    preload: "auto",
+    src: "assets/noesis-film.mp4",
+    ref: el => {
+      if (el) {
+        el.muted = true;
+        const p = el.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+    }
+  }), React.createElement("div", {
+    className: "cine__grad",
+    style: {
+      background: "linear-gradient(180deg, rgba(18,15,10,.5) 0%, rgba(18,15,10,.16) 42%, rgba(18,15,10,.82) 100%)"
+    }
+  }), React.createElement("div", {
     className: "wrap u-flex u-between",
     style: {
+      position: "relative",
+      zIndex: 1,
       width: "100%"
     }
   }, React.createElement("div", {
-    className: "eyebrow"
+    className: "eyebrow",
+    style: {
+      color: "rgba(244,241,234,.65)"
+    }
   }, React.createElement("span", {
     className: "dot"
   }), " Noesis \u2014 Est. 2009"), React.createElement("div", {
-    className: "eyebrow u-hide-720"
+    className: "eyebrow u-hide-720",
+    style: {
+      color: "rgba(244,241,234,.65)"
+    }
   }, "Beverly Hills \xB7 International")), React.createElement("div", {
     className: "wrap",
     style: {
+      position: "relative",
+      zIndex: 1,
       width: "100%"
     }
   }, React.createElement("h1", {
     className: "h-display lx-h",
     style: {
-      maxWidth: "16ch"
+      maxWidth: "16ch",
+      color: "var(--bone)"
     }
   }, React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "We build")), React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "what ", React.createElement("em", {
-    className: "accent",
     style: {
       fontStyle: "italic"
     }
@@ -1481,7 +1517,8 @@ function Home({
     className: "lede",
     "data-hero-fade": true,
     style: {
-      maxWidth: "46ch"
+      maxWidth: "46ch",
+      color: "rgba(244,241,234,.85)"
     }
   }, "An international development-management and investment firm \u2014 entrusted with landmark residential and commercial projects, from entitlement to delivery.")), React.createElement("div", {
     className: "col-6 u-flex u-gap-16",
@@ -1499,34 +1536,24 @@ function Home({
   })), React.createElement("button", {
     className: "btn btn--ghost",
     onClick: () => setPage("investment"),
-    "data-magnetic": true
-  }, "Investment"))))), React.createElement("section", {
-    className: "cine cine--video",
+    "data-magnetic": true,
     style: {
-      height: "min(96vh, 940px)",
-      minHeight: 560
+      color: "var(--bone)",
+      borderColor: "rgba(244,241,234,.75)"
+    }
+  }, "Investment"))))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(88vh, 860px)",
+      minHeight: 520
     }
   }, React.createElement("img", {
     className: "cine__img",
-    src: wix(SHOT.casaMani, {
+    "data-parallax": "0.12",
+    src: wix(PHOTO.ying_wide, {
       w: 2600
     }),
-    alt: "Casa Mani \u2014 a Noesis-delivered residence"
-  }), React.createElement("video", {
-    className: "cine__vid",
-    autoPlay: true,
-    loop: true,
-    muted: true,
-    playsInline: true,
-    preload: "metadata",
-    src: "assets/noesis-film.mp4",
-    ref: el => {
-      if (el) {
-        el.muted = true;
-        const p = el.play();
-        if (p && p.catch) p.catch(() => {});
-      }
-    }
+    alt: "Ying Yang Lofts \u2014 Los Angeles"
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {

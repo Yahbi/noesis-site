@@ -205,6 +205,9 @@
   // ── Cinematic image wipe — an ivory curtain slides off each .cine plate ───
   function bindCine() {
     document.querySelectorAll(".cine").forEach(function (c) {
+      // The hero plate (contains the page headline) enters via the preloader —
+      // no curtain, or it would sit over the film at the moment of arrival.
+      if (c.querySelector(".h-display")) return;
       if (c.__cine) return; c.__cine = true;
       var cur = document.createElement("div");
       cur.className = "cine__curtain";
