@@ -37,6 +37,7 @@
     document.querySelectorAll(".cine__curtain").forEach(function (c) { if (c.parentNode) c.parentNode.removeChild(c); });
     document.querySelectorAll(".cine__cap").forEach(function (c) { c.style.opacity = "1"; c.style.transform = "none"; });
     document.querySelectorAll(".lx-h .ln > span").forEach(function (s) { s.style.transform = "none"; });
+    document.querySelectorAll(".manifesto .w").forEach(function (w) { w.style.opacity = "1"; });
   }
   function killPreloader(instant) {
     var p = document.getElementById("preloader");
@@ -188,6 +189,19 @@
     });
   }
 
+  // ── Manifesto — pinned interlude; words brighten as the visitor scrolls ───
+  function bindManifesto() {
+    var m = document.querySelector(".manifesto");
+    if (!m) return;
+    var words = m.querySelectorAll(".w");
+    if (!words.length) return;
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: m, start: "top top", end: "+=140%", pin: true, scrub: 0.4 },
+    });
+    tl.to(words, { opacity: 1, stagger: { each: 0.05 }, ease: "none" });
+    if (tl.scrollTrigger) triggers.push(tl.scrollTrigger);
+  }
+
   // ── Cinematic image wipe — an ivory curtain slides off each .cine plate ───
   function bindCine() {
     document.querySelectorAll(".cine").forEach(function (c) {
@@ -295,6 +309,7 @@
     bindCounters();
     bindParallax();
     bindCine();
+    bindManifesto();
     bindMagnetic();
 
     if (firstRun) {

@@ -20,6 +20,17 @@ function Home({ setPage }) {
           <div className="eyebrow u-hide-720">Beverly Hills · International</div>
         </div>
 
+        {/* Rotating brand seal — the house stamp */}
+        <div className="wrap u-flex u-hide-720" data-hero-fade style={{ width: "100%", justifyContent: "flex-end" }}>
+          <div className="seal" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <defs><path id="sealPath" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0" fill="none" /></defs>
+              <text><textPath href="#sealPath">Noesis Group · Beverly Hills · Est. 2009 · International&nbsp;·&nbsp;</textPath></text>
+            </svg>
+            <span className="seal__n">N<i>.</i></span>
+          </div>
+        </div>
+
         <div className="wrap" style={{ width: "100%" }}>
           <h1 className="h-display lx-h" style={{ maxWidth: "16ch" }}>
             <span className="ln"><span>We build</span></span>
@@ -213,6 +224,19 @@ function Home({ setPage }) {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── MANIFESTO — pinned, words brighten as you scroll ───────── */}
+      <section className="manifesto" data-manifesto>
+        <div className="wrap">
+          <p className="manifesto__t">
+            {"A building is a promise — made once, kept for decades. We exist so the promise is kept: on vision, on budget, on time."
+              .split(" ").map((w, k) => (
+                <span className="w" key={k}>{w}{" "}</span>
+              ))}
+          </p>
+          <div className="manifesto__sig">— The Noesis Doctrine</div>
         </div>
       </section>
 

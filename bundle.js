@@ -1267,6 +1267,28 @@ function Nav({
     className: "mono nav__drawer-meta"
   }, "T (310) 855\xB73634 \xB7 INFO@NOESISUSA.COM"), React.createElement(SocialRow, null))));
 }
+function CityClocks() {
+  const [now, setNow] = React.useState(() => new Date());
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(id);
+  }, []);
+  const at = tz => {
+    try {
+      return new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: tz
+      }).format(now);
+    } catch (e) {
+      return "";
+    }
+  };
+  return React.createElement("div", {
+    className: "clocks"
+  }, React.createElement("span", null, "Beverly Hills", React.createElement("b", null, at("America/Los_Angeles"))), React.createElement("span", null, "Tel Aviv", React.createElement("b", null, at("Asia/Jerusalem"))));
+}
 function Footer({
   setPage
 }) {
@@ -1363,7 +1385,7 @@ function Footer({
       fontSize: 12,
       color: "var(--muted)"
     }
-  }, React.createElement("div", {
+  }, React.createElement(CityClocks, null), React.createElement("div", {
     className: "mono",
     style: {
       letterSpacing: ".06em"
@@ -1418,6 +1440,26 @@ function Home({
   }), " Noesis \u2014 Est. 2009"), React.createElement("div", {
     className: "eyebrow u-hide-720"
   }, "Beverly Hills \xB7 International")), React.createElement("div", {
+    className: "wrap u-flex u-hide-720",
+    "data-hero-fade": true,
+    style: {
+      width: "100%",
+      justifyContent: "flex-end"
+    }
+  }, React.createElement("div", {
+    className: "seal",
+    "aria-hidden": "true"
+  }, React.createElement("svg", {
+    viewBox: "0 0 120 120"
+  }, React.createElement("defs", null, React.createElement("path", {
+    id: "sealPath",
+    d: "M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0",
+    fill: "none"
+  })), React.createElement("text", null, React.createElement("textPath", {
+    href: "#sealPath"
+  }, "Noesis Group \xB7 Beverly Hills \xB7 Est. 2009 \xB7 International\xA0\xB7\xA0"))), React.createElement("span", {
+    className: "seal__n"
+  }, "N", React.createElement("i", null, ".")))), React.createElement("div", {
     className: "wrap",
     style: {
       width: "100%"
@@ -1790,6 +1832,18 @@ function Home({
   }, name), React.createElement("div", {
     className: "pcard__loc"
   }, loc)))))))), React.createElement("section", {
+    className: "manifesto",
+    "data-manifesto": true
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("p", {
+    className: "manifesto__t"
+  }, "A building is a promise — made once, kept for decades. We exist so the promise is kept: on vision, on budget, on time.".split(" ").map((w, k) => React.createElement("span", {
+    className: "w",
+    key: k
+  }, w, " "))), React.createElement("div", {
+    className: "manifesto__sig"
+  }, "\u2014 The Noesis Doctrine"))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"

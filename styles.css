@@ -980,3 +980,42 @@ html.motion-ready .lx-h .ln > span { transform: translateY(118%); }
 .footer__mono { font-family: var(--serif); font-style: italic; font-weight: 360;
   font-size: clamp(40px, 4.6vw, 64px); line-height: 1; }
 .footer__mono i { color: var(--accent); font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIGNATURE — rotating seal · scroll manifesto · world clocks
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Rotating brand seal */
+.seal { position: relative; width: clamp(118px, 11vw, 164px); aspect-ratio: 1; flex: 0 0 auto; }
+.seal svg { width: 100%; height: 100%; animation: sealSpin 28s linear infinite; }
+.seal text { font-family: var(--sans); font-weight: 500; font-size: 9.5px; letter-spacing: 3.1px;
+  text-transform: uppercase; fill: var(--muted); }
+.seal__n { position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--serif); font-style: italic; font-weight: 380;
+  font-size: clamp(30px, 3vw, 44px); color: var(--ink); }
+.seal__n i { color: var(--accent); font-style: italic; }
+@keyframes sealSpin { to { transform: rotate(360deg); } }
+
+/* Scroll manifesto — pinned espresso interlude, words brighten on scrub */
+.manifesto { background: var(--bone-2); border-top: 1px solid var(--rule-on-dark);
+  min-height: 100vh; display: flex; align-items: center; }
+.manifesto__t { font-family: var(--serif); font-weight: 360;
+  font-size: clamp(32px, 4.6vw, 68px); line-height: 1.18; letter-spacing: -.022em;
+  color: var(--bone); max-width: 22ch; text-wrap: pretty; }
+.manifesto .w { opacity: 1; transition: none; }
+html.motion-ready .manifesto .w { opacity: .14; }   /* dimmed only when scrub will run */
+.manifesto .w--accent { color: var(--accent-soft); }
+html.motion-ready .manifesto .w--accent { color: inherit; }
+.manifesto__sig { margin-top: clamp(28px, 4vw, 48px); font-family: var(--sans); font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase; font-size: 10.5px; color: rgba(244,241,234,.45); }
+
+/* World clocks */
+.clocks { display: inline-flex; gap: 26px; flex-wrap: wrap;
+  font-family: var(--sans); font-weight: 500; font-size: 10.5px;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.clocks b { font-weight: 500; color: var(--ink); margin-left: 8px; font-feature-settings: "tnum"; }
+
+@media (prefers-reduced-motion: reduce) {
+  .seal svg { animation: none; }
+  html.motion-ready .manifesto .w { opacity: 1; }
+}

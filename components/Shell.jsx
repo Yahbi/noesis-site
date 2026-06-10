@@ -87,6 +87,26 @@ function Nav({ page, setPage }) {
   );
 }
 
+// Live local time in the firm's two worlds — Beverly Hills and Tel Aviv.
+function CityClocks() {
+  const [now, setNow] = React.useState(() => new Date());
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(id);
+  }, []);
+  const at = (tz) => {
+    try {
+      return new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }).format(now);
+    } catch (e) { return ""; }
+  };
+  return (
+    <div className="clocks">
+      <span>Beverly Hills<b>{at("America/Los_Angeles")}</b></span>
+      <span>Tel Aviv<b>{at("Asia/Jerusalem")}</b></span>
+    </div>
+  );
+}
+
 function Footer({ setPage }) {
   return (
     <footer className="footer">
@@ -122,6 +142,7 @@ function Footer({ setPage }) {
         <hr className="divider" style={{ background: "var(--rule)", marginTop: 72, marginBottom: 28 }} />
 
         <div className="u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16, fontSize: 12, color: "var(--muted)" }}>
+          <CityClocks />
           <div className="mono" style={{ letterSpacing: ".06em" }}>COPYRIGHT © 2026 NOESIS GROUP · ALL RIGHTS RESERVED</div>
           <div className="u-flex u-gap-24">
             <a href="#" onClick={(e)=>e.preventDefault()}>Disclosures</a>
