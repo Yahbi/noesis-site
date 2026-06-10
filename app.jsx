@@ -87,14 +87,17 @@ function App() {
         <div className="route-wipe__mark">N<i>.</i></div>
       </div>
 
-      <TweaksPanel>
-        <TweakSection label="Accent" />
-        <TweakColor label="Accent color" value={t.accent} options={ACCENTS} onChange={(v) => setTweak("accent", v)} />
-        <TweakSection label="Typography" />
-        <TweakSelect label="Display font" value={t.displayFont} options={DISPLAY_FONTS} onChange={(v) => setTweak("displayFont", v)} />
-        <TweakSection label="Navigate" />
-        <TweakSelect label="Jump to page" value={page} options={PAGES} onChange={(v) => setPage(v)} />
-      </TweaksPanel>
+      {/* Internal design panel — only with ?tweaks=1, never for visitors */}
+      {/[?&]tweaks=1/.test(window.location.search) && (
+        <TweaksPanel>
+          <TweakSection label="Accent" />
+          <TweakColor label="Accent color" value={t.accent} options={ACCENTS} onChange={(v) => setTweak("accent", v)} />
+          <TweakSection label="Typography" />
+          <TweakSelect label="Display font" value={t.displayFont} options={DISPLAY_FONTS} onChange={(v) => setTweak("displayFont", v)} />
+          <TweakSection label="Navigate" />
+          <TweakSelect label="Jump to page" value={page} options={PAGES} onChange={(v) => setPage(v)} />
+        </TweaksPanel>
+      )}
     </>
   );
 }

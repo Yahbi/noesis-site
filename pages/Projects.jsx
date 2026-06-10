@@ -227,6 +227,16 @@ function Lightbox({ project, start, onClose }) {
     };
   }, [go, onClose]);
 
+  // Preload the neighboring photos so the arrows feel instant.
+  React.useEffect(() => {
+    if (imgs.length < 2) return;
+    [1, -1].forEach((d) => {
+      const k = (i + d + imgs.length) % imgs.length;
+      const pre = new Image();
+      pre.src = wix(imgs[k], { w: 2000 });
+    });
+  }, [i, imgs]);
+
   const pad = (n) => (n < 10 ? "0" + n : "" + n);
   const lede = project.text.split("\n\n")[0];
   const onBackdrop = (e) => { if (e.target.classList.contains("lb__stage") || e.target.classList.contains("lb")) onClose(); };
