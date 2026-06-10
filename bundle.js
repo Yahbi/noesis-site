@@ -1501,18 +1501,32 @@ function Home({
     onClick: () => setPage("investment"),
     "data-magnetic": true
   }, "Investment"))))), React.createElement("section", {
-    className: "cine",
+    className: "cine cine--video",
     style: {
       height: "min(96vh, 940px)",
       minHeight: 560
     }
   }, React.createElement("img", {
     className: "cine__img",
-    "data-parallax": "0.12",
     src: wix(SHOT.casaMani, {
       w: 2600
     }),
-    alt: "A Noesis-delivered residence"
+    alt: "Casa Mani \u2014 a Noesis-delivered residence"
+  }), React.createElement("video", {
+    className: "cine__vid",
+    autoPlay: true,
+    loop: true,
+    muted: true,
+    playsInline: true,
+    preload: "metadata",
+    src: "assets/noesis-film.mp4",
+    ref: el => {
+      if (el) {
+        el.muted = true;
+        const p = el.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+    }
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {

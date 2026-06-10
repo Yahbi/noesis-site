@@ -1024,12 +1024,10 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
    DEEP-LUXURY PASS — ambient video · photo collage · editorial pairs · seal
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Ambient video plate — Vimeo background iframe cover-sized over the poster */
+/* Ambient video plate — self-hosted native video over the poster image */
 .cine--video .cine__vid {
-  position: absolute; top: 50%; left: 50%;
-  width: max(100%, 177.78vh); height: max(100%, 56.25vw);
-  transform: translate(-50%, -50%);
-  border: 0; pointer-events: none;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; border: 0; pointer-events: none;
   filter: saturate(.86) sepia(.07) contrast(1.05) brightness(.985);
 }
 @media (prefers-reduced-motion: reduce) { .cine--video .cine__vid { display: none; } }

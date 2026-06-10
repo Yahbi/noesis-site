@@ -41,12 +41,15 @@ function Home({ setPage }) {
         </div>
       </section>
 
-      {/* ── CINEMATIC PLATE ──────────────────────────────────────────
-          NOTE: was an ambient Vimeo film (223406532), but that video was
-          deleted from the client's Vimeo (embed now 404s with a black
-          "video isn't available" panel). Static plate until new footage. */}
-      <section className="cine" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
-        <img className="cine__img" data-parallax="0.12" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
+      {/* ── CINEMATIC PLATE — ambient film, self-hosted (Casa Mani, 2018).
+          Native <video> (the firm's own film, recovered from their YouTube and
+          served from /assets) — no third-party embed that can die upstream.
+          Poster image sits beneath; reduced-motion hides the video. */}
+      <section className="cine cine--video" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
+        <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="Casa Mani — a Noesis-delivered residence" />
+        <video className="cine__vid" autoPlay loop muted playsInline preload="metadata"
+          src="assets/noesis-film.mp4"
+          ref={(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }} />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
