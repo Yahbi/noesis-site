@@ -21,7 +21,21 @@ function Home({ setPage }) {
         <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="Casa Mani — a Noesis-delivered residence" />
         <video className="cine__vid" autoPlay loop muted playsInline preload="auto"
           src="assets/noesis-film.mp4"
-          ref={(el) => { if (el) { el.muted = true; const p = el.play(); if (p && p.catch) p.catch(() => {}); } }} />
+          ref={(el) => {
+            // Playback keeper: Chrome pauses ambient video when the window is
+            // occluded/backgrounded and doesn't always resume it. Nudge play()
+            // whenever paused while visible; self-cleans once unmounted.
+            if (!el || el.__keeper) return;
+            el.__keeper = true;
+            el.muted = true;
+            const tryPlay = () => {
+              if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); return; }
+              if (el.paused && !document.hidden) { const p = el.play(); if (p && p.catch) p.catch(() => {}); }
+            };
+            tryPlay();
+            el.__iv = setInterval(tryPlay, 2500);
+            document.addEventListener("visibilitychange", tryPlay);
+          }} />
         <div className="cine__grad" style={{ background: "linear-gradient(180deg, rgba(18,15,10,.5) 0%, rgba(18,15,10,.16) 42%, rgba(18,15,10,.82) 100%)" }} />
 
         <div className="wrap u-flex u-between" style={{ position: "relative", zIndex: 1, width: "100%" }}>

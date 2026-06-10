@@ -1455,11 +1455,23 @@ function Home({
     preload: "auto",
     src: "assets/noesis-film.mp4",
     ref: el => {
-      if (el) {
-        el.muted = true;
-        const p = el.play();
-        if (p && p.catch) p.catch(() => {});
-      }
+      if (!el || el.__keeper) return;
+      el.__keeper = true;
+      el.muted = true;
+      const tryPlay = () => {
+        if (!el.isConnected) {
+          clearInterval(el.__iv);
+          document.removeEventListener("visibilitychange", tryPlay);
+          return;
+        }
+        if (el.paused && !document.hidden) {
+          const p = el.play();
+          if (p && p.catch) p.catch(() => {});
+        }
+      };
+      tryPlay();
+      el.__iv = setInterval(tryPlay, 2500);
+      document.addEventListener("visibilitychange", tryPlay);
     }
   }), React.createElement("div", {
     className: "cine__grad",
