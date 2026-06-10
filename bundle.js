@@ -1501,23 +1501,18 @@ function Home({
     onClick: () => setPage("investment"),
     "data-magnetic": true
   }, "Investment"))))), React.createElement("section", {
-    className: "cine cine--video",
+    className: "cine",
     style: {
       height: "min(96vh, 940px)",
       minHeight: 560
     }
   }, React.createElement("img", {
     className: "cine__img",
+    "data-parallax": "0.12",
     src: wix(SHOT.casaMani, {
       w: 2600
     }),
     alt: "A Noesis-delivered residence"
-  }), React.createElement("iframe", {
-    className: "cine__vid",
-    loading: "lazy",
-    title: "Casa Mani \u2014 a Noesis film",
-    src: "https://player.vimeo.com/video/223406532?background=1&autoplay=1&loop=1&muted=1&dnt=1",
-    allow: "autoplay; fullscreen"
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -2274,7 +2269,6 @@ const CATEGORIES = [{
     loc: "Beverly Hills",
     year: "2018",
     gallery: GAL["casa-mani"],
-    vimeo: "223406532",
     text: "A contemporary retreat in the heart of Beverly Hills, minutes from the area's acclaimed schools, shopping and dining — a study in style and restraint from the outside in.\n\nSix bedrooms and eight baths, a fully glass-enclosed gym, a spa-grade bath with steam shower and private massage room, and a backyard built around a zero-edge saltwater pool screened by mature hedging. Control4 smart-home throughout, with designer fixtures and energy-efficient landscape design completing the estate.",
     facts: [["Bedrooms", "6"], ["Baths", "8"], ["Pool", "Zero-edge saltwater"], ["Built", "2018"]]
   }, {

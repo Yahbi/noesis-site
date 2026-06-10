@@ -41,12 +41,12 @@ function Home({ setPage }) {
         </div>
       </section>
 
-      {/* ── CINEMATIC PLATE — ambient film of a Noesis-delivered estate ── */}
-      <section className="cine cine--video" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
-        <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
-        <iframe className="cine__vid" loading="lazy" title="Casa Mani — a Noesis film"
-          src="https://player.vimeo.com/video/223406532?background=1&autoplay=1&loop=1&muted=1&dnt=1"
-          allow="autoplay; fullscreen" />
+      {/* ── CINEMATIC PLATE ──────────────────────────────────────────
+          NOTE: was an ambient Vimeo film (223406532), but that video was
+          deleted from the client's Vimeo (embed now 404s with a black
+          "video isn't available" panel). Static plate until new footage. */}
+      <section className="cine" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
+        <img className="cine__img" data-parallax="0.12" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>

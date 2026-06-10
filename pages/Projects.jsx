@@ -31,7 +31,7 @@ const CATEGORIES = [
       { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"],
         text: "Perched on a private street above the Sunset Strip, One Oak is a two-story glass pavilion engineered for 180-degree views of downtown Los Angeles and the Pacific. Encased in glass, the open plan flows freely from room to room, framing the city at every turn.\n\nInside: the signature Noesis floating staircase, 12-foot ceilings, a 500-bottle wine cellar and a gourmet kitchen with top-of-the-line appliances. The expansive terrace opens to a true infinity-edge pool and spa. Four bedrooms, five baths, fully smart-home integrated.",
         facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]] },
-      { id: "casa-mani", name: "Casa Mani", loc: "Beverly Hills", year: "2018", gallery: GAL["casa-mani"], vimeo: "223406532",
+      { id: "casa-mani", name: "Casa Mani", loc: "Beverly Hills", year: "2018", gallery: GAL["casa-mani"],
         text: "A contemporary retreat in the heart of Beverly Hills, minutes from the area's acclaimed schools, shopping and dining — a study in style and restraint from the outside in.\n\nSix bedrooms and eight baths, a fully glass-enclosed gym, a spa-grade bath with steam shower and private massage room, and a backyard built around a zero-edge saltwater pool screened by mature hedging. Control4 smart-home throughout, with designer fixtures and energy-efficient landscape design completing the estate.",
         facts: [["Bedrooms", "6"], ["Baths", "8"], ["Pool", "Zero-edge saltwater"], ["Built", "2018"]] },
       { id: "aura-house", name: "Aura House", loc: "Tel Aviv", year: "2017", gallery: GAL["aura-house"],
