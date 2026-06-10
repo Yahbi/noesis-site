@@ -947,3 +947,36 @@ html.motion-ready .lx-h .ln > span { transform: translateY(118%); }
   html.motion-ready .lx-h .ln > span { transform: none !important; }
   .cine__curtain, .route-wipe { display: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FINISHING — unified filmic grade · proof band · couture details
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* One photographic voice: warm, slightly desaturated, filmic — across ALL imagery */
+.cine__img, .pcard__img, .pfeat__media img, .sector__img img,
+.lb__img, .lb__thumb, .thumb img, .track__bg img {
+  filter: saturate(.86) sepia(.07) contrast(1.05) brightness(.985);
+}
+
+/* Text selection in the house style */
+::selection { background: var(--ink); color: var(--bone); }
+
+/* Scroll progress hairline — pure CSS, progressive enhancement only */
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent); transform-origin: 0 50%; transform: scaleX(0);
+  z-index: 90; pointer-events: none; }
+@supports (animation-timeline: scroll()) {
+  .scroll-progress { animation: spGrow linear both; animation-timeline: scroll(root); }
+  @keyframes spGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+
+/* Proof band — three measured facts */
+.statline--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 760px) { .statline--3 { grid-template-columns: 1fr; row-gap: 36px; } }
+.statline .sub { font-size: 13.5px; color: var(--ink-soft); margin-top: 10px; max-width: 26ch; line-height: 1.5; }
+
+/* Footer — gallery air + monogram */
+.footer { padding: clamp(90px, 11vw, 150px) 0 36px; }
+.footer__mono { font-family: var(--serif); font-style: italic; font-weight: 360;
+  font-size: clamp(40px, 4.6vw, 64px); line-height: 1; }
+.footer__mono i { color: var(--accent); font-style: italic; }

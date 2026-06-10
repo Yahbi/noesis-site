@@ -134,6 +134,40 @@ function Home({ setPage }) {
         </div>
       </section>
 
+      {/* ── PROOF — delivery, measured ─────────────────────────────── */}
+      <section className="section">
+        <div className="wrap grid-12">
+          <div className="col-4 reveal">
+            <div className="eyebrow"><span className="dot" /> The Record</div>
+            <h2 className="h-1 u-mt-16">Delivery,<br />measured.</h2>
+          </div>
+          <div className="col-8 reveal">
+            <p className="lede" style={{ maxWidth: "50ch" }}>
+              Before founding Noesis, our principal directed institutional development and
+              construction at scale — for private-equity and global property firms. The discipline
+              is the same on every mandate we accept.
+            </p>
+            <div className="statline statline--3" style={{ marginTop: "clamp(40px,5vw,72px)" }}>
+              <div>
+                <div className="num">$75M</div>
+                <div className="statline__l">Construction budget directed</div>
+                <div className="sub">A single Los Angeles development program, managed end to end.</div>
+              </div>
+              <div>
+                <div className="num">12%</div>
+                <div className="statline__l">Delivered under budget</div>
+                <div className="sub">On a 24-unit luxury condominium delivered internationally.</div>
+              </div>
+              <div>
+                <div className="num">22</div>
+                <div className="statline__l">Days ahead of schedule</div>
+                <div className="sub">The same project — handed over early, not explained late.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── CINEMATIC PLATE 2 — process ────────────────────────────── */}
       <section className="cine" style={{ height: "min(80vh, 760px)", minHeight: 480 }}>
         <img className="cine__img" data-parallax="0.1" src={wix(SHOT.oneOak, { w: 2400 })} alt="" />

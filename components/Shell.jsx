@@ -93,9 +93,10 @@ function Footer({ setPage }) {
       <div className="wrap">
         <div className="grid-12" style={{ alignItems: "end", rowGap: 40 }}>
           <div className="col-7">
-            <div className="eyebrow" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
+            <div className="footer__mono">N<i>.</i></div>
+            <div className="eyebrow u-mt-24" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
             <div className="h-display" style={{ marginTop: 24 }}>
-              Represent. Deliver.<br /><em style={{ color: "var(--accent)" }}>Invest.</em>
+              Represent. Deliver.<br /><em className="accent" style={{ fontStyle: "italic" }}>Invest.</em>
             </div>
             <div className="u-flex u-gap-24 u-mt-40" style={{ flexWrap: "wrap" }}>
               {[["services", "Services"], ["investment", "Investment"], ["projects", "Properties"], ["about", "About"], ["contact", "Contact"]].map(([k, l]) => (
