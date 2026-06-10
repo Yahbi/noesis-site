@@ -179,6 +179,22 @@ function Services({ setPage }) {
         </div>
       </section>
 
+      {/* EDITORIAL PAIR — the standard, in pictures */}
+      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap">
+          <div className="pair reveal">
+            <figure>
+              <img src={wix(PHOTO.stanley_wide, { w: 1800 })} alt="Stanley Lofts, West Hollywood" loading="lazy" />
+              <figcaption>Stanley Lofts — West Hollywood</figcaption>
+            </figure>
+            <figure>
+              <img src={wix(PHOTO.genesee_int_2, { w: 1200 })} alt="My Genesee, Beverly Grove" loading="lazy" />
+              <figcaption>My Genesee — Beverly Grove</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       {/* WHY NOESIS */}
       <section className="section">
         <div className="wrap">

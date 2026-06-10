@@ -16,6 +16,9 @@ function Contact({ setPage }) {
               Whether you have a project to deliver or capital to deploy, we'd welcome a
               confidential conversation. A member of our team responds within one business day.
             </p>
+            <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
+              Every enquiry is reviewed personally by our principal. Confidentiality from first contact.
+            </p>
           </div>
         </div>
       </section>

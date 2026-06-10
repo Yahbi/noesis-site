@@ -113,7 +113,13 @@ function Footer({ setPage }) {
       <div className="wrap">
         <div className="grid-12" style={{ alignItems: "end", rowGap: 40 }}>
           <div className="col-7">
-            <div className="footer__mono">N<i>.</i></div>
+            <div className="seal seal--footer" aria-hidden="true">
+              <svg viewBox="0 0 120 120">
+                <defs><path id="sealPathF" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0" fill="none" /></defs>
+                <text><textPath href="#sealPathF">Noesis Group · Beverly Hills · Est. 2009 · International&nbsp;·&nbsp;</textPath></text>
+              </svg>
+              <span className="seal__n">N<i>.</i></span>
+            </div>
             <div className="eyebrow u-mt-24" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
             <div className="h-display" style={{ marginTop: 24 }}>
               Represent. Deliver.<br /><em className="accent" style={{ fontStyle: "italic" }}>Invest.</em>
@@ -128,7 +134,7 @@ function Footer({ setPage }) {
             <div className="u-flex u-col u-gap-24">
               <div>
                 <div className="mono footer__lbl">Inquiries</div>
-                <a href="mailto:info@noesisusa.com" className="serif" style={{ fontSize: 24, color: "var(--bone)" }}>INFO@NOESISUSA.COM</a>
+                <a href="mailto:info@noesisusa.com" className="serif" style={{ fontSize: 24, color: "var(--ink)" }}>info@noesisusa.com</a>
                 <div style={{ marginTop: 8, color: "var(--ink-soft)", letterSpacing: ".03em" }}>T (310) 855·3634 &nbsp;·&nbsp; F (424) 282·8414</div>
               </div>
               <button onClick={() => setPage("contact")} className="btn btn--ghost" style={{ alignSelf: "flex-start" }}>

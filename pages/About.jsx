@@ -81,6 +81,22 @@ function About({ setPage }) {
         </div>
       </section>
 
+      {/* EDITORIAL PAIR */}
+      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap">
+          <div className="pair reveal">
+            <figure>
+              <img src={wix(PHOTO.ying_int_3, { w: 1400 })} alt="Ying Yang Lofts, Los Angeles" loading="lazy" />
+              <figcaption>Ying Yang Lofts — Los Angeles</figcaption>
+            </figure>
+            <figure>
+              <img src={wix(PHOTO.stanley_int_4, { w: 1200 })} alt="Stanley Lofts, West Hollywood" loading="lazy" />
+              <figcaption>Stanley Lofts — West Hollywood</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       {/* FOUNDER */}
       <section className="section" style={{ background: "var(--bone-2)" }}>
         <div className="wrap">

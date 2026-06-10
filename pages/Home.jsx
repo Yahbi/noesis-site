@@ -7,6 +7,7 @@ const SHOT = {
   houseG:    "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
   aura:      "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
   cThru:     "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
+  lolivier:  "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
 };
 
 function Home({ setPage }) {
@@ -18,17 +19,6 @@ function Home({ setPage }) {
         <div className="wrap u-flex u-between" style={{ width: "100%" }}>
           <div className="eyebrow"><span className="dot" /> Noesis — Est. 2009</div>
           <div className="eyebrow u-hide-720">Beverly Hills · International</div>
-        </div>
-
-        {/* Rotating brand seal — the house stamp */}
-        <div className="wrap u-flex u-hide-720" data-hero-fade style={{ width: "100%", justifyContent: "flex-end" }}>
-          <div className="seal" aria-hidden="true">
-            <svg viewBox="0 0 120 120">
-              <defs><path id="sealPath" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0" fill="none" /></defs>
-              <text><textPath href="#sealPath">Noesis Group · Beverly Hills · Est. 2009 · International&nbsp;·&nbsp;</textPath></text>
-            </svg>
-            <span className="seal__n">N<i>.</i></span>
-          </div>
         </div>
 
         <div className="wrap" style={{ width: "100%" }}>
@@ -51,9 +41,12 @@ function Home({ setPage }) {
         </div>
       </section>
 
-      {/* ── CINEMATIC PLATE ────────────────────────────────────────── */}
-      <section className="cine" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
-        <img className="cine__img" data-parallax="0.12" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
+      {/* ── CINEMATIC PLATE — ambient film of a Noesis-delivered estate ── */}
+      <section className="cine cine--video" style={{ height: "min(96vh, 940px)", minHeight: 560 }}>
+        <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
+        <iframe className="cine__vid" loading="lazy" title="Casa Mani — a Noesis film"
+          src="https://player.vimeo.com/video/223406532?background=1&autoplay=1&loop=1&muted=1&dnt=1"
+          allow="autoplay; fullscreen" />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
@@ -212,11 +205,18 @@ function Home({ setPage }) {
               <button className="btn btn--ghost" onClick={() => setPage("projects")} data-magnetic>All Properties <span className="arr" /></button>
             </div>
           </div>
-          <div className="grid-12 reveal" style={{ gap: 24 }}>
-            {[[SHOT.casaMani, "Casa Mani", "Beverly Hills"], [SHOT.aura, "Aura House", "Tel Aviv"], [SHOT.cThru, "C Thru", "Los Angeles"]].map(([img, name, loc]) => (
-              <article key={name} className="col-4 pcard" onClick={() => setPage("projects")}>
-                <div className="pcard__media" style={{ aspectRatio: "4/5" }}>
-                  <img className="pcard__img" src={wix(img, { w: 1100 })} alt={name} loading="lazy" />
+          <div className="collage reveal">
+            {[
+              [SHOT.casaMani, "Casa Mani", "Beverly Hills"],
+              [SHOT.oneOak, "One Oak", "Sunset Strip"],
+              [SHOT.aura, "Aura House", "Tel Aviv"],
+              [SHOT.cThru, "C Thru", "Beverly Grove"],
+              [SHOT.houseG, "House G", "Melrose"],
+              [SHOT.lolivier, "L'Olivier House", "Los Angeles"],
+            ].map(([img, name, loc]) => (
+              <article key={name} className="pcard" onClick={() => setPage("projects")}>
+                <div className="pcard__media">
+                  <img className="pcard__img" src={wix(img, { w: 1300 })} alt={name} loading="lazy" />
                 </div>
                 <div className="pcard__cap">
                   <div><div className="pcard__name">{name}</div><div className="pcard__loc">{loc}</div></div>
@@ -237,6 +237,35 @@ function Home({ setPage }) {
               ))}
           </p>
           <div className="manifesto__sig">— The Noesis Doctrine</div>
+        </div>
+      </section>
+
+      {/* ── CLIENTELE — who we serve, and how ──────────────────────── */}
+      <section className="section">
+        <div className="wrap grid-12">
+          <div className="col-4 reveal">
+            <div className="eyebrow"><span className="dot" /> Clientele</div>
+            <h2 className="h-1 u-mt-16">A quiet<br />practice.</h2>
+          </div>
+          <div className="col-8 reveal">
+            <div className="rows" style={{ borderTop: "1px solid var(--rule)" }}>
+              {[
+                ["Principals & Family Offices", "Primary residences, estates and legacy assets — delivered with absolute discretion."],
+                ["Developers & Institutions", "Owner's representation and development management for projects at scale."],
+                ["International Capital", "Cross-border partners entering U.S. real estate with a trusted operator on the ground."],
+              ].map(([t, d], i) => (
+                <div key={t} className="row">
+                  <div className="row__idx">0{i + 1}</div>
+                  <div className="row__title">{t}</div>
+                  <p className="row__desc">{d}</p>
+                </div>
+              ))}
+            </div>
+            <p className="lede u-mt-40" style={{ maxWidth: "52ch" }}>
+              We accept a limited number of mandates each year. Engagements begin privately,
+              and proceed under confidentiality as standard.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -264,6 +293,9 @@ function Home({ setPage }) {
           <button className="btn btn--ghost u-mt-40" onClick={() => setPage("contact")} data-magnetic style={{ marginInline: "auto" }}>
             Start a Conversation <span className="arr" />
           </button>
+          <div className="eyebrow u-mt-24" style={{ color: "rgba(244,241,234,.42)" }}>
+            Discreet · Confidential · Without obligation
+          </div>
         </div>
       </section>
     </main>

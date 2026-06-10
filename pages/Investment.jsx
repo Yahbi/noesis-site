@@ -137,6 +137,12 @@ function Investment({ setPage }) {
         </div>
       </section>
 
+      {/* QUIET PHOTO BAND */}
+      <section className="cine" style={{ height: "min(52vh, 520px)", minHeight: 340 }}>
+        <img className="cine__img" data-parallax="0.1" src={wix(PHOTO.ying_int_2, { w: 2400 })} alt="" />
+        <div className="cine__grad" />
+      </section>
+
       {/* THE NETWORK */}
       <section className="section">
         <div className="wrap grid-12">

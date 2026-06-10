@@ -1305,8 +1305,19 @@ function Footer({
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
-    className: "footer__mono"
-  }, "N", React.createElement("i", null, ".")), React.createElement("div", {
+    className: "seal seal--footer",
+    "aria-hidden": "true"
+  }, React.createElement("svg", {
+    viewBox: "0 0 120 120"
+  }, React.createElement("defs", null, React.createElement("path", {
+    id: "sealPathF",
+    d: "M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0",
+    fill: "none"
+  })), React.createElement("text", null, React.createElement("textPath", {
+    href: "#sealPathF"
+  }, "Noesis Group \xB7 Beverly Hills \xB7 Est. 2009 \xB7 International\xA0\xB7\xA0"))), React.createElement("span", {
+    className: "seal__n"
+  }, "N", React.createElement("i", null, "."))), React.createElement("div", {
     className: "eyebrow u-mt-24",
     style: {
       color: "var(--muted)"
@@ -1352,9 +1363,9 @@ function Footer({
     className: "serif",
     style: {
       fontSize: 24,
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
-  }, "INFO@NOESISUSA.COM"), React.createElement("div", {
+  }, "info@noesisusa.com"), React.createElement("div", {
     style: {
       marginTop: 8,
       color: "var(--ink-soft)",
@@ -1411,7 +1422,8 @@ const SHOT = {
   oneOak: "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
   houseG: "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
   aura: "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
-  cThru: "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg"
+  cThru: "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
+  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg"
 };
 function Home({
   setPage
@@ -1440,26 +1452,6 @@ function Home({
   }), " Noesis \u2014 Est. 2009"), React.createElement("div", {
     className: "eyebrow u-hide-720"
   }, "Beverly Hills \xB7 International")), React.createElement("div", {
-    className: "wrap u-flex u-hide-720",
-    "data-hero-fade": true,
-    style: {
-      width: "100%",
-      justifyContent: "flex-end"
-    }
-  }, React.createElement("div", {
-    className: "seal",
-    "aria-hidden": "true"
-  }, React.createElement("svg", {
-    viewBox: "0 0 120 120"
-  }, React.createElement("defs", null, React.createElement("path", {
-    id: "sealPath",
-    d: "M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0",
-    fill: "none"
-  })), React.createElement("text", null, React.createElement("textPath", {
-    href: "#sealPath"
-  }, "Noesis Group \xB7 Beverly Hills \xB7 Est. 2009 \xB7 International\xA0\xB7\xA0"))), React.createElement("span", {
-    className: "seal__n"
-  }, "N", React.createElement("i", null, ".")))), React.createElement("div", {
     className: "wrap",
     style: {
       width: "100%"
@@ -1509,18 +1501,23 @@ function Home({
     onClick: () => setPage("investment"),
     "data-magnetic": true
   }, "Investment"))))), React.createElement("section", {
-    className: "cine",
+    className: "cine cine--video",
     style: {
       height: "min(96vh, 940px)",
       minHeight: 560
     }
   }, React.createElement("img", {
     className: "cine__img",
-    "data-parallax": "0.12",
     src: wix(SHOT.casaMani, {
       w: 2600
     }),
     alt: "A Noesis-delivered residence"
+  }), React.createElement("iframe", {
+    className: "cine__vid",
+    loading: "lazy",
+    title: "Casa Mani \u2014 a Noesis film",
+    src: "https://player.vimeo.com/video/223406532?background=1&autoplay=1&loop=1&muted=1&dnt=1",
+    allow: "autoplay; fullscreen"
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -1805,23 +1802,17 @@ function Home({
   }, "All Properties ", React.createElement("span", {
     className: "arr"
   })))), React.createElement("div", {
-    className: "grid-12 reveal",
-    style: {
-      gap: 24
-    }
-  }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills"], [SHOT.aura, "Aura House", "Tel Aviv"], [SHOT.cThru, "C Thru", "Los Angeles"]].map(([img, name, loc]) => React.createElement("article", {
+    className: "collage reveal"
+  }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills"], [SHOT.oneOak, "One Oak", "Sunset Strip"], [SHOT.aura, "Aura House", "Tel Aviv"], [SHOT.cThru, "C Thru", "Beverly Grove"], [SHOT.houseG, "House G", "Melrose"], [SHOT.lolivier, "L'Olivier House", "Los Angeles"]].map(([img, name, loc]) => React.createElement("article", {
     key: name,
-    className: "col-4 pcard",
+    className: "pcard",
     onClick: () => setPage("projects")
   }, React.createElement("div", {
-    className: "pcard__media",
-    style: {
-      aspectRatio: "4/5"
-    }
+    className: "pcard__media"
   }, React.createElement("img", {
     className: "pcard__img",
     src: wix(img, {
-      w: 1100
+      w: 1300
     }),
     alt: name,
     loading: "lazy"
@@ -1844,6 +1835,39 @@ function Home({
   }, w, " "))), React.createElement("div", {
     className: "manifesto__sig"
   }, "\u2014 The Noesis Doctrine"))), React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap grid-12"
+  }, React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Clientele"), React.createElement("h2", {
+    className: "h-1 u-mt-16"
+  }, "A quiet", React.createElement("br", null), "practice.")), React.createElement("div", {
+    className: "col-8 reveal"
+  }, React.createElement("div", {
+    className: "rows",
+    style: {
+      borderTop: "1px solid var(--rule)"
+    }
+  }, [["Principals & Family Offices", "Primary residences, estates and legacy assets — delivered with absolute discretion."], ["Developers & Institutions", "Owner's representation and development management for projects at scale."], ["International Capital", "Cross-border partners entering U.S. real estate with a trusted operator on the ground."]].map(([t, d], i) => React.createElement("div", {
+    key: t,
+    className: "row"
+  }, React.createElement("div", {
+    className: "row__idx"
+  }, "0", i + 1), React.createElement("div", {
+    className: "row__title"
+  }, t), React.createElement("p", {
+    className: "row__desc"
+  }, d)))), React.createElement("p", {
+    className: "lede u-mt-40",
+    style: {
+      maxWidth: "52ch"
+    }
+  }, "We accept a limited number of mandates each year. Engagements begin privately, and proceed under confidentiality as standard.")))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -1895,7 +1919,12 @@ function Home({
     }
   }, "Start a Conversation ", React.createElement("span", {
     className: "arr"
-  })))));
+  })), React.createElement("div", {
+    className: "eyebrow u-mt-24",
+    style: {
+      color: "rgba(244,241,234,.42)"
+    }
+  }, "Discreet \xB7 Confidential \xB7 Without obligation"))));
 }
 window.Home = Home;
 const PILLARS = [["01", "Owner's Representation", "We sit in the owner's seat as your single, accountable advocate — directing the entire project team, safeguarding your intent, and making sure every decision serves your interest, not the vendor's."], ["02", "Development Management", "End-to-end management of ground-up and repositioning projects: feasibility, structuring, entitlement, delivery and disposition — one team carrying the project from raw opportunity to realized asset."], ["03", "Project & Construction Management", "Schedule, budget, procurement, contractor selection and on-site quality control — run with the discipline of a builder who has self-delivered luxury projects, not a spectator."], ["04", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["05", "Design Management", "Assembling and aligning architects, interior designers and engineers around a single vision and budget — protecting design integrity while keeping value and constructability in view."], ["06", "Cost & Risk Management", "Independent budgeting, value engineering, contingency strategy and proactive risk control — so surprises are surfaced early and the owner stays in command of capital."]];
@@ -2138,6 +2167,28 @@ function Services({
       maxWidth: "52ch"
     }
   }, "For developers and institutions delivering major commercial and multifamily assets, we bring program discipline, cost certainty and a builder\u2019s judgment to every phase."))))))), React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "pair reveal"
+  }, React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.stanley_wide, {
+      w: 1800
+    }),
+    alt: "Stanley Lofts, West Hollywood",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Stanley Lofts \u2014 West Hollywood")), React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.genesee_int_2, {
+      w: 1200
+    }),
+    alt: "My Genesee, Beverly Grove",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove"))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -2941,6 +2992,21 @@ function Investment({
   }, t), React.createElement("p", {
     className: "row__desc"
   }, d)))))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(52vh, 520px)",
+      minHeight: 340
+    }
+  }, React.createElement("img", {
+    className: "cine__img",
+    "data-parallax": "0.1",
+    src: wix(PHOTO.ying_int_2, {
+      w: 2400
+    }),
+    alt: ""
+  }), React.createElement("div", {
+    className: "cine__grad"
+  })), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap grid-12"
@@ -3117,6 +3183,28 @@ function About({
   }, d)))))), React.createElement("section", {
     className: "section",
     style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "pair reveal"
+  }, React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.ying_int_3, {
+      w: 1400
+    }),
+    alt: "Ying Yang Lofts, Los Angeles",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Ying Yang Lofts \u2014 Los Angeles")), React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.stanley_int_4, {
+      w: 1200
+    }),
+    alt: "Stanley Lofts, West Hollywood",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Stanley Lofts \u2014 West Hollywood"))))), React.createElement("section", {
+    className: "section",
+    style: {
       background: "var(--bone-2)"
     }
   }, React.createElement("div", {
@@ -3273,7 +3361,12 @@ function Contact({
     className: "col-4"
   }, React.createElement("p", {
     className: "lede"
-  }, "Whether you have a project to deliver or capital to deploy, we'd welcome a confidential conversation. A member of our team responds within one business day.")))), React.createElement("section", {
+  }, "Whether you have a project to deliver or capital to deploy, we'd welcome a confidential conversation. A member of our team responds within one business day."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--muted)"
+    }
+  }, "Every enquiry is reviewed personally by our principal. Confidentiality from first contact.")))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap grid-12",
