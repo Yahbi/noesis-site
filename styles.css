@@ -926,10 +926,16 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: rgba(11
    CINEMATIC MOTION — line reveals · image wipes · route transitions
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Line-by-line headline reveal (lines are authored as .ln > span) */
+/* Line-by-line headline reveal (lines are authored as .ln > span).
+   CSS-transition driven: motion.js only flips html.hero-in (plain setTimeout),
+   so the headline can never be stranded hidden by a JS/timeline race. */
 .lx-h .ln { display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
-.lx-h .ln > span { display: block; will-change: transform; }
+.lx-h .ln > span { display: block; will-change: transform;
+  transition: transform 1.25s cubic-bezier(.16, 1, .3, 1); }
+.lx-h .ln:nth-child(2) > span { transition-delay: .12s; }
+.lx-h .ln:nth-child(3) > span { transition-delay: .24s; }
 html.motion-ready .lx-h .ln > span { transform: translateY(118%); }
+html.motion-ready.hero-in .lx-h .ln > span { transform: translateY(0); }
 
 /* Cinematic image-wipe curtain (panel injected by motion.js, slides away on enter) */
 .cine__curtain { position: absolute; inset: 0; z-index: 3; background: var(--bone); }

@@ -36,6 +36,7 @@
     // Cinematic motion pieces: never leave a curtain or a hidden headline line stuck.
     document.querySelectorAll(".cine__curtain").forEach(function (c) { if (c.parentNode) c.parentNode.removeChild(c); });
     document.querySelectorAll(".cine__cap").forEach(function (c) { c.style.opacity = "1"; c.style.transform = "none"; });
+    document.documentElement.classList.add("hero-in");
     document.querySelectorAll(".lx-h .ln > span").forEach(function (s) { s.style.transform = "none"; });
     document.querySelectorAll(".manifesto .w").forEach(function (w) { w.style.opacity = "1"; });
   }
@@ -189,6 +190,11 @@
     });
   }
 
+  // ── Headline reveal trigger — a class flip; CSS does the rest ─────────────
+  function ensureHeroIn() {
+    document.documentElement.classList.add("hero-in");
+  }
+
   // ── Manifesto — pinned interlude; words brighten as the visitor scrolls ───
   function bindManifesto() {
     var m = document.querySelector(".manifesto");
@@ -243,24 +249,26 @@
     var eyebrows = scope.querySelectorAll(".eyebrow, .mono");
     var heroImg = scope.querySelector("img");
     var fades = scope.querySelectorAll("[data-hero-fade], .lede, .btn, .body-lg");
-    var lines = hero.classList.contains("lx-h") ? hero.querySelectorAll(".ln > span") : [];
+    var hasLines = hero.classList.contains("lx-h");
+    // NOTE: gsap never touches the .lx-h line spans — their rise is a pure CSS
+    // transition fired by html.hero-in (see ensureHeroIn). An inline gsap
+    // transform here once stranded the headline hidden after a timeline race.
 
     if (heroImg) gsap.set(heroImg, { scale: 1.22, transformOrigin: "50% 55%" });
     if (eyebrows.length) gsap.set(eyebrows, { opacity: 0, y: 16 });
     if (fades.length) gsap.set(fades, { opacity: 0, y: 26 });
-    if (lines.length) gsap.set(lines, { yPercent: 118 });
-    else gsap.set(hero, { yPercent: 26, opacity: 0 });
+    if (!hasLines) gsap.set(hero, { yPercent: 26, opacity: 0 });
 
     if (heroImg) tl.to(heroImg, { scale: 1, duration: 2.0 }, 0);
     if (eyebrows.length) tl.to(eyebrows, { opacity: 1, y: 0, duration: 0.9, stagger: 0.08 }, 0.15);
-    if (lines.length) tl.to(lines, { yPercent: 0, duration: 1.2, stagger: 0.13, ease: "expo.out" }, 0.2);
+    if (hasLines) tl.add(ensureHeroIn, 0.2);
     else tl.to(hero, { yPercent: 0, opacity: 1, duration: 1.25 }, 0.25);
     if (fades.length) tl.to(fades, { opacity: 1, y: 0, duration: 1.0, stagger: 0.08 }, 0.55);
     if (done) tl.eventCallback("onComplete", done);
 
     // Fail-safe: never leave the hero stuck hidden, whatever races may occur.
     setTimeout(function () {
-      if (lines.length) gsap.set(lines, { yPercent: 0 });
+      ensureHeroIn();
       var all = [hero];
       for (var i = 0; i < eyebrows.length; i++) all.push(eyebrows[i]);
       for (var j = 0; j < fades.length; j++) all.push(fades[j]);
@@ -332,7 +340,10 @@
   // to the CSS lift and remove the node afterwards. setTimeout fires in any tab.
   function runPreloader(onReveal) {
     var p = document.getElementById("preloader");
-    setTimeout(function () { onReveal && onReveal(); }, 1650);
+    setTimeout(function () {
+      ensureHeroIn();             // plain timer — the headline can never stay hidden
+      onReveal && onReveal();
+    }, 1650);
     setTimeout(function () { if (p && p.parentNode) p.parentNode.removeChild(p); }, 2900);
   }
 
