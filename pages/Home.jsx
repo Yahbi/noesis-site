@@ -20,7 +20,7 @@ function Home({ setPage }) {
       <section className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(84px,12vh,130px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
         <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="Casa Mani — a Noesis-delivered residence" />
         <video className="cine__vid" autoPlay loop muted playsInline preload="auto"
-          src="assets/noesis-film.mp4"
+          src="assets/noesis-film.mp4?v=2"
           ref={(el) => {
             // Playback keeper: Chrome pauses ambient video when the window is
             // occluded/backgrounded and doesn't always resume it. Nudge play()
@@ -32,6 +32,17 @@ function Home({ setPage }) {
               if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); return; }
               if (el.paused && !document.hidden) { const p = el.play(); if (p && p.catch) p.catch(() => {}); }
             };
+            // Decode/cache failure (e.g. a stale cached copy after a re-encode):
+            // retry once with a cache-busted URL, then yield to the poster image.
+            el.addEventListener("error", () => {
+              if (!el.__retried) {
+                el.__retried = true;
+                el.src = "assets/noesis-film.mp4?r=" + Date.now();
+                el.load(); tryPlay();
+              } else {
+                el.style.display = "none";
+              }
+            });
             tryPlay();
             el.__iv = setInterval(tryPlay, 2500);
             document.addEventListener("visibilitychange", tryPlay);

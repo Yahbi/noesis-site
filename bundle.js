@@ -1453,7 +1453,7 @@ function Home({
     muted: true,
     playsInline: true,
     preload: "auto",
-    src: "assets/noesis-film.mp4",
+    src: "assets/noesis-film.mp4?v=2",
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -1469,6 +1469,16 @@ function Home({
           if (p && p.catch) p.catch(() => {});
         }
       };
+      el.addEventListener("error", () => {
+        if (!el.__retried) {
+          el.__retried = true;
+          el.src = "assets/noesis-film.mp4?r=" + Date.now();
+          el.load();
+          tryPlay();
+        } else {
+          el.style.display = "none";
+        }
+      });
       tryPlay();
       el.__iv = setInterval(tryPlay, 2500);
       document.addEventListener("visibilitychange", tryPlay);

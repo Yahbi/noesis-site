@@ -201,10 +201,12 @@
     if (!m) return;
     var words = m.querySelectorAll(".w");
     if (!words.length) return;
+    // No pin — an arrested page reads as lag. Words brighten as the section
+    // flows past naturally, completing just before its center crosses mid-view.
     var tl = gsap.timeline({
-      scrollTrigger: { trigger: m, start: "top top", end: "+=140%", pin: true, scrub: 0.4 },
+      scrollTrigger: { trigger: m, start: "top 78%", end: "center 42%", scrub: 0.3 },
     });
-    tl.to(words, { opacity: 1, stagger: { each: 0.05 }, ease: "none" });
+    tl.to(words, { opacity: 1, stagger: { each: 0.04 }, ease: "none" });
     if (tl.scrollTrigger) triggers.push(tl.scrollTrigger);
   }
 
