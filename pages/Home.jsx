@@ -32,17 +32,23 @@ function Home({ setPage }) {
               if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); return; }
               if (el.paused && !document.hidden) { const p = el.play(); if (p && p.catch) p.catch(() => {}); }
             };
-            // Decode/cache failure (e.g. a stale cached copy after a re-encode):
-            // retry once with a cache-busted URL, then yield to the poster image.
+            // Load/decode failure (stale cache after a re-encode, or GitHub Pages
+            // briefly 404ing assets mid-deploy): retry with patient backoff and a
+            // cache-busted URL. The poster shows between attempts; the video is
+            // restored the moment playback actually begins.
+            el.__tries = 0;
             el.addEventListener("error", () => {
-              if (!el.__retried) {
-                el.__retried = true;
+              const delays = [2000, 8000, 20000, 45000];
+              if (el.__tries >= delays.length) { el.style.display = "none"; return; }
+              const wait = delays[el.__tries++];
+              setTimeout(() => {
+                if (!el.isConnected) return;
+                el.style.display = "";
                 el.src = "assets/noesis-film.mp4?r=" + Date.now();
                 el.load(); tryPlay();
-              } else {
-                el.style.display = "none";
-              }
+              }, wait);
             });
+            el.addEventListener("playing", () => { el.style.display = ""; el.__tries = 0; });
             tryPlay();
             el.__iv = setInterval(tryPlay, 2500);
             document.addEventListener("visibilitychange", tryPlay);
