@@ -191,7 +191,7 @@ function Projects({ setPage }) {
 
       <section className="section section--ink">
         <div className="wrap grid-12 u-end">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Want this standard on <em className="accent">your project?</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Want this standard on <em className="accent">your project?</em></h2></div>
           <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")}>Explore Services <span className="arr" /></button></div>
         </div>
       </section>

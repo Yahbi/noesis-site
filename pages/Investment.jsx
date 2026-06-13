@@ -58,8 +58,8 @@ function Investment({ setPage }) {
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(32px,5vw,64px)" }}>
-            <h2 className="h-2" style={{ color: "var(--bone)", maxWidth: "22ch" }}>
-              The operator, invested <em className="italic" style={{ color: "var(--bone)" }}>alongside the capital.</em>
+            <h2 className="h-2" style={{ color: "var(--ink)", maxWidth: "22ch" }}>
+              The operator, invested <em className="italic" style={{ color: "var(--ink)" }}>alongside the capital.</em>
             </h2>
           </div>
         </div>
@@ -91,7 +91,7 @@ function Investment({ setPage }) {
           <div className="grid-12 u-mt-64 reveal" style={{ gap: 32 }}>
             {STRATEGIES.map((s) => (
               <div key={s.n} className="col-4" style={{ border: "1px solid var(--rule)", background: "var(--paper)", display: "flex", flexDirection: "column" }}>
-                <div style={{ aspectRatio: "4/3", overflow: "hidden", background: "var(--ink)", position: "relative" }}>
+                <div style={{ aspectRatio: "4/3", overflow: "hidden", background: "var(--bone-3)", position: "relative" }}>
                   <img src={wix(PHOTO[s.img], { w: 1000 })} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   <div className="thumb__label">{s.term}</div>
                 </div>
@@ -122,7 +122,7 @@ function Investment({ setPage }) {
           <div className="grid-12 u-end reveal">
             <div className="col-8">
               <div className="eyebrow"><span className="dot" /> How We Invest</div>
-              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)" }}>Principles that <em className="accent">don&rsquo;t bend.</em></h2>
+              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)" }}>Principles that <em className="accent">don&rsquo;t bend.</em></h2>
             </div>
           </div>
           <div className="rows u-mt-40">
@@ -168,7 +168,7 @@ function Investment({ setPage }) {
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap u-tc" style={{ maxWidth: 880, marginInline: "auto" }}>
-          <h2 className="h-1 caps" style={{ color: "var(--bone)" }}>
+          <h2 className="h-1 caps" style={{ color: "var(--ink)" }}>
             Interested in how we put <em className="accent">capital to work?</em>
           </h2>
           <p className="lede u-mt-24" style={{ marginInline: "auto" }}>

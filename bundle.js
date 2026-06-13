@@ -1528,7 +1528,7 @@ function Home({
     className: "h-display lx-h",
     style: {
       maxWidth: "16ch",
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, React.createElement("span", {
     className: "ln"
@@ -1570,7 +1570,7 @@ function Home({
     onClick: () => setPage("investment"),
     "data-magnetic": true,
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       borderColor: "rgba(244,241,234,.75)"
     }
   }, "Investment"))))), React.createElement("section", {
@@ -1605,13 +1605,13 @@ function Home({
   }), " Designed, developed & delivered by Noesis"), React.createElement("h2", {
     className: "h-1 u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "18ch"
     }
   }, "We have stood where our clients stand \u2014 ", React.createElement("em", {
     className: "italic",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "and delivered."))))), React.createElement("section", {
     className: "section"
@@ -1816,13 +1816,13 @@ function Home({
   }), " The Process"), React.createElement("h2", {
     className: "h-1 u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "16ch"
     }
   }, "From entitlement ", React.createElement("em", {
     className: "italic",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "to delivery.")), React.createElement("div", {
     className: "u-flex u-gap-24 u-mt-40",
@@ -1975,7 +1975,7 @@ function Home({
   }), " Let's begin"), React.createElement("h2", {
     className: "h-display u-mt-24",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       textWrap: "balance"
     }
   }, "A project to deliver, or capital to deploy?"), React.createElement("button", {
@@ -2071,13 +2071,13 @@ function Services({
   }, React.createElement("h2", {
     className: "h-2",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "20ch"
     }
   }, "The only party at the table accountable for the ", React.createElement("em", {
     className: "italic",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "whole."))))), React.createElement("section", {
     className: "section"
@@ -2145,7 +2145,7 @@ function Services({
   }), " The Process"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "From entitlement ", React.createElement("em", {
     className: "accent"
@@ -2292,7 +2292,7 @@ function Services({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Planning a project worth ", React.createElement("em", {
     className: "accent"
@@ -2668,7 +2668,7 @@ function Projects({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Want this standard on ", React.createElement("em", {
     className: "accent"
@@ -2897,13 +2897,13 @@ function Investment({
   }, React.createElement("h2", {
     className: "h-2",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "22ch"
     }
   }, "The operator, invested ", React.createElement("em", {
     className: "italic",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "alongside the capital."))))), React.createElement("section", {
     className: "section"
@@ -2955,7 +2955,7 @@ function Investment({
     style: {
       aspectRatio: "4/3",
       overflow: "hidden",
-      background: "var(--ink)",
+      background: "var(--bone-3)",
       position: "relative"
     }
   }, React.createElement("img", {
@@ -3043,7 +3043,7 @@ function Investment({
   }), " How We Invest"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Principles that ", React.createElement("em", {
     className: "accent"
@@ -3112,7 +3112,7 @@ function Investment({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Interested in how we put ", React.createElement("em", {
     className: "accent"
@@ -3380,7 +3380,7 @@ function About({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Let's build something ", React.createElement("em", {
     className: "accent"
@@ -3606,10 +3606,10 @@ function Contact({
 }
 window.Contact = Contact;
 const TWEAK_DEFAULTS = {
-  "accent": "#6E1F1F",
+  "accent": "#A93B30",
   "displayFont": "Fraunces"
 };
-const ACCENTS = ["#6E1F1F", "#7A2E22", "#3A4A3A", "#8A6A3A", "#16140E"];
+const ACCENTS = ["#A93B30", "#8A2C24", "#B5894E", "#3A4A3A", "#EFE9DC"];
 const DISPLAY_FONTS = ["Fraunces", "Georgia", "Times New Roman"];
 const PAGES = ["home", "services", "investment", "projects", "about", "contact"];
 function App() {

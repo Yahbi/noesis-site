@@ -3,26 +3,28 @@
    ───────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* ── IVORY GALLERY — warm paper, ink, a whisper of bordeaux ── */
-  --bone:        #F4F1EA;       /* ivory — PAGE BACKGROUND + light text on dark */
-  --paper:       #ECE6DA;       /* card / elevated ivory surface */
-  --paper-2:     #E4DDCD;       /* deeper ivory band */
-  --bone-2:      #1B1813;       /* warm espresso — dark surface / cinematic block */
-  --bone-3:      #23201A;       /* dark placeholder bg */
-  --ink:         #16140E;       /* near-black warm — primary text on ivory */
-  --ink-2:       #2A261D;
-  --ink-soft:    #5B5446;       /* secondary text on ivory */
-  --bone-soft:   rgba(244,241,234,.76); /* secondary LIGHT text on dark */
-  --muted:       #8C8472;       /* tertiary labels on ivory */
-  --muted-2:     #A8A08B;
-  --rule:        rgba(22,19,12,.17);     /* hairline on ivory */
-  --rule-soft:   rgba(22,19,12,.085);
-  --rule-on-dark: rgba(244,241,234,.18); /* hairline on dark blocks */
-  --accent:      #6E1F1F;       /* deep bordeaux — used sparingly */
-  --accent-deep: #531616;
-  --accent-soft: rgba(110,31,31,.07);
-  --on-accent:   #F4F1EA;       /* ivory text on the bordeaux accent */
-  --ok:          #2F5D3F;
+  /* NOIR — warm charcoal, ivory text, a whisper of garnet.
+     Token names predate the dark theme; used SEMANTICALLY:
+       --bone = dominant SURFACE (near-black);  --ink = primary FOREGROUND (ivory). */
+  --bone:        #0C0B09;
+  --paper:       #15120E;
+  --paper-2:     #100E0B;
+  --bone-2:      #17130F;
+  --bone-3:      #1C1813;
+  --ink:         #EFE9DC;
+  --ink-2:       #D6CEBE;
+  --ink-soft:    #9C9486;
+  --bone-soft:   rgba(239,233,220,.74);
+  --muted:       #87806F;
+  --muted-2:     #6E6859;
+  --rule:        rgba(239,233,220,.14);
+  --rule-soft:   rgba(239,233,220,.07);
+  --rule-on-dark: rgba(239,233,220,.16);
+  --accent:      #A93B30;
+  --accent-deep: #8A2C24;
+  --accent-soft: rgba(169,59,48,.12);
+  --on-accent:   #F4EFE4;
+  --ok:          #5E8C6E;
 
   --serif:  "Fraunces", "Georgia", "Times New Roman", serif;
   --sans:   "Geist", "Söhne", "GT America", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
@@ -1059,3 +1061,33 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 /* Footer seal — smaller, slower, discreet */
 .seal--footer { width: clamp(100px, 8.6vw, 122px); }
 .seal--footer svg { animation-duration: 48s; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NOIR — explicit light foreground where the value-swap would otherwise darken,
+   and dark-theme tuning. (Appended last → highest priority.)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.section--ink,
+.section--ink .h-1, .section--ink .h-2, .section--ink .h-display,
+.section--ink .row__title, .section--ink .pull,
+.cine__cap, .cine__cap .h-1, .cine__cap .h-2,
+.manifesto__t,
+.pcard__cta,
+.lb__title, .lb__close, .lb__arrow { color: var(--ink); }
+
+.section--ink .btn--ghost { color: var(--ink); border-color: rgba(239,233,220,.55); }
+.section--ink .btn--ghost:hover { background: var(--ink); color: var(--bone); }
+
+.nav__burger span { background: var(--ink); }
+
+/* Slightly elevated, hairline-framed cards read better on black */
+.pillars, .tracks, .pfeat__facts { border-color: var(--rule); }
+.pcard__media, .pfeat__media, .sector__img, .thumb { background: #100D0A; }
+
+/* Film grain — filmic specks on black (screen blend adds subtle light) */
+.grain { mix-blend-mode: screen; opacity: .05; }
+
+/* Lightbox already dark; deepen it to true noir */
+.lb { background: rgba(8,7,6,.985); }
+
+/* The hero gradient can lift a touch — the page is dark now, not ivory */
+.cine__grad { background: linear-gradient(180deg, rgba(8,7,5,.42) 0%, rgba(8,7,5,.12) 42%, rgba(8,7,5,.8) 100%); }

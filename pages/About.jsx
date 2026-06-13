@@ -149,7 +149,7 @@ function About({ setPage }) {
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap grid-12 u-end">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
           <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("contact")}>Contact Us <span className="arr" /></button></div>
         </div>
       </section>

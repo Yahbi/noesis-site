@@ -1,11 +1,11 @@
 // App shell — 5-page router + tweaks
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "#6E1F1F",
+  "accent": "#A93B30",
   "displayFont": "Fraunces"
 }/*EDITMODE-END*/;
 
-const ACCENTS = ["#6E1F1F", "#7A2E22", "#3A4A3A", "#8A6A3A", "#16140E"];
+const ACCENTS = ["#A93B30", "#8A2C24", "#B5894E", "#3A4A3A", "#EFE9DC"];
 const DISPLAY_FONTS = ["Fraunces", "Georgia", "Times New Roman"];
 const PAGES = ["home", "services", "investment", "projects", "about", "contact"];
 

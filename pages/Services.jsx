@@ -59,8 +59,8 @@ function Services({ setPage }) {
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(32px,5vw,64px)" }}>
-            <h2 className="h-2" style={{ color: "var(--bone)", maxWidth: "20ch" }}>
-              The only party at the table accountable for the <em className="italic" style={{ color: "var(--bone)" }}>whole.</em>
+            <h2 className="h-2" style={{ color: "var(--ink)", maxWidth: "20ch" }}>
+              The only party at the table accountable for the <em className="italic" style={{ color: "var(--ink)" }}>whole.</em>
             </h2>
           </div>
         </div>
@@ -114,7 +114,7 @@ function Services({ setPage }) {
           <div className="grid-12 u-end reveal">
             <div className="col-7">
               <div className="eyebrow"><span className="dot" /> The Process</div>
-              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)" }}>From entitlement <em className="accent">to delivery.</em></h2>
+              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)" }}>From entitlement <em className="accent">to delivery.</em></h2>
             </div>
             <div className="col-5">
               <p className="body-lg">
@@ -224,7 +224,7 @@ function Services({ setPage }) {
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap grid-12 u-end">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Planning a project worth <em className="accent">getting right?</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Planning a project worth <em className="accent">getting right?</em></h2></div>
           <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("contact")}>Start a Conversation <span className="arr" /></button></div>
         </div>
       </section>

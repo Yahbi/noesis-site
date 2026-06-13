@@ -61,7 +61,7 @@ function Home({ setPage }) {
         </div>
 
         <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%" }}>
-          <h1 className="h-display lx-h" style={{ maxWidth: "16ch", color: "var(--bone)" }}>
+          <h1 className="h-display lx-h" style={{ maxWidth: "16ch", color: "var(--ink)" }}>
             <span className="ln"><span>We build</span></span>
             <span className="ln"><span>what <em style={{ fontStyle: "italic" }}>endures.</em></span></span>
           </h1>
@@ -75,7 +75,7 @@ function Home({ setPage }) {
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
               <button className="btn" onClick={() => setPage("services")} data-magnetic>Our Practice <span className="arr" /></button>
               <button className="btn btn--ghost" onClick={() => setPage("investment")} data-magnetic
-                style={{ color: "var(--bone)", borderColor: "rgba(244,241,234,.75)" }}>Investment</button>
+                style={{ color: "var(--ink)", borderColor: "rgba(244,241,234,.75)" }}>Investment</button>
             </div>
           </div>
         </div>
@@ -88,8 +88,8 @@ function Home({ setPage }) {
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
             <div className="eyebrow" style={{ color: "rgba(244,241,234,.62)" }}><span className="dot" /> Designed, developed &amp; delivered by Noesis</div>
-            <h2 className="h-1 u-mt-16" style={{ color: "var(--bone)", maxWidth: "18ch" }}>
-              We have stood where our clients stand — <em className="italic" style={{ color: "var(--bone)" }}>and delivered.</em>
+            <h2 className="h-1 u-mt-16" style={{ color: "var(--ink)", maxWidth: "18ch" }}>
+              We have stood where our clients stand — <em className="italic" style={{ color: "var(--ink)" }}>and delivered.</em>
             </h2>
           </div>
         </div>
@@ -216,8 +216,8 @@ function Home({ setPage }) {
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
             <div className="eyebrow" style={{ color: "rgba(244,241,234,.62)" }}><span className="dot" /> The Process</div>
-            <h2 className="h-1 u-mt-16" style={{ color: "var(--bone)", maxWidth: "16ch" }}>
-              From entitlement <em className="italic" style={{ color: "var(--bone)" }}>to delivery.</em>
+            <h2 className="h-1 u-mt-16" style={{ color: "var(--ink)", maxWidth: "16ch" }}>
+              From entitlement <em className="italic" style={{ color: "var(--ink)" }}>to delivery.</em>
             </h2>
             <div className="u-flex u-gap-24 u-mt-40" style={{ flexWrap: "wrap", color: "var(--bone-soft)", fontSize: 13, letterSpacing: ".02em" }}>
               {["Strategy", "Entitlement", "Design", "Construction", "Realization"].map((s, i) => (
@@ -324,7 +324,7 @@ function Home({ setPage }) {
       <section className="section section--ink">
         <div className="wrap reveal" style={{ textAlign: "center", maxWidth: 1000, marginInline: "auto" }}>
           <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Let's begin</div>
-          <h2 className="h-display u-mt-24" style={{ color: "var(--bone)", textWrap: "balance" }}>
+          <h2 className="h-display u-mt-24" style={{ color: "var(--ink)", textWrap: "balance" }}>
             A project to deliver, or capital to deploy?
           </h2>
           <button className="btn btn--ghost u-mt-40" onClick={() => setPage("contact")} data-magnetic style={{ marginInline: "auto" }}>
