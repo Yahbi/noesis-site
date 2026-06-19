@@ -1136,7 +1136,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .logo__word { font-family: var(--sans); font-weight: 300; font-size: 20px; letter-spacing: .42em;
   text-transform: uppercase; color: var(--ink); padding-left: .42em; transition: color .3s; }
 .logo__bar { position: absolute; left: 27%; width: 20%; top: 50%; height: 1.5px; background: var(--accent);
-  transform: translateY(-.5px); pointer-events: none; }
+  border-radius: 999px; transform: translateY(-50%); pointer-events: none; }
 .nav--over .logo__word { color: var(--bone); }
 
 /* — Nav: clean header, uppercase tracked links, scroll-spy underline — */
