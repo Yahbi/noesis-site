@@ -104,7 +104,7 @@ function Projects({ setPage }) {
   return (
     <main className="page-enter">
       {/* HERO */}
-      <section style={{ paddingTop: "clamp(56px, 7vw, 96px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
+      <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
         <div className="wrap grid-12" style={{ alignItems: "end" }}>
           <div className="col-8">
             <div className="eyebrow"><span className="dot" /> Properties · 2009 — Present</div>
@@ -120,7 +120,7 @@ function Projects({ setPage }) {
       </section>
 
       {/* TABS */}
-      <section className="section--tight" style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)", position: "sticky", top: 64, zIndex: 20, background: "color-mix(in oklab, var(--bone) 88%, transparent)", backdropFilter: "blur(12px)", paddingTop: 22, paddingBottom: 22 }}>
+      <section className="section--tight" style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)", position: "sticky", top: 72, zIndex: 20, background: "color-mix(in oklab, var(--bone) 88%, transparent)", backdropFilter: "blur(12px)", paddingTop: 22, paddingBottom: 22 }}>
         <div className="wrap u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
           <div className="u-flex u-gap-12" style={{ flexWrap: "wrap" }}>
             {CATEGORIES.map(c => (
@@ -191,8 +191,8 @@ function Projects({ setPage }) {
 
       <section className="section section--ink">
         <div className="wrap grid-12 u-end">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Want this standard on <em className="accent">your project?</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")}>Explore Services <span className="arr" /></button></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>This standard, on <em className="accent">your project.</em></h2></div>
+          <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")}>How We Manage <span className="arr" /></button></div>
         </div>
       </section>
 

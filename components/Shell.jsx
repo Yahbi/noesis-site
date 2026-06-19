@@ -1,12 +1,12 @@
-// Nav + Footer — dark cinematic, 5-page spec
+// Nav + Footer — one-page, scroll-spy, stone & linen
 
-const NAV_LINKS = [
-  ["home",       "Home"],
-  ["services",   "Services"],
-  ["investment", "Investment"],
-  ["projects",   "Properties"],
-  ["about",      "About"],
-  ["contact",    "Contact"],
+const SECTIONS = [
+  ["about",       "About"],
+  ["projects",    "Projects"],
+  ["what-we-do",  "What We Do"],
+  ["investment",  "Investment"],
+  ["management",  "Management"],
+  ["inquiries",   "Inquiries"],
 ];
 
 const SOCIALS = [
@@ -28,37 +28,49 @@ function SocialRow({ size = 18, color }) {
   );
 }
 
-function Nav({ page, setPage }) {
+function Logo({ onClick, className }) {
+  return (
+    <button className={`logo ${className || ""}`} aria-label="Noesis — top" onClick={onClick}>
+      <span className="logo__word">NOESIS</span>
+      <span className="logo__bar" aria-hidden="true" />
+    </button>
+  );
+}
+
+function Nav({ active, go }) {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const [over, setOver] = React.useState(true);
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 12);
+      setOver(y < window.innerHeight - 110);   // light text while over the hero film
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, []);
   React.useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const go = (k) => { setPage(k); setOpen(false); };
+  const tap = (k) => { go(k); setOpen(false); };
+  const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled ? "nav--over" : ""}`;
 
   return (
-    <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
-      <div className="wrap nav__inner">
-        <button className="nav__brand-btn" aria-label="Noesis Group — home" onClick={() => go("home")}>
-          <span className="nav__logo">NOESIS</span>
-          <span className="nav__logo-dot"></span>
-          <span className="mono nav__brand-sub">Group</span>
-        </button>
+    <header className={cls}>
+      <div className="wrap nav__inner u-flex u-between u-center">
+        <Logo onClick={() => tap("top")} />
 
         <nav className="nav__links" aria-label="Primary">
-          {NAV_LINKS.map(([k, label]) => (
-            <button key={k} className={page === k ? "is-active" : ""} onClick={() => go(k)}>{label}</button>
+          {SECTIONS.map(([k, label]) => (
+            <button key={k} className={active === k ? "is-active" : ""} onClick={() => tap(k)}>{label}</button>
           ))}
-          <button onClick={() => go("contact")} className="btn nav__cta">Enquire <span className="arr" /></button>
+          <button onClick={() => tap("inquiries")} className="btn nav__cta">Enquire</button>
         </nav>
 
         <button className={`nav__burger ${open ? "is-open" : ""}`} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(o => !o)}>
@@ -68,18 +80,16 @@ function Nav({ page, setPage }) {
 
       <div className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <nav className="nav__drawer-links" aria-label="Mobile">
-          {NAV_LINKS.map(([k, label], i) => (
-            <button key={k} className={page === k ? "is-active" : ""}
-              style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s" }} onClick={() => go(k)}>
-              <span className="mono nav__drawer-idx">0{i + 1}</span>{label}
+          {SECTIONS.map(([k, label], i) => (
+            <button key={k} className={active === k ? "is-active" : ""}
+              style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s" }} onClick={() => tap(k)}>
+              <span className="nav__drawer-idx">0{i + 1}</span>{label}
             </button>
           ))}
         </nav>
         <div className="nav__drawer-foot">
-          <button onClick={() => go("contact")} className="btn" style={{ width: "100%", justifyContent: "center" }}>
-            Start a Conversation <span className="arr" />
-          </button>
-          <div className="mono nav__drawer-meta">T (310) 855·3634 · INFO@NOESISUSA.COM</div>
+          <button onClick={() => tap("inquiries")} className="btn" style={{ width: "100%", justifyContent: "center" }}>Make an Enquiry</button>
+          <div className="nav__drawer-meta">T (310) 855·3634 · INFO@NOESISUSA.COM</div>
           <SocialRow />
         </div>
       </div>
@@ -87,7 +97,7 @@ function Nav({ page, setPage }) {
   );
 }
 
-// Live local time in the firm's two worlds — Beverly Hills and Tel Aviv.
+// Live local time — Beverly Hills and Tel Aviv.
 function CityClocks() {
   const [now, setNow] = React.useState(() => new Date());
   React.useEffect(() => {
@@ -95,9 +105,8 @@ function CityClocks() {
     return () => clearInterval(id);
   }, []);
   const at = (tz) => {
-    try {
-      return new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }).format(now);
-    } catch (e) { return ""; }
+    try { return new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }).format(now); }
+    catch (e) { return ""; }
   };
   return (
     <div className="clocks">
@@ -107,39 +116,31 @@ function CityClocks() {
   );
 }
 
-function Footer({ setPage }) {
+function Footer({ go }) {
   return (
     <footer className="footer">
       <div className="wrap">
         <div className="grid-12" style={{ alignItems: "end", rowGap: 40 }}>
           <div className="col-7">
-            <div className="seal seal--footer" aria-hidden="true">
-              <svg viewBox="0 0 120 120">
-                <defs><path id="sealPathF" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0" fill="none" /></defs>
-                <text><textPath href="#sealPathF">Noesis Group · Beverly Hills · Est. 2009 · International&nbsp;·&nbsp;</textPath></text>
-              </svg>
-              <span className="seal__n">N<i>.</i></span>
-            </div>
+            <Logo className="footer__logo" onClick={() => go("top")} />
             <div className="eyebrow u-mt-24" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
-            <div className="h-display" style={{ marginTop: 24 }}>
-              Represent. Deliver.<br /><em className="accent" style={{ fontStyle: "italic" }}>Invest.</em>
-            </div>
+            <h2 className="h-1 u-mt-24" style={{ maxWidth: "16ch" }}>
+              We represent the owner, deliver the vision, and invest <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
+            </h2>
             <div className="u-flex u-gap-24 u-mt-40" style={{ flexWrap: "wrap" }}>
-              {[["services", "Services"], ["investment", "Investment"], ["projects", "Properties"], ["about", "About"], ["contact", "Contact"]].map(([k, l]) => (
-                <button key={k} onClick={() => setPage(k)} className="link-u" style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--rule)", color: "var(--ink-soft)", fontSize: 13, letterSpacing: ".02em", padding: "0 0 3px" }}>{l}</button>
+              {SECTIONS.map(([k, l]) => (
+                <button key={k} onClick={() => go(k)} className="link-u" style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--rule)", color: "var(--ink-soft)", fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", padding: "0 0 3px" }}>{l}</button>
               ))}
             </div>
           </div>
           <div className="col-5">
             <div className="u-flex u-col u-gap-24">
               <div>
-                <div className="mono footer__lbl">Inquiries</div>
-                <a href="mailto:info@noesisusa.com" className="serif" style={{ fontSize: 24, color: "var(--ink)" }}>info@noesisusa.com</a>
+                <div className="eyebrow footer__lbl">Inquiries</div>
+                <a href="mailto:info@noesisusa.com" className="serif" style={{ fontSize: 24, color: "var(--ink)", fontWeight: 300 }}>info@noesisusa.com</a>
                 <div style={{ marginTop: 8, color: "var(--ink-soft)", letterSpacing: ".03em" }}>T (310) 855·3634 &nbsp;·&nbsp; F (424) 282·8414</div>
               </div>
-              <button onClick={() => setPage("contact")} className="btn btn--ghost" style={{ alignSelf: "flex-start" }}>
-                Start a Conversation <span className="arr" />
-              </button>
+              <button onClick={() => go("inquiries")} className="btn btn--ghost" style={{ alignSelf: "flex-start" }}>Make an Enquiry <span className="arr" /></button>
               <SocialRow size={20} />
             </div>
           </div>
@@ -149,11 +150,10 @@ function Footer({ setPage }) {
 
         <div className="u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16, fontSize: 12, color: "var(--muted)" }}>
           <CityClocks />
-          <div className="mono" style={{ letterSpacing: ".06em" }}>COPYRIGHT © 2026 NOESIS GROUP · ALL RIGHTS RESERVED</div>
-          <div className="u-flex u-gap-24">
+          <div style={{ letterSpacing: ".08em", textTransform: "uppercase", fontSize: 10.5 }}>© 2026 Noesis Group · All rights reserved</div>
+          <div className="u-flex u-gap-24" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase" }}>
             <a href="#" onClick={(e)=>e.preventDefault()}>Disclosures</a>
             <a href="#" onClick={(e)=>e.preventDefault()}>Privacy</a>
-            <a href="#" onClick={(e)=>e.preventDefault()}>Terms</a>
           </div>
         </div>
       </div>
@@ -164,3 +164,4 @@ function Footer({ setPage }) {
 window.Nav = Nav;
 window.Footer = Footer;
 window.SocialRow = SocialRow;
+window.Logo = Logo;

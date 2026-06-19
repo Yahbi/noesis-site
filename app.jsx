@@ -1,91 +1,106 @@
-// App shell — 5-page router + tweaks
+// App shell — one continuous page + scroll-spy, with a full Properties view.
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "#A93B30",
-  "displayFont": "Fraunces"
+  "accent": "#CE3A26",
+  "displayFont": "Jost"
 }/*EDITMODE-END*/;
 
-const ACCENTS = ["#A93B30", "#8A2C24", "#B5894E", "#3A4A3A", "#EFE9DC"];
-const DISPLAY_FONTS = ["Fraunces", "Georgia", "Times New Roman"];
-const PAGES = ["home", "services", "investment", "projects", "about", "contact"];
+const ACCENTS = ["#CE3A26", "#A82E1C", "#B5894E", "#2E2A22", "#8A8270"];
+const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
+const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "management", "inquiries"];
+const NAV_OFFSET = 72;
 
 function App() {
-  const [page, setPageRaw] = React.useState(() => {
-    const h = (window.location.hash || "").replace("#", "");
-    return PAGES.includes(h) ? h : "home";
-  });
+  // view: "home" (the one-pager) or "properties" (full gallery)
+  const [view, setView] = React.useState("home");
+  const [active, setActive] = React.useState(null);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const pageRef = React.useRef(page);
-  React.useEffect(() => { pageRef.current = page; }, [page]);
+  const pending = React.useRef(null);
 
-  // Navigate with a cinematic ivory wipe between routes (instant if motion is off).
-  const setPage = React.useCallback((p) => {
-    if (p === pageRef.current) return;
-    const commit = () => {
-      setPageRaw(p);
-      if (window.location.hash.replace("#", "") !== p) window.history.pushState(null, "", "#" + p);
-    };
-    const g = window.gsap;
-    const panel = document.getElementById("route-wipe");
-    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!g || !panel || reduce || document.hidden) { commit(); return; }
-    const mark = panel.querySelector(".route-wipe__mark");
-    panel.classList.add("is-active");
-    g.timeline()
-      .set(panel, { scaleY: 0, transformOrigin: "50% 100%" })
-      .set(mark, { opacity: 0, y: 14 })
-      .to(panel, { scaleY: 1, duration: 0.46, ease: "power3.inOut" })
-      .to(mark, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, "-=0.22")
-      .add(commit)
-      .to(mark, { opacity: 0, duration: 0.24, ease: "power2.in" }, "+=0.06")
-      .set(panel, { transformOrigin: "50% 0%" })
-      .to(panel, { scaleY: 0, duration: 0.56, ease: "power3.inOut" }, "-=0.04")
-      .add(function () { panel.classList.remove("is-active"); });
-  }, []);
-  React.useEffect(() => {
-    const onPop = () => {
-      const h = (window.location.hash || "").replace("#", "");
-      setPageRaw(PAGES.includes(h) ? h : "home");
-    };
-    window.addEventListener("hashchange", onPop);
-    window.addEventListener("popstate", onPop);
-    return () => { window.removeEventListener("hashchange", onPop); window.removeEventListener("popstate", onPop); };
+  const lenis = () => (window.__motion && window.__motion.lenis) || null;
+
+  const scrollToId = React.useCallback((id) => {
+    if (id === "top" || id === "hero") {
+      const l = lenis();
+      if (l) l.scrollTo(0, { duration: 1.1 }); else window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const el = document.getElementById(id);
+    if (!el) return;
+    const l = lenis();
+    if (l) l.scrollTo(el, { offset: -NAV_OFFSET, duration: 1.1 });
+    else el.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  // Single navigation entry point used by Nav, Footer and in-page CTAs.
+  const go = React.useCallback((id) => {
+    if (id === "properties") {
+      setView("properties");
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+    if (view !== "home") {
+      pending.current = id;          // jump home, then scroll once mounted
+      setView("home");
+      return;
+    }
+    scrollToId(id);
+  }, [view, scrollToId]);
+
+  // Theme tokens (accent + display font) live as CSS custom properties.
   React.useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
     document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
-    document.documentElement.style.setProperty("--serif", `"${t.displayFont}", "Georgia", "Times New Roman", serif`);
+    const stack = `"${t.displayFont}", "Helvetica Neue", Arial, sans-serif`;
+    document.documentElement.style.setProperty("--serif", stack);
   }, [t.accent, t.displayFont]);
 
-  React.useEffect(() => {
-    if (window.__motion && window.__motion.lenis) window.__motion.lenis.scrollTo(0, { immediate: true });
-    else window.scrollTo({ top: 0, behavior: "auto" });
-  }, [page]);
-
-  // Hand off to the motion layer (GSAP/ScrollTrigger) after each page render so
-  // freshly mounted nodes get their reveals, parallax and hero intro.
+  // After a view switch: hand off to motion layer, run any pending scroll.
   React.useEffect(() => {
     if (window.__motion) window.__motion.refresh();
-  }, [page]);
+    if (view === "home" && pending.current) {
+      const id = pending.current; pending.current = null;
+      // wait a frame so the home DOM is committed before measuring
+      setTimeout(() => scrollToId(id), 60);
+    }
+  }, [view, scrollToId]);
 
-  let body = null;
-  if (page === "home")       body = <Home       setPage={setPage} />;
-  if (page === "services")   body = <Services   setPage={setPage} />;
-  if (page === "investment") body = <Investment setPage={setPage} />;
-  if (page === "projects")   body = <Projects   setPage={setPage} />;
-  if (page === "about")      body = <About      setPage={setPage} />;
-  if (page === "contact")    body = <Contact    setPage={setPage} />;
+  // Scroll-spy — highlight the section currently crossing mid-viewport.
+  React.useEffect(() => {
+    if (view !== "home") { setActive(null); return; }
+    const els = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!els.length) return;
+    const seen = new Set();
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) seen.add(e.target.id); else seen.delete(e.target.id); });
+      const first = SECTION_IDS.find((id) => seen.has(id));
+      setActive(first || (window.scrollY < 120 ? null : active));
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [view]);
+
+  // Map legacy page calls inside Projects onto one-page navigation.
+  const projectsNav = React.useCallback((p) => {
+    if (p === "services") return go("management");
+    if (p === "home") return go("top");
+    go(p);
+  }, [go]);
 
   return (
     <>
-      <Nav page={page} setPage={setPage} />
-      {body}
-      <Footer setPage={setPage} />
+      <Nav active={active} go={go} />
 
-      <div id="route-wipe" className="route-wipe" aria-hidden="true">
-        <div className="route-wipe__mark">N<i>.</i></div>
-      </div>
+      {view === "home" ? <Home go={go} /> : (
+        <>
+          <button className="back-home" onClick={() => go("projects")} aria-label="Back to home">
+            <span className="back-home__arr" aria-hidden="true" /> Back
+          </button>
+          <Projects setPage={projectsNav} />
+        </>
+      )}
+
+      <Footer go={go} />
 
       {/* Internal design panel — only with ?tweaks=1, never for visitors */}
       {/[?&]tweaks=1/.test(window.location.search) && (
@@ -94,8 +109,8 @@ function App() {
           <TweakColor label="Accent color" value={t.accent} options={ACCENTS} onChange={(v) => setTweak("accent", v)} />
           <TweakSection label="Typography" />
           <TweakSelect label="Display font" value={t.displayFont} options={DISPLAY_FONTS} onChange={(v) => setTweak("displayFont", v)} />
-          <TweakSection label="Navigate" />
-          <TweakSelect label="Jump to page" value={page} options={PAGES} onChange={(v) => setPage(v)} />
+          <TweakSection label="View" />
+          <TweakSelect label="Switch view" value={view} options={["home", "properties"]} onChange={(v) => setView(v)} />
         </TweaksPanel>
       )}
     </>

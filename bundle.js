@@ -1159,7 +1159,7 @@ function Courtyard({
   })));
 }
 window.Placeholder = Placeholder;
-const NAV_LINKS = [["home", "Home"], ["services", "Services"], ["investment", "Investment"], ["projects", "Properties"], ["about", "About"], ["contact", "Contact"]];
+const SECTIONS = [["about", "About"], ["projects", "Projects"], ["what-we-do", "What We Do"], ["investment", "Investment"], ["management", "Management"], ["inquiries", "Inquiries"]];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
 function SocialRow({
   size = 18,
@@ -1182,19 +1182,43 @@ function SocialRow({
     d: d
   })))));
 }
+function Logo({
+  onClick,
+  className
+}) {
+  return React.createElement("button", {
+    className: `logo ${className || ""}`,
+    "aria-label": "Noesis \u2014 top",
+    onClick: onClick
+  }, React.createElement("span", {
+    className: "logo__word"
+  }, "NOESIS"), React.createElement("span", {
+    className: "logo__bar",
+    "aria-hidden": "true"
+  }));
+}
 function Nav({
-  page,
-  setPage
+  active,
+  go
 }) {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const [over, setOver] = React.useState(true);
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 12);
+      setOver(y < window.innerHeight - 110);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, {
       passive: true
     });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
   React.useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -1202,37 +1226,28 @@ function Nav({
       document.body.style.overflow = "";
     };
   }, [open]);
-  const go = k => {
-    setPage(k);
+  const tap = k => {
+    go(k);
     setOpen(false);
   };
+  const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled ? "nav--over" : ""}`;
   return React.createElement("header", {
-    className: `nav ${scrolled ? "nav--scrolled" : ""}`
+    className: cls
   }, React.createElement("div", {
-    className: "wrap nav__inner"
-  }, React.createElement("button", {
-    className: "nav__brand-btn",
-    "aria-label": "Noesis Group \u2014 home",
-    onClick: () => go("home")
-  }, React.createElement("span", {
-    className: "nav__logo"
-  }, "NOESIS"), React.createElement("span", {
-    className: "nav__logo-dot"
-  }), React.createElement("span", {
-    className: "mono nav__brand-sub"
-  }, "Group")), React.createElement("nav", {
+    className: "wrap nav__inner u-flex u-between u-center"
+  }, React.createElement(Logo, {
+    onClick: () => tap("top")
+  }), React.createElement("nav", {
     className: "nav__links",
     "aria-label": "Primary"
-  }, NAV_LINKS.map(([k, label]) => React.createElement("button", {
+  }, SECTIONS.map(([k, label]) => React.createElement("button", {
     key: k,
-    className: page === k ? "is-active" : "",
-    onClick: () => go(k)
+    className: active === k ? "is-active" : "",
+    onClick: () => tap(k)
   }, label)), React.createElement("button", {
-    onClick: () => go("contact"),
+    onClick: () => tap("inquiries"),
     className: "btn nav__cta"
-  }, "Enquire ", React.createElement("span", {
-    className: "arr"
-  }))), React.createElement("button", {
+  }, "Enquire")), React.createElement("button", {
     className: `nav__burger ${open ? "is-open" : ""}`,
     "aria-label": open ? "Close menu" : "Open menu",
     "aria-expanded": open,
@@ -1243,28 +1258,26 @@ function Nav({
   }, React.createElement("nav", {
     className: "nav__drawer-links",
     "aria-label": "Mobile"
-  }, NAV_LINKS.map(([k, label], i) => React.createElement("button", {
+  }, SECTIONS.map(([k, label], i) => React.createElement("button", {
     key: k,
-    className: page === k ? "is-active" : "",
+    className: active === k ? "is-active" : "",
     style: {
       transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s"
     },
-    onClick: () => go(k)
+    onClick: () => tap(k)
   }, React.createElement("span", {
-    className: "mono nav__drawer-idx"
+    className: "nav__drawer-idx"
   }, "0", i + 1), label))), React.createElement("div", {
     className: "nav__drawer-foot"
   }, React.createElement("button", {
-    onClick: () => go("contact"),
+    onClick: () => tap("inquiries"),
     className: "btn",
     style: {
       width: "100%",
       justifyContent: "center"
     }
-  }, "Start a Conversation ", React.createElement("span", {
-    className: "arr"
-  })), React.createElement("div", {
-    className: "mono nav__drawer-meta"
+  }, "Make an Enquiry"), React.createElement("div", {
+    className: "nav__drawer-meta"
   }, "T (310) 855\xB73634 \xB7 INFO@NOESISUSA.COM"), React.createElement(SocialRow, null))));
 }
 function CityClocks() {
@@ -1290,7 +1303,7 @@ function CityClocks() {
   }, React.createElement("span", null, "Beverly Hills", React.createElement("b", null, at("America/Los_Angeles"))), React.createElement("span", null, "Tel Aviv", React.createElement("b", null, at("Asia/Jerusalem"))));
 }
 function Footer({
-  setPage
+  go
 }) {
   return React.createElement("footer", {
     className: "footer"
@@ -1304,52 +1317,43 @@ function Footer({
     }
   }, React.createElement("div", {
     className: "col-7"
-  }, React.createElement("div", {
-    className: "seal seal--footer",
-    "aria-hidden": "true"
-  }, React.createElement("svg", {
-    viewBox: "0 0 120 120"
-  }, React.createElement("defs", null, React.createElement("path", {
-    id: "sealPathF",
-    d: "M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0",
-    fill: "none"
-  })), React.createElement("text", null, React.createElement("textPath", {
-    href: "#sealPathF"
-  }, "Noesis Group \xB7 Beverly Hills \xB7 Est. 2009 \xB7 International\xA0\xB7\xA0"))), React.createElement("span", {
-    className: "seal__n"
-  }, "N", React.createElement("i", null, "."))), React.createElement("div", {
+  }, React.createElement(Logo, {
+    className: "footer__logo",
+    onClick: () => go("top")
+  }), React.createElement("div", {
     className: "eyebrow u-mt-24",
     style: {
       color: "var(--muted)"
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " Beverly Hills \xB7 California \xB7 Est. 2009 \xB7 International"), React.createElement("div", {
-    className: "h-display",
+  }), " Beverly Hills \xB7 California \xB7 Est. 2009 \xB7 International"), React.createElement("h2", {
+    className: "h-1 u-mt-24",
     style: {
-      marginTop: 24
+      maxWidth: "16ch"
     }
-  }, "Represent. Deliver.", React.createElement("br", null), React.createElement("em", {
+  }, "We represent the owner, deliver the vision, and invest ", React.createElement("em", {
     className: "accent",
     style: {
       fontStyle: "italic"
     }
-  }, "Invest.")), React.createElement("div", {
+  }, "alongside.")), React.createElement("div", {
     className: "u-flex u-gap-24 u-mt-40",
     style: {
       flexWrap: "wrap"
     }
-  }, [["services", "Services"], ["investment", "Investment"], ["projects", "Properties"], ["about", "About"], ["contact", "Contact"]].map(([k, l]) => React.createElement("button", {
+  }, SECTIONS.map(([k, l]) => React.createElement("button", {
     key: k,
-    onClick: () => setPage(k),
+    onClick: () => go(k),
     className: "link-u",
     style: {
       background: "transparent",
       border: 0,
       borderBottom: "1px solid var(--rule)",
       color: "var(--ink-soft)",
-      fontSize: 13,
-      letterSpacing: ".02em",
+      fontSize: 11,
+      letterSpacing: ".14em",
+      textTransform: "uppercase",
       padding: "0 0 3px"
     }
   }, l)))), React.createElement("div", {
@@ -1357,13 +1361,14 @@ function Footer({
   }, React.createElement("div", {
     className: "u-flex u-col u-gap-24"
   }, React.createElement("div", null, React.createElement("div", {
-    className: "mono footer__lbl"
+    className: "eyebrow footer__lbl"
   }, "Inquiries"), React.createElement("a", {
     href: "mailto:info@noesisusa.com",
     className: "serif",
     style: {
       fontSize: 24,
-      color: "var(--ink)"
+      color: "var(--ink)",
+      fontWeight: 300
     }
   }, "info@noesisusa.com"), React.createElement("div", {
     style: {
@@ -1372,12 +1377,12 @@ function Footer({
       letterSpacing: ".03em"
     }
   }, "T (310) 855\xB73634 \xA0\xB7\xA0 F (424) 282\xB78414")), React.createElement("button", {
-    onClick: () => setPage("contact"),
+    onClick: () => go("inquiries"),
     className: "btn btn--ghost",
     style: {
       alignSelf: "flex-start"
     }
-  }, "Start a Conversation ", React.createElement("span", {
+  }, "Make an Enquiry ", React.createElement("span", {
     className: "arr"
   })), React.createElement(SocialRow, {
     size: 20
@@ -1397,26 +1402,30 @@ function Footer({
       color: "var(--muted)"
     }
   }, React.createElement(CityClocks, null), React.createElement("div", {
-    className: "mono",
     style: {
-      letterSpacing: ".06em"
+      letterSpacing: ".08em",
+      textTransform: "uppercase",
+      fontSize: 10.5
     }
-  }, "COPYRIGHT \xA9 2026 NOESIS GROUP \xB7 ALL RIGHTS RESERVED"), React.createElement("div", {
-    className: "u-flex u-gap-24"
+  }, "\xA9 2026 Noesis Group \xB7 All rights reserved"), React.createElement("div", {
+    className: "u-flex u-gap-24",
+    style: {
+      fontSize: 10.5,
+      letterSpacing: ".08em",
+      textTransform: "uppercase"
+    }
   }, React.createElement("a", {
     href: "#",
     onClick: e => e.preventDefault()
   }, "Disclosures"), React.createElement("a", {
     href: "#",
     onClick: e => e.preventDefault()
-  }, "Privacy"), React.createElement("a", {
-    href: "#",
-    onClick: e => e.preventDefault()
-  }, "Terms")))));
+  }, "Privacy")))));
 }
 window.Nav = Nav;
 window.Footer = Footer;
 window.SocialRow = SocialRow;
+window.Logo = Logo;
 const SHOT = {
   casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
   oneOak: "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
@@ -1426,18 +1435,19 @@ const SHOT = {
   lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg"
 };
 function Home({
-  setPage
+  go
 }) {
   return React.createElement("main", {
     className: "page-enter"
   }, React.createElement("section", {
+    id: "hero",
     className: "cine cine--video",
     style: {
       minHeight: "100svh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      paddingTop: "clamp(84px,12vh,130px)",
+      paddingTop: "clamp(92px,13vh,150px)",
       paddingBottom: "clamp(34px,6vh,60px)"
     }
   }, React.createElement("img", {
@@ -1445,7 +1455,7 @@ function Home({
     src: wix(SHOT.casaMani, {
       w: 2600
     }),
-    alt: "Casa Mani \u2014 a Noesis-delivered residence"
+    alt: "A Noesis-delivered residence"
   }), React.createElement("video", {
     className: "cine__vid",
     autoPlay: true,
@@ -1471,19 +1481,19 @@ function Home({
       };
       el.__tries = 0;
       el.addEventListener("error", () => {
-        const delays = [2000, 8000, 20000, 45000];
-        if (el.__tries >= delays.length) {
+        const d = [2000, 8000, 20000, 45000];
+        if (el.__tries >= d.length) {
           el.style.display = "none";
           return;
         }
-        const wait = delays[el.__tries++];
+        const w = d[el.__tries++];
         setTimeout(() => {
           if (!el.isConnected) return;
           el.style.display = "";
           el.src = "assets/noesis-film.mp4?r=" + Date.now();
           el.load();
           tryPlay();
-        }, wait);
+        }, w);
       });
       el.addEventListener("playing", () => {
         el.style.display = "";
@@ -1494,10 +1504,7 @@ function Home({
       document.addEventListener("visibilitychange", tryPlay);
     }
   }), React.createElement("div", {
-    className: "cine__grad",
-    style: {
-      background: "linear-gradient(180deg, rgba(18,15,10,.5) 0%, rgba(18,15,10,.16) 42%, rgba(18,15,10,.82) 100%)"
-    }
+    className: "cine__grad"
   }), React.createElement("div", {
     className: "wrap u-flex u-between",
     style: {
@@ -1508,14 +1515,14 @@ function Home({
   }, React.createElement("div", {
     className: "eyebrow",
     style: {
-      color: "rgba(244,241,234,.65)"
+      color: "rgba(236,230,216,.7)"
     }
   }, React.createElement("span", {
     className: "dot"
   }), " Noesis \u2014 Est. 2009"), React.createElement("div", {
     className: "eyebrow u-hide-720",
     style: {
-      color: "rgba(244,241,234,.65)"
+      color: "rgba(236,230,216,.7)"
     }
   }, "Beverly Hills \xB7 International")), React.createElement("div", {
     className: "wrap",
@@ -1527,18 +1534,14 @@ function Home({
   }, React.createElement("h1", {
     className: "h-display lx-h",
     style: {
-      maxWidth: "16ch",
-      color: "var(--ink)"
+      maxWidth: "18ch",
+      color: "var(--bone)"
     }
   }, React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "We build")), React.createElement("span", {
     className: "ln"
-  }, React.createElement("span", null, "what ", React.createElement("em", {
-    style: {
-      fontStyle: "italic"
-    }
-  }, "endures.")))), React.createElement("div", {
+  }, React.createElement("span", null, "what endures."))), React.createElement("div", {
     className: "grid-12 u-mt-40",
     style: {
       alignItems: "end"
@@ -1550,9 +1553,9 @@ function Home({
     "data-hero-fade": true,
     style: {
       maxWidth: "46ch",
-      color: "rgba(244,241,234,.85)"
+      color: "rgba(236,230,216,.86)"
     }
-  }, "An international development-management and investment firm \u2014 entrusted with landmark residential and commercial projects, from entitlement to delivery.")), React.createElement("div", {
+  }, "We are an international development and investment firm. We represent owners, deliver landmark residential and commercial projects, and invest alongside the work we know best.")), React.createElement("div", {
     className: "col-6 u-flex u-gap-16",
     "data-hero-fade": true,
     style: {
@@ -1561,59 +1564,18 @@ function Home({
     }
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => setPage("services"),
+    onClick: () => go("what-we-do"),
     "data-magnetic": true
-  }, "Our Practice ", React.createElement("span", {
-    className: "arr"
-  })), React.createElement("button", {
+  }, "What We Do"), React.createElement("button", {
     className: "btn btn--ghost",
-    onClick: () => setPage("investment"),
+    onClick: () => go("investment"),
     "data-magnetic": true,
     style: {
-      color: "var(--ink)",
-      borderColor: "rgba(244,241,234,.75)"
+      color: "var(--bone)",
+      borderColor: "rgba(236,230,216,.7)"
     }
   }, "Investment"))))), React.createElement("section", {
-    className: "cine",
-    style: {
-      height: "min(88vh, 860px)",
-      minHeight: 520
-    }
-  }, React.createElement("img", {
-    className: "cine__img",
-    "data-parallax": "0.12",
-    src: wix(PHOTO.ying_wide, {
-      w: 2600
-    }),
-    alt: "Ying Yang Lofts \u2014 Los Angeles"
-  }), React.createElement("div", {
-    className: "cine__grad"
-  }), React.createElement("div", {
-    className: "cine__cap"
-  }, React.createElement("div", {
-    className: "wrap",
-    style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
-    }
-  }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(244,241,234,.62)"
-    }
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Designed, developed & delivered by Noesis"), React.createElement("h2", {
-    className: "h-1 u-mt-16",
-    style: {
-      color: "var(--ink)",
-      maxWidth: "18ch"
-    }
-  }, "We have stood where our clients stand \u2014 ", React.createElement("em", {
-    className: "italic",
-    style: {
-      color: "var(--ink)"
-    }
-  }, "and delivered."))))), React.createElement("section", {
+    id: "about",
     className: "section"
   }, React.createElement("div", {
     className: "wrap grid-12"
@@ -1623,229 +1585,40 @@ function Home({
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " The Firm")), React.createElement("div", {
+  }), " About"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "9ch"
+    }
+  }, "Perception by intellect.")), React.createElement("div", {
     className: "col-8 reveal"
   }, React.createElement("p", {
-    className: "h-2",
-    style: {
-      textWrap: "balance"
-    }
-  }, "Building anything significant means orchestrating dozens of disciplines, years of risk and millions in capital \u2014 usually for someone doing it for the first time.", React.createElement("span", {
-    style: {
-      color: "var(--accent)"
-    }
-  }, " Noesis exists to carry that weight.")), React.createElement("p", {
+    className: "lede"
+  }, "Noesis is the Greek word for understanding. We are an owner's-representation, development and investment firm \u2014 founded in 2009, based in Beverly Hills, working internationally."), React.createElement("p", {
     className: "body-lg u-mt-40",
     style: {
       maxWidth: "62ch"
     }
-  }, "We act on behalf of the owner \u2014 assembling and directing the entire project team, protecting the vision, the budget and the timeline at every stage. Fifteen years of designing, developing and delivering luxury real estate sit behind every engagement: the difference between a project that is merely built, and one that is truly realized.")))), React.createElement("section", {
+  }, "We began as designers and builders of luxury real estate, conceiving and delivering residences and buildings across Southern California and abroad. That operating experience now serves our clients. We bring a builder's judgment to the owner's side of the table, and we invest our own conviction and capital alongside our partners. Fifteen years of delivered work stand behind every engagement."), React.createElement("button", {
+    className: "link-u u-mt-40",
+    onClick: () => go("projects"),
+    style: {
+      background: "transparent",
+      border: 0,
+      borderBottom: "1px solid var(--accent)",
+      color: "var(--accent)",
+      fontSize: 11,
+      letterSpacing: ".18em",
+      textTransform: "uppercase",
+      padding: "0 0 4px"
+    }
+  }, "See the work")))), React.createElement("section", {
+    id: "projects",
     className: "section",
     style: {
       paddingTop: 0,
       borderTop: 0
     }
-  }, React.createElement("div", {
-    className: "wrap"
-  }, React.createElement("div", {
-    className: "reveal",
-    style: {
-      marginBottom: "clamp(40px,5vw,72px)"
-    }
-  }, React.createElement("span", {
-    className: "idx"
-  }, "01 \u2014 02"), React.createElement("h2", {
-    className: "h-1 u-mt-16"
-  }, "Two mandates.")), React.createElement("div", {
-    className: "grid-12 reveal",
-    style: {
-      rowGap: 56
-    }
-  }, React.createElement("div", {
-    className: "col-6",
-    style: {
-      paddingRight: "clamp(0px,3vw,56px)"
-    }
-  }, React.createElement("div", {
-    className: "rule-x"
-  }), React.createElement("div", {
-    className: "eyebrow u-mt-24",
-    style: {
-      color: "var(--accent)"
-    }
-  }, "For Owners & Developers"), React.createElement("h3", {
-    className: "h-2 u-mt-16"
-  }, "Owner's representation & development management."), React.createElement("p", {
-    className: "body-lg u-mt-24",
-    style: {
-      maxWidth: "44ch"
-    }
-  }, "Your single, accountable advocate \u2014 managing the entire delivery process so you carry one relationship instead of twenty, from feasibility and entitlement through construction and handover."), React.createElement("button", {
-    className: "btn btn--ghost u-mt-40",
-    onClick: () => setPage("services"),
-    "data-magnetic": true
-  }, "Explore the Practice ", React.createElement("span", {
-    className: "arr"
-  }))), React.createElement("div", {
-    className: "col-6",
-    style: {
-      paddingRight: "clamp(0px,3vw,56px)"
-    }
-  }, React.createElement("div", {
-    className: "rule-x"
-  }), React.createElement("div", {
-    className: "eyebrow u-mt-24",
-    style: {
-      color: "var(--accent)"
-    }
-  }, "For Investors"), React.createElement("h3", {
-    className: "h-2 u-mt-16"
-  }, "Investment & capital partnership."), React.createElement("p", {
-    className: "body-lg u-mt-24",
-    style: {
-      maxWidth: "44ch"
-    }
-  }, "Disciplined, design-led real estate investment \u2014 sourced, structured and stewarded for an aligned network of private capital, with the operator invested alongside you."), React.createElement("button", {
-    className: "btn btn--ghost u-mt-40",
-    onClick: () => setPage("investment"),
-    "data-magnetic": true
-  }, "Explore Investment ", React.createElement("span", {
-    className: "arr"
-  })))))), React.createElement("section", {
-    className: "section"
-  }, React.createElement("div", {
-    className: "wrap grid-12"
-  }, React.createElement("div", {
-    className: "col-4 reveal"
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Capabilities"), React.createElement("h2", {
-    className: "h-1 u-mt-16",
-    style: {
-      textWrap: "balance"
-    }
-  }, "One firm,", React.createElement("br", null), "every discipline.")), React.createElement("div", {
-    className: "col-8 reveal"
-  }, React.createElement("div", {
-    className: "rows",
-    style: {
-      borderTop: "1px solid var(--rule)"
-    }
-  }, [["Owner's Representation", "The owner's seat — the single, accountable point of contact directing the entire project."], ["Development Management", "Feasibility, entitlement, structuring and delivery of ground-up and repositioning projects."], ["Project & Construction", "Schedule, budget, procurement and quality, run with a builder's discipline."], ["Investment & Capital", "Sourcing, structuring and asset management, with capital aligned alongside the owner."]].map(([t, d], i) => React.createElement("div", {
-    key: t,
-    className: "row"
-  }, React.createElement("div", {
-    className: "row__idx"
-  }, "0", i + 1), React.createElement("div", {
-    className: "row__title"
-  }, t), React.createElement("p", {
-    className: "row__desc"
-  }, d))))))), React.createElement("section", {
-    className: "section"
-  }, React.createElement("div", {
-    className: "wrap grid-12"
-  }, React.createElement("div", {
-    className: "col-4 reveal"
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " The Record"), React.createElement("h2", {
-    className: "h-1 u-mt-16"
-  }, "Delivery,", React.createElement("br", null), "measured.")), React.createElement("div", {
-    className: "col-8 reveal"
-  }, React.createElement("p", {
-    className: "lede",
-    style: {
-      maxWidth: "50ch"
-    }
-  }, "Before founding Noesis, our principal directed institutional development and construction at scale \u2014 for private-equity and global property firms. The discipline is the same on every mandate we accept."), React.createElement("div", {
-    className: "statline statline--3",
-    style: {
-      marginTop: "clamp(40px,5vw,72px)"
-    }
-  }, React.createElement("div", null, React.createElement("div", {
-    className: "num"
-  }, "$75M"), React.createElement("div", {
-    className: "statline__l"
-  }, "Construction budget directed"), React.createElement("div", {
-    className: "sub"
-  }, "A single Los Angeles development program, managed end to end.")), React.createElement("div", null, React.createElement("div", {
-    className: "num"
-  }, "12%"), React.createElement("div", {
-    className: "statline__l"
-  }, "Delivered under budget"), React.createElement("div", {
-    className: "sub"
-  }, "On a 24-unit luxury condominium delivered internationally.")), React.createElement("div", null, React.createElement("div", {
-    className: "num"
-  }, "22"), React.createElement("div", {
-    className: "statline__l"
-  }, "Days ahead of schedule"), React.createElement("div", {
-    className: "sub"
-  }, "The same project \u2014 handed over early, not explained late.")))))), React.createElement("section", {
-    className: "cine",
-    style: {
-      height: "min(80vh, 760px)",
-      minHeight: 480
-    }
-  }, React.createElement("img", {
-    className: "cine__img",
-    "data-parallax": "0.1",
-    src: wix(SHOT.oneOak, {
-      w: 2400
-    }),
-    alt: ""
-  }), React.createElement("div", {
-    className: "cine__grad"
-  }), React.createElement("div", {
-    className: "cine__cap"
-  }, React.createElement("div", {
-    className: "wrap",
-    style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
-    }
-  }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(244,241,234,.62)"
-    }
-  }, React.createElement("span", {
-    className: "dot"
-  }), " The Process"), React.createElement("h2", {
-    className: "h-1 u-mt-16",
-    style: {
-      color: "var(--ink)",
-      maxWidth: "16ch"
-    }
-  }, "From entitlement ", React.createElement("em", {
-    className: "italic",
-    style: {
-      color: "var(--ink)"
-    }
-  }, "to delivery.")), React.createElement("div", {
-    className: "u-flex u-gap-24 u-mt-40",
-    style: {
-      flexWrap: "wrap",
-      color: "var(--bone-soft)",
-      fontSize: 13,
-      letterSpacing: ".02em"
-    }
-  }, ["Strategy", "Entitlement", "Design", "Construction", "Realization"].map((s, i) => React.createElement("span", {
-    key: s,
-    style: {
-      display: "inline-flex",
-      gap: 10
-    }
-  }, React.createElement("span", {
-    style: {
-      color: "var(--accent)",
-      fontFamily: "var(--sans)",
-      fontWeight: 500
-    }
-  }, "0", i + 1), " ", s)))))), React.createElement("section", {
-    className: "section"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
@@ -1859,22 +1632,22 @@ function Home({
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " Selected Work"), React.createElement("h2", {
-    className: "h-1 u-mt-16"
+  }), " Projects \xB7 Properties"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps"
   }, "A record owners trust.")), React.createElement("div", {
     className: "col-4 u-tr"
   }, React.createElement("button", {
     className: "btn btn--ghost",
-    onClick: () => setPage("projects"),
+    onClick: () => go("properties"),
     "data-magnetic": true
-  }, "All Properties ", React.createElement("span", {
+  }, "View the full portfolio ", React.createElement("span", {
     className: "arr"
   })))), React.createElement("div", {
     className: "collage reveal"
   }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills"], [SHOT.oneOak, "One Oak", "Sunset Strip"], [SHOT.aura, "Aura House", "Tel Aviv"], [SHOT.cThru, "C Thru", "Beverly Grove"], [SHOT.houseG, "House G", "Melrose"], [SHOT.lolivier, "L'Olivier House", "Los Angeles"]].map(([img, name, loc]) => React.createElement("article", {
     key: name,
     className: "pcard",
-    onClick: () => setPage("projects")
+    onClick: () => go("properties")
   }, React.createElement("div", {
     className: "pcard__media"
   }, React.createElement("img", {
@@ -1891,18 +1664,72 @@ function Home({
   }, name), React.createElement("div", {
     className: "pcard__loc"
   }, loc)))))))), React.createElement("section", {
-    className: "manifesto",
-    "data-manifesto": true
+    id: "what-we-do",
+    className: "section wwd"
   }, React.createElement("div", {
     className: "wrap"
-  }, React.createElement("p", {
-    className: "manifesto__t"
-  }, "A building is a promise — made once, kept for decades. We exist so the promise is kept: on vision, on budget, on time.".split(" ").map((w, k) => React.createElement("span", {
-    className: "w",
-    key: k
-  }, w, " "))), React.createElement("div", {
-    className: "manifesto__sig"
-  }, "\u2014 The Noesis Doctrine"))), React.createElement("section", {
+  }, React.createElement("div", {
+    className: "reveal",
+    style: {
+      marginBottom: "clamp(40px,5vw,72px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " What We Do"), React.createElement("p", {
+    className: "wwd__lead u-mt-24",
+    style: {
+      maxWidth: "20ch"
+    }
+  }, "We take a project from a ", React.createElement("em", null, "parcel of land"), " to a finished landmark \u2014 and stand accountable for every step between.")), React.createElement("div", {
+    className: "wwd-grid reveal"
+  }, [["01", "Owner's Representation", "We sit in your seat — one accountable advocate directing the entire project team and every decision."], ["02", "Development Management", "We carry the project end to end: feasibility, entitlement, design, construction and delivery."], ["03", "Investment", "We deploy capital alongside our partners, in disciplined, design-led real estate we know intimately."]].map(([n, t, d]) => React.createElement("div", {
+    key: n,
+    className: "wwd-cap"
+  }, React.createElement("div", {
+    className: "wwd-cap__n"
+  }, n), React.createElement("div", {
+    className: "wwd-cap__t"
+  }, t), React.createElement("p", {
+    className: "wwd-cap__d"
+  }, d)))))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(82vh, 800px)",
+      minHeight: 480
+    }
+  }, React.createElement("img", {
+    className: "cine__img",
+    "data-parallax": "0.12",
+    src: wix(PHOTO.ying_wide, {
+      w: 2600
+    }),
+    alt: ""
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(36px,6vw,72px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      color: "rgba(236,230,216,.62)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Designed, developed & delivered by Noesis"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "18ch"
+    }
+  }, "We have stood where our clients stand.")))), React.createElement("section", {
+    id: "investment",
     className: "section"
   }, React.createElement("div", {
     className: "wrap grid-12"
@@ -1912,16 +1739,21 @@ function Home({
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " Clientele"), React.createElement("h2", {
-    className: "h-1 u-mt-16"
-  }, "A quiet", React.createElement("br", null), "practice.")), React.createElement("div", {
+  }), " Investment"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "10ch"
+    }
+  }, "Capital, aligned.")), React.createElement("div", {
     className: "col-8 reveal"
-  }, React.createElement("div", {
-    className: "rows",
+  }, React.createElement("p", {
+    className: "lede"
+  }, "We originate, structure and steward real estate investments for an aligned network of private capital \u2014 with the operator invested alongside."), React.createElement("div", {
+    className: "rows u-mt-40",
     style: {
       borderTop: "1px solid var(--rule)"
     }
-  }, [["Principals & Family Offices", "Primary residences, estates and legacy assets — delivered with absolute discretion."], ["Developers & Institutions", "Owner's representation and development management for projects at scale."], ["International Capital", "Cross-border partners entering U.S. real estate with a trusted operator on the ground."]].map(([t, d], i) => React.createElement("div", {
+  }, [["Opportunistic", "Acquisition and ground-up development of residences and small-lot subdivisions."], ["Value-Add", "Apartment and commercial assets, repositioned and improved through the hold."], ["Stabilized", "Income-producing assets held long-term for durability and preservation."]].map(([t, d], i) => React.createElement("div", {
     key: t,
     className: "row"
   }, React.createElement("div", {
@@ -1931,68 +1763,135 @@ function Home({
   }, t), React.createElement("p", {
     className: "row__desc"
   }, d)))), React.createElement("p", {
-    className: "lede u-mt-40",
+    className: "body u-mt-24",
     style: {
-      maxWidth: "52ch"
+      color: "var(--muted)"
     }
-  }, "We accept a limited number of mandates each year. Engagements begin privately, and proceed under confidentiality as standard.")))), React.createElement("section", {
-    className: "section"
+  }, "Opportunities are shared privately, with qualified partners. We welcome a confidential introduction.")))), React.createElement("section", {
+    id: "management",
+    className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
-    className: "reveal",
+    className: "grid-12 u-end reveal"
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Management \xB7 Services"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
     style: {
-      marginBottom: "clamp(36px,4vw,56px)"
+      color: "var(--bone)"
+    }
+  }, "From entitlement to delivery.")), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body-lg"
+  }, "A disciplined, gated path from first study to final handover \u2014 the owner informed and in command at every stage."))), React.createElement("div", {
+    className: "flow u-mt-64"
+  }, [["01", "Strategy & Feasibility", "Site and market analysis, highest-and-best-use, financial modeling and risk assessment."], ["02", "Entitlement & Approvals", "Navigating planning, zoning, permitting and the stakeholders who decide a project's fate."], ["03", "Design & Preconstruction", "Assembling and directing the design team; budgeting, value engineering and procurement."], ["04", "Construction Delivery", "Managing contractors, schedule, cost and quality to completion, at the owner's standard."], ["05", "Handover & Realization", "Closeout and handover, then leasing, sale or stabilization to realize the asset's full value."]].map(([n, t, d]) => React.createElement("div", {
+    key: n,
+    className: "flow__step"
+  }, React.createElement("div", {
+    className: "flow__num"
+  }, n), React.createElement("div", {
+    className: "flow__name"
+  }, t), React.createElement("p", {
+    className: "flow__desc"
+  }, d)))))), React.createElement("section", {
+    id: "inquiries",
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap grid-12",
+    style: {
+      alignItems: "end"
+    }
+  }, React.createElement("div", {
+    className: "col-7 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Inquiries"), React.createElement("h2", {
+    className: "h-display caps u-mt-16",
+    style: {
+      maxWidth: "12ch"
+    }
+  }, "Let's begin."), React.createElement("p", {
+    className: "lede u-mt-24",
+    style: {
+      maxWidth: "44ch"
+    }
+  }, "Whether you have a project to deliver or capital to deploy, every enquiry is reviewed personally by our principal. Confidential from first contact.")), React.createElement("div", {
+    className: "col-5 reveal"
+  }, React.createElement(InquiryForm, null)))));
+}
+function InquiryForm() {
+  const [sent, setSent] = React.useState(false);
+  if (sent) return React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      padding: "clamp(28px,4vw,44px)",
+      background: "var(--paper)"
     }
   }, React.createElement("div", {
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " Track Record")), React.createElement("div", {
-    className: "statline reveal"
-  }, [["2009", "Founded"], ["17", "Projects delivered"], ["2", "Countries"], ["$5M+", "Project minimum"]].map(([n, l]) => React.createElement("div", {
-    key: l
-  }, React.createElement("div", {
-    className: "num"
-  }, n), React.createElement("div", {
-    className: "statline__l"
-  }, l)))))), React.createElement("section", {
-    className: "section section--ink"
-  }, React.createElement("div", {
-    className: "wrap reveal",
+  }), " Received"), React.createElement("h3", {
+    className: "h-2 u-mt-16"
+  }, "Thank you."), React.createElement("p", {
+    className: "body u-mt-16"
+  }, "We'll respond within one business day."));
+  return React.createElement("form", {
+    onSubmit: e => {
+      e.preventDefault();
+      setSent(true);
+    },
     style: {
-      textAlign: "center",
-      maxWidth: 1000,
-      marginInline: "auto"
+      border: "1px solid var(--rule)",
+      padding: "clamp(28px,4vw,44px)",
+      background: "var(--paper)"
     }
   }, React.createElement("div", {
-    className: "eyebrow",
+    style: {
+      display: "grid",
+      gap: 24
+    }
+  }, React.createElement("div", {
+    className: "field"
+  }, React.createElement("label", null, "Name"), React.createElement("input", {
+    type: "text",
+    placeholder: "Your name",
+    required: true
+  })), React.createElement("div", {
+    className: "field"
+  }, React.createElement("label", null, "Email"), React.createElement("input", {
+    type: "email",
+    placeholder: "you@email.com",
+    required: true
+  })), React.createElement("div", {
+    className: "field"
+  }, React.createElement("label", null, "I'm reaching out as"), React.createElement("select", {
+    defaultValue: ""
+  }, React.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select one"), React.createElement("option", null, "Owner / Principal"), React.createElement("option", null, "Developer"), React.createElement("option", null, "Investor"), React.createElement("option", null, "Other"))), React.createElement("div", {
+    className: "field"
+  }, React.createElement("label", null, "Message"), React.createElement("textarea", {
+    rows: "4",
+    placeholder: "Tell us about your project or interest.",
+    required: true
+  })), React.createElement("button", {
+    type: "submit",
+    className: "btn",
     style: {
       justifyContent: "center"
     }
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Let's begin"), React.createElement("h2", {
-    className: "h-display u-mt-24",
-    style: {
-      color: "var(--ink)",
-      textWrap: "balance"
-    }
-  }, "A project to deliver, or capital to deploy?"), React.createElement("button", {
-    className: "btn btn--ghost u-mt-40",
-    onClick: () => setPage("contact"),
-    "data-magnetic": true,
-    style: {
-      marginInline: "auto"
-    }
-  }, "Start a Conversation ", React.createElement("span", {
-    className: "arr"
-  })), React.createElement("div", {
-    className: "eyebrow u-mt-24",
-    style: {
-      color: "rgba(244,241,234,.42)"
-    }
-  }, "Discreet \xB7 Confidential \xB7 Without obligation"))));
+  }, "Send Enquiry")));
 }
 window.Home = Home;
 const PILLARS = [["01", "Owner's Representation", "We sit in the owner's seat as your single, accountable advocate — directing the entire project team, safeguarding your intent, and making sure every decision serves your interest, not the vendor's."], ["02", "Development Management", "End-to-end management of ground-up and repositioning projects: feasibility, structuring, entitlement, delivery and disposition — one team carrying the project from raw opportunity to realized asset."], ["03", "Project & Construction Management", "Schedule, budget, procurement, contractor selection and on-site quality control — run with the discipline of a builder who has self-delivered luxury projects, not a spectator."], ["04", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["05", "Design Management", "Assembling and aligning architects, interior designers and engineers around a single vision and budget — protecting design integrity while keeping value and constructability in view."], ["06", "Cost & Risk Management", "Independent budgeting, value engineering, contingency strategy and proactive risk control — so surprises are surfaced early and the owner stays in command of capital."]];
@@ -2493,7 +2392,7 @@ function Projects({
     className: "page-enter"
   }, React.createElement("section", {
     style: {
-      paddingTop: "clamp(56px, 7vw, 96px)",
+      paddingTop: "clamp(120px, 12vh, 150px)",
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
@@ -2521,7 +2420,7 @@ function Projects({
       borderTop: "1px solid var(--rule)",
       borderBottom: "1px solid var(--rule)",
       position: "sticky",
-      top: 64,
+      top: 72,
       zIndex: 20,
       background: "color-mix(in oklab, var(--bone) 88%, transparent)",
       backdropFilter: "blur(12px)",
@@ -2668,16 +2567,16 @@ function Projects({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--ink)"
+      color: "var(--bone)"
     }
-  }, "Want this standard on ", React.createElement("em", {
+  }, "This standard, on ", React.createElement("em", {
     className: "accent"
-  }, "your project?"))), React.createElement("div", {
+  }, "your project."))), React.createElement("div", {
     className: "col-4 u-tr"
   }, React.createElement("button", {
     className: "btn",
     onClick: () => setPage("services")
-  }, "Explore Services ", React.createElement("span", {
+  }, "How We Manage ", React.createElement("span", {
     className: "arr"
   }))))), lb && React.createElement(Lightbox, {
     project: lb.project,
@@ -3606,125 +3505,113 @@ function Contact({
 }
 window.Contact = Contact;
 const TWEAK_DEFAULTS = {
-  "accent": "#A93B30",
-  "displayFont": "Fraunces"
+  "accent": "#CE3A26",
+  "displayFont": "Jost"
 };
-const ACCENTS = ["#A93B30", "#8A2C24", "#B5894E", "#3A4A3A", "#EFE9DC"];
-const DISPLAY_FONTS = ["Fraunces", "Georgia", "Times New Roman"];
-const PAGES = ["home", "services", "investment", "projects", "about", "contact"];
+const ACCENTS = ["#CE3A26", "#A82E1C", "#B5894E", "#2E2A22", "#8A8270"];
+const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
+const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "management", "inquiries"];
+const NAV_OFFSET = 72;
 function App() {
-  const [page, setPageRaw] = React.useState(() => {
-    const h = (window.location.hash || "").replace("#", "");
-    return PAGES.includes(h) ? h : "home";
-  });
+  const [view, setView] = React.useState("home");
+  const [active, setActive] = React.useState(null);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const pageRef = React.useRef(page);
-  React.useEffect(() => {
-    pageRef.current = page;
-  }, [page]);
-  const setPage = React.useCallback(p => {
-    if (p === pageRef.current) return;
-    const commit = () => {
-      setPageRaw(p);
-      if (window.location.hash.replace("#", "") !== p) window.history.pushState(null, "", "#" + p);
-    };
-    const g = window.gsap;
-    const panel = document.getElementById("route-wipe");
-    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!g || !panel || reduce || document.hidden) {
-      commit();
+  const pending = React.useRef(null);
+  const lenis = () => window.__motion && window.__motion.lenis || null;
+  const scrollToId = React.useCallback(id => {
+    if (id === "top" || id === "hero") {
+      const l = lenis();
+      if (l) l.scrollTo(0, {
+        duration: 1.1
+      });else window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
       return;
     }
-    const mark = panel.querySelector(".route-wipe__mark");
-    panel.classList.add("is-active");
-    g.timeline().set(panel, {
-      scaleY: 0,
-      transformOrigin: "50% 100%"
-    }).set(mark, {
-      opacity: 0,
-      y: 14
-    }).to(panel, {
-      scaleY: 1,
-      duration: 0.46,
-      ease: "power3.inOut"
-    }).to(mark, {
-      opacity: 1,
-      y: 0,
-      duration: 0.3,
-      ease: "power2.out"
-    }, "-=0.22").add(commit).to(mark, {
-      opacity: 0,
-      duration: 0.24,
-      ease: "power2.in"
-    }, "+=0.06").set(panel, {
-      transformOrigin: "50% 0%"
-    }).to(panel, {
-      scaleY: 0,
-      duration: 0.56,
-      ease: "power3.inOut"
-    }, "-=0.04").add(function () {
-      panel.classList.remove("is-active");
+    const el = document.getElementById(id);
+    if (!el) return;
+    const l = lenis();
+    if (l) l.scrollTo(el, {
+      offset: -NAV_OFFSET,
+      duration: 1.1
+    });else el.scrollIntoView({
+      behavior: "smooth"
     });
   }, []);
-  React.useEffect(() => {
-    const onPop = () => {
-      const h = (window.location.hash || "").replace("#", "");
-      setPageRaw(PAGES.includes(h) ? h : "home");
-    };
-    window.addEventListener("hashchange", onPop);
-    window.addEventListener("popstate", onPop);
-    return () => {
-      window.removeEventListener("hashchange", onPop);
-      window.removeEventListener("popstate", onPop);
-    };
-  }, []);
+  const go = React.useCallback(id => {
+    if (id === "properties") {
+      setView("properties");
+      window.scrollTo({
+        top: 0,
+        behavior: "auto"
+      });
+      return;
+    }
+    if (view !== "home") {
+      pending.current = id;
+      setView("home");
+      return;
+    }
+    scrollToId(id);
+  }, [view, scrollToId]);
   React.useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
     document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
-    document.documentElement.style.setProperty("--serif", `"${t.displayFont}", "Georgia", "Times New Roman", serif`);
+    const stack = `"${t.displayFont}", "Helvetica Neue", Arial, sans-serif`;
+    document.documentElement.style.setProperty("--serif", stack);
   }, [t.accent, t.displayFont]);
   React.useEffect(() => {
-    if (window.__motion && window.__motion.lenis) window.__motion.lenis.scrollTo(0, {
-      immediate: true
-    });else window.scrollTo({
-      top: 0,
-      behavior: "auto"
-    });
-  }, [page]);
-  React.useEffect(() => {
     if (window.__motion) window.__motion.refresh();
-  }, [page]);
-  let body = null;
-  if (page === "home") body = React.createElement(Home, {
-    setPage: setPage
-  });
-  if (page === "services") body = React.createElement(Services, {
-    setPage: setPage
-  });
-  if (page === "investment") body = React.createElement(Investment, {
-    setPage: setPage
-  });
-  if (page === "projects") body = React.createElement(Projects, {
-    setPage: setPage
-  });
-  if (page === "about") body = React.createElement(About, {
-    setPage: setPage
-  });
-  if (page === "contact") body = React.createElement(Contact, {
-    setPage: setPage
-  });
+    if (view === "home" && pending.current) {
+      const id = pending.current;
+      pending.current = null;
+      setTimeout(() => scrollToId(id), 60);
+    }
+  }, [view, scrollToId]);
+  React.useEffect(() => {
+    if (view !== "home") {
+      setActive(null);
+      return;
+    }
+    const els = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
+    if (!els.length) return;
+    const seen = new Set();
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) seen.add(e.target.id);else seen.delete(e.target.id);
+      });
+      const first = SECTION_IDS.find(id => seen.has(id));
+      setActive(first || (window.scrollY < 120 ? null : active));
+    }, {
+      rootMargin: "-45% 0px -50% 0px",
+      threshold: 0
+    });
+    els.forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, [view]);
+  const projectsNav = React.useCallback(p => {
+    if (p === "services") return go("management");
+    if (p === "home") return go("top");
+    go(p);
+  }, [go]);
   return React.createElement(React.Fragment, null, React.createElement(Nav, {
-    page: page,
-    setPage: setPage
-  }), body, React.createElement(Footer, {
-    setPage: setPage
-  }), React.createElement("div", {
-    id: "route-wipe",
-    className: "route-wipe",
+    active: active,
+    go: go
+  }), view === "home" ? React.createElement(Home, {
+    go: go
+  }) : React.createElement(React.Fragment, null, React.createElement("button", {
+    className: "back-home",
+    onClick: () => go("projects"),
+    "aria-label": "Back to home"
+  }, React.createElement("span", {
+    className: "back-home__arr",
     "aria-hidden": "true"
-  }, React.createElement("div", {
-    className: "route-wipe__mark"
-  }, "N", React.createElement("i", null, "."))), /[?&]tweaks=1/.test(window.location.search) && React.createElement(TweaksPanel, null, React.createElement(TweakSection, {
+  }), " Back"), React.createElement(Projects, {
+    setPage: projectsNav
+  })), React.createElement(Footer, {
+    go: go
+  }), /[?&]tweaks=1/.test(window.location.search) && React.createElement(TweaksPanel, null, React.createElement(TweakSection, {
     label: "Accent"
   }), React.createElement(TweakColor, {
     label: "Accent color",
@@ -3739,12 +3626,12 @@ function App() {
     options: DISPLAY_FONTS,
     onChange: v => setTweak("displayFont", v)
   }), React.createElement(TweakSection, {
-    label: "Navigate"
+    label: "View"
   }), React.createElement(TweakSelect, {
-    label: "Jump to page",
-    value: page,
-    options: PAGES,
-    onChange: v => setPage(v)
+    label: "Switch view",
+    value: view,
+    options: ["home", "properties"],
+    onChange: v => setView(v)
   })));
 }
 function shade(hex, amt) {
