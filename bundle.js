@@ -1488,11 +1488,18 @@ const FOUNDER = {
   title: "Founder & Principal",
   prev: "Previously · CIM Group · CBRE · STMC",
   edu: "MSc · Real Estate",
+  stats: [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]],
   bio: ["Igal N. Azran founded Noesis in 2009 and has led its design, development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every engagement.", "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Earlier, as a project manager for CBRE in Morocco, he delivered a 24-unit luxury condominium 22 days ahead of schedule and 12% under budget; in Los Angeles, he managed a $75 million construction budget for the L.A. Fashion Center, coordinating trades, architects and engineers through to completion.", "Today he leads the firm's owner's-representation and development-management practice and originates its investments, maintaining the relationships with domestic and international capital partners behind every mandate. He holds a Master's degree in Real Estate."]
 };
 function Home({
-  go
+  go,
+  intent,
+  setIntent
 }) {
+  const goInvestor = id => {
+    if (setIntent) setIntent("investor");
+    go(id);
+  };
   return React.createElement("main", {
     className: "page-enter"
   }, React.createElement("section", {
@@ -1508,31 +1515,46 @@ function Home({
     }
   }, React.createElement("img", {
     className: "cine__img",
+    alt: "A Noesis-delivered residence",
+    fetchpriority: "high",
+    sizes: "100vw",
     src: wix(SHOT.casaMani, {
-      w: 2600
+      w: 2000
     }),
-    alt: "A Noesis-delivered residence"
+    srcSet: `${wix(SHOT.casaMani, {
+      w: 1200
+    })} 1200w, ${wix(SHOT.casaMani, {
+      w: 2000
+    })} 2000w, ${wix(SHOT.casaMani, {
+      w: 2600
+    })} 2600w`
   }), React.createElement("video", {
     className: "cine__vid",
     autoPlay: true,
     loop: true,
     muted: true,
     playsInline: true,
-    preload: "auto",
+    preload: "metadata",
     src: "assets/noesis-film.mp4?v=2",
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
       el.muted = true;
+      el.__inView = true;
       const tryPlay = () => {
         if (!el.isConnected) {
           clearInterval(el.__iv);
           document.removeEventListener("visibilitychange", tryPlay);
+          if (el.__io) el.__io.disconnect();
           return;
         }
-        if (el.paused && !document.hidden) {
-          const p = el.play();
-          if (p && p.catch) p.catch(() => {});
+        if (!document.hidden && el.__inView) {
+          if (el.paused) {
+            const p = el.play();
+            if (p && p.catch) p.catch(() => {});
+          }
+        } else if (!el.paused) {
+          el.pause();
         }
       };
       el.__tries = 0;
@@ -1555,6 +1577,15 @@ function Home({
         el.style.display = "";
         el.__tries = 0;
       });
+      if ("IntersectionObserver" in window) {
+        el.__io = new IntersectionObserver(ents => {
+          el.__inView = ents[0] && ents[0].isIntersecting;
+          tryPlay();
+        }, {
+          threshold: 0.01
+        });
+        el.__io.observe(el);
+      }
       tryPlay();
       el.__iv = setInterval(tryPlay, 2500);
       document.addEventListener("visibilitychange", tryPlay);
@@ -1622,15 +1653,15 @@ function Home({
     className: "btn",
     onClick: () => go("what-we-do"),
     "data-magnetic": true
-  }, "What We Do"), React.createElement("button", {
+  }, "For Owners & Developers"), React.createElement("button", {
     className: "btn btn--ghost",
-    onClick: () => go("investment"),
+    onClick: () => goInvestor("investment"),
     "data-magnetic": true,
     style: {
       color: "var(--bone)",
       borderColor: "rgba(236,230,216,.7)"
     }
-  }, "Investment"))))), React.createElement("section", {
+  }, "For Investors"))))), React.createElement("section", {
     id: "about",
     className: "section"
   }, React.createElement("div", {
@@ -1684,7 +1715,7 @@ function Home({
       background: "transparent",
       border: 0,
       borderBottom: "1px solid var(--accent)",
-      color: "var(--accent)",
+      color: "var(--accent-deep)",
       fontSize: 11,
       letterSpacing: ".18em",
       textTransform: "uppercase",
@@ -1741,7 +1772,16 @@ function Home({
   }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills"], [SHOT.oneOak, "One Oak", "Sunset Strip"], [SHOT.aura, "Aura House", "Tel Aviv"], [SHOT.cThru, "C Thru", "Beverly Grove"], [SHOT.houseG, "House G", "Melrose"], [SHOT.lolivier, "L'Olivier House", "Los Angeles"]].map(([img, name, loc]) => React.createElement("article", {
     key: name,
     className: "pcard",
-    onClick: () => go("properties")
+    role: "button",
+    tabIndex: 0,
+    "aria-label": `${name}, ${loc} — view the portfolio`,
+    onClick: () => go("properties"),
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        go("properties");
+      }
+    }
   }, React.createElement("div", {
     className: "pcard__media"
   }, React.createElement("img", {
@@ -1876,7 +1916,7 @@ function Home({
       fontSize: 11,
       letterSpacing: ".14em",
       textTransform: "uppercase",
-      color: "var(--accent)",
+      color: "var(--accent-deep)",
       marginTop: 10
     }
   }, hold)), React.createElement("div", null, React.createElement("p", {
@@ -1956,7 +1996,7 @@ function Home({
     className: "col-4 u-tr reveal"
   }, React.createElement("button", {
     className: "btn btn--ghost",
-    onClick: () => go("inquiries"),
+    onClick: () => goInvestor("inquiries"),
     "data-magnetic": true
   }, "Request an introduction ", React.createElement("span", {
     className: "arr"
@@ -2049,7 +2089,7 @@ function Home({
       fontSize: 11,
       letterSpacing: ".14em",
       textTransform: "uppercase",
-      color: "var(--accent)",
+      color: "var(--accent-deep)",
       marginTop: 8
     }
   }, FOUNDER.title), React.createElement("div", {
@@ -2075,7 +2115,35 @@ function Home({
       color: "var(--muted)",
       marginTop: 8
     }
-  }, FOUNDER.edu))), React.createElement("div", {
+  }, FOUNDER.edu)), React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3, 1fr)",
+      gap: 18,
+      borderTop: "1px solid var(--rule)",
+      marginTop: 22,
+      paddingTop: 22
+    }
+  }, FOUNDER.stats.map(([v, l]) => React.createElement("div", {
+    key: l
+  }, React.createElement("div", {
+    style: {
+      fontFamily: "var(--sans)",
+      fontWeight: 200,
+      fontSize: "clamp(22px,2.4vw,30px)",
+      color: "var(--accent)",
+      lineHeight: 1
+    }
+  }, v), React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 10.5,
+      letterSpacing: ".06em",
+      color: "var(--muted)",
+      marginTop: 8,
+      lineHeight: 1.35
+    }
+  }, l))))), React.createElement("div", {
     className: "col-7"
   }, React.createElement("p", {
     className: "lede"
@@ -2172,10 +2240,51 @@ function Home({
     }
   }, "INFO@NOESISUSA.COM")))), React.createElement("div", {
     className: "col-7 reveal"
-  }, React.createElement(InquiryForm, null)))));
+  }, React.createElement(InquiryForm, {
+    intent: intent
+  })))));
 }
-function InquiryForm() {
+const FORM_ENDPOINT = "";
+function InquiryForm({
+  intent
+}) {
+  const investor = intent === "investor";
   const [sent, setSent] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [role, setRole] = React.useState("");
+  React.useEffect(() => {
+    if (investor) setRole("Investor — capital partnership");
+  }, [investor]);
+  const submit = async e => {
+    e.preventDefault();
+    setError("");
+    const fd = new FormData(e.currentTarget);
+    const g = k => (fd.get(k) || "").toString();
+    if (FORM_ENDPOINT) {
+      try {
+        setSubmitting(true);
+        const res = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          body: fd,
+          headers: {
+            Accept: "application/json"
+          }
+        });
+        if (!res.ok) throw new Error("bad status");
+        setSent(true);
+      } catch (err) {
+        setError("Something went wrong sending your message. Please email info@noesisusa.com directly.");
+      } finally {
+        setSubmitting(false);
+      }
+      return;
+    }
+    const subject = `Enquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
+    const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
+    window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+  };
   if (sent) return React.createElement("div", {
     style: {
       border: "1px solid var(--rule)",
@@ -2190,21 +2299,35 @@ function InquiryForm() {
     className: "h-2 u-mt-16"
   }, "Thank you."), React.createElement("p", {
     className: "body u-mt-16"
-  }, "We've received your message and will respond within one business day."), React.createElement("button", {
+  }, investor ? "Your enquiry is reviewed personally by our principal and held in confidence." : "We've received your message and will respond within one business day."), !FORM_ENDPOINT && React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--muted)"
+    }
+  }, "If your mail app didn't open, write to us directly at ", React.createElement("a", {
+    href: "mailto:info@noesisusa.com",
+    style: {
+      color: "var(--accent-deep)"
+    }
+  }, "info@noesisusa.com"), "."), React.createElement("button", {
     className: "btn btn--ghost u-mt-40",
     onClick: () => setSent(false)
   }, "Send another"));
   return React.createElement("form", {
-    onSubmit: e => {
-      e.preventDefault();
-      setSent(true);
-    },
+    onSubmit: submit,
     style: {
       border: "1px solid var(--rule)",
       padding: "clamp(28px,4vw,48px)",
       background: "var(--paper)"
     }
   }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      marginBottom: 22
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " ", investor ? "Confidential investor introduction" : "Send a message"), React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -2213,24 +2336,30 @@ function InquiryForm() {
   }, React.createElement("div", {
     className: "field"
   }, React.createElement("label", null, "Name"), React.createElement("input", {
+    name: "name",
     type: "text",
     placeholder: "Your name",
     required: true
   })), React.createElement("div", {
     className: "field"
   }, React.createElement("label", null, "Email"), React.createElement("input", {
+    name: "email",
     type: "email",
     placeholder: "you@email.com",
     required: true
   })), React.createElement("div", {
     className: "field"
   }, React.createElement("label", null, "Location"), React.createElement("input", {
+    name: "location",
     type: "text",
     placeholder: "City / country"
   })), React.createElement("div", {
     className: "field"
   }, React.createElement("label", null, "I'm reaching out as"), React.createElement("select", {
-    defaultValue: ""
+    name: "role",
+    value: role,
+    onChange: e => setRole(e.target.value),
+    required: true
   }, React.createElement("option", {
     value: "",
     disabled: true
@@ -2240,10 +2369,19 @@ function InquiryForm() {
       gridColumn: "1 / -1"
     }
   }, React.createElement("label", null, "Message"), React.createElement("textarea", {
+    name: "message",
     rows: "5",
     placeholder: "Tell us about your project, or your interest in investing.",
     required: true
   }))), React.createElement("div", {
+    role: "status",
+    "aria-live": "polite"
+  }, error && React.createElement("p", {
+    className: "body u-mt-24",
+    style: {
+      color: "var(--accent-deep)"
+    }
+  }, error)), React.createElement("div", {
     className: "u-mt-40 u-flex u-between u-center",
     style: {
       flexWrap: "wrap",
@@ -2258,8 +2396,9 @@ function InquiryForm() {
     }
   }, "INFO@NOESISUSA.COM \xB7 T (310) 855\xB73634"), React.createElement("button", {
     type: "submit",
-    className: "btn"
-  }, "Send Enquiry ", React.createElement("span", {
+    className: "btn",
+    disabled: submitting
+  }, submitting ? "Sending…" : "Send Enquiry", " ", React.createElement("span", {
     className: "arr"
   }))));
 }
@@ -2697,7 +2836,16 @@ function Projects({
     className: "pfeat"
   }, React.createElement("div", {
     className: "pfeat__media",
-    onClick: () => openLb(feat, 0)
+    role: "button",
+    tabIndex: 0,
+    "aria-label": `Open ${feat.name} gallery`,
+    onClick: () => openLb(feat, 0),
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLb(feat, 0);
+      }
+    }
   }, React.createElement("img", {
     src: wix(feat.cover || feat.gallery[0], {
       w: 1900
@@ -2753,7 +2901,16 @@ function Projects({
     return React.createElement("article", {
       key: p.id,
       className: "pcard",
-      onClick: () => openLb(p, 0)
+      role: "button",
+      tabIndex: 0,
+      "aria-label": `Open ${p.name} gallery`,
+      onClick: () => openLb(p, 0),
+      onKeyDown: e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLb(p, 0);
+        }
+      }
     }, React.createElement("div", {
       className: "pcard__media"
     }, React.createElement("img", {
@@ -2816,19 +2973,51 @@ function Lightbox({
   const [open, setOpen] = React.useState(false);
   const go = React.useCallback(d => setI(p => (p + d + imgs.length) % imgs.length), [imgs.length]);
   const multi = imgs.length > 1;
+  const dialogRef = React.useRef(null);
   React.useEffect(() => {
     setOpen(true);
+    const prevFocus = document.activeElement;
     document.body.style.overflow = "hidden";
     const lenis = window.__motion && window.__motion.lenis;
     if (lenis && lenis.stop) lenis.stop();
     const onKey = e => {
-      if (e.key === "Escape") onClose();else if (e.key === "ArrowRight") go(1);else if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        go(1);
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        go(-1);
+        return;
+      }
+      if (e.key === "Tab" && dialogRef.current) {
+        const f = dialogRef.current.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+        if (!f.length) return;
+        const first = f[0],
+          last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
+    const t = setTimeout(() => {
+      const c = dialogRef.current && dialogRef.current.querySelector(".lb__close");
+      if (c) c.focus();
+    }, 0);
     return () => {
+      clearTimeout(t);
       document.body.style.overflow = "";
       if (lenis && lenis.start) lenis.start();
       window.removeEventListener("keydown", onKey);
+      if (prevFocus && prevFocus.focus) prevFocus.focus();
     };
   }, [go, onClose]);
   React.useEffect(() => {
@@ -2847,9 +3036,11 @@ function Lightbox({
     if (e.target.classList.contains("lb__stage") || e.target.classList.contains("lb")) onClose();
   };
   return React.createElement("div", {
+    ref: dialogRef,
     className: `lb ${open ? "is-open" : ""}`,
     onClick: onBackdrop,
     role: "dialog",
+    "aria-modal": "true",
     "aria-label": `${project.name} gallery`
   }, React.createElement("div", {
     className: "lb__head"
@@ -2935,6 +3126,7 @@ const NAV_OFFSET = 72;
 function App() {
   const [view, setView] = React.useState("home");
   const [active, setActive] = React.useState(null);
+  const [intent, setIntent] = React.useState(null);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const pending = React.useRef(null);
   const lenis = () => window.__motion && window.__motion.lenis || null;
@@ -3019,7 +3211,9 @@ function App() {
     active: active,
     go: go
   }), view === "home" ? React.createElement(Home, {
-    go: go
+    go: go,
+    intent: intent,
+    setIntent: setIntent
   }) : view === "approach" ? React.createElement(React.Fragment, null, React.createElement("button", {
     className: "back-home",
     onClick: () => go("what-we-do"),

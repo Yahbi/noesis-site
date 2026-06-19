@@ -14,6 +14,7 @@ function App() {
   // view: "home" (the one-pager) or "properties" (full gallery)
   const [view, setView] = React.useState("home");
   const [active, setActive] = React.useState(null);
+  const [intent, setIntent] = React.useState(null);   // "investor" | "owner" | null — seeds the enquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const pending = React.useRef(null);
 
@@ -91,7 +92,7 @@ function App() {
     <>
       <Nav active={active} go={go} />
 
-      {view === "home" ? <Home go={go} /> : view === "approach" ? (
+      {view === "home" ? <Home go={go} intent={intent} setIntent={setIntent} /> : view === "approach" ? (
         <>
           <button className="back-home" onClick={() => go("what-we-do")} aria-label="Back to What We Do">
             <span className="back-home__arr" aria-hidden="true" /> Back

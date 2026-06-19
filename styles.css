@@ -1197,3 +1197,8 @@ section[id] { scroll-margin-top: 72px; }
 @media (max-width: 760px) { .sectors { grid-template-columns: 1fr; } }
 .sector__title { color: var(--bone); }
 .sector__desc { color: var(--bone-soft); font-size: 14px; line-height: 1.6; margin-top: 14px; max-width: 46ch; }
+
+/* A11y — small accent TEXT uses the deeper forge bronze (--accent-deep ~5:1 on linen).
+   Bright --accent stays for fills, dots, large stat numbers, and the logo stroke. */
+.kicker, .track__for, .sector__tag, .row__idx, .flow__num, .pcard__count, .wwd-cap__n { color: var(--accent-deep); }
+.nav__links button:hover, .nav__links button.is-active { color: var(--accent-deep); }

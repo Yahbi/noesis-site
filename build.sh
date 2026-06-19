@@ -40,3 +40,24 @@ open("index.html", "w", encoding="utf-8").write(out)
 open("404.html", "w", encoding="utf-8").write(out)
 print("index.html + 404.html written (v=%s)" % v)
 PY
+
+# 3) SEO files — robots.txt + sitemap.xml (update SITE_URL when a custom domain lands)
+SITE_URL="https://yahbi.github.io/noesis-site/"
+TODAY=$(date +%F)
+cat > robots.txt <<EOF
+User-agent: *
+Allow: /
+Sitemap: ${SITE_URL}sitemap.xml
+EOF
+cat > sitemap.xml <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${SITE_URL}</loc>
+    <lastmod>${TODAY}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+EOF
+echo "robots.txt + sitemap.xml written"

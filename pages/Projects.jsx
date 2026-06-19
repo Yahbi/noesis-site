@@ -138,7 +138,9 @@ function Projects({ setPage }) {
         <div className="wrap">
           <div className="eyebrow" style={{ marginBottom: 28 }}><span className="dot" /> Featured · {cat.label}</div>
           <div className="pfeat">
-            <div className="pfeat__media" onClick={() => openLb(feat, 0)}>
+            <div className="pfeat__media" role="button" tabIndex={0} aria-label={`Open ${feat.name} gallery`}
+              onClick={() => openLb(feat, 0)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(feat, 0); } }}>
               <img src={wix(feat.cover || feat.gallery[0], { w: 1900 })} alt={feat.name} />
               {feat.gallery.length > 1 && <div className="pfeat__badge">{feat.gallery.length} Photos</div>}
             </div>
@@ -167,7 +169,9 @@ function Projects({ setPage }) {
               const cover = p.cover || p.gallery[0];
               const count = p.gallery.length;
               return (
-                <article key={p.id} className="pcard" onClick={() => openLb(p, 0)}>
+                <article key={p.id} className="pcard" role="button" tabIndex={0} aria-label={`Open ${p.name} gallery`}
+                  onClick={() => openLb(p, 0)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(p, 0); } }}>
                   <div className="pcard__media">
                     <img className="pcard__img" src={wix(cover, { w: 1100 })} alt={p.name} loading="lazy" />
                     <div className="pcard__over">
@@ -208,22 +212,34 @@ function Lightbox({ project, start, onClose }) {
   const [open, setOpen] = React.useState(false);
   const go = React.useCallback((d) => setI(p => (p + d + imgs.length) % imgs.length), [imgs.length]);
   const multi = imgs.length > 1;
+  const dialogRef = React.useRef(null);
 
   React.useEffect(() => {
     setOpen(true);
+    const prevFocus = document.activeElement;   // restore focus to the trigger on close
     document.body.style.overflow = "hidden";
     const lenis = window.__motion && window.__motion.lenis;
     if (lenis && lenis.stop) lenis.stop();
     const onKey = (e) => {
-      if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowRight") go(1);
-      else if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key === "ArrowRight") { go(1); return; }
+      if (e.key === "ArrowLeft") { go(-1); return; }
+      if (e.key === "Tab" && dialogRef.current) {   // trap focus inside the dialog
+        const f = dialogRef.current.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
     window.addEventListener("keydown", onKey);
+    const t = setTimeout(() => { const c = dialogRef.current && dialogRef.current.querySelector(".lb__close"); if (c) c.focus(); }, 0);
     return () => {
+      clearTimeout(t);
       document.body.style.overflow = "";
       if (lenis && lenis.start) lenis.start();
       window.removeEventListener("keydown", onKey);
+      if (prevFocus && prevFocus.focus) prevFocus.focus();
     };
   }, [go, onClose]);
 
@@ -242,7 +258,7 @@ function Lightbox({ project, start, onClose }) {
   const onBackdrop = (e) => { if (e.target.classList.contains("lb__stage") || e.target.classList.contains("lb")) onClose(); };
 
   return (
-    <div className={`lb ${open ? "is-open" : ""}`} onClick={onBackdrop} role="dialog" aria-label={`${project.name} gallery`}>
+    <div ref={dialogRef} className={`lb ${open ? "is-open" : ""}`} onClick={onBackdrop} role="dialog" aria-modal="true" aria-label={`${project.name} gallery`}>
       <div className="lb__head">
         <div>
           <div className="lb__title">{project.name}</div>

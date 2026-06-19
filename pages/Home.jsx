@@ -61,6 +61,12 @@ const FOUNDER = {
   title: "Founder & Principal",
   prev: "Previously · CIM Group · CBRE · STMC",
   edu: "MSc · Real Estate",
+  // Surfaced from the bio prose — each stat is its own credential (not one project).
+  stats: [
+    ["$75M", "Construction budget managed"],
+    ["22 days", "Delivered ahead of schedule"],
+    ["12%", "Delivered under budget"],
+  ],
   bio: [
     "Igal N. Azran founded Noesis in 2009 and has led its design, development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every engagement.",
     "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Earlier, as a project manager for CBRE in Morocco, he delivered a 24-unit luxury condominium 22 days ahead of schedule and 12% under budget; in Los Angeles, he managed a $75 million construction budget for the L.A. Fashion Center, coordinating trades, architects and engineers through to completion.",
@@ -68,21 +74,29 @@ const FOUNDER = {
   ],
 };
 
-function Home({ go }) {
+function Home({ go, intent, setIntent }) {
+  const goInvestor = (id) => { if (setIntent) setIntent("investor"); go(id); };
   return (
     <main className="page-enter">
 
       {/* ── HERO ───────────────────────────────────────────────────── */}
       <section id="hero" className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(92px,13vh,150px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
-        <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
-        <video className="cine__vid" autoPlay loop muted playsInline preload="auto"
+        <img className="cine__img" alt="A Noesis-delivered residence" fetchpriority="high" sizes="100vw"
+          src={wix(SHOT.casaMani, { w: 2000 })}
+          srcSet={`${wix(SHOT.casaMani, { w: 1200 })} 1200w, ${wix(SHOT.casaMani, { w: 2000 })} 2000w, ${wix(SHOT.casaMani, { w: 2600 })} 2600w`} />
+        <video className="cine__vid" autoPlay loop muted playsInline preload="metadata"
           src="assets/noesis-film.mp4?v=2"
           ref={(el) => {
-            if (!el || el.__keeper) return; el.__keeper = true; el.muted = true;
-            const tryPlay = () => { if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); return; } if (el.paused && !document.hidden) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } };
+            if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = true;
+            const tryPlay = () => {
+              if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
+              if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }
+              else if (!el.paused) { el.pause(); }   // off-screen / hidden → save decode + battery
+            };
             el.__tries = 0;
             el.addEventListener("error", () => { const d = [2000, 8000, 20000, 45000]; if (el.__tries >= d.length) { el.style.display = "none"; return; } const w = d[el.__tries++]; setTimeout(() => { if (!el.isConnected) return; el.style.display = ""; el.src = "assets/noesis-film.mp4?r=" + Date.now(); el.load(); tryPlay(); }, w); });
             el.addEventListener("playing", () => { el.style.display = ""; el.__tries = 0; });
+            if ("IntersectionObserver" in window) { el.__io = new IntersectionObserver((ents) => { el.__inView = ents[0] && ents[0].isIntersecting; tryPlay(); }, { threshold: 0.01 }); el.__io.observe(el); }
             tryPlay(); el.__iv = setInterval(tryPlay, 2500); document.addEventListener("visibilitychange", tryPlay);
           }} />
         <div className="cine__grad" />
@@ -105,8 +119,8 @@ function Home({ go }) {
               </p>
             </div>
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
-              <button className="btn" onClick={() => go("what-we-do")} data-magnetic>What We Do</button>
-              <button className="btn btn--ghost" onClick={() => go("investment")} data-magnetic style={{ color: "var(--bone)", borderColor: "rgba(236,230,216,.7)" }}>Investment</button>
+              <button className="btn" onClick={() => go("what-we-do")} data-magnetic>For Owners &amp; Developers</button>
+              <button className="btn btn--ghost" onClick={() => goInvestor("investment")} data-magnetic style={{ color: "var(--bone)", borderColor: "rgba(236,230,216,.7)" }}>For Investors</button>
             </div>
           </div>
         </div>
@@ -150,7 +164,7 @@ function Home({ go }) {
               </div>
             ))}
           </div>
-          <button className="link-u u-mt-40" onClick={() => go("projects")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px" }}>See the work</button>
+          <button className="link-u u-mt-40" onClick={() => go("projects")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent-deep)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px" }}>See the work</button>
         </div>
       </section>
 
@@ -186,7 +200,9 @@ function Home({ go }) {
               [SHOT.houseG, "House G", "Melrose"],
               [SHOT.lolivier, "L'Olivier House", "Los Angeles"],
             ].map(([img, name, loc]) => (
-              <article key={name} className="pcard" onClick={() => go("properties")}>
+              <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the portfolio`}
+                onClick={() => go("properties")}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("properties"); } }}>
                 <div className="pcard__media"><img className="pcard__img" src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
                 <div className="pcard__cap"><div><div className="pcard__name">{name}</div><div className="pcard__loc">{loc}</div></div></div>
               </article>
@@ -262,7 +278,7 @@ function Home({ go }) {
                 <div className="row__idx">{n}</div>
                 <div>
                   <div className="row__title">{t}</div>
-                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent)", marginTop: 10 }}>{hold}</div>
+                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 10 }}>{hold}</div>
                 </div>
                 <div>
                   <p className="row__desc">{desc}</p>
@@ -300,7 +316,7 @@ function Home({ go }) {
               </p>
             </div>
             <div className="col-4 u-tr reveal">
-              <button className="btn btn--ghost" onClick={() => go("inquiries")} data-magnetic>Request an introduction <span className="arr" /></button>
+              <button className="btn btn--ghost" onClick={() => goInvestor("inquiries")} data-magnetic>Request an introduction <span className="arr" /></button>
             </div>
           </div>
         </div>
@@ -349,10 +365,18 @@ function Home({ go }) {
                   onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(1) contrast(1.02)")} />
               </div>
               <div className="serif u-mt-24" style={{ fontSize: 30, letterSpacing: "-.01em", lineHeight: 1.05, color: "var(--ink)" }}>{FOUNDER.name}</div>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent)", marginTop: 8 }}>{FOUNDER.title}</div>
+              <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 8 }}>{FOUNDER.title}</div>
               <div style={{ borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 18 }}>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>{FOUNDER.prev}</div>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginTop: 8 }}>{FOUNDER.edu}</div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18, borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 22 }}>
+                {FOUNDER.stats.map(([v, l]) => (
+                  <div key={l}>
+                    <div style={{ fontFamily: "var(--sans)", fontWeight: 200, fontSize: "clamp(22px,2.4vw,30px)", color: "var(--accent)", lineHeight: 1 }}>{v}</div>
+                    <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".06em", color: "var(--muted)", marginTop: 8, lineHeight: 1.35 }}>{l}</div>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="col-7">
@@ -394,7 +418,7 @@ function Home({ go }) {
             </div>
           </div>
           <div className="col-7 reveal">
-            <InquiryForm />
+            <InquiryForm intent={intent} />
           </div>
         </div>
       </section>
@@ -402,25 +426,69 @@ function Home({ go }) {
   );
 }
 
-function InquiryForm() {
+// Set FORM_ENDPOINT to a Formspree/Basin (or serverless) URL to deliver submissions
+// straight to info@noesisusa.com. While empty, the form opens the visitor's mail
+// client pre-filled — so an enquiry is never silently dropped.
+const FORM_ENDPOINT = "";
+
+function InquiryForm({ intent }) {
+  const investor = intent === "investor";
   const [sent, setSent] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [role, setRole] = React.useState("");
+  React.useEffect(() => { if (investor) setRole("Investor — capital partnership"); }, [investor]);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setError("");
+    const fd = new FormData(e.currentTarget);
+    const g = (k) => (fd.get(k) || "").toString();
+    if (FORM_ENDPOINT) {
+      try {
+        setSubmitting(true);
+        const res = await fetch(FORM_ENDPOINT, { method: "POST", body: fd, headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error("bad status");
+        setSent(true);
+      } catch (err) {
+        setError("Something went wrong sending your message. Please email info@noesisusa.com directly.");
+      } finally { setSubmitting(false); }
+      return;
+    }
+    const subject = `Enquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
+    const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
+    window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+  };
+
   if (sent) return (
     <div style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
       <div className="eyebrow"><span className="dot" /> Received</div>
       <h3 className="h-2 u-mt-16">Thank you.</h3>
-      <p className="body u-mt-16">We've received your message and will respond within one business day.</p>
+      <p className="body u-mt-16">
+        {investor
+          ? "Your enquiry is reviewed personally by our principal and held in confidence."
+          : "We've received your message and will respond within one business day."}
+      </p>
+      {!FORM_ENDPOINT && (
+        <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
+          If your mail app didn't open, write to us directly at <a href="mailto:info@noesisusa.com" style={{ color: "var(--accent-deep)" }}>info@noesisusa.com</a>.
+        </p>
+      )}
       <button className="btn btn--ghost u-mt-40" onClick={() => setSent(false)}>Send another</button>
     </div>
   );
+
   return (
-    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
+    <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
+      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : "Send a message"}</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "26px 24px" }}>
-        <div className="field"><label>Name</label><input type="text" placeholder="Your name" required /></div>
-        <div className="field"><label>Email</label><input type="email" placeholder="you@email.com" required /></div>
-        <div className="field"><label>Location</label><input type="text" placeholder="City / country" /></div>
+        <div className="field"><label>Name</label><input name="name" type="text" placeholder="Your name" required /></div>
+        <div className="field"><label>Email</label><input name="email" type="email" placeholder="you@email.com" required /></div>
+        <div className="field"><label>Location</label><input name="location" type="text" placeholder="City / country" /></div>
         <div className="field">
           <label>I'm reaching out as</label>
-          <select defaultValue="">
+          <select name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
             <option value="" disabled>Select one</option>
             <option>Owner / Principal — a project to deliver</option>
             <option>Developer — owner's rep / project management</option>
@@ -428,11 +496,14 @@ function InquiryForm() {
             <option>Other</option>
           </select>
         </div>
-        <div className="field" style={{ gridColumn: "1 / -1" }}><label>Message</label><textarea rows="5" placeholder="Tell us about your project, or your interest in investing." required></textarea></div>
+        <div className="field" style={{ gridColumn: "1 / -1" }}><label>Message</label><textarea name="message" rows="5" placeholder="Tell us about your project, or your interest in investing." required></textarea></div>
+      </div>
+      <div role="status" aria-live="polite">
+        {error && <p className="body u-mt-24" style={{ color: "var(--accent-deep)" }}>{error}</p>}
       </div>
       <div className="u-mt-40 u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--muted)" }}>INFO@NOESISUSA.COM · T (310) 855·3634</div>
-        <button type="submit" className="btn">Send Enquiry <span className="arr" /></button>
+        <button type="submit" className="btn" disabled={submitting}>{submitting ? "Sending…" : "Send Enquiry"} <span className="arr" /></button>
       </div>
     </form>
   );

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yahbi.github.io/noesis-site/sitemap.xml
