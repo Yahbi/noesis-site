@@ -34,8 +34,8 @@ function App() {
 
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
   const go = React.useCallback((id) => {
-    if (id === "properties") {
-      setView("properties");
+    if (id === "properties" || id === "approach") {   // deep sub-views
+      setView(id);
       window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
@@ -91,7 +91,14 @@ function App() {
     <>
       <Nav active={active} go={go} />
 
-      {view === "home" ? <Home go={go} /> : (
+      {view === "home" ? <Home go={go} /> : view === "approach" ? (
+        <>
+          <button className="back-home" onClick={() => go("what-we-do")} aria-label="Back to What We Do">
+            <span className="back-home__arr" aria-hidden="true" /> Back
+          </button>
+          <Approach go={go} />
+        </>
+      ) : (
         <>
           <button className="back-home" onClick={() => go("projects")} aria-label="Back to home">
             <span className="back-home__arr" aria-hidden="true" /> Back

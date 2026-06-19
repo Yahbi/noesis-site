@@ -1191,3 +1191,9 @@ section[id] { scroll-margin-top: 72px; }
 .back-home:hover { background: var(--paper); border-color: var(--accent); }
 .back-home__arr { width: 16px; height: 1px; background: currentColor; position: relative; }
 .back-home__arr::before { content: ""; position: absolute; left: 0; top: 50%; width: 6px; height: 6px; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-50%) rotate(45deg); }
+
+/* Approach sub-view — sectors (dark cinematic cards on a light section) */
+.sectors { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); }
+@media (max-width: 760px) { .sectors { grid-template-columns: 1fr; } }
+.sector__title { color: var(--bone); }
+.sector__desc { color: var(--bone-soft); font-size: 14px; line-height: 1.6; margin-top: 14px; max-width: 46ch; }

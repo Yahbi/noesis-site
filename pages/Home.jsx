@@ -1,4 +1,6 @@
-// Home — one continuous scroll. Stone & linen, Jost geometric, brand red.
+// Home — one continuous scroll. Stone & linen, Jost geometric, brand bronze.
+// Earlier multi-page content folded back in (About story + values, founder,
+// portfolio scale, investment depth, office details) — affirmative voice.
 
 const SHOT = {
   casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
@@ -9,11 +11,68 @@ const SHOT = {
   lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
 };
 
+const ABOUT_VALUES = [
+  ["Alignment", "We succeed when our clients and partners do. We take the owner's side, and we put our own capital and reputation behind our convictions."],
+  ["Discretion", "We work quietly for private clients, principals and family offices. Confidentiality is built into every engagement."],
+  ["Stewardship", "We treat every project and every dollar of capital as if it were our own — because, often, it is."],
+  ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."],
+];
+
+const PORTFOLIO_STATS = [
+  ["18", "Projects delivered"],
+  ["13", "Private residences"],
+  ["3", "Apartment buildings"],
+  ["2", "Small-lot subdivisions"],
+  ["2009", "Founded"],
+];
+
+const WWD_PILLARS = [
+  ["01", "Owner's Representation", "We sit in your seat — one accountable advocate directing the entire project team and every decision."],
+  ["02", "Development Management", "We carry the project end to end: feasibility, entitlement, design, construction and delivery."],
+  ["03", "Investment", "We deploy capital alongside our partners, in disciplined, design-led real estate we know intimately."],
+];
+
+const STRATEGIES = [
+  ["01", "Opportunistic", "2–3 Years", "Acquisition and ground-up development of residences and small-lot subdivisions.",
+    ["Acquisition & ground-up development", "Residences & small-lot subdivisions", "Value created through entitlement & delivery", "Typically realized via for-sale exit"]],
+  ["02", "Value-Add", "7–10 Years", "Apartment and commercial assets, repositioned and improved through the hold.",
+    ["Apartment buildings & commercial assets", "Leasing, capital improvement, repositioning", "Cash flow during the hold", "Realized at stabilization or sale"]],
+  ["03", "Stabilized", "Long-Term", "Income-producing assets held long-term for durability and preservation.",
+    ["Income-producing, stabilized assets", "Long-term hold & wealth preservation", "Tax-efficient, cash-flow focused", "Designed for durability over cycles"]],
+];
+
+const PRINCIPLES = [
+  ["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."],
+  ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."],
+  ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."],
+  ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."],
+];
+
+const PROCESS = [
+  ["01", "Strategy & Feasibility", "Site and market analysis, highest-and-best-use, financial modeling and risk assessment."],
+  ["02", "Entitlement & Approvals", "Navigating planning, zoning, permitting and the stakeholders who decide a project's fate."],
+  ["03", "Design & Preconstruction", "Assembling and directing the design team; budgeting, value engineering and procurement."],
+  ["04", "Construction Delivery", "Managing contractors, schedule, cost and quality to completion, at the owner's standard."],
+  ["05", "Handover & Realization", "Closeout and handover, then leasing, sale or stabilization to realize the asset's full value."],
+];
+
+const FOUNDER = {
+  name: "Igal N. Azran",
+  title: "Founder & Principal",
+  prev: "Previously · CIM Group · CBRE · STMC",
+  edu: "MSc · Real Estate",
+  bio: [
+    "Igal N. Azran founded Noesis in 2009 and has led its design, development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every engagement.",
+    "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Earlier, as a project manager for CBRE in Morocco, he delivered a 24-unit luxury condominium 22 days ahead of schedule and 12% under budget; in Los Angeles, he managed a $75 million construction budget for the L.A. Fashion Center, coordinating trades, architects and engineers through to completion.",
+    "Today he leads the firm's owner's-representation and development-management practice and originates its investments, maintaining the relationships with domestic and international capital partners behind every mandate. He holds a Master's degree in Real Estate.",
+  ],
+};
+
 function Home({ go }) {
   return (
     <main className="page-enter">
 
-      {/* ── HERO — the film, immediately ───────────────────────────── */}
+      {/* ── HERO ───────────────────────────────────────────────────── */}
       <section id="hero" className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(92px,13vh,150px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
         <img className="cine__img" src={wix(SHOT.casaMani, { w: 2600 })} alt="A Noesis-delivered residence" />
         <video className="cine__vid" autoPlay loop muted playsInline preload="auto"
@@ -53,7 +112,7 @@ function Home({ go }) {
         </div>
       </section>
 
-      {/* ── ABOUT — who we are ─────────────────────────────────────── */}
+      {/* ── ABOUT ──────────────────────────────────────────────────── */}
       <section id="about" className="section">
         <div className="wrap grid-12">
           <div className="col-4 reveal">
@@ -65,30 +124,59 @@ function Home({ go }) {
               Noesis is the Greek word for understanding. We are an owner's-representation, development
               and investment firm — founded in 2009, based in Beverly Hills, working internationally.
             </p>
-            <p className="body-lg u-mt-40" style={{ maxWidth: "62ch" }}>
+            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
               We began as designers and builders of luxury real estate, conceiving and delivering
               residences and buildings across Southern California and abroad. That operating experience
-              now serves our clients. We bring a builder's judgment to the owner's side of the table, and
-              we invest our own conviction and capital alongside our partners. Fifteen years of delivered
-              work stand behind every engagement.
+              now sits on the owner's side of the table.
             </p>
-            <button className="link-u u-mt-40" onClick={() => go("projects")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px" }}>See the work</button>
+            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
+              As owner's representative and development manager we bring a builder's judgment to every
+              engagement, and for aligned partners we invest our own conviction and capital alongside
+              theirs. From Beverly Hills to international markets the mandate is the same: protect the
+              vision, the capital and the timeline, and deliver. Fifteen years of delivered work stand
+              behind every engagement.
+            </p>
           </div>
+        </div>
+
+        <div className="wrap u-mt-64">
+          <div className="eyebrow reveal"><span className="dot" /> How We Work</div>
+          <div className="rows u-mt-24">
+            {ABOUT_VALUES.map(([t, d], i) => (
+              <div key={t} className="row reveal">
+                <div className="row__idx">0{i + 1}</div>
+                <div className="row__title">{t}</div>
+                <p className="row__desc">{d}</p>
+              </div>
+            ))}
+          </div>
+          <button className="link-u u-mt-40" onClick={() => go("projects")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px" }}>See the work</button>
         </div>
       </section>
 
-      {/* ── PROJECTS — the work ────────────────────────────────────── */}
+      {/* ── PROJECTS ───────────────────────────────────────────────── */}
       <section id="projects" className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
-          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(36px,4vw,56px)" }}>
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(28px,3vw,40px)" }}>
             <div className="col-8">
               <div className="eyebrow"><span className="dot" /> Projects · Properties</div>
               <h2 className="h-1 u-mt-16 caps">A record owners trust.</h2>
+              <p className="body-lg u-mt-16" style={{ maxWidth: "56ch" }}>
+                Luxury residences and buildings designed, developed and delivered by the Noesis team —
+                the operating record behind the way we manage projects for clients today.
+              </p>
             </div>
             <div className="col-4 u-tr">
               <button className="btn btn--ghost" onClick={() => go("properties")} data-magnetic>View the full portfolio <span className="arr" /></button>
             </div>
           </div>
+
+          <div className="statband reveal" style={{ marginBottom: "clamp(40px,4.5vw,64px)" }}>
+            {PORTFOLIO_STATS.map(([v, l]) => (
+              <div key={l}><div className="num">{v}</div><div className="statband__l">{l}</div></div>
+            ))}
+          </div>
+
           <div className="collage reveal">
             {[
               [SHOT.casaMani, "Casa Mani", "Beverly Hills"],
@@ -107,22 +195,23 @@ function Home({ go }) {
         </div>
       </section>
 
-      {/* ── WHAT WE DO — the statement ─────────────────────────────── */}
+      {/* ── WHAT WE DO ─────────────────────────────────────────────── */}
       <section id="what-we-do" className="section wwd">
         <div className="wrap">
-          <div className="reveal" style={{ marginBottom: "clamp(40px,5vw,72px)" }}>
+          <div className="reveal" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
             <div className="eyebrow"><span className="dot" /> What We Do</div>
             <p className="wwd__lead u-mt-24" style={{ maxWidth: "20ch" }}>
               We take a project from a <em>parcel of land</em> to a finished landmark — and stand
               accountable for every step between.
             </p>
+            <p className="body-lg u-mt-24" style={{ maxWidth: "66ch", color: "var(--ink-2)" }}>
+              Most owners build once. We are the single party at the table accountable for the whole —
+              protecting your vision, your capital and your timeline, from the first study to the final
+              handover.
+            </p>
           </div>
           <div className="wwd-grid reveal">
-            {[
-              ["01", "Owner's Representation", "We sit in your seat — one accountable advocate directing the entire project team and every decision."],
-              ["02", "Development Management", "We carry the project end to end: feasibility, entitlement, design, construction and delivery."],
-              ["03", "Investment", "We deploy capital alongside our partners, in disciplined, design-led real estate we know intimately."],
-            ].map(([n, t, d]) => (
+            {WWD_PILLARS.map(([n, t, d]) => (
               <div key={n} className="wwd-cap">
                 <div className="wwd-cap__n">{n}</div>
                 <div className="wwd-cap__t">{t}</div>
@@ -130,6 +219,7 @@ function Home({ go }) {
               </div>
             ))}
           </div>
+          <button className="btn btn--ghost u-mt-40" onClick={() => go("approach")} data-magnetic>Our full capabilities <span className="arr" /></button>
         </div>
       </section>
 
@@ -155,29 +245,68 @@ function Home({ go }) {
           <div className="col-8 reveal">
             <p className="lede">
               We originate, structure and steward real estate investments for an aligned network of
-              private capital — with the operator invested alongside.
+              private capital — family offices, principals and institutions — with the operator invested
+              alongside.
             </p>
-            <div className="rows u-mt-40" style={{ borderTop: "1px solid var(--rule)" }}>
-              {[
-                ["Opportunistic", "Acquisition and ground-up development of residences and small-lot subdivisions."],
-                ["Value-Add", "Apartment and commercial assets, repositioned and improved through the hold."],
-                ["Stabilized", "Income-producing assets held long-term for durability and preservation."],
-              ].map(([t, d], i) => (
-                <div key={t} className="row">
-                  <div className="row__idx">0{i + 1}</div>
+            <p className="pull u-mt-40" style={{ maxWidth: "26ch" }}>
+              The best returns in real estate come from building the <em>right thing well</em>. We invest
+              where our development edge creates the value.
+            </p>
+          </div>
+        </div>
+
+        <div className="wrap u-mt-40">
+          <div className="rows reveal">
+            {STRATEGIES.map(([n, t, hold, desc, points]) => (
+              <div key={n} className="row reveal">
+                <div className="row__idx">{n}</div>
+                <div>
                   <div className="row__title">{t}</div>
-                  <p className="row__desc">{d}</p>
+                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent)", marginTop: 10 }}>{hold}</div>
                 </div>
-              ))}
+                <div>
+                  <p className="row__desc">{desc}</p>
+                  <ul style={{ listStyle: "none", padding: 0, margin: "16px 0 0", display: "grid", gap: 8 }}>
+                    {points.map((p) => (
+                      <li key={p} style={{ display: "flex", gap: 11, alignItems: "baseline", color: "var(--ink-soft)", fontSize: 13.5 }}>
+                        <span style={{ width: 5, height: 5, flex: "0 0 5px", background: "var(--accent)", borderRadius: "50%", transform: "translateY(-2px)" }} />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="wrap u-mt-64">
+          <div className="eyebrow reveal"><span className="dot" /> How We Invest</div>
+          <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "clamp(20px,2.5vw,40px)", marginTop: 28, borderTop: "1px solid var(--rule)", paddingTop: 36 }}>
+            {PRINCIPLES.map(([n, t, d]) => (
+              <div key={n}>
+                <div className="wwd-cap__n">{n}</div>
+                <div style={{ fontFamily: "var(--sans)", fontWeight: 300, fontSize: "clamp(18px,1.6vw,22px)", marginTop: 14, color: "var(--ink)" }}>{t}</div>
+                <p style={{ color: "var(--ink-soft)", fontSize: 13.5, lineHeight: 1.6, marginTop: 10 }}>{d}</p>
+              </div>
+            ))}
+          </div>
+          <div className="grid-12 u-end u-mt-64">
+            <div className="col-8 reveal">
+              <p className="body" style={{ color: "var(--muted)", maxWidth: "62ch" }}>
+                When an opportunity meets our standard we bring it to that network privately. Qualified and
+                accredited investors are welcome to request a confidential introduction — no obligation,
+                and no live offering implied.
+              </p>
             </div>
-            <p className="body u-mt-24" style={{ color: "var(--muted)" }}>
-              Opportunities are shared privately, with qualified partners. We welcome a confidential introduction.
-            </p>
+            <div className="col-4 u-tr reveal">
+              <button className="btn btn--ghost" onClick={() => go("inquiries")} data-magnetic>Request an introduction <span className="arr" /></button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── MANAGEMENT (services) ──────────────────────────────────── */}
+      {/* ── MANAGEMENT (process) ───────────────────────────────────── */}
       <section id="management" className="section section--ink">
         <div className="wrap">
           <div className="grid-12 u-end reveal">
@@ -193,13 +322,7 @@ function Home({ go }) {
             </div>
           </div>
           <div className="flow u-mt-64">
-            {[
-              ["01", "Strategy & Feasibility", "Site and market analysis, highest-and-best-use, financial modeling and risk assessment."],
-              ["02", "Entitlement & Approvals", "Navigating planning, zoning, permitting and the stakeholders who decide a project's fate."],
-              ["03", "Design & Preconstruction", "Assembling and directing the design team; budgeting, value engineering and procurement."],
-              ["04", "Construction Delivery", "Managing contractors, schedule, cost and quality to completion, at the owner's standard."],
-              ["05", "Handover & Realization", "Closeout and handover, then leasing, sale or stabilization to realize the asset's full value."],
-            ].map(([n, t, d]) => (
+            {PROCESS.map(([n, t, d]) => (
               <div key={n} className="flow__step">
                 <div className="flow__num">{n}</div>
                 <div className="flow__name">{t}</div>
@@ -210,18 +333,67 @@ function Home({ go }) {
         </div>
       </section>
 
+      {/* ── FOUNDER ────────────────────────────────────────────────── */}
+      <section className="section">
+        <div className="wrap">
+          <div className="reveal" style={{ marginBottom: "clamp(32px,4vw,52px)" }}>
+            <div className="eyebrow"><span className="dot" /> Founder</div>
+            <h2 className="h-1 u-mt-16 caps">The principal behind Noesis.</h2>
+          </div>
+          <div className="grid-12 reveal" style={{ gap: 48, alignItems: "start" }}>
+            <div className="col-5">
+              <div className="thumb thumb--tall" style={{ overflow: "hidden" }}>
+                <img src={wix(PHOTO.igal, { w: 1100 })} alt={FOUNDER.name}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) contrast(1.02)", transition: "filter .5s" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.filter = "grayscale(0)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(1) contrast(1.02)")} />
+              </div>
+              <div className="serif u-mt-24" style={{ fontSize: 30, letterSpacing: "-.01em", lineHeight: 1.05, color: "var(--ink)" }}>{FOUNDER.name}</div>
+              <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent)", marginTop: 8 }}>{FOUNDER.title}</div>
+              <div style={{ borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 18 }}>
+                <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>{FOUNDER.prev}</div>
+                <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginTop: 8 }}>{FOUNDER.edu}</div>
+              </div>
+            </div>
+            <div className="col-7">
+              <p className="lede">{FOUNDER.bio[0]}</p>
+              {FOUNDER.bio.slice(1).map((p, i) => (
+                <p key={i} className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── INQUIRIES ──────────────────────────────────────────────── */}
       <section id="inquiries" className="section">
-        <div className="wrap grid-12" style={{ alignItems: "end" }}>
-          <div className="col-7 reveal">
+        <div className="wrap grid-12" style={{ gap: 56, alignItems: "start" }}>
+          <div className="col-5 reveal">
             <div className="eyebrow"><span className="dot" /> Inquiries</div>
             <h2 className="h-display caps u-mt-16" style={{ maxWidth: "12ch" }}>Let's begin.</h2>
             <p className="lede u-mt-24" style={{ maxWidth: "44ch" }}>
-              Whether you have a project to deliver or capital to deploy, every enquiry is reviewed
-              personally by our principal. Confidential from first contact.
+              Whether you have a project to deliver or capital to deploy, we welcome a confidential
+              conversation. Every enquiry is reviewed personally by our principal, who responds within one
+              business day.
             </p>
+
+            <div className="u-mt-40">
+              <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Office</div>
+              <div className="serif u-mt-8" style={{ fontSize: 21, color: "var(--ink)", lineHeight: 1.35 }}>8383 Wilshire Blvd<br />Suite 740<br />Beverly Hills, CA 90211</div>
+            </div>
+            <div className="u-flex u-gap-40 u-mt-40" style={{ flexWrap: "wrap" }}>
+              <div>
+                <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Telephone</div>
+                <a href="tel:+13108553634" className="serif u-mt-8" style={{ fontSize: 19, display: "block", color: "var(--ink)" }}>T (310) 855 · 3634</a>
+                <div className="body" style={{ color: "var(--muted)", fontSize: 14 }}>F (424) 282 · 8414</div>
+              </div>
+              <div>
+                <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Email</div>
+                <a href="mailto:info@noesisusa.com" className="serif u-mt-8" style={{ fontSize: 19, display: "block", color: "var(--ink)" }}>INFO@NOESISUSA.COM</a>
+              </div>
+            </div>
           </div>
-          <div className="col-5 reveal">
+          <div className="col-7 reveal">
             <InquiryForm />
           </div>
         </div>
@@ -233,29 +405,34 @@ function Home({ go }) {
 function InquiryForm() {
   const [sent, setSent] = React.useState(false);
   if (sent) return (
-    <div style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,44px)", background: "var(--paper)" }}>
+    <div style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
       <div className="eyebrow"><span className="dot" /> Received</div>
       <h3 className="h-2 u-mt-16">Thank you.</h3>
-      <p className="body u-mt-16">We'll respond within one business day.</p>
+      <p className="body u-mt-16">We've received your message and will respond within one business day.</p>
+      <button className="btn btn--ghost u-mt-40" onClick={() => setSent(false)}>Send another</button>
     </div>
   );
   return (
-    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,44px)", background: "var(--paper)" }}>
-      <div style={{ display: "grid", gap: 24 }}>
+    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "26px 24px" }}>
         <div className="field"><label>Name</label><input type="text" placeholder="Your name" required /></div>
         <div className="field"><label>Email</label><input type="email" placeholder="you@email.com" required /></div>
+        <div className="field"><label>Location</label><input type="text" placeholder="City / country" /></div>
         <div className="field">
           <label>I'm reaching out as</label>
           <select defaultValue="">
             <option value="" disabled>Select one</option>
-            <option>Owner / Principal</option>
-            <option>Developer</option>
-            <option>Investor</option>
+            <option>Owner / Principal — a project to deliver</option>
+            <option>Developer — owner's rep / project management</option>
+            <option>Investor — capital partnership</option>
             <option>Other</option>
           </select>
         </div>
-        <div className="field"><label>Message</label><textarea rows="4" placeholder="Tell us about your project or interest." required></textarea></div>
-        <button type="submit" className="btn" style={{ justifyContent: "center" }}>Send Enquiry</button>
+        <div className="field" style={{ gridColumn: "1 / -1" }}><label>Message</label><textarea rows="5" placeholder="Tell us about your project, or your interest in investing." required></textarea></div>
+      </div>
+      <div className="u-mt-40 u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--muted)" }}>INFO@NOESISUSA.COM · T (310) 855·3634</div>
+        <button type="submit" className="btn">Send Enquiry <span className="arr" /></button>
       </div>
     </form>
   );

@@ -13,11 +13,8 @@ npx babel \
   components/Placeholder.jsx \
   components/Shell.jsx \
   pages/Home.jsx \
-  pages/Services.jsx \
+  pages/Approach.jsx \
   pages/Projects.jsx \
-  pages/Investment.jsx \
-  pages/About.jsx \
-  pages/Contact.jsx \
   app.jsx \
   --presets=@babel/preset-react --no-comments -o bundle.js
 echo "bundle.js: $(wc -c < bundle.js) bytes"
