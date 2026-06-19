@@ -1120,6 +1120,12 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .lb__title, .lb__close, .lb__arrow { color: var(--bone); }
 .section--ink .btn--ghost { color: var(--bone); border-color: rgba(236,230,216,.5); }
 .section--ink .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+/* dark-plate component titles + dividers (component rules above force --ink) */
+.section--ink .flow__name, .section--ink .pillar__name,
+.section--ink .track__title, .section--ink .sector__title { color: var(--bone); }
+.section--ink .flow__desc, .section--ink .pillar__desc, .section--ink .row__desc { color: var(--bone-soft); }
+.section--ink .flow, .section--ink .rows { border-top-color: var(--rule-on-dark); }
+.section--ink .flow__step, .section--ink .row { border-right-color: var(--rule-on-dark); border-bottom-color: var(--rule-on-dark); }
 .nav__burger span { background: var(--ink); }
 .grain { mix-blend-mode: multiply; opacity: .028; }
 .cine__grad { background: linear-gradient(180deg, rgba(20,16,11,.4) 0%, rgba(20,16,11,.1) 42%, rgba(20,16,11,.78) 100%); }
