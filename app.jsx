@@ -1,11 +1,11 @@
 // App shell — one continuous page + scroll-spy, with a full Properties view.
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "#CE3A26",
+  "accent": "#9A6A3E",
   "displayFont": "Jost"
 }/*EDITMODE-END*/;
 
-const ACCENTS = ["#CE3A26", "#A82E1C", "#B5894E", "#2E2A22", "#8A8270"];
+const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
 const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
 const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "management", "inquiries"];
 const NAV_OFFSET = 72;

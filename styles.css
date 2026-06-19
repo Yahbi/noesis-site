@@ -20,9 +20,9 @@
   --rule:        rgba(46,42,34,.16);
   --rule-soft:   rgba(46,42,34,.08);
   --rule-on-dark: rgba(236,230,216,.18);
-  --accent:      #CE3A26;
-  --accent-deep: #A82E1C;
-  --accent-soft: rgba(206,58,38,.09);
+  --accent:      #9A6A3E;
+  --accent-deep: #7A5236;
+  --accent-soft: rgba(154,106,62,.10);
   --on-accent:   #F2ECDE;
   --ok:          #5E8C6E;
 
@@ -1129,7 +1129,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .logo { position: relative; display: inline-flex; align-items: center; padding: 8px 0; background: transparent; border: 0; cursor: pointer; }
 .logo__word { font-family: var(--sans); font-weight: 300; font-size: 20px; letter-spacing: .42em;
   text-transform: uppercase; color: var(--ink); padding-left: .42em; transition: color .3s; }
-.logo__bar { position: absolute; left: 0; right: .30em; top: 50%; height: 1.5px; background: var(--accent);
+.logo__bar { position: absolute; left: 27%; width: 20%; top: 50%; height: 1.5px; background: var(--accent);
   transform: translateY(-.5px); pointer-events: none; }
 .nav--over .logo__word { color: var(--bone); }
 

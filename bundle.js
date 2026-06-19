@@ -1186,14 +1186,57 @@ function Logo({
   onClick,
   className
 }) {
+  const wordRef = React.useRef(null);
+  const barRef = React.useRef(null);
+  React.useLayoutEffect(() => {
+    const word = wordRef.current,
+      bar = barRef.current;
+    if (!word || !bar) return;
+    const place = () => {
+      const node = word.firstChild;
+      const logo = word.parentElement;
+      if (!node || !logo) return;
+      let range;
+      try {
+        range = document.createRange();
+      } catch (e) {
+        return;
+      }
+      const rectOf = i => {
+        range.setStart(node, i);
+        range.setEnd(node, i + 1);
+        return range.getBoundingClientRect();
+      };
+      const o = rectOf(1);
+      const e = rectOf(2);
+      if (!o.width || !e.width) return;
+      const base = logo.getBoundingClientRect().left;
+      const x1 = (o.left + o.right) / 2 - base;
+      const x2 = (e.left + e.right) / 2 - base;
+      bar.style.left = Math.round(x1) + "px";
+      bar.style.width = Math.round(x2 - x1) + "px";
+      bar.style.right = "auto";
+    };
+    place();
+    const raf = requestAnimationFrame(place);
+    const onResize = () => place();
+    window.addEventListener("resize", onResize);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(() => {});
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
   return React.createElement("button", {
     className: `logo ${className || ""}`,
-    "aria-label": "Noesis \u2014 top",
+    "aria-label": "Noesis \u2014 home",
     onClick: onClick
   }, React.createElement("span", {
-    className: "logo__word"
+    className: "logo__word",
+    ref: wordRef
   }, "NOESIS"), React.createElement("span", {
     className: "logo__bar",
+    ref: barRef,
     "aria-hidden": "true"
   }));
 }
@@ -3505,10 +3548,10 @@ function Contact({
 }
 window.Contact = Contact;
 const TWEAK_DEFAULTS = {
-  "accent": "#CE3A26",
+  "accent": "#9A6A3E",
   "displayFont": "Jost"
 };
-const ACCENTS = ["#CE3A26", "#A82E1C", "#B5894E", "#2E2A22", "#8A8270"];
+const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
 const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
 const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "management", "inquiries"];
 const NAV_OFFSET = 72;

@@ -28,11 +28,45 @@ function SocialRow({ size = 18, color }) {
   );
 }
 
+// The brand mark: a short stroke that bridges the O and the E (riding the E's
+// middle bar) — NOT a strike across the whole word. We measure the live glyph
+// positions so the segment stays exact at any size and after the font loads.
 function Logo({ onClick, className }) {
+  const wordRef = React.useRef(null);
+  const barRef = React.useRef(null);
+
+  React.useLayoutEffect(() => {
+    const word = wordRef.current, bar = barRef.current;
+    if (!word || !bar) return;
+    const place = () => {
+      const node = word.firstChild;
+      const logo = word.parentElement;
+      if (!node || !logo) return;
+      let range;
+      try { range = document.createRange(); } catch (e) { return; }
+      const rectOf = (i) => { range.setStart(node, i); range.setEnd(node, i + 1); return range.getBoundingClientRect(); };
+      const o = rectOf(1);   // O
+      const e = rectOf(2);   // E
+      if (!o.width || !e.width) return;
+      const base = logo.getBoundingClientRect().left;
+      const x1 = (o.left + o.right) / 2 - base;          // start at the O's centre
+      const x2 = (e.left + e.right) / 2 - base;          // end at the E's centre (its middle bar)
+      bar.style.left = Math.round(x1) + "px";
+      bar.style.width = Math.round(x2 - x1) + "px";
+      bar.style.right = "auto";
+    };
+    place();
+    const raf = requestAnimationFrame(place);
+    const onResize = () => place();
+    window.addEventListener("resize", onResize);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(() => {});
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
+  }, []);
+
   return (
-    <button className={`logo ${className || ""}`} aria-label="Noesis — top" onClick={onClick}>
-      <span className="logo__word">NOESIS</span>
-      <span className="logo__bar" aria-hidden="true" />
+    <button className={`logo ${className || ""}`} aria-label="Noesis — home" onClick={onClick}>
+      <span className="logo__word" ref={wordRef}>NOESIS</span>
+      <span className="logo__bar" ref={barRef} aria-hidden="true" />
     </button>
   );
 }
