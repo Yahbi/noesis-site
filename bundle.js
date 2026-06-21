@@ -1219,7 +1219,7 @@ function Logo({
       if (!o.width || !e.width) return;
       const base = logo.getBoundingClientRect().left;
       const x1 = (o.left + o.right) / 2 - base;
-      const x2 = (e.left + e.right) / 2 - base;
+      const x2 = e.right - base;
       bar.style.left = Math.round(x1) + "px";
       bar.style.width = Math.round(x2 - x1) + "px";
       bar.style.right = "auto";

@@ -57,7 +57,7 @@ function Logo({ onClick, className }) {
       if (!o.width || !e.width) return;
       const base = logo.getBoundingClientRect().left;
       const x1 = (o.left + o.right) / 2 - base;          // start at the O's centre
-      const x2 = (e.left + e.right) / 2 - base;          // end at the E's centre (its middle bar)
+      const x2 = e.right - base;                         // run the full E middle bar to its right edge (matches the original mark)
       bar.style.left = Math.round(x1) + "px";
       bar.style.width = Math.round(x2 - x1) + "px";
       bar.style.right = "auto";
