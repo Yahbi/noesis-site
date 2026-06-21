@@ -634,7 +634,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 /* the branded bronze bar through the O–E (positioned by the inline script in the HTML;
    stays hidden until measured against the loaded Jost glyphs to avoid a misplaced flash) */
 .preloader__bar { position: absolute; top: 50%; left: 27%; width: 28%; height: 3.5px;
-  background: var(--accent); transform: translateY(calc(-50% - .035em)); border-radius: 0; pointer-events: none;
+  background: var(--accent); transform: translateY(calc(-50% - .018em)); border-radius: 0; pointer-events: none;
   opacity: 0; transition: opacity .3s ease; }
 .preloader__line { width: clamp(170px, 24vw, 300px); height: 1px; background: var(--rule); overflow: hidden; }
 .preloader__line span {
@@ -1140,7 +1140,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .logo__word { font-family: var(--sans); font-weight: 300; font-size: 20px; letter-spacing: -.05em;
   text-transform: uppercase; color: var(--ink); padding-left: 0; transition: color .3s; }
 .logo__bar { position: absolute; left: 27%; width: 28%; top: 50%; height: 2px; background: var(--accent);
-  border-radius: 0; font-size: 20px; transform: translateY(calc(-50% - .035em)); pointer-events: none; }
+  border-radius: 0; font-size: 20px; transform: translateY(calc(-50% - .018em)); pointer-events: none; }
 .nav--over .logo__word { color: var(--bone); }
 
 /* — Nav: clean header, uppercase tracked links, scroll-spy underline — */
