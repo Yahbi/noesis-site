@@ -239,9 +239,21 @@ function Home({ go, intent, setIntent }) {
         </div>
       </section>
 
-      {/* cinematic plate */}
-      <section className="cine" style={{ height: "min(82vh, 800px)", minHeight: 480 }}>
-        <img className="cine__img" data-parallax="0.12" src={wix(PHOTO.ying_wide, { w: 2600 })} alt="" />
+      {/* cinematic reel — a film of the real delivered work */}
+      <section className="cine cine--video" style={{ height: "min(86vh, 840px)", minHeight: 500 }}>
+        <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" />
+        <video className="cine__vid" autoPlay loop muted playsInline preload="none"
+          poster={wix(SHOT.oneOak, { w: 1200 })} src="assets/noesis-reel.mp4?v=1"
+          ref={(el) => {
+            if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
+            const tryPlay = () => {
+              if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
+              if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }
+              else if (!el.paused) { el.pause(); }
+            };
+            if ("IntersectionObserver" in window) { el.__io = new IntersectionObserver((e) => { el.__inView = e[0] && e[0].isIntersecting; tryPlay(); }, { threshold: 0.15 }); el.__io.observe(el); }
+            el.__iv = setInterval(tryPlay, 2500); document.addEventListener("visibilitychange", tryPlay);
+          }} />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
