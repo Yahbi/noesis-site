@@ -166,6 +166,19 @@ function Home({ go, intent, setIntent }) {
           </div>
           <button className="link-u u-mt-40" onClick={() => go("projects")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent-deep)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px" }}>See the work</button>
         </div>
+
+        <div className="wrap u-mt-64">
+          <div className="pair reveal">
+            <figure>
+              <img src={wix(PHOTO.ying_int_3, { w: 1400 })} alt="Ying Yang Lofts interior, Los Angeles" loading="lazy" />
+              <figcaption>Ying Yang Lofts — Los Angeles</figcaption>
+            </figure>
+            <figure>
+              <img src={wix(PHOTO.stanley_int_4, { w: 1200 })} alt="Stanley Lofts interior, West Hollywood" loading="lazy" />
+              <figcaption>Stanley Lofts — West Hollywood</figcaption>
+            </figure>
+          </div>
+        </div>
       </section>
 
       {/* ── PROJECTS ───────────────────────────────────────────────── */}
@@ -193,18 +206,24 @@ function Home({ go, intent, setIntent }) {
 
           <div className="collage reveal">
             {[
-              [SHOT.casaMani, "Casa Mani", "Beverly Hills"],
-              [SHOT.oneOak, "One Oak", "Sunset Strip"],
-              [SHOT.aura, "Aura House", "Tel Aviv"],
-              [SHOT.cThru, "C Thru", "Beverly Grove"],
-              [SHOT.houseG, "House G", "Melrose"],
-              [SHOT.lolivier, "L'Olivier House", "Los Angeles"],
-            ].map(([img, name, loc]) => (
+              [SHOT.casaMani, "Casa Mani", "Beverly Hills", "Designed & built · 2018"],
+              [SHOT.oneOak, "One Oak", "Sunset Strip", "Designed & built · 2015"],
+              [SHOT.aura, "Aura House", "Tel Aviv", "Developed · sold above asking"],
+              [SHOT.cThru, "C Thru", "Beverly Grove", "Designed & built · 2016"],
+              [SHOT.houseG, "House G", "Melrose", "Designed & developed · 2017"],
+              [SHOT.lolivier, "L'Olivier House", "Los Angeles", "Designed & built · 2015"],
+            ].map(([img, name, loc, work]) => (
               <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the portfolio`}
                 onClick={() => go("properties")}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("properties"); } }}>
                 <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
-                <div className="pcard__cap"><div><div className="pcard__name">{name}</div><div className="pcard__loc">{loc}</div></div></div>
+                <div className="pcard__cap">
+                  <div>
+                    <div className="pcard__name">{name}</div>
+                    <div className="pcard__loc">{loc}</div>
+                  </div>
+                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
+                </div>
               </article>
             ))}
           </div>

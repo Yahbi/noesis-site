@@ -16,11 +16,18 @@ const SOCIALS = [
   ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"],
 ];
 
+const SOCIAL_URLS = {
+  Facebook: "https://www.facebook.com/NoesisUSA/",
+  Instagram: "https://www.instagram.com/noesisgroup/",
+  LinkedIn: "https://www.linkedin.com/company/noesis-group-llc",
+  YouTube: "https://www.youtube.com/channel/UC42nmHBPxnuIv8NgzwLyiCw",
+};
+
 function SocialRow({ size = 18, color }) {
   return (
     <div className="u-flex u-gap-16">
       {SOCIALS.map(([name, d]) => (
-        <a key={name} href="#" onClick={(e) => e.preventDefault()} aria-label={name} className="social">
+        <a key={name} href={SOCIAL_URLS[name] || "#"} target="_blank" rel="noopener noreferrer" aria-label={`Noesis on ${name}`} className="social">
           <svg width={size} height={size} viewBox="0 0 22 22" fill={color || "currentColor"}><path d={d} /></svg>
         </a>
       ))}

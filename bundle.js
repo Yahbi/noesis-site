@@ -1161,6 +1161,12 @@ function Courtyard({
 window.Placeholder = Placeholder;
 const SECTIONS = [["about", "About"], ["projects", "Projects"], ["what-we-do", "What We Do"], ["investment", "Investment"], ["management", "Management"], ["inquiries", "Inquiries"]];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
+const SOCIAL_URLS = {
+  Facebook: "https://www.facebook.com/NoesisUSA/",
+  Instagram: "https://www.instagram.com/noesisgroup/",
+  LinkedIn: "https://www.linkedin.com/company/noesis-group-llc",
+  YouTube: "https://www.youtube.com/channel/UC42nmHBPxnuIv8NgzwLyiCw"
+};
 function SocialRow({
   size = 18,
   color
@@ -1169,9 +1175,10 @@ function SocialRow({
     className: "u-flex u-gap-16"
   }, SOCIALS.map(([name, d]) => React.createElement("a", {
     key: name,
-    href: "#",
-    onClick: e => e.preventDefault(),
-    "aria-label": name,
+    href: SOCIAL_URLS[name] || "#",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    "aria-label": `Noesis on ${name}`,
     className: "social"
   }, React.createElement("svg", {
     width: size,
@@ -1721,7 +1728,23 @@ function Home({
       textTransform: "uppercase",
       padding: "0 0 4px"
     }
-  }, "See the work"))), React.createElement("section", {
+  }, "See the work")), React.createElement("div", {
+    className: "wrap u-mt-64"
+  }, React.createElement("div", {
+    className: "pair reveal"
+  }, React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.ying_int_3, {
+      w: 1400
+    }),
+    alt: "Ying Yang Lofts interior, Los Angeles",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Ying Yang Lofts \u2014 Los Angeles")), React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.stanley_int_4, {
+      w: 1200
+    }),
+    alt: "Stanley Lofts interior, West Hollywood",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Stanley Lofts \u2014 West Hollywood"))))), React.createElement("section", {
     id: "projects",
     className: "section",
     style: {
@@ -1769,7 +1792,7 @@ function Home({
     className: "statband__l"
   }, l)))), React.createElement("div", {
     className: "collage reveal"
-  }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills"], [SHOT.oneOak, "One Oak", "Sunset Strip"], [SHOT.aura, "Aura House", "Tel Aviv"], [SHOT.cThru, "C Thru", "Beverly Grove"], [SHOT.houseG, "House G", "Melrose"], [SHOT.lolivier, "L'Olivier House", "Los Angeles"]].map(([img, name, loc]) => React.createElement("article", {
+  }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills", "Designed & built · 2018"], [SHOT.oneOak, "One Oak", "Sunset Strip", "Designed & built · 2015"], [SHOT.aura, "Aura House", "Tel Aviv", "Developed · sold above asking"], [SHOT.cThru, "C Thru", "Beverly Grove", "Designed & built · 2016"], [SHOT.houseG, "House G", "Melrose", "Designed & developed · 2017"], [SHOT.lolivier, "L'Olivier House", "Los Angeles", "Designed & built · 2015"]].map(([img, name, loc, work]) => React.createElement("article", {
     key: name,
     className: "pcard",
     role: "button",
@@ -1797,7 +1820,16 @@ function Home({
     className: "pcard__name"
   }, name), React.createElement("div", {
     className: "pcard__loc"
-  }, loc)))))))), React.createElement("section", {
+  }, loc)), React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 10.5,
+      letterSpacing: ".08em",
+      textTransform: "uppercase",
+      color: "var(--accent-deep)",
+      whiteSpace: "nowrap"
+    }
+  }, work))))))), React.createElement("section", {
     id: "what-we-do",
     className: "section wwd"
   }, React.createElement("div", {
