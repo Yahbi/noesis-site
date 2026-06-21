@@ -68,7 +68,7 @@ function Approach({ go }) {
           <div className="sectors reveal">
             {SECTORS.map((s) => (
               <article key={s.tag} className="sector">
-                <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" /><div className="sector__grad" /></div>
+                <div className="sector__img"><img className={s.img === "genesee_int_4" ? "img--warm" : ""} src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" /><div className="sector__grad" /></div>
                 <div className="sector__body">
                   <div className="sector__tag">{s.tag}</div>
                   <div className="sector__title">{s.title}</div>

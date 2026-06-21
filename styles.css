@@ -1202,3 +1202,9 @@ section[id] { scroll-margin-top: 72px; }
    Bright --accent stays for fills, dots, large stat numbers, and the logo stroke. */
 .kicker, .track__for, .sector__tag, .row__idx, .flow__num, .pcard__count, .wwd-cap__n { color: var(--accent-deep); }
 .nav__links button:hover, .nav__links button.is-active { color: var(--accent-deep); }
+
+/* Tone alignment — a targeted warm-correction for the few cool/twilight source
+   photos that sit in prominent slots, so they join the linen/bronze family.
+   Layers ON TOP of the global house grade (styles.css ~964); applied per-image. */
+.img--warm { filter: saturate(.72) sepia(.16) contrast(1.05) brightness(1); }
+.sector__img img.img--warm { filter: saturate(.72) sepia(.16) contrast(1.05) brightness(.82); }

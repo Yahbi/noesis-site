@@ -1514,7 +1514,7 @@ function Home({
       paddingBottom: "clamp(34px,6vh,60px)"
     }
   }, React.createElement("img", {
-    className: "cine__img",
+    className: "cine__img img--warm",
     alt: "A Noesis-delivered residence",
     fetchpriority: "high",
     sizes: "100vw",
@@ -1785,7 +1785,7 @@ function Home({
   }, React.createElement("div", {
     className: "pcard__media"
   }, React.createElement("img", {
-    className: "pcard__img",
+    className: `pcard__img ${name === "Casa Mani" || name === "Aura House" ? "img--warm" : ""}`,
     src: wix(img, {
       w: 1300
     }),
@@ -2500,6 +2500,7 @@ function Approach({
   }, React.createElement("div", {
     className: "sector__img"
   }, React.createElement("img", {
+    className: s.img === "genesee_int_4" ? "img--warm" : "",
     src: wix(PHOTO[s.img], {
       w: 1500
     }),

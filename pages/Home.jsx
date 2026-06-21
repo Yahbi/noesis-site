@@ -81,7 +81,7 @@ function Home({ go, intent, setIntent }) {
 
       {/* ── HERO ───────────────────────────────────────────────────── */}
       <section id="hero" className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(92px,13vh,150px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
-        <img className="cine__img" alt="A Noesis-delivered residence" fetchpriority="high" sizes="100vw"
+        <img className="cine__img img--warm" alt="A Noesis-delivered residence" fetchpriority="high" sizes="100vw"
           src={wix(SHOT.casaMani, { w: 2000 })}
           srcSet={`${wix(SHOT.casaMani, { w: 1200 })} 1200w, ${wix(SHOT.casaMani, { w: 2000 })} 2000w, ${wix(SHOT.casaMani, { w: 2600 })} 2600w`} />
         <video className="cine__vid" autoPlay loop muted playsInline preload="metadata"
@@ -203,7 +203,7 @@ function Home({ go, intent, setIntent }) {
               <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the portfolio`}
                 onClick={() => go("properties")}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("properties"); } }}>
-                <div className="pcard__media"><img className="pcard__img" src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
+                <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
                 <div className="pcard__cap"><div><div className="pcard__name">{name}</div><div className="pcard__loc">{loc}</div></div></div>
               </article>
             ))}
