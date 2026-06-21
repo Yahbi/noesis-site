@@ -170,12 +170,12 @@ function Home({ go, intent, setIntent }) {
         <div className="wrap u-mt-64">
           <div className="pair reveal">
             <figure>
-              <img src={wix(PHOTO.ying_int_3, { w: 1400 })} alt="Ying Yang Lofts interior, Los Angeles" loading="lazy" />
-              <figcaption>Ying Yang Lofts — Los Angeles</figcaption>
+              <img src={wix(PHOTO.genesee_int_1, { w: 1500 })} alt="My Genesee living room, Beverly Grove" loading="lazy" />
+              <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src={wix(PHOTO.stanley_int_4, { w: 1200 })} alt="Stanley Lofts interior, West Hollywood" loading="lazy" />
-              <figcaption>Stanley Lofts — West Hollywood</figcaption>
+              <img src={wix(PHOTO.genesee_int_2, { w: 1200 })} alt="My Genesee kitchen, Beverly Grove" loading="lazy" />
+              <figcaption>Four residences · 2019</figcaption>
             </figure>
           </div>
         </div>

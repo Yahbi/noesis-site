@@ -1733,18 +1733,18 @@ function Home({
   }, React.createElement("div", {
     className: "pair reveal"
   }, React.createElement("figure", null, React.createElement("img", {
-    src: wix(PHOTO.ying_int_3, {
-      w: 1400
+    src: wix(PHOTO.genesee_int_1, {
+      w: 1500
     }),
-    alt: "Ying Yang Lofts interior, Los Angeles",
+    alt: "My Genesee living room, Beverly Grove",
     loading: "lazy"
-  }), React.createElement("figcaption", null, "Ying Yang Lofts \u2014 Los Angeles")), React.createElement("figure", null, React.createElement("img", {
-    src: wix(PHOTO.stanley_int_4, {
+  }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
+    src: wix(PHOTO.genesee_int_2, {
       w: 1200
     }),
-    alt: "Stanley Lofts interior, West Hollywood",
+    alt: "My Genesee kitchen, Beverly Grove",
     loading: "lazy"
-  }), React.createElement("figcaption", null, "Stanley Lofts \u2014 West Hollywood"))))), React.createElement("section", {
+  }), React.createElement("figcaption", null, "Four residences \xB7 2019"))))), React.createElement("section", {
     id: "projects",
     className: "section",
     style: {
