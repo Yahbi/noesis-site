@@ -11,9 +11,9 @@ const CAPABILITIES = [
 ];
 
 const SECTORS = [
-  { tag: "Luxury Residential", title: "Custom family estates, from $5M", img: "genesee_int_4",
+  { tag: "Luxury Residential", title: "Custom family estates, from $5M", img: "genesee_int_5",
     desc: "For principals building a primary residence or estate, we manage architects, interiors and craftsmen to an exacting standard — with the discretion ultra-prime work demands." },
-  { tag: "Commercial & Multifamily", title: "Owner's rep for large-scale projects", img: "ying_int_6",
+  { tag: "Commercial & Multifamily", title: "Owner's rep for large-scale projects", img: "ying_ext_tall",
     desc: "For developers and institutions delivering major commercial and multifamily assets, we bring program discipline, cost certainty and a builder's judgment to every phase." },
 ];
 
@@ -68,7 +68,7 @@ function Approach({ go }) {
           <div className="sectors reveal">
             {SECTORS.map((s) => (
               <article key={s.tag} className="sector">
-                <div className="sector__img"><img className={s.img === "genesee_int_4" ? "img--warm" : ""} src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" /><div className="sector__grad" /></div>
+                <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" /><div className="sector__grad" /></div>
                 <div className="sector__body">
                   <div className="sector__tag">{s.tag}</div>
                   <div className="sector__title">{s.title}</div>

@@ -2482,12 +2482,12 @@ const CAPABILITIES = [["01", "Owner's Representation", "We sit in the owner's se
 const SECTORS = [{
   tag: "Luxury Residential",
   title: "Custom family estates, from $5M",
-  img: "genesee_int_4",
+  img: "genesee_int_5",
   desc: "For principals building a primary residence or estate, we manage architects, interiors and craftsmen to an exacting standard — with the discretion ultra-prime work demands."
 }, {
   tag: "Commercial & Multifamily",
   title: "Owner's rep for large-scale projects",
-  img: "ying_int_6",
+  img: "ying_ext_tall",
   desc: "For developers and institutions delivering major commercial and multifamily assets, we bring program discipline, cost certainty and a builder's judgment to every phase."
 }];
 function Approach({
@@ -2575,7 +2575,6 @@ function Approach({
   }, React.createElement("div", {
     className: "sector__img"
   }, React.createElement("img", {
-    className: s.img === "genesee_int_4" ? "img--warm" : "",
     src: wix(PHOTO[s.img], {
       w: 1500
     }),
