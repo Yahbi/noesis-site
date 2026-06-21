@@ -625,13 +625,15 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 @keyframes plLift { to { transform: translateY(-101%); visibility: hidden; } }
 .preloader__inner { display: flex; flex-direction: column; align-items: center; gap: 26px; }
 .preloader__brand {
-  font-family: var(--serif); font-size: clamp(32px, 6vw, 58px);
-  letter-spacing: .34em; text-transform: uppercase; color: var(--bone);
-  padding-left: .34em; display: flex; align-items: center;
+  position: relative; display: inline-block;
+  font-family: var(--sans); font-size: clamp(32px, 6vw, 58px);
+  letter-spacing: -.05em; text-transform: uppercase; color: var(--bone);
   opacity: 0; animation: plFade .9s ease .15s forwards;
 }
 @keyframes plFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-.preloader__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-left: 2px; }
+/* the branded bronze bar through the O–E (positioned by the inline script in the HTML) */
+.preloader__bar { position: absolute; top: 50%; left: 27%; width: 28%; height: 3.5px;
+  background: var(--accent); transform: translateY(-50%); border-radius: 0; pointer-events: none; }
 .preloader__line { width: clamp(170px, 24vw, 300px); height: 1px; background: var(--rule); overflow: hidden; }
 .preloader__line span {
   display: block; width: 100%; height: 100%; background: var(--accent);

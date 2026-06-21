@@ -49,7 +49,7 @@
   <link rel="preconnect" href="https://static.wixstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=1782071986">
+  <link rel="stylesheet" href="styles.css?v=1782074099">
 
   <!-- Motion stack: GSAP + ScrollTrigger + Lenis smooth-scroll + SplitType -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -84,11 +84,35 @@
   <!-- Cinematic preloader (removed by motion.js; auto-cleared after 6s as a safety net) -->
   <div id="preloader" class="preloader" aria-hidden="true">
     <div class="preloader__inner">
-      <div class="preloader__brand">NOESIS<i class="preloader__dot"></i></div>
+      <div class="preloader__brand"><span class="preloader__word">NOESIS</span><span class="preloader__bar"></span></div>
       <div class="preloader__line"><span></span></div>
     </div>
     <div class="preloader__count">00</div>
   </div>
+  <script>
+    /* Position the bronze branding bar across the O–E of the preloader wordmark
+       (same measure as the nav logo) so the loading screen shows the real mark. */
+    (function () {
+      function place() {
+        var word = document.querySelector('#preloader .preloader__word');
+        var bar = document.querySelector('#preloader .preloader__bar');
+        if (!word || !bar) return;
+        var node = word.firstChild; if (!node) return;
+        try {
+          var r = document.createRange();
+          var rc = function (i) { r.setStart(node, i); r.setEnd(node, i + 1); return r.getBoundingClientRect(); };
+          var base = word.parentElement.getBoundingClientRect().left;
+          var o = rc(1), e = rc(2);
+          if (!o.width || !e.width) return;
+          bar.style.left = Math.round((o.left + o.right) / 2 - base) + 'px';
+          bar.style.width = Math.round(e.right - (o.left + o.right) / 2) + 'px';
+        } catch (err) {}
+      }
+      place();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(function () {});
+      window.addEventListener('resize', place);
+    })();
+  </script>
 
   <!-- Scroll progress hairline (CSS scroll-timeline; inert if unsupported) -->
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -105,22 +129,22 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
   <!-- Tweaks panel (gives us useTweaks, TweaksPanel, controls) -->
-  <script type="text/babel" src="tweaks-panel.jsx?v=1782071986"></script>
+  <script type="text/babel" src="tweaks-panel.jsx?v=1782074099"></script>
 
   <!-- Components -->
-  <script type="text/babel" src="components/Placeholder.jsx?v=1782071986"></script>
-  <script type="text/babel" src="components/Shell.jsx?v=1782071986"></script>
+  <script type="text/babel" src="components/Placeholder.jsx?v=1782074099"></script>
+  <script type="text/babel" src="components/Shell.jsx?v=1782074099"></script>
 
   <!-- Pages -->
-  <script type="text/babel" src="pages/Home.jsx?v=1782071986"></script>
-  <script type="text/babel" src="pages/Approach.jsx?v=1782071986"></script>
-  <script type="text/babel" src="pages/Projects.jsx?v=1782071986"></script>
+  <script type="text/babel" src="pages/Home.jsx?v=1782074099"></script>
+  <script type="text/babel" src="pages/Approach.jsx?v=1782074099"></script>
+  <script type="text/babel" src="pages/Projects.jsx?v=1782074099"></script>
 
   <!-- Motion layer (plain JS) -->
-  <script src="motion.js?v=1782071986"></script>
+  <script src="motion.js?v=1782074099"></script>
 
   <!-- App -->
-  <script type="text/babel" src="app.jsx?v=1782071986"></script>
+  <script type="text/babel" src="app.jsx?v=1782074099"></script>
 
 </body>
 </html>
