@@ -55,12 +55,10 @@ function Logo({ onClick, className }) {
       const o = rectOf(1);   // O
       const e = rectOf(2);   // E
       if (!o.width || !e.width) return;
-      const base = logo.getBoundingClientRect().left;
-      const x1 = (o.left + o.right) / 2 - base;          // start at the O's centre
-      const x2 = e.right - base;                         // run the full E middle bar to its right edge (matches the original mark)
-      bar.style.left = Math.round(x1) + "px";
-      bar.style.width = Math.round(x2 - x1) + "px";
-      bar.style.right = "auto";
+      const lr = logo.getBoundingClientRect();
+      bar.style.left = Math.round((o.left + o.right) / 2 - lr.left) + "px";          // start at the O's centre
+      bar.style.width = Math.round(e.right - (o.left + o.right) / 2) + "px";         // run to the E's right edge (full middle bar)
+      bar.style.right = "auto";   // vertical alignment to the E's middle arm is handled in CSS (translateY calc)
     };
     place();
     const raf = requestAnimationFrame(place);

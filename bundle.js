@@ -1217,11 +1217,9 @@ function Logo({
       const o = rectOf(1);
       const e = rectOf(2);
       if (!o.width || !e.width) return;
-      const base = logo.getBoundingClientRect().left;
-      const x1 = (o.left + o.right) / 2 - base;
-      const x2 = e.right - base;
-      bar.style.left = Math.round(x1) + "px";
-      bar.style.width = Math.round(x2 - x1) + "px";
+      const lr = logo.getBoundingClientRect();
+      bar.style.left = Math.round((o.left + o.right) / 2 - lr.left) + "px";
+      bar.style.width = Math.round(e.right - (o.left + o.right) / 2) + "px";
       bar.style.right = "auto";
     };
     place();

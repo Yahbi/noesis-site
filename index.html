@@ -50,7 +50,7 @@
   <link rel="preconnect" href="https://static.wixstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=1782074099">
+  <link rel="stylesheet" href="styles.css?v=1782075150">
 
   <!-- Motion stack: GSAP + ScrollTrigger + Lenis smooth-scroll + SplitType -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -102,15 +102,17 @@
         try {
           var r = document.createRange();
           var rc = function (i) { r.setStart(node, i); r.setEnd(node, i + 1); return r.getBoundingClientRect(); };
-          var base = word.parentElement.getBoundingClientRect().left;
+          var brand = word.parentElement.getBoundingClientRect();
           var o = rc(1), e = rc(2);
           if (!o.width || !e.width) return;
-          bar.style.left = Math.round((o.left + o.right) / 2 - base) + 'px';
-          bar.style.width = Math.round(e.right - (o.left + o.right) / 2) + 'px';
+          bar.style.left = Math.round((o.left + o.right) / 2 - brand.left) + 'px';   // O centre
+          bar.style.width = Math.round(e.right - (o.left + o.right) / 2) + 'px';      // → E right edge
+          bar.style.opacity = '1';   // vertical alignment to the E's middle arm is handled in CSS
         } catch (err) {}
       }
-      place();
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(function () {});
+      /* Only place once Jost is loaded, so the bar never appears on the fallback font's glyph metrics. */
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(place);
+      else place();
       window.addEventListener('resize', place);
     })();
   </script>
@@ -127,8 +129,8 @@
   <!-- Production: precompiled bundle, no in-browser compilation -->
   <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script defer src="motion.js?v=1782074099"></script>
-  <script defer src="bundle.js?v=1782074099"></script>
+  <script defer src="motion.js?v=1782075561"></script>
+  <script defer src="bundle.js?v=1782075561"></script>
 
 </body>
 </html>
