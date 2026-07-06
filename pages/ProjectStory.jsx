@@ -8,13 +8,6 @@ function storyParas(text) {
   return (text || "").split("\n\n").map((s) => s.trim()).filter(Boolean);
 }
 
-// Split a paragraph into whole sentences (no regex lookbehind — Safari-safe).
-function sentences(text) {
-  if (!text) return [];
-  const m = text.match(/[^.!?]+[.!?]+/g);
-  return (m || [text]).map((s) => s.trim()).filter(Boolean);
-}
-
 // A confident outcome line — only when the copy/facts actually support one.
 function outcomeFor(p) {
   const facts = p.facts || [];
@@ -50,11 +43,12 @@ function ProjectStory({ project, go }) {
   const facts = p.facts || [];
   const outcome = outcomeFor(p);
 
-  // Full-bleed walk-through plates use up to three gallery frames (past the cover);
-  // the remainder — and the cover — still feed the full gallery + lightbox.
+  // Every paragraph past the lede renders in FULL as prose (never truncated or
+  // fragmented); a few non-cover frames become cinematic plates — and all frames
+  // still feed the full gallery + lightbox, so no image or word is dropped.
+  const bodyParas = paras.slice(1);
   const rest = p.gallery.filter((g) => g !== cover);
   const scenes = rest.slice(0, 3);
-  const beats = sentences(paras[1] || "");
 
   // Endless-scroll: the next project in the shared ordered list.
   const list = (typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : []);
@@ -105,22 +99,26 @@ function ProjectStory({ project, go }) {
         )}
       </section>
 
-      {/* 3 — WALK-THROUGH SCENES (each a full-bleed .cine plate: curtain wipe + parallax) */}
-      {scenes.map((img, i) => (
-        <section key={img} className="cine story__scene" style={{ height: "min(92vh, 900px)", minHeight: 460 }}>
-          <img className="cine__img img--warm" data-parallax="0.16" loading="lazy" sizes="100vw"
-            alt={`${p.name} — interior ${i + 1}`}
-            src={wix(img, { w: 2000 })}
-            srcSet={`${wix(img, { w: 1200 })} 1200w, ${wix(img, { w: 2000 })} 2000w`} />
-          <div className="cine__grad" />
-          {beats[i] && (
-            <div className="cine__cap">
-              <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-                <p className="pull story__beat" style={{ maxWidth: "22ch" }}>{beats[i]}</p>
-              </div>
-            </div>
+      {/* 3 — NARRATIVE + WALK-THROUGH: every paragraph past the lede rendered in FULL as
+             readable prose, interwoven with full-bleed cinematic plates (curtain wipe +
+             parallax). No sentence is fragmented, capped or dropped. */}
+      {Array.from({ length: Math.max(bodyParas.length, scenes.length) }).map((_, i) => (
+        <React.Fragment key={i}>
+          {scenes[i] && (
+            <section className="cine story__scene" style={{ height: "min(92vh, 900px)", minHeight: 460 }}>
+              <img className="cine__img img--warm" data-parallax="0.16" loading="lazy" sizes="100vw"
+                alt={`${p.name} — view ${i + 1}`}
+                src={wix(scenes[i], { w: 2000 })}
+                srcSet={`${wix(scenes[i], { w: 1200 })} 1200w, ${wix(scenes[i], { w: 2000 })} 2000w`} />
+              <div className="cine__grad" />
+            </section>
           )}
-        </section>
+          {bodyParas[i] && (
+            <section className="section story__narrative">
+              <div className="wrap"><p className="story__prose reveal">{bodyParas[i]}</p></div>
+            </section>
+          )}
+        </React.Fragment>
       ))}
 
       {/* 4 — OUTCOME (only where the record supports a confident result) */}

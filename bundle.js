@@ -3192,11 +3192,6 @@ window.PROJECTS = PROJECTS;
 function storyParas(text) {
   return (text || "").split("\n\n").map(s => s.trim()).filter(Boolean);
 }
-function sentences(text) {
-  if (!text) return [];
-  const m = text.match(/[^.!?]+[.!?]+/g);
-  return (m || [text]).map(s => s.trim()).filter(Boolean);
-}
 function outcomeFor(p) {
   const facts = p.facts || [];
   const find = k => {
@@ -3240,9 +3235,9 @@ function ProjectStory({
   const cover = p.cover || p.gallery[0];
   const facts = p.facts || [];
   const outcome = outcomeFor(p);
+  const bodyParas = paras.slice(1);
   const rest = p.gallery.filter(g => g !== cover);
   const scenes = rest.slice(0, 3);
-  const beats = sentences(paras[1] || "");
   const list = typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : [];
   const idx = list.findIndex(x => x.id === p.id);
   const next = list.length ? list[(idx + 1) % list.length] : null;
@@ -3335,8 +3330,11 @@ function ProjectStory({
     className: "k"
   }, k), React.createElement("div", {
     className: "v"
-  }, v)))))), scenes.map((img, i) => React.createElement("section", {
-    key: img,
+  }, v)))))), Array.from({
+    length: Math.max(bodyParas.length, scenes.length)
+  }).map((_, i) => React.createElement(React.Fragment, {
+    key: i
+  }, scenes[i] && React.createElement("section", {
     className: "cine story__scene",
     style: {
       height: "min(92vh, 900px)",
@@ -3347,30 +3345,24 @@ function ProjectStory({
     "data-parallax": "0.16",
     loading: "lazy",
     sizes: "100vw",
-    alt: `${p.name} — interior ${i + 1}`,
-    src: wix(img, {
+    alt: `${p.name} — view ${i + 1}`,
+    src: wix(scenes[i], {
       w: 2000
     }),
-    srcSet: `${wix(img, {
+    srcSet: `${wix(scenes[i], {
       w: 1200
-    })} 1200w, ${wix(img, {
+    })} 1200w, ${wix(scenes[i], {
       w: 2000
     })} 2000w`
   }), React.createElement("div", {
     className: "cine__grad"
-  }), beats[i] && React.createElement("div", {
-    className: "cine__cap"
+  })), bodyParas[i] && React.createElement("section", {
+    className: "section story__narrative"
   }, React.createElement("div", {
-    className: "wrap",
-    style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
-    }
+    className: "wrap"
   }, React.createElement("p", {
-    className: "pull story__beat",
-    style: {
-      maxWidth: "22ch"
-    }
-  }, beats[i]))))), outcome && React.createElement("section", {
+    className: "story__prose reveal"
+  }, bodyParas[i]))))), outcome && React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap",

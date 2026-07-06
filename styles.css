@@ -1237,9 +1237,12 @@ section[id] { scroll-margin-top: 72px; }
   color: var(--ink); line-height: 1.14; letter-spacing: -.01em; margin-top: 10px; text-wrap: balance; }
 @media (max-width: 400px) { .story__specs { grid-template-columns: 1fr; } }
 
-/* Walk-through beats — a .pull line over a dark plate must read in bone, not ink. */
-.cine__cap .pull, .story__beat { color: var(--bone); }
-.story__beat em { color: var(--accent); font-style: italic; }
+/* Narrative prose — every project paragraph past the lede, in full, as readable body
+   copy set between the cinematic plates. This is where the description lives; scenes
+   are pure imagery, so no sentence is ever fragmented into a caption. */
+.story__prose { max-width: 62ch; margin: 0 auto; font-family: var(--sans); font-weight: 300;
+  font-size: clamp(18px, 1.55vw, 22px); line-height: 1.72; letter-spacing: -.003em;
+  color: var(--ink-2); text-wrap: pretty; }
 
 /* Cover scroll cue — a minimal falling hairline; inert under reduced-motion. */
 .story__cue { position: absolute; left: 50%; bottom: clamp(16px, 3vh, 30px);
