@@ -638,527 +638,6 @@ const PHOTO = {
 window.wix = wix;
 window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
-function hash(s) {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-function rng(seed) {
-  let s = seed || 1;
-  return () => {
-    s = s * 1664525 + 1013904223 >>> 0;
-    return s / 0xffffffff;
-  };
-}
-function Placeholder({
-  seed = "x",
-  variant = "auto",
-  label,
-  tone = "bone",
-  img,
-  w = 1600,
-  position = "center",
-  overlay = false,
-  ticks = true
-}) {
-  if (img) {
-    const id = PHOTO[img] || img;
-    const src = id.startsWith("http") ? id : wix(id, {
-      w
-    });
-    return React.createElement("div", {
-      className: "ph",
-      style: {
-        background: "var(--ink)"
-      }
-    }, React.createElement("img", {
-      src: src,
-      alt: "",
-      loading: "lazy",
-      style: {
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        objectPosition: position,
-        display: "block",
-        filter: overlay ? "brightness(.85)" : "none"
-      }
-    }), overlay && React.createElement("div", {
-      style: {
-        position: "absolute",
-        inset: 0,
-        background: "linear-gradient(180deg, rgba(14,16,20,0) 40%, rgba(14,16,20,.55) 100%)"
-      }
-    }), ticks && React.createElement("svg", {
-      viewBox: "0 0 400 300",
-      preserveAspectRatio: "none",
-      style: {
-        position: "absolute",
-        inset: 0,
-        pointerEvents: "none",
-        width: "100%",
-        height: "100%"
-      }
-    }, React.createElement("g", {
-      stroke: "rgba(242,236,224,.5)",
-      strokeWidth: "0.8",
-      fill: "none"
-    }, React.createElement("path", {
-      d: "M8,8 L18,8 M8,8 L8,18"
-    }), React.createElement("path", {
-      d: "M392,8 L382,8 M392,8 L392,18"
-    }), React.createElement("path", {
-      d: "M8,292 L18,292 M8,292 L8,282"
-    }), React.createElement("path", {
-      d: "M392,292 L382,292 M392,292 L392,282"
-    })), label && React.createElement("text", {
-      x: "14",
-      y: "288",
-      fontFamily: "ui-monospace, monospace",
-      fontSize: "8",
-      letterSpacing: "1.2",
-      fill: "rgba(242,236,224,.7)"
-    }, label.toUpperCase())));
-  }
-  const r = rng(hash(String(seed)));
-  const variants = ["facade", "plan", "section", "massing", "tower", "courtyard"];
-  const v = variant === "auto" ? variants[Math.floor(r() * variants.length)] : variant;
-  const stroke = tone === "ink" ? "rgba(242,236,224,.5)" : "rgba(14,16,20,.55)";
-  const strokeSoft = tone === "ink" ? "rgba(242,236,224,.22)" : "rgba(14,16,20,.18)";
-  const fillSoft = tone === "ink" ? "rgba(242,236,224,.05)" : "rgba(14,16,20,.04)";
-  const accent = "var(--accent)";
-  return React.createElement("div", {
-    className: "ph",
-    style: tone === "ink" ? {
-      background: "linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%)"
-    } : null
-  }, React.createElement("svg", {
-    viewBox: "0 0 400 300",
-    preserveAspectRatio: "xMidYMid slice"
-  }, React.createElement("defs", null, React.createElement("pattern", {
-    id: `hatch-${seed}`,
-    width: "6",
-    height: "6",
-    patternUnits: "userSpaceOnUse",
-    patternTransform: "rotate(45)"
-  }, React.createElement("line", {
-    x1: "0",
-    y1: "0",
-    x2: "0",
-    y2: "6",
-    stroke: strokeSoft,
-    strokeWidth: "0.6"
-  }))), v === "facade" && React.createElement(Facade, {
-    r: r,
-    stroke: stroke,
-    strokeSoft: strokeSoft,
-    fillSoft: fillSoft,
-    accent: accent,
-    seed: seed
-  }), v === "plan" && React.createElement(Plan, {
-    r: r,
-    stroke: stroke,
-    strokeSoft: strokeSoft,
-    fillSoft: fillSoft,
-    accent: accent,
-    seed: seed
-  }), v === "section" && React.createElement(SSection, {
-    r: r,
-    stroke: stroke,
-    strokeSoft: strokeSoft,
-    fillSoft: fillSoft,
-    accent: accent,
-    seed: seed
-  }), v === "massing" && React.createElement(Massing, {
-    r: r,
-    stroke: stroke,
-    strokeSoft: strokeSoft,
-    fillSoft: fillSoft,
-    accent: accent,
-    seed: seed
-  }), v === "tower" && React.createElement(Tower, {
-    r: r,
-    stroke: stroke,
-    strokeSoft: strokeSoft,
-    fillSoft: fillSoft,
-    accent: accent,
-    seed: seed
-  }), v === "courtyard" && React.createElement(Courtyard, {
-    r: r,
-    stroke: stroke,
-    strokeSoft: strokeSoft,
-    fillSoft: fillSoft,
-    accent: accent,
-    seed: seed
-  }), React.createElement("g", {
-    stroke: stroke,
-    strokeWidth: "0.8",
-    fill: "none"
-  }, React.createElement("path", {
-    d: "M8,8 L18,8 M8,8 L8,18"
-  }), React.createElement("path", {
-    d: "M392,8 L382,8 M392,8 L392,18"
-  }), React.createElement("path", {
-    d: "M8,292 L18,292 M8,292 L8,282"
-  }), React.createElement("path", {
-    d: "M392,292 L382,292 M392,292 L392,282"
-  })), label && React.createElement("text", {
-    x: "14",
-    y: "288",
-    fontFamily: "var(--mono)",
-    fontSize: "8",
-    letterSpacing: "1.2",
-    fill: stroke
-  }, label.toUpperCase())));
-}
-function Facade({
-  r,
-  stroke,
-  strokeSoft,
-  fillSoft,
-  accent
-}) {
-  const cols = 6 + Math.floor(r() * 4);
-  const rows = 4 + Math.floor(r() * 3);
-  const x0 = 40,
-    y0 = 30,
-    w = 320,
-    h = 240;
-  const cw = w / cols,
-    ch = h / rows;
-  const wins = [];
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      const lit = r() > 0.78;
-      wins.push(React.createElement("rect", {
-        key: `${i}-${j}`,
-        x: x0 + i * cw + cw * 0.18,
-        y: y0 + j * ch + ch * 0.22,
-        width: cw * 0.64,
-        height: ch * 0.56,
-        fill: lit ? accent : fillSoft,
-        opacity: lit ? 0.55 : 1,
-        stroke: strokeSoft,
-        strokeWidth: "0.5"
-      }));
-    }
-  }
-  return React.createElement("g", null, React.createElement("rect", {
-    x: x0,
-    y: y0,
-    width: w,
-    height: h,
-    fill: "none",
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }), wins, React.createElement("line", {
-    x1: "20",
-    y1: y0 + h,
-    x2: "380",
-    y2: y0 + h,
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }), React.createElement("line", {
-    x1: "10",
-    y1: y0 + h + 8,
-    x2: "390",
-    y2: y0 + h + 8,
-    stroke: strokeSoft,
-    strokeWidth: "0.5",
-    strokeDasharray: "2 3"
-  }));
-}
-function Plan({
-  r,
-  stroke,
-  strokeSoft,
-  fillSoft,
-  accent,
-  seed
-}) {
-  const rooms = [];
-  const cuts = 3 + Math.floor(r() * 3);
-  let x = 50;
-  for (let i = 0; i < cuts; i++) {
-    const w = 60 + r() * 70;
-    rooms.push({
-      x,
-      y: 50,
-      w,
-      h: 90 + r() * 60
-    });
-    x += w + 4;
-  }
-  return React.createElement("g", null, React.createElement("rect", {
-    x: "40",
-    y: "40",
-    width: "320",
-    height: "220",
-    fill: fillSoft,
-    stroke: stroke,
-    strokeWidth: "1"
-  }), rooms.map((rm, i) => React.createElement("rect", {
-    key: i,
-    x: rm.x,
-    y: rm.y,
-    width: rm.w,
-    height: rm.h,
-    fill: "none",
-    stroke: stroke,
-    strokeWidth: "0.7"
-  })), React.createElement("rect", {
-    x: "60",
-    y: "170",
-    width: "280",
-    height: "70",
-    fill: `url(#hatch-${seed})`,
-    stroke: stroke,
-    strokeWidth: "0.7"
-  }), React.createElement("circle", {
-    cx: "320",
-    cy: "60",
-    r: "3",
-    fill: accent
-  }), React.createElement("text", {
-    x: "50",
-    y: "34",
-    fontFamily: "var(--mono)",
-    fontSize: "7",
-    letterSpacing: "1",
-    fill: stroke
-  }, "FLOOR PLAN \xB7 A-101"));
-}
-function SSection({
-  r,
-  stroke,
-  strokeSoft,
-  fillSoft,
-  accent,
-  seed
-}) {
-  const floors = 4 + Math.floor(r() * 3);
-  const fh = 38;
-  const baseY = 250;
-  return React.createElement("g", null, React.createElement("line", {
-    x1: "20",
-    y1: baseY + 6,
-    x2: "380",
-    y2: baseY + 6,
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }), React.createElement("rect", {
-    x: "30",
-    y: baseY + 8,
-    width: "340",
-    height: "10",
-    fill: `url(#hatch-${seed})`,
-    stroke: stroke,
-    strokeWidth: "0.4"
-  }), Array.from({
-    length: floors
-  }).map((_, i) => {
-    const y = baseY - (i + 1) * fh;
-    return React.createElement("g", {
-      key: i
-    }, React.createElement("line", {
-      x1: "60",
-      y1: y,
-      x2: "340",
-      y2: y,
-      stroke: stroke,
-      strokeWidth: "0.6"
-    }), React.createElement("line", {
-      x1: "60",
-      y1: y + fh - 2,
-      x2: "340",
-      y2: y + fh - 2,
-      stroke: strokeSoft,
-      strokeWidth: "0.4"
-    }));
-  }), React.createElement("line", {
-    x1: "60",
-    y1: baseY,
-    x2: "60",
-    y2: baseY - floors * fh,
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }), React.createElement("line", {
-    x1: "340",
-    y1: baseY,
-    x2: "340",
-    y2: baseY - floors * fh,
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }), React.createElement("path", {
-    d: `M 90 ${baseY - floors * fh - 30} Q 200 ${baseY - floors * fh - 80} 310 ${baseY - floors * fh - 30}`,
-    fill: "none",
-    stroke: accent,
-    strokeWidth: "0.8",
-    strokeDasharray: "2 2"
-  }), React.createElement("circle", {
-    cx: "200",
-    cy: baseY - floors * fh - 80,
-    r: "2.5",
-    fill: accent
-  }));
-}
-function Massing({
-  r,
-  stroke,
-  strokeSoft,
-  fillSoft,
-  accent
-}) {
-  const blocks = 3 + Math.floor(r() * 2);
-  const out = [];
-  let x = 70;
-  for (let i = 0; i < blocks; i++) {
-    const w = 50 + r() * 50;
-    const h = 80 + r() * 110;
-    out.push(React.createElement("rect", {
-      key: i,
-      x: x,
-      y: 250 - h,
-      width: w,
-      height: h,
-      fill: fillSoft,
-      stroke: stroke,
-      strokeWidth: "0.9"
-    }));
-    out.push(React.createElement("rect", {
-      key: i + 100,
-      x: x + 4,
-      y: 250 - h + 4,
-      width: w - 8,
-      height: h - 8,
-      fill: "none",
-      stroke: strokeSoft,
-      strokeWidth: "0.4"
-    }));
-    x += w + 6;
-  }
-  return React.createElement("g", null, out, React.createElement("line", {
-    x1: "30",
-    y1: "250",
-    x2: "370",
-    y2: "250",
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }), React.createElement("circle", {
-    cx: "350",
-    cy: "40",
-    r: "14",
-    fill: "none",
-    stroke: accent,
-    strokeWidth: "0.8"
-  }));
-}
-function Tower({
-  r,
-  stroke,
-  strokeSoft,
-  fillSoft,
-  accent
-}) {
-  const floors = 12 + Math.floor(r() * 6);
-  return React.createElement("g", null, React.createElement("rect", {
-    x: "150",
-    y: "40",
-    width: "100",
-    height: "220",
-    fill: fillSoft,
-    stroke: stroke,
-    strokeWidth: "0.9"
-  }), Array.from({
-    length: floors
-  }).map((_, i) => React.createElement("line", {
-    key: i,
-    x1: "150",
-    y1: 50 + i * (210 / floors),
-    x2: "250",
-    y2: 50 + i * (210 / floors),
-    stroke: strokeSoft,
-    strokeWidth: "0.5"
-  })), React.createElement("rect", {
-    x: "170",
-    y: "50",
-    width: "60",
-    height: "200",
-    fill: "none",
-    stroke: strokeSoft,
-    strokeWidth: "0.4"
-  }), React.createElement("line", {
-    x1: "200",
-    y1: "40",
-    x2: "200",
-    y2: "260",
-    stroke: strokeSoft,
-    strokeWidth: "0.4",
-    strokeDasharray: "2 2"
-  }), React.createElement("circle", {
-    cx: "200",
-    cy: "36",
-    r: "2",
-    fill: accent
-  }), React.createElement("line", {
-    x1: "30",
-    y1: "262",
-    x2: "370",
-    y2: "262",
-    stroke: stroke,
-    strokeWidth: "0.8"
-  }));
-}
-function Courtyard({
-  r,
-  stroke,
-  strokeSoft,
-  fillSoft,
-  accent,
-  seed
-}) {
-  return React.createElement("g", null, React.createElement("rect", {
-    x: "40",
-    y: "40",
-    width: "320",
-    height: "220",
-    fill: fillSoft,
-    stroke: stroke,
-    strokeWidth: "0.9"
-  }), React.createElement("rect", {
-    x: "120",
-    y: "100",
-    width: "160",
-    height: "100",
-    fill: `url(#hatch-${seed})`,
-    stroke: stroke,
-    strokeWidth: "0.6"
-  }), React.createElement("circle", {
-    cx: "200",
-    cy: "150",
-    r: "22",
-    fill: "none",
-    stroke: accent,
-    strokeWidth: "0.8"
-  }), React.createElement("circle", {
-    cx: "200",
-    cy: "150",
-    r: "3",
-    fill: accent
-  }), [60, 90, 310, 340].map((x, i) => React.createElement("circle", {
-    key: i,
-    cx: x,
-    cy: i % 2 ? 80 : 220,
-    r: "6",
-    fill: "none",
-    stroke: stroke,
-    strokeWidth: "0.6"
-  })));
-}
-window.Placeholder = Placeholder;
 const SECTIONS = [["about", "About"], ["projects", "Projects"], ["what-we-do", "What We Do"], ["investment", "Investment"], ["management", "Management"], ["inquiries", "Inquiries"]];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
 const SOCIAL_URLS = {
@@ -1480,10 +959,11 @@ const SHOT = {
   houseG: "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
   aura: "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
   cThru: "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
-  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg"
+  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
+  leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg"
 };
 const ABOUT_VALUES = [["Alignment", "We succeed when our clients and partners do. We take the owner's side, and we put our own capital and reputation behind our convictions."], ["Discretion", "We work quietly for private clients, principals and family offices. Confidentiality is built into every engagement."], ["Stewardship", "We treat every project and every dollar of capital as if it were our own — because, often, it is."], ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."]];
-const PORTFOLIO_STATS = [["18", "Projects delivered"], ["13", "Private residences"], ["3", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
+const PORTFOLIO_STATS = [["17", "Projects delivered"], ["12", "Private residences"], ["3", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const WWD_PILLARS = [["01", "Owner's Representation", "We sit in your seat — one accountable advocate directing the entire project team and every decision."], ["02", "Development Management", "We carry the project end to end: feasibility, entitlement, design, construction and delivery."], ["03", "Investment", "We deploy capital alongside our partners, in disciplined, design-led real estate we know intimately."]];
 const STRATEGIES = [["01", "Opportunistic", "2–3 Years", "Acquisition and ground-up development of residences and small-lot subdivisions.", ["Acquisition & ground-up development", "Residences & small-lot subdivisions", "Value created through entitlement & delivery", "Typically realized via for-sale exit"]], ["02", "Value-Add", "7–10 Years", "Apartment and commercial assets, repositioned and improved through the hold.", ["Apartment buildings & commercial assets", "Leasing, capital improvement, repositioning", "Cash flow during the hold", "Realized at stabilization or sale"]], ["03", "Stabilized", "Long-Term", "Income-producing assets held long-term for durability and preservation.", ["Income-producing, stabilized assets", "Long-term hold & wealth preservation", "Tax-efficient, cash-flow focused", "Designed for durability over cycles"]]];
 const PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
@@ -1776,6 +1256,45 @@ function Home({
     onClick: () => go("properties"),
     "data-magnetic": true
   }, "View the full portfolio ", React.createElement("span", {
+    className: "arr"
+  })))), React.createElement("button", {
+    className: "story-feature reveal",
+    onClick: () => go("story:le-bijou"),
+    "aria-label": "Featured project \u2014 Le Bijou, read the story"
+  }, React.createElement("img", {
+    className: "story-feature__img img--warm",
+    alt: "Le Bijou, Beverly Hills",
+    loading: "lazy",
+    sizes: "100vw",
+    onError: e => {
+      e.currentTarget.style.opacity = "0";
+    },
+    src: wix(SHOT.leBijou, {
+      w: 2000
+    }),
+    srcSet: `${wix(SHOT.leBijou, {
+      w: 1200
+    })} 1200w, ${wix(SHOT.leBijou, {
+      w: 2000
+    })} 2000w`
+  }), React.createElement("div", {
+    className: "story-feature__grad"
+  }), React.createElement("div", {
+    className: "story-feature__cap"
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      color: "rgba(236,230,216,.72)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Featured Project"), React.createElement("div", {
+    className: "story-feature__name"
+  }, "Le Bijou"), React.createElement("div", {
+    className: "story-feature__meta"
+  }, "Beverly Hills \u2014 \u201Cthe jewel,\u201D where receding walls of glass make indoor-outdoor living real."), React.createElement("span", {
+    className: "story-feature__cta"
+  }, "Read the story ", React.createElement("span", {
     className: "arr"
   })))), React.createElement("div", {
     className: "statband reveal",
@@ -3241,6 +2760,10 @@ function ProjectStory({
   const list = typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : [];
   const idx = list.findIndex(x => x.id === p.id);
   const next = list.length ? list[(idx + 1) % list.length] : null;
+  const prev = list.length ? list[(idx - 1 + list.length) % list.length] : null;
+  const onImgError = e => {
+    e.currentTarget.style.opacity = "0";
+  };
   return React.createElement("main", {
     className: "page-enter story"
   }, React.createElement("section", {
@@ -3256,6 +2779,7 @@ function ProjectStory({
     alt: p.name,
     fetchpriority: "high",
     sizes: "100vw",
+    onError: onImgError,
     src: wix(cover, {
       w: 2000
     }),
@@ -3345,6 +2869,7 @@ function ProjectStory({
     "data-parallax": "0.16",
     loading: "lazy",
     sizes: "100vw",
+    onError: onImgError,
     alt: `${p.name} — view ${i + 1}`,
     src: wix(scenes[i], {
       w: 2000
@@ -3439,11 +2964,20 @@ function ProjectStory({
     className: "pcard__media"
   }, React.createElement("img", {
     className: "pcard__img",
-    src: wix(img, {
-      w: 1100
-    }),
     alt: `${p.name} — ${i + 1}`,
-    loading: "lazy"
+    loading: "lazy",
+    onError: onImgError,
+    src: wix(img, {
+      w: 900
+    }),
+    srcSet: `${wix(img, {
+      w: 600
+    })} 600w, ${wix(img, {
+      w: 900
+    })} 900w, ${wix(img, {
+      w: 1300
+    })} 1300w`,
+    sizes: "(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
   }), React.createElement("div", {
     className: "pcard__over"
   }, React.createElement("span", {
@@ -3456,29 +2990,25 @@ function ProjectStory({
   }))))))))), next && React.createElement("section", {
     className: "cine story__next",
     style: {
-      minHeight: "74svh",
+      minHeight: "70svh",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "flex-end",
-      cursor: "pointer"
-    },
-    role: "button",
-    tabIndex: 0,
-    "aria-label": `Next project — ${next.name}`,
-    onClick: () => go("story:" + next.id),
-    onKeyDown: e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        go("story:" + next.id);
-      }
+      justifyContent: "flex-end"
     }
   }, React.createElement("img", {
     className: "cine__img img--warm",
     alt: next.name,
     loading: "lazy",
+    onError: onImgError,
+    sizes: "100vw",
     src: wix(next.cover || next.gallery[0], {
       w: 2000
-    })
+    }),
+    srcSet: `${wix(next.cover || next.gallery[0], {
+      w: 1200
+    })} 1200w, ${wix(next.cover || next.gallery[0], {
+      w: 2000
+    })} 2000w`
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -3488,45 +3018,29 @@ function ProjectStory({
     style: {
       paddingBottom: "clamp(40px,7vw,92px)"
     }
-  }, React.createElement("div", {
+  }, React.createElement("button", {
+    className: "story__next-hit",
+    onClick: () => go("story:" + next.id),
+    "data-magnetic": true,
+    "aria-label": `Open next project — ${next.name}`
+  }, React.createElement("span", {
     className: "eyebrow",
     style: {
       color: "rgba(236,230,216,.62)"
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " Next Project"), React.createElement("h2", {
-    className: "h-display u-mt-8",
-    style: {
-      color: "var(--bone)",
-      maxWidth: "15ch"
-    }
-  }, next.name), React.createElement("div", {
-    className: "u-flex u-gap-16 u-mt-40",
-    style: {
-      flexWrap: "wrap"
-    }
-  }, React.createElement("button", {
-    className: "btn",
-    onClick: e => {
-      e.stopPropagation();
-      go("story:" + next.id);
-    },
-    "data-magnetic": true
-  }, "View ", next.name, " ", React.createElement("span", {
-    className: "arr"
-  })), React.createElement("button", {
-    className: "btn btn--ghost",
-    onClick: e => {
-      e.stopPropagation();
-      go("properties");
-    },
-    "data-magnetic": true,
-    style: {
-      color: "var(--bone)",
-      borderColor: "rgba(236,230,216,.7)"
-    }
-  }, "All properties"))))), lb && React.createElement(Lightbox, {
+  }), " Next Project"), React.createElement("span", {
+    className: "h-display story__next-name u-mt-8"
+  }, next.name)), React.createElement("div", {
+    className: "story__endnav"
+  }, prev && React.createElement("button", {
+    className: "story__navlink",
+    onClick: () => go("story:" + prev.id)
+  }, "\u2190 Previous \xB7 ", prev.name), React.createElement("button", {
+    className: "story__navlink",
+    onClick: () => go("properties")
+  }, "All properties \u2192"))))), lb && React.createElement(Lightbox, {
     project: p,
     start: lb.index,
     onClose: () => setLb(null)
@@ -3548,6 +3062,7 @@ function App() {
   const [intent, setIntent] = React.useState(null);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const pending = React.useRef(null);
+  const returnTo = React.useRef("properties");
   const lenis = () => window.__motion && window.__motion.lenis || null;
   const scrollToId = React.useCallback(id => {
     if (id === "top" || id === "hero") {
@@ -3572,6 +3087,7 @@ function App() {
   }, []);
   const go = React.useCallback(id => {
     if (typeof id === "string" && id.indexOf("story:") === 0) {
+      if (view !== "story") returnTo.current = view === "home" ? "home" : "properties";
       setStory(id.slice(6));
       setView("story");
       const l = lenis();
@@ -3657,8 +3173,8 @@ function App() {
     go: go
   })) : view === "story" ? React.createElement(React.Fragment, null, React.createElement("button", {
     className: "back-home",
-    onClick: () => go("properties"),
-    "aria-label": "Back to properties"
+    onClick: () => go(returnTo.current === "home" ? "projects" : "properties"),
+    "aria-label": returnTo.current === "home" ? "Back to home" : "Back to properties"
   }, React.createElement("span", {
     className: "back-home__arr",
     "aria-hidden": "true"

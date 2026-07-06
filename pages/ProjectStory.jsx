@@ -50,17 +50,21 @@ function ProjectStory({ project, go }) {
   const rest = p.gallery.filter((g) => g !== cover);
   const scenes = rest.slice(0, 3);
 
-  // Endless-scroll: the next project in the shared ordered list.
+  // Endless-scroll: the neighbouring projects in the shared ordered list.
   const list = (typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : []);
   const idx = list.findIndex((x) => x.id === p.id);
   const next = list.length ? list[(idx + 1) % list.length] : null;
+  const prev = list.length ? list[(idx - 1 + list.length) % list.length] : null;
+
+  // A broken Wix URL should fade the image and let the cinematic tone show — never a blank white plate.
+  const onImgError = (e) => { e.currentTarget.style.opacity = "0"; };
 
   return (
     <main className="page-enter story">
 
       {/* 1 — COVER (this is the view's hero: buildHero animates it, no curtain) */}
       <section className="cine story__cover" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-        <img className="cine__img img--warm" alt={p.name} fetchpriority="high" sizes="100vw"
+        <img className="cine__img img--warm" alt={p.name} fetchpriority="high" sizes="100vw" onError={onImgError}
           src={wix(cover, { w: 2000 })}
           srcSet={`${wix(cover, { w: 1200 })} 1200w, ${wix(cover, { w: 2000 })} 2000w, ${wix(cover, { w: 2600 })} 2600w`} />
         <div className="cine__grad" />
@@ -106,7 +110,7 @@ function ProjectStory({ project, go }) {
         <React.Fragment key={i}>
           {scenes[i] && (
             <section className="cine story__scene" style={{ height: "min(92vh, 900px)", minHeight: 460 }}>
-              <img className="cine__img img--warm" data-parallax="0.16" loading="lazy" sizes="100vw"
+              <img className="cine__img img--warm" data-parallax="0.16" loading="lazy" sizes="100vw" onError={onImgError}
                 alt={`${p.name} — view ${i + 1}`}
                 src={wix(scenes[i], { w: 2000 })}
                 srcSet={`${wix(scenes[i], { w: 1200 })} 1200w, ${wix(scenes[i], { w: 2000 })} 2000w`} />
@@ -152,7 +156,10 @@ function ProjectStory({ project, go }) {
                   onClick={() => setLb({ index: i })}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLb({ index: i }); } }}>
                   <div className="pcard__media">
-                    <img className="pcard__img" src={wix(img, { w: 1100 })} alt={`${p.name} — ${i + 1}`} loading="lazy" />
+                    <img className="pcard__img" alt={`${p.name} — ${i + 1}`} loading="lazy" onError={onImgError}
+                      src={wix(img, { w: 900 })}
+                      srcSet={`${wix(img, { w: 600 })} 600w, ${wix(img, { w: 900 })} 900w, ${wix(img, { w: 1300 })} 1300w`}
+                      sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                     <div className="pcard__over"><span className="pcard__cta" style={{ marginTop: "auto" }}>View <span className="arr" /></span></div>
                   </div>
                 </article>
@@ -162,21 +169,24 @@ function ProjectStory({ project, go }) {
         </section>
       )}
 
-      {/* 6 — NEXT PROJECT (endless-scroll feel) */}
+      {/* 6 — CONTINUE: next-project teaser (endless scroll) + previous + all-properties.
+             The big teaser is a real <button> containing only text spans (valid), with the
+             prev / all-properties links as siblings — no interactive nesting. */}
       {next && (
-        <section className="cine story__next" style={{ minHeight: "74svh", display: "flex", flexDirection: "column", justifyContent: "flex-end", cursor: "pointer" }}
-          role="button" tabIndex={0} aria-label={`Next project — ${next.name}`}
-          onClick={() => go("story:" + next.id)}
-          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("story:" + next.id); } }}>
-          <img className="cine__img img--warm" alt={next.name} loading="lazy" src={wix(next.cover || next.gallery[0], { w: 2000 })} />
+        <section className="cine story__next" style={{ minHeight: "70svh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
+          <img className="cine__img img--warm" alt={next.name} loading="lazy" onError={onImgError} sizes="100vw"
+            src={wix(next.cover || next.gallery[0], { w: 2000 })}
+            srcSet={`${wix(next.cover || next.gallery[0], { w: 1200 })} 1200w, ${wix(next.cover || next.gallery[0], { w: 2000 })} 2000w`} />
           <div className="cine__grad" />
           <div className="cine__cap">
             <div className="wrap" style={{ paddingBottom: "clamp(40px,7vw,92px)" }}>
-              <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Next Project</div>
-              <h2 className="h-display u-mt-8" style={{ color: "var(--bone)", maxWidth: "15ch" }}>{next.name}</h2>
-              <div className="u-flex u-gap-16 u-mt-40" style={{ flexWrap: "wrap" }}>
-                <button className="btn" onClick={(e) => { e.stopPropagation(); go("story:" + next.id); }} data-magnetic>View {next.name} <span className="arr" /></button>
-                <button className="btn btn--ghost" onClick={(e) => { e.stopPropagation(); go("properties"); }} data-magnetic style={{ color: "var(--bone)", borderColor: "rgba(236,230,216,.7)" }}>All properties</button>
+              <button className="story__next-hit" onClick={() => go("story:" + next.id)} data-magnetic aria-label={`Open next project — ${next.name}`}>
+                <span className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Next Project</span>
+                <span className="h-display story__next-name u-mt-8">{next.name}</span>
+              </button>
+              <div className="story__endnav">
+                {prev && <button className="story__navlink" onClick={() => go("story:" + prev.id)}>← Previous · {prev.name}</button>}
+                <button className="story__navlink" onClick={() => go("properties")}>All properties →</button>
               </div>
             </div>
           </div>

@@ -170,11 +170,6 @@ img.img-in { animation: img-fade .6s ease both; }
   transform: rotate(45deg);
 }
 .btn:hover .arr { width: 20px; }
-/* Luxury gold CTA */
-.btn--gold {
-  background: var(--accent); color: #14130D; border-color: var(--accent);
-}
-.btn--gold:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #14130D; }
 .btn--gline {
   background: transparent; color: var(--accent-deep); border-color: var(--accent);
 }
@@ -411,16 +406,6 @@ img.img-in { animation: img-fade .6s ease both; }
 .caps { text-transform: uppercase; letter-spacing: .01em; }
 .accent { color: var(--accent); }
 
-/* Capabilities grid (CIM-style vertically integrated platform) */
-.cap-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
-.cap {
-  border-top: 1px solid var(--rule);
-  padding: 28px 28px 36px 0;
-}
-.cap p { color: var(--ink-soft); }
-@media (max-width: 1000px) { .cap-grid { grid-template-columns: repeat(2, 1fr); } .cap { padding-right: 20px; } }
-@media (max-width: 560px)  { .cap-grid { grid-template-columns: 1fr; } }
-
 /* Tabular table -------------------------------------------------------- */
 .tbl {
   width: 100%; border-collapse: collapse;
@@ -523,28 +508,6 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 /* Gold-tinted kicker number used in steppers / pillars */
 .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; color: var(--accent); }
 
-/* DUAL-TRACK PANELS — "For Owners & Developers" / "For Investors" -------- */
-.tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.track {
-  position: relative; overflow: hidden; background: var(--ink);
-  padding: clamp(36px, 4vw, 64px); min-height: 420px;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  transition: background .4s;
-}
-.track__bg { position: absolute; inset: 0; opacity: .28; transition: opacity .6s, transform 1.4s ease; filter: grayscale(.2); }
-.track__bg img { width: 100%; height: 100%; object-fit: cover; }
-.track:hover { background: var(--bone-2); }
-.track:hover .track__bg { opacity: .42; transform: scale(1.04); }
-.track__grad { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,8,10,.4) 0%, rgba(8,8,10,.86) 78%, var(--ink) 100%); }
-.track__body { position: relative; }
-.track__for { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
-.track__title { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 46px); line-height: 1.02; letter-spacing: -.015em; color: var(--bone); margin-top: 16px; }
-.track__desc { color: var(--ink-soft); margin-top: 18px; max-width: 46ch; font-size: 16px; line-height: 1.6; }
-.track__list { list-style: none; padding: 0; margin: 22px 0 28px; display: flex; flex-direction: column; gap: 10px; }
-.track__list li { display: flex; gap: 12px; align-items: baseline; color: var(--ink-soft); font-size: 14px; }
-.track__list li::before { content: ""; width: 5px; height: 5px; flex: 0 0 5px; background: var(--accent); border-radius: 50%; transform: translateY(-2px); }
-@media (max-width: 860px) { .tracks { grid-template-columns: 1fr; } .track { min-height: 340px; } }
-
 /* LIFECYCLE STEPPER — entitlement → delivery ---------------------------- */
 .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 1px solid var(--rule); }
 .flow__step { position: relative; padding: 34px 26px 40px 0; border-right: 1px solid var(--rule-soft); }
@@ -557,14 +520,6 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 @media (max-width: 1000px) { .flow { grid-template-columns: 1fr 1fr; } .flow__step { border-right: 0; border-bottom: 1px solid var(--rule-soft); padding-right: 20px; } }
 @media (max-width: 560px)  { .flow { grid-template-columns: 1fr; } }
 
-/* PILLARS — service capabilities (richer than .cap) --------------------- */
-.pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.pillar { background: var(--ink); padding: clamp(28px, 3vw, 44px); transition: background .3s; }
-.pillar:hover { background: var(--bone-2); }
-.pillar__top { display: flex; align-items: baseline; justify-content: space-between; }
-.pillar__name { font-family: var(--serif); font-size: 26px; letter-spacing: -.01em; margin-top: 18px; color: var(--bone); }
-.pillar__desc { color: var(--ink-soft); font-size: 14.5px; line-height: 1.6; margin-top: 12px; max-width: 52ch; }
-@media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
 
 /* SECTORS — residential / commercial split ----------------------------- */
 .sector { position: relative; overflow: hidden; border: 1px solid var(--rule); background: var(--ink); }
@@ -1253,6 +1208,31 @@ section[id] { scroll-margin-top: 72px; }
 @keyframes story-cue { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(300%); } }
 @media (prefers-reduced-motion: reduce) { .story__cue span { animation: none; opacity: .6; } }
 
-/* Next-project teaser — the whole plate is the affordance; lift on hover. */
+/* Next-project teaser — the headline is the affordance; lift the plate on hover. */
 .story__next .cine__img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
 .story__next:hover .cine__img { transform: scale(1.04); }
+.story__next-hit { display: inline-block; background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.story__next-name { display: block; color: var(--bone); max-width: 15ch; transition: opacity .3s; }
+.story__next-hit:hover .story__next-name { opacity: .84; }
+.story__endnav { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: clamp(26px, 3vw, 44px); }
+.story__navlink { background: transparent; border: 0; padding: 0 0 3px; border-bottom: 1px solid rgba(236, 230, 216, .4);
+  color: var(--bone); font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  cursor: pointer; transition: border-color .3s; }
+.story__navlink:hover { border-color: var(--accent); }
+
+/* Home — featured story lead-in: a large cinematic tile that opens the immersive case study. */
+.story-feature { position: relative; display: block; width: 100%; border: 0; padding: 0; margin: 0 0 clamp(40px, 4.5vw, 64px);
+  overflow: hidden; cursor: pointer; text-align: left; aspect-ratio: 16 / 7; background: var(--bone-2); }
+.story-feature__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1s cubic-bezier(.2, .7, .2, 1); }
+.story-feature:hover .story-feature__img { transform: scale(1.04); }
+.story-feature__grad { position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(20, 16, 11, .16) 0%, rgba(20, 16, 11, .08) 46%, rgba(20, 16, 11, .82) 100%); }
+.story-feature__cap { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 4vw, 54px); color: var(--bone); }
+.story-feature__name { font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 5vw, 72px);
+  line-height: 1; letter-spacing: -.02em; margin-top: 12px; color: var(--bone); }
+.story-feature__meta { font-size: clamp(14px, 1.4vw, 18px); color: var(--bone-soft); margin-top: 12px; max-width: 42ch; }
+.story-feature__cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone); }
+.story-feature:hover .story-feature__cta .arr { transform: translateX(4px); }
+@media (max-width: 640px) { .story-feature { aspect-ratio: 4 / 5; } }

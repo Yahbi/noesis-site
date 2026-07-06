@@ -18,6 +18,7 @@ function App() {
   const [intent, setIntent] = React.useState(null);   // "investor" | "owner" | null — seeds the enquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const pending = React.useRef(null);
+  const returnTo = React.useRef("properties");   // where a story's Back button should land
 
   const lenis = () => (window.__motion && window.__motion.lenis) || null;
 
@@ -37,6 +38,7 @@ function App() {
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
   const go = React.useCallback((id) => {
     if (typeof id === "string" && id.indexOf("story:") === 0) {   // immersive case study
+      if (view !== "story") returnTo.current = (view === "home" ? "home" : "properties");   // remember origin; keep it across story→story
       setStory(id.slice(6));
       setView("story");
       const l = lenis();
@@ -110,7 +112,7 @@ function App() {
         </>
       ) : view === "story" ? (
         <>
-          <button className="back-home" onClick={() => go("properties")} aria-label="Back to properties">
+          <button className="back-home" onClick={() => go(returnTo.current === "home" ? "projects" : "properties")} aria-label={returnTo.current === "home" ? "Back to home" : "Back to properties"}>
             <span className="back-home__arr" aria-hidden="true" /> Back
           </button>
           <ProjectStory key={story} project={typeof PROJECTS !== "undefined" ? PROJECTS[story] : null} go={go} />

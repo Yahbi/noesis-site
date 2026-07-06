@@ -9,6 +9,7 @@ const SHOT = {
   aura:     "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
   cThru:    "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
   lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
+  leBijou:  "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
 };
 
 const ABOUT_VALUES = [
@@ -19,8 +20,8 @@ const ABOUT_VALUES = [
 ];
 
 const PORTFOLIO_STATS = [
-  ["18", "Projects delivered"],
-  ["13", "Private residences"],
+  ["17", "Projects delivered"],
+  ["12", "Private residences"],
   ["3", "Apartment buildings"],
   ["2", "Small-lot subdivisions"],
   ["2009", "Founded"],
@@ -197,6 +198,21 @@ function Home({ go, intent, setIntent }) {
               <button className="btn btn--ghost" onClick={() => go("properties")} data-magnetic>View the full portfolio <span className="arr" /></button>
             </div>
           </div>
+
+          {/* Featured story — a large cinematic lead-in that pulls visitors into the immersive case studies. */}
+          <button className="story-feature reveal" onClick={() => go("story:le-bijou")} aria-label="Featured project — Le Bijou, read the story">
+            <img className="story-feature__img img--warm" alt="Le Bijou, Beverly Hills" loading="lazy" sizes="100vw"
+              onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+              src={wix(SHOT.leBijou, { w: 2000 })}
+              srcSet={`${wix(SHOT.leBijou, { w: 1200 })} 1200w, ${wix(SHOT.leBijou, { w: 2000 })} 2000w`} />
+            <div className="story-feature__grad" />
+            <div className="story-feature__cap">
+              <div className="eyebrow" style={{ color: "rgba(236,230,216,.72)" }}><span className="dot" /> Featured Project</div>
+              <div className="story-feature__name">Le Bijou</div>
+              <div className="story-feature__meta">Beverly Hills — “the jewel,” where receding walls of glass make indoor-outdoor living real.</div>
+              <span className="story-feature__cta">Read the story <span className="arr" /></span>
+            </div>
+          </button>
 
           <div className="statband reveal" style={{ marginBottom: "clamp(40px,4.5vw,64px)" }}>
             {PORTFOLIO_STATS.map(([v, l]) => (
