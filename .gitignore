@@ -1,2 +1,5 @@
 .DS_Store
 node_modules/
+
+# Local preview server config (Claude Code)
+.claude/

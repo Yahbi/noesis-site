@@ -206,16 +206,16 @@ function Home({ go, intent, setIntent }) {
 
           <div className="collage reveal">
             {[
-              [SHOT.casaMani, "Casa Mani", "Beverly Hills", "Designed & built · 2018"],
-              [SHOT.oneOak, "One Oak", "Sunset Strip", "Designed & built · 2015"],
-              [SHOT.aura, "Aura House", "Tel Aviv", "Developed · sold above asking"],
-              [SHOT.cThru, "C Thru", "Beverly Grove", "Designed & built · 2016"],
-              [SHOT.houseG, "House G", "Melrose", "Designed & developed · 2017"],
-              [SHOT.lolivier, "L'Olivier House", "Los Angeles", "Designed & built · 2015"],
-            ].map(([img, name, loc, work]) => (
-              <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the portfolio`}
-                onClick={() => go("properties")}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("properties"); } }}>
+              [SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Designed & built · 2018"],
+              [SHOT.oneOak, "one-oak", "One Oak", "Sunset Strip", "Designed & built · 2015"],
+              [SHOT.aura, "aura-house", "Aura House", "Tel Aviv", "Developed · sold above asking"],
+              [SHOT.cThru, "c-thru", "C Thru", "Beverly Grove", "Designed & built · 2016"],
+              [SHOT.houseG, "house-g", "House G", "Melrose", "Designed & developed · 2017"],
+              [SHOT.lolivier, "lolivier", "L'Olivier House", "Los Angeles", "Designed & built · 2015"],
+            ].map(([img, id, name, loc, work]) => (
+              <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the project story`}
+                onClick={() => go("story:" + id)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("story:" + id); } }}>
                 <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
                 <div className="pcard__cap">
                   <div>

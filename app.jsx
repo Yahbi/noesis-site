@@ -11,8 +11,9 @@ const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "managemen
 const NAV_OFFSET = 72;
 
 function App() {
-  // view: "home" (the one-pager) or "properties" (full gallery)
+  // view: "home" (one-pager) · "properties" (index) · "approach" · "story" (case study)
   const [view, setView] = React.useState("home");
+  const [story, setStory] = React.useState(null);      // active project id for the story view
   const [active, setActive] = React.useState(null);
   const [intent, setIntent] = React.useState(null);   // "investor" | "owner" | null — seeds the enquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
@@ -35,6 +36,14 @@ function App() {
 
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
   const go = React.useCallback((id) => {
+    if (typeof id === "string" && id.indexOf("story:") === 0) {   // immersive case study
+      setStory(id.slice(6));
+      setView("story");
+      const l = lenis();
+      if (l && l.scrollTo) l.scrollTo(0, { immediate: true });
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
     if (id === "properties" || id === "approach") {   // deep sub-views
       setView(id);
       window.scrollTo({ top: 0, behavior: "auto" });
@@ -64,7 +73,7 @@ function App() {
       // wait a frame so the home DOM is committed before measuring
       setTimeout(() => scrollToId(id), 60);
     }
-  }, [view, scrollToId]);
+  }, [view, story, scrollToId]);   // `story` so next-project navigation rebinds motion
 
   // Scroll-spy — highlight the section currently crossing mid-viewport.
   React.useEffect(() => {
@@ -98,6 +107,13 @@ function App() {
             <span className="back-home__arr" aria-hidden="true" /> Back
           </button>
           <Approach go={go} />
+        </>
+      ) : view === "story" ? (
+        <>
+          <button className="back-home" onClick={() => go("properties")} aria-label="Back to properties">
+            <span className="back-home__arr" aria-hidden="true" /> Back
+          </button>
+          <ProjectStory key={story} project={typeof PROJECTS !== "undefined" ? PROJECTS[story] : null} go={go} />
         </>
       ) : (
         <>

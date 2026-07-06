@@ -15,6 +15,7 @@ npx babel \
   pages/Home.jsx \
   pages/Approach.jsx \
   pages/Projects.jsx \
+  pages/ProjectStory.jsx \
   app.jsx \
   --presets=@babel/preset-react --no-comments -o bundle.js
 echo "bundle.js: $(wc -c < bundle.js) bytes"

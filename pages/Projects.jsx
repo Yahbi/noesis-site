@@ -95,11 +95,10 @@ const CATEGORIES = [
 
 function Projects({ setPage }) {
   const [tab, setTab] = React.useState("sfr");
-  const [lb, setLb] = React.useState(null);     // { project, index }
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
   const rest = cat.items.slice(1);
-  const openLb = (p, i) => setLb({ project: p, index: i || 0 });
+  const openStory = (p) => setPage("story:" + p.id);   // each card opens the immersive story
 
   return (
     <main className="page-enter">
@@ -138,9 +137,9 @@ function Projects({ setPage }) {
         <div className="wrap">
           <div className="eyebrow" style={{ marginBottom: 28 }}><span className="dot" /> Featured · {cat.label}</div>
           <div className="pfeat">
-            <div className="pfeat__media" role="button" tabIndex={0} aria-label={`Open ${feat.name} gallery`}
-              onClick={() => openLb(feat, 0)}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(feat, 0); } }}>
+            <div className="pfeat__media" role="button" tabIndex={0} aria-label={`Open the ${feat.name} story`}
+              onClick={() => openStory(feat)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openStory(feat); } }}>
               <img src={wix(feat.cover || feat.gallery[0], { w: 1900 })} alt={feat.name} />
               {feat.gallery.length > 1 && <div className="pfeat__badge">{feat.gallery.length} Photos</div>}
             </div>
@@ -155,7 +154,7 @@ function Projects({ setPage }) {
                 ))}
               </div>
               <p className="body-lg" style={{ maxWidth: "54ch" }}>{feat.text.split("\n\n")[0]}</p>
-              <button className="btn u-mt-40" onClick={() => openLb(feat, 0)}>Browse the Gallery <span className="arr" /></button>
+              <button className="btn u-mt-40" onClick={() => openStory(feat)}>View the Project <span className="arr" /></button>
             </div>
           </div>
         </div>
@@ -169,14 +168,14 @@ function Projects({ setPage }) {
               const cover = p.cover || p.gallery[0];
               const count = p.gallery.length;
               return (
-                <article key={p.id} className="pcard" role="button" tabIndex={0} aria-label={`Open ${p.name} gallery`}
-                  onClick={() => openLb(p, 0)}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(p, 0); } }}>
+                <article key={p.id} className="pcard" role="button" tabIndex={0} aria-label={`Open the ${p.name} story`}
+                  onClick={() => openStory(p)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openStory(p); } }}>
                   <div className="pcard__media">
                     <img className="pcard__img" src={wix(cover, { w: 1100 })} alt={p.name} loading="lazy" />
                     <div className="pcard__over">
                       {count > 1 && <span className="pcard__count">{count} Photos</span>}
-                      <span className="pcard__cta">View Gallery <span className="arr" /></span>
+                      <span className="pcard__cta">View Project <span className="arr" /></span>
                     </div>
                   </div>
                   <div className="pcard__cap">
@@ -199,8 +198,6 @@ function Projects({ setPage }) {
           <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")}>How We Manage <span className="arr" /></button></div>
         </div>
       </section>
-
-      {lb && <Lightbox project={lb.project} start={lb.index} onClose={() => setLb(null)} />}
     </main>
   );
 }
@@ -300,4 +297,11 @@ function Lightbox({ project, start, onClose }) {
   );
 }
 
+// Flat, ordered project lookup — shared with the immersive story view (ProjectStory.jsx).
+const PROJECT_LIST = CATEGORIES.flatMap((c) => c.items.map((it) => ({ ...it, category: c.label, categoryKey: c.key })));
+const PROJECTS = Object.fromEntries(PROJECT_LIST.map((p) => [p.id, p]));
+
 window.Projects = Projects;
+window.Lightbox = Lightbox;
+window.PROJECT_LIST = PROJECT_LIST;
+window.PROJECTS = PROJECTS;

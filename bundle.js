@@ -1790,17 +1790,17 @@ function Home({
     className: "statband__l"
   }, l)))), React.createElement("div", {
     className: "collage reveal"
-  }, [[SHOT.casaMani, "Casa Mani", "Beverly Hills", "Designed & built · 2018"], [SHOT.oneOak, "One Oak", "Sunset Strip", "Designed & built · 2015"], [SHOT.aura, "Aura House", "Tel Aviv", "Developed · sold above asking"], [SHOT.cThru, "C Thru", "Beverly Grove", "Designed & built · 2016"], [SHOT.houseG, "House G", "Melrose", "Designed & developed · 2017"], [SHOT.lolivier, "L'Olivier House", "Los Angeles", "Designed & built · 2015"]].map(([img, name, loc, work]) => React.createElement("article", {
+  }, [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Designed & built · 2018"], [SHOT.oneOak, "one-oak", "One Oak", "Sunset Strip", "Designed & built · 2015"], [SHOT.aura, "aura-house", "Aura House", "Tel Aviv", "Developed · sold above asking"], [SHOT.cThru, "c-thru", "C Thru", "Beverly Grove", "Designed & built · 2016"], [SHOT.houseG, "house-g", "House G", "Melrose", "Designed & developed · 2017"], [SHOT.lolivier, "lolivier", "L'Olivier House", "Los Angeles", "Designed & built · 2015"]].map(([img, id, name, loc, work]) => React.createElement("article", {
     key: name,
     className: "pcard",
     role: "button",
     tabIndex: 0,
-    "aria-label": `${name}, ${loc} — view the portfolio`,
-    onClick: () => go("properties"),
+    "aria-label": `${name}, ${loc} — view the project story`,
+    onClick: () => go("story:" + id),
     onKeyDown: e => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        go("properties");
+        go("story:" + id);
       }
     }
   }, React.createElement("div", {
@@ -2814,14 +2814,10 @@ function Projects({
   setPage
 }) {
   const [tab, setTab] = React.useState("sfr");
-  const [lb, setLb] = React.useState(null);
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
   const rest = cat.items.slice(1);
-  const openLb = (p, i) => setLb({
-    project: p,
-    index: i || 0
-  });
+  const openStory = p => setPage("story:" + p.id);
   return React.createElement("main", {
     className: "page-enter"
   }, React.createElement("section", {
@@ -2911,12 +2907,12 @@ function Projects({
     className: "pfeat__media",
     role: "button",
     tabIndex: 0,
-    "aria-label": `Open ${feat.name} gallery`,
-    onClick: () => openLb(feat, 0),
+    "aria-label": `Open the ${feat.name} story`,
+    onClick: () => openStory(feat),
     onKeyDown: e => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        openLb(feat, 0);
+        openStory(feat);
       }
     }
   }, React.createElement("img", {
@@ -2955,8 +2951,8 @@ function Projects({
     }
   }, feat.text.split("\n\n")[0]), React.createElement("button", {
     className: "btn u-mt-40",
-    onClick: () => openLb(feat, 0)
-  }, "Browse the Gallery ", React.createElement("span", {
+    onClick: () => openStory(feat)
+  }, "View the Project ", React.createElement("span", {
     className: "arr"
   })))))), React.createElement("section", {
     className: "section",
@@ -2976,12 +2972,12 @@ function Projects({
       className: "pcard",
       role: "button",
       tabIndex: 0,
-      "aria-label": `Open ${p.name} gallery`,
-      onClick: () => openLb(p, 0),
+      "aria-label": `Open the ${p.name} story`,
+      onClick: () => openStory(p),
       onKeyDown: e => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          openLb(p, 0);
+          openStory(p);
         }
       }
     }, React.createElement("div", {
@@ -2999,7 +2995,7 @@ function Projects({
       className: "pcard__count"
     }, count, " Photos"), React.createElement("span", {
       className: "pcard__cta"
-    }, "View Gallery ", React.createElement("span", {
+    }, "View Project ", React.createElement("span", {
       className: "arr"
     })))), React.createElement("div", {
       className: "pcard__cap"
@@ -3030,11 +3026,7 @@ function Projects({
     onClick: () => setPage("services")
   }, "How We Manage ", React.createElement("span", {
     className: "arr"
-  }))))), lb && React.createElement(Lightbox, {
-    project: lb.project,
-    start: lb.index,
-    onClose: () => setLb(null)
-  }));
+  }))))));
 }
 function Lightbox({
   project,
@@ -3187,7 +3179,368 @@ function Lightbox({
     onClick: () => setI(k)
   }))));
 }
+const PROJECT_LIST = CATEGORIES.flatMap(c => c.items.map(it => ({
+  ...it,
+  category: c.label,
+  categoryKey: c.key
+})));
+const PROJECTS = Object.fromEntries(PROJECT_LIST.map(p => [p.id, p]));
 window.Projects = Projects;
+window.Lightbox = Lightbox;
+window.PROJECT_LIST = PROJECT_LIST;
+window.PROJECTS = PROJECTS;
+function storyParas(text) {
+  return (text || "").split("\n\n").map(s => s.trim()).filter(Boolean);
+}
+function sentences(text) {
+  if (!text) return [];
+  const m = text.match(/[^.!?]+[.!?]+/g);
+  return (m || [text]).map(s => s.trim()).filter(Boolean);
+}
+function outcomeFor(p) {
+  const facts = p.facts || [];
+  const find = k => {
+    const hit = facts.find(([kk]) => kk.toLowerCase() === k);
+    return hit ? hit[1] : null;
+  };
+  const sold = find("sold");
+  if (sold) return sold;
+  const status = find("status");
+  if (status) return status;
+  const t = (p.text || "").toLowerCase();
+  if (t.indexOf("sold above asking") !== -1) return "Delivered and sold above asking";
+  if (t.indexOf("ahead of schedule") !== -1) return "Delivered ahead of schedule";
+  return null;
+}
+function ProjectStory({
+  project,
+  go
+}) {
+  const p = project;
+  const [lb, setLb] = React.useState(null);
+  if (!p) {
+    return React.createElement("main", {
+      className: "page-enter section"
+    }, React.createElement("div", {
+      className: "wrap"
+    }, React.createElement("div", {
+      className: "eyebrow"
+    }, React.createElement("span", {
+      className: "dot"
+    }), " Not found"), React.createElement("h1", {
+      className: "h-1 caps u-mt-16"
+    }, "This project could not be found."), React.createElement("button", {
+      className: "btn u-mt-40",
+      onClick: () => go("properties")
+    }, "View all properties ", React.createElement("span", {
+      className: "arr"
+    }))));
+  }
+  const paras = storyParas(p.text);
+  const cover = p.cover || p.gallery[0];
+  const facts = p.facts || [];
+  const outcome = outcomeFor(p);
+  const rest = p.gallery.filter(g => g !== cover);
+  const scenes = rest.slice(0, 3);
+  const beats = sentences(paras[1] || "");
+  const list = typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : [];
+  const idx = list.findIndex(x => x.id === p.id);
+  const next = list.length ? list[(idx + 1) % list.length] : null;
+  return React.createElement("main", {
+    className: "page-enter story"
+  }, React.createElement("section", {
+    className: "cine story__cover",
+    style: {
+      minHeight: "100svh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-end"
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    alt: p.name,
+    fetchpriority: "high",
+    sizes: "100vw",
+    src: wix(cover, {
+      w: 2000
+    }),
+    srcSet: `${wix(cover, {
+      w: 1200
+    })} 1200w, ${wix(cover, {
+      w: 2000
+    })} 2000w, ${wix(cover, {
+      w: 2600
+    })} 2600w`
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "wrap",
+    style: {
+      position: "relative",
+      zIndex: 1,
+      paddingBottom: "clamp(52px,9vh,120px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow",
+    "data-hero-fade": true,
+    style: {
+      color: "rgba(236,230,216,.72)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " ", p.category, p.year ? ` · ${p.year}` : ""), React.createElement("h1", {
+    className: "h-display u-mt-16",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "15ch"
+    }
+  }, p.name), React.createElement("div", {
+    className: "lede u-mt-16",
+    "data-hero-fade": true,
+    style: {
+      color: "rgba(236,230,216,.86)",
+      maxWidth: "40ch"
+    }
+  }, p.loc)), React.createElement("div", {
+    className: "story__cue",
+    "data-hero-fade": true,
+    "aria-hidden": "true"
+  }, React.createElement("span", null))), React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap grid-12",
+    style: {
+      alignItems: "start"
+    }
+  }, React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Project"), React.createElement("div", {
+    className: "story__role u-mt-24"
+  }, "Designed, developed & delivered by Noesis")), React.createElement("div", {
+    className: "col-8 reveal"
+  }, paras[0] && React.createElement("p", {
+    className: "lede"
+  }, paras[0]))), facts.length > 0 && React.createElement("div", {
+    className: "wrap u-mt-64 reveal"
+  }, React.createElement("div", {
+    className: "story__specs"
+  }, facts.map(([k, v]) => React.createElement("div", {
+    className: "story__spec",
+    key: k
+  }, React.createElement("div", {
+    className: "k"
+  }, k), React.createElement("div", {
+    className: "v"
+  }, v)))))), scenes.map((img, i) => React.createElement("section", {
+    key: img,
+    className: "cine story__scene",
+    style: {
+      height: "min(92vh, 900px)",
+      minHeight: 460
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    "data-parallax": "0.16",
+    loading: "lazy",
+    sizes: "100vw",
+    alt: `${p.name} — interior ${i + 1}`,
+    src: wix(img, {
+      w: 2000
+    }),
+    srcSet: `${wix(img, {
+      w: 1200
+    })} 1200w, ${wix(img, {
+      w: 2000
+    })} 2000w`
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), beats[i] && React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(36px,6vw,72px)"
+    }
+  }, React.createElement("p", {
+    className: "pull story__beat",
+    style: {
+      maxWidth: "22ch"
+    }
+  }, beats[i]))))), outcome && React.createElement("section", {
+    className: "section section--ink"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      textAlign: "center"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow reveal",
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      justifyContent: "center"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Outcome"), React.createElement("h2", {
+    className: "h-1 caps reveal",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "22ch",
+      margin: "18px auto 0"
+    }
+  }, outcome))), p.gallery.length > 1 && React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,40px)"
+    }
+  }, React.createElement("div", {
+    className: "col-8"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Gallery"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
+    style: {
+      textTransform: "none"
+    }
+  }, "Inside ", p.name)), React.createElement("div", {
+    className: "col-4 u-tr"
+  }, React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => setLb({
+      index: 0
+    }),
+    "data-magnetic": true
+  }, "Open full gallery ", React.createElement("span", {
+    className: "arr"
+  })))), React.createElement("div", {
+    className: "collage reveal"
+  }, p.gallery.map((img, i) => React.createElement("article", {
+    key: img,
+    className: "pcard",
+    role: "button",
+    tabIndex: 0,
+    "aria-label": `${p.name} — photograph ${i + 1}`,
+    onClick: () => setLb({
+      index: i
+    }),
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setLb({
+          index: i
+        });
+      }
+    }
+  }, React.createElement("div", {
+    className: "pcard__media"
+  }, React.createElement("img", {
+    className: "pcard__img",
+    src: wix(img, {
+      w: 1100
+    }),
+    alt: `${p.name} — ${i + 1}`,
+    loading: "lazy"
+  }), React.createElement("div", {
+    className: "pcard__over"
+  }, React.createElement("span", {
+    className: "pcard__cta",
+    style: {
+      marginTop: "auto"
+    }
+  }, "View ", React.createElement("span", {
+    className: "arr"
+  }))))))))), next && React.createElement("section", {
+    className: "cine story__next",
+    style: {
+      minHeight: "74svh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-end",
+      cursor: "pointer"
+    },
+    role: "button",
+    tabIndex: 0,
+    "aria-label": `Next project — ${next.name}`,
+    onClick: () => go("story:" + next.id),
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        go("story:" + next.id);
+      }
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    alt: next.name,
+    loading: "lazy",
+    src: wix(next.cover || next.gallery[0], {
+      w: 2000
+    })
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(40px,7vw,92px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      color: "rgba(236,230,216,.62)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Next Project"), React.createElement("h2", {
+    className: "h-display u-mt-8",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "15ch"
+    }
+  }, next.name), React.createElement("div", {
+    className: "u-flex u-gap-16 u-mt-40",
+    style: {
+      flexWrap: "wrap"
+    }
+  }, React.createElement("button", {
+    className: "btn",
+    onClick: e => {
+      e.stopPropagation();
+      go("story:" + next.id);
+    },
+    "data-magnetic": true
+  }, "View ", next.name, " ", React.createElement("span", {
+    className: "arr"
+  })), React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: e => {
+      e.stopPropagation();
+      go("properties");
+    },
+    "data-magnetic": true,
+    style: {
+      color: "var(--bone)",
+      borderColor: "rgba(236,230,216,.7)"
+    }
+  }, "All properties"))))), lb && React.createElement(Lightbox, {
+    project: p,
+    start: lb.index,
+    onClose: () => setLb(null)
+  }));
+}
+window.ProjectStory = ProjectStory;
 const TWEAK_DEFAULTS = {
   "accent": "#9A6A3E",
   "displayFont": "Jost"
@@ -3198,6 +3551,7 @@ const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "managemen
 const NAV_OFFSET = 72;
 function App() {
   const [view, setView] = React.useState("home");
+  const [story, setStory] = React.useState(null);
   const [active, setActive] = React.useState(null);
   const [intent, setIntent] = React.useState(null);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
@@ -3225,6 +3579,19 @@ function App() {
     });
   }, []);
   const go = React.useCallback(id => {
+    if (typeof id === "string" && id.indexOf("story:") === 0) {
+      setStory(id.slice(6));
+      setView("story");
+      const l = lenis();
+      if (l && l.scrollTo) l.scrollTo(0, {
+        immediate: true
+      });
+      window.scrollTo({
+        top: 0,
+        behavior: "auto"
+      });
+      return;
+    }
     if (id === "properties" || id === "approach") {
       setView(id);
       window.scrollTo({
@@ -3253,7 +3620,7 @@ function App() {
       pending.current = null;
       setTimeout(() => scrollToId(id), 60);
     }
-  }, [view, scrollToId]);
+  }, [view, story, scrollToId]);
   React.useEffect(() => {
     if (view !== "home") {
       setActive(null);
@@ -3295,6 +3662,17 @@ function App() {
     className: "back-home__arr",
     "aria-hidden": "true"
   }), " Back"), React.createElement(Approach, {
+    go: go
+  })) : view === "story" ? React.createElement(React.Fragment, null, React.createElement("button", {
+    className: "back-home",
+    onClick: () => go("properties"),
+    "aria-label": "Back to properties"
+  }, React.createElement("span", {
+    className: "back-home__arr",
+    "aria-hidden": "true"
+  }), " Back"), React.createElement(ProjectStory, {
+    key: story,
+    project: typeof PROJECTS !== "undefined" ? PROJECTS[story] : null,
     go: go
   })) : React.createElement(React.Fragment, null, React.createElement("button", {
     className: "back-home",

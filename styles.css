@@ -1214,3 +1214,42 @@ section[id] { scroll-margin-top: 72px; }
    Layers ON TOP of the global house grade (styles.css ~964); applied per-image. */
 .img--warm { filter: saturate(.72) sepia(.16) contrast(1.05) brightness(1); }
 .sector__img img.img--warm { filter: saturate(.72) sepia(.16) contrast(1.05) brightness(.82); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ProjectStory — immersive, scroll-driven case study.
+   Reuses .cine (curtain wipe + parallax), .cine__grad, .cine__cap, .collage,
+   .pcard and the shared Lightbox; only the story-specific chrome lives here.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Cover — the view's hero. buildHero rises the .h-display; no curtain. */
+.story__cover .cine__img { transform-origin: 50% 55%; }
+
+/* One-line Noesis attribution on the overview column. */
+.story__role { font-family: var(--sans); font-weight: 500; font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); line-height: 1.5; max-width: 22ch; }
+
+/* Spec strip — mono keys, serif values; flows for 2–4 facts without empty columns. */
+.story__specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: clamp(20px, 2.8vw, 44px); border-top: 1px solid var(--rule); padding-top: 36px; }
+.story__spec .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); }
+.story__spec .v { font-family: var(--serif); font-weight: 300; font-size: clamp(19px, 1.7vw, 26px);
+  color: var(--ink); line-height: 1.14; letter-spacing: -.01em; margin-top: 10px; text-wrap: balance; }
+@media (max-width: 400px) { .story__specs { grid-template-columns: 1fr; } }
+
+/* Walk-through beats — a .pull line over a dark plate must read in bone, not ink. */
+.cine__cap .pull, .story__beat { color: var(--bone); }
+.story__beat em { color: var(--accent); font-style: italic; }
+
+/* Cover scroll cue — a minimal falling hairline; inert under reduced-motion. */
+.story__cue { position: absolute; left: 50%; bottom: clamp(16px, 3vh, 30px);
+  transform: translateX(-50%); z-index: 1; width: 1px; height: 46px; overflow: hidden;
+  background: linear-gradient(to bottom, transparent, rgba(236,230,216,.28)); }
+.story__cue span { position: absolute; top: 0; left: 0; width: 100%; height: 50%;
+  background: rgba(236,230,216,.9); animation: story-cue 2.3s cubic-bezier(.7,0,.3,1) infinite; }
+@keyframes story-cue { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(300%); } }
+@media (prefers-reduced-motion: reduce) { .story__cue span { animation: none; opacity: .6; } }
+
+/* Next-project teaser — the whole plate is the affordance; lift on hover. */
+.story__next .cine__img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.story__next:hover .cine__img { transform: scale(1.04); }
