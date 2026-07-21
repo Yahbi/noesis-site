@@ -8,9 +8,9 @@ const SHOT = {
   oneOak:   "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
   houseG:   "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
   aura:     "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
-  cThru:    "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
+  cThru:    "assets/img/cthru-cover.jpg",
   lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
-  leBijou:  "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
+  leBijou:  "assets/img/lebijou-cover.jpg",
 };
 
 const ABOUT_VALUES = [
@@ -385,16 +385,15 @@ function Home({ go, intent, setIntent }) {
 
         <div className="wrap u-mt-64">
           <div className="eyebrow reveal"><span className="dot" /> How We Work</div>
-          <div className="rows u-mt-24">
+          <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "clamp(20px,2.5vw,40px)", marginTop: 28, borderTop: "1px solid var(--rule)", paddingTop: 36 }}>
             {ABOUT_VALUES.map(([t, d], i) => (
-              <div key={t} className="row reveal">
-                <div className="row__idx">0{i + 1}</div>
-                <div className="row__title">{t}</div>
-                <p className="row__desc">{d}</p>
+              <div key={t}>
+                <div className="wwd-cap__n">0{i + 1}</div>
+                <div style={{ fontFamily: "var(--sans)", fontWeight: 300, fontSize: "clamp(18px,1.6vw,22px)", marginTop: 14, color: "var(--ink)" }}>{t}</div>
+                <p style={{ color: "var(--ink-soft)", fontSize: 13.5, lineHeight: 1.6, marginTop: 10 }}>{d}</p>
               </div>
             ))}
           </div>
-          <button className="link-u u-mt-40" onClick={() => go("projects")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent-deep)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px" }}>See the work</button>
         </div>
 
         <div className="wrap u-mt-64">
@@ -411,13 +410,10 @@ function Home({ go, intent, setIntent }) {
         </div>
       </section>
 
-      {/* ── FOUNDER ────────────────────────────────────────────────── */}
+      {/* ── FOUNDER — folded into the Firm flow (no standalone header) ── */}
       <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
-          <div className="reveal" style={{ marginBottom: "clamp(32px,4vw,52px)" }}>
-            <div className="eyebrow"><span className="dot" /> Founder</div>
-            <h2 className="h-1 u-mt-16 caps">The principal behind Noesis.</h2>
-          </div>
+          <div className="eyebrow reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}><span className="dot" /> Founder</div>
           <div className="grid-12 reveal" style={{ gap: 48, alignItems: "start" }}>
             <div className="col-5">
               <div className="thumb thumb--tall" style={{ overflow: "hidden" }}>

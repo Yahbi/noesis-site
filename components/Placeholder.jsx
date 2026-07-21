@@ -4,6 +4,8 @@
 function wix(id, opts = {}) {
   // Accept either a PHOTO key (e.g. "ying_ext_tall") or a raw wix media id.
   if (typeof PHOTO !== "undefined" && PHOTO[id]) id = PHOTO[id];
+  // Local/absolute assets (e.g. Higgsfield-enhanced covers in assets/img/) pass through untouched.
+  if (/^(https?:)?\//.test(id) || id.indexOf("assets/") === 0) return id;
   // Offline/standalone: if the bundler inlined this media, return its blob URL.
   if (typeof window !== "undefined" && window.__resources && window.__MEDIA2KEY) {
     const key = window.__MEDIA2KEY[id];
