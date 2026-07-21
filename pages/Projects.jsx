@@ -28,7 +28,7 @@ const CATEGORIES = [
   {
     key: "sfr", label: "Single Family Residences",
     items: [
-      { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"],
+      { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"], video: "assets/oneoak-film.mp4?v=1",
         text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
         facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]] },
       { id: "casa-mani", name: "Casa Mani", loc: "Beverly Hills", year: "2018", gallery: GAL["casa-mani"],
@@ -91,6 +91,17 @@ const CATEGORIES = [
         facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"]] },
     ],
   },
+];
+
+// Delivered projects from the firm's record whose photography isn't digitized yet —
+// listed as track record (facts from the client's completed-projects docs).
+const FURTHER_RECORD = [
+  ["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark."],
+  ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property."],
+  ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths."],
+  ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors."],
+  ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside."],
+  ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings."],
 ];
 
 function Projects({ setPage }) {
@@ -188,6 +199,26 @@ function Projects({ setPage }) {
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Further delivered work — record-only entries from the firm's project docs
+          (no photography digitized yet; facts verbatim from the completed-projects record). */}
+      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap">
+          <div className="eyebrow reveal"><span className="dot" /> Further Delivered Work · 2011 — 2017</div>
+          <div className="rows u-mt-24">
+            {FURTHER_RECORD.map(([name, loc, year, note], i) => (
+              <div key={name} className="row reveal">
+                <div className="row__idx">0{i + 1}</div>
+                <div>
+                  <div className="row__title">{name}</div>
+                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 10 }}>{loc} · {year}</div>
+                </div>
+                <p className="row__desc">{note}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

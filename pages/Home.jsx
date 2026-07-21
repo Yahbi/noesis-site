@@ -20,10 +20,12 @@ const ABOUT_VALUES = [
   ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."],
 ];
 
+// Full delivered record — gallery projects (17) plus the six record-only
+// entries listed on the Portfolio index (FURTHER_RECORD in Projects.jsx).
 const PORTFOLIO_STATS = [
-  ["17", "Projects delivered"],
-  ["12", "Private residences"],
-  ["3", "Apartment buildings"],
+  ["23", "Projects delivered"],
+  ["16", "Private residences"],
+  ["5", "Apartment buildings"],
   ["2", "Small-lot subdivisions"],
   ["2009", "Founded"],
 ];
@@ -293,7 +295,8 @@ function Home({ go, intent, setIntent }) {
         </div>
       </section>
 
-      {/* cinematic reel — a film of the real delivered work */}
+      {/* cinematic reel — ambient loop of the delivered work; "Watch the film"
+          swaps in the full Noesis launch film with sound + controls. */}
       <section className="cine cine--video" style={{ height: "min(86vh, 840px)", minHeight: 500 }}>
         <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" />
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
@@ -302,6 +305,7 @@ function Home({ go, intent, setIntent }) {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
             const tryPlay = () => {
               if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
+              if (el.__manual) return;   // visitor started the launch film — hands off
               if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }
               else if (!el.paused) { el.pause(); }
             };
@@ -313,6 +317,17 @@ function Home({ go, intent, setIntent }) {
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
             <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Conceived, developed &amp; delivered by Noesis</div>
             <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "18ch" }}>We have stood where our partners stand.</h2>
+            <button className="btn u-mt-24" data-magnetic
+              onClick={(e) => {
+                const sec = e.currentTarget.closest("section");
+                const v = sec && sec.querySelector("video");
+                if (!v) return;
+                v.__manual = true; v.loop = false; v.controls = true; v.muted = false;
+                v.src = "assets/noesis-launch.mp4?v=1"; v.load();
+                const p = v.play(); if (p && p.catch) p.catch(() => {});
+                const cap = sec.querySelector(".cine__cap"); if (cap) cap.style.display = "none";
+                const grad = sec.querySelector(".cine__grad"); if (grad) grad.style.display = "none";
+              }}>Watch the film · 2 min <span className="arr" /></button>
           </div>
         </div>
       </section>

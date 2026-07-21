@@ -963,7 +963,7 @@ const SHOT = {
   leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg"
 };
 const ABOUT_VALUES = [["Alignment", "We succeed when our clients and partners do. We take the owner's side, and we put our own capital and reputation behind our convictions."], ["Discretion", "We work quietly for private clients, principals and family offices. Confidentiality is built into every engagement."], ["Stewardship", "We treat every project and every dollar of capital as if it were our own — because, often, it is."], ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."]];
-const PORTFOLIO_STATS = [["17", "Projects delivered"], ["12", "Private residences"], ["3", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
+const PORTFOLIO_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const WWD_PILLARS = [["01", "Development", "We acquire and develop ground-up — luxury residences, small-lot subdivisions and apartment buildings — conceived, entitled, designed and built by our own team."], ["02", "Investment", "We invest our own capital alongside our partners', across opportunistic, value-add and stabilized strategies, where our development edge creates the value."], ["03", "Owner's Representation", "For a select few owners, the same discipline applied to your project — one accountable advocate from entitlement to delivery."]];
 const STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
 const PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
@@ -1466,6 +1466,7 @@ function Home({
           if (el.__io) el.__io.disconnect();
           return;
         }
+        if (el.__manual) return;
         if (!document.hidden && el.__inView) {
           if (el.paused) {
             const p = el.play();
@@ -1509,7 +1510,29 @@ function Home({
       color: "var(--bone)",
       maxWidth: "18ch"
     }
-  }, "We have stood where our partners stand.")))), React.createElement("section", {
+  }, "We have stood where our partners stand."), React.createElement("button", {
+    className: "btn u-mt-24",
+    "data-magnetic": true,
+    onClick: e => {
+      const sec = e.currentTarget.closest("section");
+      const v = sec && sec.querySelector("video");
+      if (!v) return;
+      v.__manual = true;
+      v.loop = false;
+      v.controls = true;
+      v.muted = false;
+      v.src = "assets/noesis-launch.mp4?v=1";
+      v.load();
+      const p = v.play();
+      if (p && p.catch) p.catch(() => {});
+      const cap = sec.querySelector(".cine__cap");
+      if (cap) cap.style.display = "none";
+      const grad = sec.querySelector(".cine__grad");
+      if (grad) grad.style.display = "none";
+    }
+  }, "Watch the film \xB7 2 min ", React.createElement("span", {
+    className: "arr"
+  }))))), React.createElement("section", {
     id: "owners-rep",
     className: "section section--ink"
   }, React.createElement("div", {
@@ -2184,6 +2207,7 @@ const CATEGORIES = [{
     loc: "Sunset Strip, Los Angeles",
     year: "2015",
     gallery: GAL["one-oak"],
+    video: "assets/oneoak-film.mp4?v=1",
     text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
     facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]]
   }, {
@@ -2327,6 +2351,7 @@ const CATEGORIES = [{
     facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"]]
   }]
 }];
+const FURTHER_RECORD = [["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark."], ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property."], ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths."], ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors."], ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside."], ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings."]];
 function Projects({
   setPage
 }) {
@@ -2524,6 +2549,38 @@ function Projects({
       className: "pcard__yr"
     }, p.year)));
   })))), React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "eyebrow reveal"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Further Delivered Work \xB7 2011 \u2014 2017"), React.createElement("div", {
+    className: "rows u-mt-24"
+  }, FURTHER_RECORD.map(([name, loc, year, note], i) => React.createElement("div", {
+    key: name,
+    className: "row reveal"
+  }, React.createElement("div", {
+    className: "row__idx"
+  }, "0", i + 1), React.createElement("div", null, React.createElement("div", {
+    className: "row__title"
+  }, name), React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 11,
+      letterSpacing: ".14em",
+      textTransform: "uppercase",
+      color: "var(--accent-deep)",
+      marginTop: 10
+    }
+  }, loc, " \xB7 ", year)), React.createElement("p", {
+    className: "row__desc"
+  }, note)))))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end"
@@ -2852,7 +2909,81 @@ function ProjectStory({
     className: "k"
   }, k), React.createElement("div", {
     className: "v"
-  }, v)))))), Array.from({
+  }, v)))))), p.video && React.createElement("section", {
+    className: "cine cine--video story__scene",
+    style: {
+      height: "min(92vh, 900px)",
+      minHeight: 460
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    alt: `${p.name} — film still`,
+    loading: "lazy",
+    onError: onImgError,
+    src: wix(cover, {
+      w: 1600
+    })
+  }), React.createElement("video", {
+    className: "cine__vid",
+    autoPlay: true,
+    loop: true,
+    muted: true,
+    playsInline: true,
+    preload: "none",
+    poster: wix(cover, {
+      w: 1200
+    }),
+    src: p.video,
+    ref: el => {
+      if (!el || el.__keeper) return;
+      el.__keeper = true;
+      el.muted = true;
+      el.__inView = false;
+      const tryPlay = () => {
+        if (!el.isConnected) {
+          clearInterval(el.__iv);
+          document.removeEventListener("visibilitychange", tryPlay);
+          if (el.__io) el.__io.disconnect();
+          return;
+        }
+        if (!document.hidden && el.__inView) {
+          if (el.paused) {
+            const pr = el.play();
+            if (pr && pr.catch) pr.catch(() => {});
+          }
+        } else if (!el.paused) {
+          el.pause();
+        }
+      };
+      if ("IntersectionObserver" in window) {
+        el.__io = new IntersectionObserver(e => {
+          el.__inView = e[0] && e[0].isIntersecting;
+          tryPlay();
+        }, {
+          threshold: 0.15
+        });
+        el.__io.observe(el);
+      }
+      el.__iv = setInterval(tryPlay, 2500);
+      document.addEventListener("visibilitychange", tryPlay);
+    }
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(28px,5vw,56px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      color: "rgba(236,230,216,.62)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " ", p.name, " \u2014 on film")))), Array.from({
     length: Math.max(bodyParas.length, scenes.length)
   }).map((_, i) => React.createElement(React.Fragment, {
     key: i

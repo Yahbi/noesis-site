@@ -103,6 +103,33 @@ function ProjectStory({ project, go }) {
         )}
       </section>
 
+      {/* 2b — PROJECT FILM (when real footage exists): an ambient, muted cinematic plate
+             using the same play-on-intersection keeper as the home reel. */}
+      {p.video && (
+        <section className="cine cine--video story__scene" style={{ height: "min(92vh, 900px)", minHeight: 460 }}>
+          <img className="cine__img img--warm" alt={`${p.name} — film still`} loading="lazy" onError={onImgError}
+            src={wix(cover, { w: 1600 })} />
+          <video className="cine__vid" autoPlay loop muted playsInline preload="none"
+            poster={wix(cover, { w: 1200 })} src={p.video}
+            ref={(el) => {
+              if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
+              const tryPlay = () => {
+                if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
+                if (!document.hidden && el.__inView) { if (el.paused) { const pr = el.play(); if (pr && pr.catch) pr.catch(() => {}); } }
+                else if (!el.paused) { el.pause(); }
+              };
+              if ("IntersectionObserver" in window) { el.__io = new IntersectionObserver((e) => { el.__inView = e[0] && e[0].isIntersecting; tryPlay(); }, { threshold: 0.15 }); el.__io.observe(el); }
+              el.__iv = setInterval(tryPlay, 2500); document.addEventListener("visibilitychange", tryPlay);
+            }} />
+          <div className="cine__grad" />
+          <div className="cine__cap">
+            <div className="wrap" style={{ paddingBottom: "clamp(28px,5vw,56px)" }}>
+              <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> {p.name} — on film</div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 3 — NARRATIVE + WALK-THROUGH: every paragraph past the lede rendered in FULL as
              readable prose, interwoven with full-bleed cinematic plates (curtain wipe +
              parallax). No sentence is fragmented, capped or dropped. */}
