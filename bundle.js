@@ -965,7 +965,7 @@ const SHOT = {
 const ABOUT_VALUES = [["Alignment", "We succeed when our clients and partners do. We take the owner's side, and we put our own capital and reputation behind our convictions."], ["Discretion", "We work quietly for private clients, principals and family offices. Confidentiality is built into every engagement."], ["Stewardship", "We treat every project and every dollar of capital as if it were our own — because, often, it is."], ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."]];
 const PORTFOLIO_STATS = [["17", "Projects delivered"], ["12", "Private residences"], ["3", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const WWD_PILLARS = [["01", "Owner's Representation", "We sit in your seat — one accountable advocate directing the entire project team and every decision."], ["02", "Development Management", "We carry the project end to end: feasibility, entitlement, design, construction and delivery."], ["03", "Investment", "We deploy capital alongside our partners, in disciplined, design-led real estate we know intimately."]];
-const STRATEGIES = [["01", "Opportunistic", "2–3 Years", "Acquisition and ground-up development of residences and small-lot subdivisions.", ["Acquisition & ground-up development", "Residences & small-lot subdivisions", "Value created through entitlement & delivery", "Typically realized via for-sale exit"]], ["02", "Value-Add", "7–10 Years", "Apartment and commercial assets, repositioned and improved through the hold.", ["Apartment buildings & commercial assets", "Leasing, capital improvement, repositioning", "Cash flow during the hold", "Realized at stabilization or sale"]], ["03", "Stabilized", "Long-Term", "Income-producing assets held long-term for durability and preservation.", ["Income-producing, stabilized assets", "Long-term hold & wealth preservation", "Tax-efficient, cash-flow focused", "Designed for durability over cycles"]]];
+const STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
 const PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
 const PROCESS = [["01", "Strategy & Feasibility", "Site and market analysis, highest-and-best-use, financial modeling and risk assessment."], ["02", "Entitlement & Approvals", "Navigating planning, zoning, permitting and the stakeholders who decide a project's fate."], ["03", "Design & Preconstruction", "Assembling and directing the design team; budgeting, value engineering and procurement."], ["04", "Construction Delivery", "Managing contractors, schedule, cost and quality to completion, at the owner's standard."], ["05", "Handover & Realization", "Closeout and handover, then leasing, sale or stabilization to realize the asset's full value."]];
 const FOUNDER = {
@@ -2186,7 +2186,7 @@ const CATEGORIES = [{
     loc: "Sunset Strip, Los Angeles",
     year: "2015",
     gallery: GAL["one-oak"],
-    text: "Perched on a private street above the Sunset Strip, One Oak is a two-story glass pavilion engineered for 180-degree views of downtown Los Angeles and the Pacific. Encased in glass, the open plan flows freely from room to room, framing the city at every turn.\n\nInside: the signature Noesis floating staircase, 12-foot ceilings, a 500-bottle wine cellar and a gourmet kitchen with top-of-the-line appliances. The expansive terrace opens to a true infinity-edge pool and spa. Four bedrooms, five baths, fully smart-home integrated.",
+    text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
     facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]]
   }, {
     id: "casa-mani",
@@ -2194,7 +2194,7 @@ const CATEGORIES = [{
     loc: "Beverly Hills",
     year: "2018",
     gallery: GAL["casa-mani"],
-    text: "A contemporary retreat in the heart of Beverly Hills, minutes from the area's acclaimed schools, shopping and dining — a study in style and restraint from the outside in.\n\nSix bedrooms and eight baths, a fully glass-enclosed gym, a spa-grade bath with steam shower and private massage room, and a backyard built around a zero-edge saltwater pool screened by mature hedging. Control4 smart-home throughout, with designer fixtures and energy-efficient landscape design completing the estate.",
+    text: "A unique, contemporary retreat in the heart of Beverly Hills, Casa Mani sits minutes from the area's acclaimed schools, shopping, dining and nightlife. This exquisitely crafted contemporary by Noesis Group is a model of style and sophistication from the outside in.\n\nSix bedrooms and eight baths, Miele wine refrigerators, a fully glass-enclosed gym, and a spa-inspired bath with steam shower and its own private massage room. The backyard is built around a zero-edge saltwater pool screened by tall hedging, with energy-efficient landscaping, a Control4 smart-home system and designer fixtures throughout.",
     facts: [["Bedrooms", "6"], ["Baths", "8"], ["Pool", "Zero-edge saltwater"], ["Built", "2018"]]
   }, {
     id: "aura-house",
@@ -2202,24 +2202,24 @@ const CATEGORIES = [{
     loc: "Tel Aviv",
     year: "2017",
     gallery: GAL["aura-house"],
-    text: "Set in one of Tel Aviv's most coveted neighborhoods, Aura House is an open, light-filled modern design that maximizes a tri-level, 4,500-square-foot footprint.\n\nA private elevator, soaring ceilings, six bedrooms and seven baths — designed, delivered and sold above asking in one of the world's fastest-rising cities. A demonstration of the Noesis standard, abroad.",
-    facts: [["Bedrooms", "6"], ["Baths", "7"], ["Size", "4,500 sf"], ["Built", "2017"]]
+    text: "Located in a highly coveted area of Tel Aviv, Aura House offers an open, luxurious, modern design that maximizes space and provides an airy feel — the Noesis standard, delivered abroad.\n\nSold over the asking price, this 4,500-square-foot tri-level property is equipped with a luxe elevator and soaring ceilings. With six bedrooms and seven baths, Aura House is the lap of luxury in one of the most up-and-coming cities in the world.",
+    facts: [["Bedrooms", "6"], ["Baths", "7"], ["Size", "4,500 sf"], ["Sold", "Over asking"]]
   }, {
     id: "c-thru",
     name: "C Thru",
     loc: "Beverly Grove, Los Angeles",
     year: "2016",
     gallery: GAL["c-thru"],
-    text: "In the heart of Beverly Grove, minutes from Melrose and West 3rd, C Thru reads as a floating box of wood and ceramic, wrapped in glass and LED light. Behind a custom pivot door: soaring ceilings, wide-plank white oak floors and a suspended steel-and-glass staircase.\n\nFleetwood walls of glass dissolve into an expansive courtyard, while sliding corner doors open the living spaces to a backyard built around a zero-edge saltwater pool. Control4 smart-home and designer finishes throughout.",
-    facts: [["Neighborhood", "Beverly Grove"], ["Floors", "White oak"], ["Pool", "Zero-edge saltwater"], ["Built", "2016"]]
+    text: "Located in the highly desired area of Beverly Grove, just minutes from world-class shopping and dining, C Thru is the definition of style and sophistication from the outside in. Gated and hedged, the home's floating-box façade pairs wood and ceramic with large windows and LED light strips for a distinctive twilight appeal.\n\nInside, the open floor plan — a Noesis Group signature — features soaring ceilings, wide-plank oak floors and a suspended staircase. Two en-suite guest rooms with designer baths and balconies join a master suite with fireplace, wet bar, showroom closet and soaking tub. A large backyard with a zero-edge saltwater pool and spa, Control4 smart-home and designer fixtures complete the home.",
+    facts: [["Neighborhood", "Beverly Grove"], ["Floors", "Wide-plank oak"], ["Pool", "Zero-edge saltwater"], ["Built", "2016"]]
   }, {
     id: "lolivier",
     name: "L'Olivier House",
     loc: "Los Angeles",
     year: "2015",
     gallery: GAL["lolivier"],
-    text: "A 120-year-old olive tree, framed behind two stories of glass, was the sole inspiration for L'Olivier — every decision made to preserve and celebrate it. The living heirloom anchors the home, in view from the gourmet kitchen and the light-filled living room.\n\nThe master suite is expansive and private, overlooking the pool, with a sitting area and oversized bath. Its painstaking tilework — a nod to Moroccan craft — is a statement of the Noesis commitment to design and detail.",
-    facts: [["Inspiration", "120-yr olive tree"], ["Outdoor", "Pool"], ["City", "Los Angeles"], ["Built", "2015"]]
+    text: "The majestic 120-year-old olive tree situated in front of the two-story L'Olivier house served as the sole inspiration for this home from start to finish.\n\nBuilt in 2015, the nearly 5,000-square-foot home features four bedrooms, 4.5 baths and an office, and maximizes natural light while keeping a luxurious, sophisticated ambiance throughout. The glamorous master is expansive, with a sitting area and oversized bath whose meticulous tilework accentuates a worldly feel, overlooking the pool and outdoor space — a testament to Noesis Group's commitment to design and detail.",
+    facts: [["Size", "~5,000 sf"], ["Bedrooms", "4"], ["Baths", "4.5"], ["Built", "2015"]]
   }, {
     id: "quiet-storm",
     name: "Quiet Storm",
@@ -2234,8 +2234,8 @@ const CATEGORIES = [{
     loc: "Beverly Hills",
     year: "2015",
     gallery: GAL["le-bijou"],
-    text: "Le Bijou — 'the jewel' — opens with a striking composition of wood, color and dimension that rewards a closer look. The sleek gourmet kitchen sits between the formal dining and family rooms, all overlooking a lush garden, terrace, pool and Jacuzzi.\n\nReceding pocket doors make seamless indoor-outdoor living real. The master suite adds a fireplace and a private balcony spanning the width of the home, with a floating dual vanity, freestanding tub and oversized shower — luxurious, elegant and entirely livable.",
-    facts: [["Meaning", "“The Jewel”"], ["Outdoor", "Pool + Jacuzzi"], ["City", "Beverly Hills"], ["Built", "2015"]]
+    text: "Le Bijou — 'the jewel' in French — is a gem in the heart of Beverly Hills. At approximately 4,100 square feet, the spacious four-bedroom, 4.5-bath home offers a stunning bird's-eye view from the interior upper mezzanine down to the main floor, high ceilings, smartly placed lighting and various smart-home features.\n\nSeamless indoor-outdoor living is a reality: the sleek, modern gourmet kitchen sits near the formal dining and family rooms, overlooking the lush garden, terrace, pool and jacuzzi. With the finest finishes throughout, Le Bijou feels luxurious, tremendously elegant, yet entirely livable.",
+    facts: [["Meaning", "“The Jewel”"], ["Size", "~4,100 sf"], ["Bedrooms", "4"], ["Baths", "4.5"]]
   }, {
     id: "house-g",
     name: "House G",
@@ -2250,8 +2250,8 @@ const CATEGORIES = [{
     loc: "West Hollywood",
     year: "2013",
     gallery: GAL["casa-h"],
-    text: "On the market just three days, Casa H broke neighborhood records — sold above asking on a homesite overlooking the Hollywood Hills.\n\nDesigned to maximize space and bring the outdoors in, the home uses sculptural cut-outs for light, privacy and serenity. The exterior centers on a pool and cabana; inside, five bedrooms and 5.5 baths, high-end finishes, and the floating staircase that has become a Noesis hallmark.",
-    facts: [["Sold", "In 3 days, over ask"], ["Bedrooms", "5"], ["Baths", "5.5"], ["Built", "2013"]]
+    text: "On the market for just three days and sold well over the asking price, Casa H broke real estate records. This approximately 4,500-square-foot, five-bedroom, 5.5-bath home stretches across an oversized 7,500-square-foot lot overlooking the Hollywood Hills.\n\nDesigned to maximize space, Casa H uses innovative cut-outs throughout for privacy and serenity, melding outdoor landscape with indoor living. The focal point is the exterior entertaining space — pool and cabana, a covered outdoor living area with double-sided fireplace, and a passageway to the lush garden and lawn.",
+    facts: [["Sold", "In 3 days, over ask"], ["Size", "~4,500 sf"], ["Bedrooms", "5"], ["Baths", "5.5"]]
   }, {
     id: "neo-soul",
     name: "Neo Soul Home",
@@ -2266,15 +2266,15 @@ const CATEGORIES = [{
     loc: "Los Angeles",
     year: "2016",
     gallery: GAL["29degrees"],
-    text: "A modern architectural retreat on a serene, tree-lined street, 29 Degrees is a newly constructed open-concept home by Noesis. Floor-to-ceiling Fleetwood vanishing doors erase the line between inside and out.\n\nThe oversized, spa-like master suite adds a fireplace, custom closet and private balcony; the gourmet kitchen offers dual islands and professional-grade appliances. Control4 smart-home throughout — minutes from Beverly Hills, The Grove and the Sunset Strip.",
-    facts: [["Doors", "Fleetwood vanishing"], ["Tech", "Control4"], ["City", "Los Angeles"], ["Built", "2016"]]
+    text: "A spacious, architectural modern retreat, 29 Degrees is privately situated on a serene, tree-lined street minutes from the Beverly Hills school district, The Grove, the Beverly Center and West Hollywood's finest dining and shops. At more than 4,000 square feet, this contemporary home by Noesis Group is curated to maximize indoor-outdoor living with the Control4 technology system.\n\n29 Degrees boasts 23-foot ceilings that create a zen-like environment. The gourmet kitchen offers dual islands, bar seating and professional-grade appliances, while the exceptionally large spa-like master suite features a fireplace, custom closet, en-suite bath and private balcony.",
+    facts: [["Size", ">4,000 sf"], ["Ceilings", "23 ft"], ["Tech", "Control4"], ["Built", "2016"]]
   }, {
     id: "en-suite",
     name: "En-Suite",
     loc: "Los Angeles",
     year: "2014",
     gallery: GAL["en-suite"],
-    text: "En-Suite is defined by flow — nearly 4,000 square feet in which every room and terrace was planned for both privacy and connection. The entrance sets the tone with a sculpted waterfall and fire feature.\n\nTwo full master suites anchor the four-bedroom, six-bath plan. Clean lines, modern texture and impeccably crafted built-ins run throughout, with a formal dining room, gourmet kitchen and indoor-outdoor living that opens onto pool-side patios and terraces.",
+    text: "The most alluring feature of En-Suite is the flawless organic flow of the nearly 4,000-square-foot home. Two spacious master suites with oversized, luxurious private baths balance the four-bedroom, six-bath plan, while ample natural light and outdoor living spaces marry interior and exterior.\n\nThe finest finishes and craftsmanship run throughout — clean lines, modern textures and impeccably designed built-in furniture. En-Suite is an entertainer's dream, from the artfully designed waterfall at the entrance to the pool-side patio and various terraces.",
     facts: [["Size", "~4,000 sf"], ["Bedrooms", "4"], ["Baths", "6"], ["Built", "2014"]]
   }]
 }, {
@@ -2296,17 +2296,17 @@ const CATEGORIES = [{
     year: "2018",
     gallery: APT.stanley,
     cover: "stanley_ext_1",
-    text: "Built and designed by Noesis, these boutique townhouse apartments offer a glamorous lifestyle within walking distance of all West Hollywood has to offer — dining, entertainment and nightlife.\n\nFour luxurious townhomes, each three bedrooms and 2.5 baths, finished with Porcelanosa and Graff tile and fixtures, Caesarstone countertops and custom Miton Italian kitchens. Every unit comes fully equipped with LG stainless appliances, full-size laundry and two covered parking spaces.",
-    facts: [["Units", "4 townhomes"], ["Layout", "3 BD · 2.5 BA"], ["Kitchens", "Miton Italian"], ["Parking", "2 covered"]]
+    text: "Built and designed by Noesis Group, these brand-new townhouse apartments offer a glamorous lifestyle for trendsetters, tastemakers and families who want to live and play in the heart of Los Angeles — Stanley Lofts is walking distance from all the culture West Hollywood has to offer.\n\nFour boutique luxurious townhomes, each three bedrooms and 2.5 baths, finished with Porcelanosa and Graff tile and fixtures, Caesarstone countertops and custom Miton Italian kitchens. Every unit comes fully equipped with LG stainless appliances, full-size laundry and two covered parking spots, plus large partially grassed private rooftops with unobstructed Hollywood Hills views.",
+    facts: [["Units", "4 townhomes"], ["Layout", "3 BD · 2.5 BA"], ["Kitchens", "Miton Italian"], ["Built", "2018"]]
   }, {
     id: "my-genesee",
     name: "My Genesee",
     loc: "Beverly Grove, Los Angeles",
-    year: "2017",
+    year: "2019",
     gallery: APT.genesee,
     cover: "genesee_ext_tall",
-    text: "Luxury living in one of Los Angeles's most sought-after neighborhoods, Beverly Grove. Designed and built by Noesis, these one-of-a-kind three-bedroom, 2.5-bath condo-style apartments feature state-of-the-art Italian kitchens with Caesarstone countertops, new LG appliances, in-unit laundry and large custom walk-in closets.\n\nA four-unit, fully secured building with reserved parking in a fully equipped garage.",
-    facts: [["Units", "4-unit building"], ["Layout", "3 BD · 2.5 BA"], ["Counters", "Caesarstone"], ["Parking", "Reserved garage"]]
+    text: "Discover luxury living at these brand-new three-bedroom units in the heart of one of Los Angeles's hottest neighborhoods, Beverly Grove. Designed and built by Noesis Group, these one-of-a-kind, three-bedroom, 2.5-bath condo-style apartments offer state-of-the-art Italian kitchens with Caesarstone countertops, new LG appliances, in-unit laundry and large custom walk-in closets.\n\nMy Genesee is a four-unit, fully secured building with reserved parking in a fully equipped garage. Each unit spans over 2,200 square feet of impeccable living space, with views of the city, downtown and the Hollywood Hills from a large private terrace.",
+    facts: [["Units", "4-unit building"], ["Layout", "3 BD · 2.5 BA"], ["Size", ">2,200 sf/unit"], ["Built", "2019"]]
   }]
 }, {
   key: "sls",

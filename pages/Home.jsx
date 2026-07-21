@@ -34,12 +34,12 @@ const WWD_PILLARS = [
 ];
 
 const STRATEGIES = [
-  ["01", "Opportunistic", "2–3 Years", "Acquisition and ground-up development of residences and small-lot subdivisions.",
-    ["Acquisition & ground-up development", "Residences & small-lot subdivisions", "Value created through entitlement & delivery", "Typically realized via for-sale exit"]],
-  ["02", "Value-Add", "7–10 Years", "Apartment and commercial assets, repositioned and improved through the hold.",
-    ["Apartment buildings & commercial assets", "Leasing, capital improvement, repositioning", "Cash flow during the hold", "Realized at stabilization or sale"]],
-  ["03", "Stabilized", "Long-Term", "Income-producing assets held long-term for durability and preservation.",
-    ["Income-producing, stabilized assets", "Long-term hold & wealth preservation", "Tax-efficient, cash-flow focused", "Designed for durability over cycles"]],
+  ["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.",
+    ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]],
+  ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.",
+    ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]],
+  ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.",
+    ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]],
 ];
 
 const PRINCIPLES = [
