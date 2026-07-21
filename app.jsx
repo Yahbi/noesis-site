@@ -7,7 +7,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
 const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
-const SECTION_IDS = ["about", "projects", "what-we-do", "investment", "management", "inquiries"];
+const SECTION_IDS = ["development", "investment", "projects", "owners-rep", "about", "inquiries"];
 const NAV_OFFSET = 72;
 
 function App() {
@@ -94,7 +94,7 @@ function App() {
 
   // Map legacy page calls inside Projects onto one-page navigation.
   const projectsNav = React.useCallback((p) => {
-    if (p === "services") return go("management");
+    if (p === "services") return go("owners-rep");
     if (p === "home") return go("top");
     go(p);
   }, [go]);
@@ -105,7 +105,7 @@ function App() {
 
       {view === "home" ? <Home go={go} intent={intent} setIntent={setIntent} /> : view === "approach" ? (
         <>
-          <button className="back-home" onClick={() => go("what-we-do")} aria-label="Back to What We Do">
+          <button className="back-home" onClick={() => go("owners-rep")} aria-label="Back to Owner's Representation">
             <span className="back-home__arr" aria-hidden="true" /> Back
           </button>
           <Approach go={go} />

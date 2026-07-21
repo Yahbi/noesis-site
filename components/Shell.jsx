@@ -1,11 +1,12 @@
 // Nav + Footer — one-page, scroll-spy, stone & linen
 
+// Re-weighted: Development + Investment lead; Owner's Rep is the accessory line.
 const SECTIONS = [
-  ["about",       "About"],
-  ["projects",    "Projects"],
-  ["what-we-do",  "What We Do"],
+  ["development", "Development"],
   ["investment",  "Investment"],
-  ["management",  "Management"],
+  ["projects",    "Portfolio"],
+  ["owners-rep",  "Owner's Rep"],
+  ["about",       "Firm"],
   ["inquiries",   "Inquiries"],
 ];
 
@@ -109,7 +110,7 @@ function Nav({ active, go }) {
           {SECTIONS.map(([k, label]) => (
             <button key={k} className={active === k ? "is-active" : ""} onClick={() => tap(k)}>{label}</button>
           ))}
-          <button onClick={() => tap("inquiries")} className="btn nav__cta">Enquire</button>
+          <button onClick={() => tap("inquiries")} className="btn nav__cta">Request an Introduction</button>
         </nav>
 
         <button className={`nav__burger ${open ? "is-open" : ""}`} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(o => !o)}>
@@ -127,7 +128,7 @@ function Nav({ active, go }) {
           ))}
         </nav>
         <div className="nav__drawer-foot">
-          <button onClick={() => tap("inquiries")} className="btn" style={{ width: "100%", justifyContent: "center" }}>Make an Enquiry</button>
+          <button onClick={() => tap("inquiries")} className="btn" style={{ width: "100%", justifyContent: "center" }}>Request an Introduction</button>
           <div className="nav__drawer-meta">T (310) 855·3634 · INFO@NOESISUSA.COM</div>
           <SocialRow />
         </div>
@@ -164,7 +165,7 @@ function Footer({ go }) {
             <Logo className="footer__logo" onClick={() => go("top")} />
             <div className="eyebrow u-mt-24" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
             <h2 className="h-1 u-mt-24" style={{ maxWidth: "16ch" }}>
-              We represent the owner, deliver the vision, and invest <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
+              We develop, we invest, and we deliver — <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
             </h2>
             <div className="u-flex u-gap-24 u-mt-40" style={{ flexWrap: "wrap" }}>
               {SECTIONS.map(([k, l]) => (

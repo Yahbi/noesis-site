@@ -1092,27 +1092,36 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 
 /* — Logo: NOESIS wordmark with the red line through its centre — */
 .logo { position: relative; display: inline-flex; align-items: center; padding: 8px 0; background: transparent; border: 0; cursor: pointer; }
-.logo__word { font-family: var(--sans); font-weight: 300; font-size: 20px; letter-spacing: -.05em;
+.logo__word { font-family: var(--sans); font-weight: 300; font-size: 22px; letter-spacing: -.05em;
   text-transform: uppercase; color: var(--ink); padding-left: 0; transition: color .3s; }
 /* The bronze bar IS the E's middle bar — sits on the E's native middle arm and is
    thick enough to cover it, so the dark stroke disappears (matches the original mark). */
 .logo__bar { position: absolute; left: 27%; width: 28%; top: 50%; height: .08em; background: var(--accent);
-  border-radius: 0; font-size: 20px; transform: translateY(calc(-50% - .05em)); pointer-events: none; }
+  border-radius: 0; font-size: 22px; transform: translateY(calc(-50% - .05em)); pointer-events: none; }
 .nav--over .logo__word { color: var(--bone); }
 
 /* — Nav: clean header, uppercase tracked links, scroll-spy underline — */
 .nav { background: color-mix(in oklab, var(--bone) 86%, transparent); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s; }
 .nav--scrolled { background: color-mix(in oklab, var(--bone) 95%, transparent); border-bottom-color: var(--rule); }
 .nav--over { background: transparent; border-bottom-color: transparent; }
+/* Banner prominence (client directive): larger links with TIGHTER tracking — the old
+   ~11px read small mostly because of oversized letter-spacing at a tiny size.
+   Presence comes from type scale + one bronze CTA accent, never height or noise. */
 .nav__inner { padding-top: 16px; padding-bottom: 16px; }
-.nav__links { gap: 30px; }
-.nav__links button { font-family: var(--sans); font-weight: 400; font-size: 11px; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--ink); border-bottom: 1px solid transparent; padding: 3px 0; transition: color .25s, border-color .25s; }
-.nav__links button:hover { color: var(--accent); }
-.nav__links button.is-active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav__links { gap: 32px; }
+.nav__links button { font-family: var(--sans); font-weight: 500; font-size: 14px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink); border-bottom: 1.5px solid transparent; padding: 6px 0; transition: color .25s, border-color .25s; }
+.nav__links button:hover { color: var(--accent-deep); }
+.nav__links button.is-active { color: var(--accent-deep); border-bottom-color: var(--accent-deep); }
 .nav--over .nav__links button { color: var(--bone-soft); }
 .nav--over .nav__links button:hover, .nav--over .nav__links button.is-active { color: var(--bone); border-bottom-color: var(--accent); }
-.nav__cta { font-size: 10.5px !important; letter-spacing: .16em; padding: 11px 18px; }
+.nav__cta { font-size: 13px !important; font-weight: 500; letter-spacing: .08em; padding: 12px 20px; }
+/* Mid-width step-down so the larger links never crowd the wordmark before the burger takes over. */
+@media (max-width: 1120px) {
+  .nav__links { gap: 22px; }
+  .nav__links button { font-size: 13px; letter-spacing: .06em; }
+  .nav__cta { font-size: 12px !important; padding: 10px 16px; }
+}
 .nav--over .nav__burger span { background: var(--bone); }
 
 /* — Section anchors clear the sticky nav — */
