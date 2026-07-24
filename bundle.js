@@ -585,9 +585,82 @@ Object.assign(window, {
   TweakColor,
   TweakButton
 });
+const ENHANCED = {
+  "5c383b_0685f94a8360485b8734c509d3fe9f49~mv2_d_1800_1200_s_2.jpg": "assets/img/e-0685f94a8360.jpg",
+  "5c383b_0d870af7326f4875976ceb413368be2f~mv2.jpg": "assets/img/e-0d870af7326f.jpg",
+  "5c383b_12fe95a979394c05baede9636975f3b2~mv2.jpg": "assets/img/e-12fe95a97939.jpg",
+  "5c383b_17a065f4eb4d479b863408b00b915311~mv2_d_1800_1200_s_2.jpg": "assets/img/e-17a065f4eb4d.jpg",
+  "5c383b_181567c37df5419baf12968bf36be13f~mv2.jpg": "assets/img/e-181567c37df5.jpg",
+  "5c383b_1c44f1b7f6d14ceb8a181dc9b1583776~mv2_d_1800_1200_s_2.jpg": "assets/img/e-1c44f1b7f6d1.jpg",
+  "5c383b_1e3d7195fb844e22b60bc51bb63d37b6~mv2.jpg": "assets/img/e-1e3d7195fb84.jpg",
+  "5c383b_257cefb780784aa0b63061a9ea2aa29b~mv2.jpg": "assets/img/e-257cefb78078.jpg",
+  "5c383b_288e8aff1dda4604b66c51f16efe6574~mv2.jpg": "assets/img/e-288e8aff1dda.jpg",
+  "5c383b_28d75206da854c4c8a20817a431a2f10~mv2.jpg": "assets/img/e-28d75206da85.jpg",
+  "5c383b_2ad9da5386244e4ea246f1d14533f7c2~mv2_d_1800_1200_s_2.jpg": "assets/img/e-2ad9da538624.jpg",
+  "5c383b_2d3c5141a92d4ed5928e91b271511890~mv2.jpg": "assets/img/e-2d3c5141a92d.jpg",
+  "5c383b_2d52734942534cc1b3d3619a6dca77f9~mv2.jpg": "assets/img/e-2d5273494253.jpg",
+  "5c383b_30e83f23d3044ced8c692784faf50290~mv2.jpg": "assets/img/e-30e83f23d304.jpg",
+  "5c383b_3120130080e7438cacdfd14c39299b17~mv2.jpg": "assets/img/e-3120130080e7.jpg",
+  "5c383b_338fba4cdcd845ccbfb911288478e8bc~mv2.jpg": "assets/img/e-338fba4cdcd8.jpg",
+  "5c383b_349ad261601f411282845fac17e4eae4~mv2.jpg": "assets/img/e-349ad261601f.jpg",
+  "5c383b_383959ccae0c42a38ea2c942add8df1c~mv2_d_1800_1200_s_2.jpg": "assets/img/e-383959ccae0c.jpg",
+  "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg": "assets/img/e-38f5ef1da26e.jpg",
+  "5c383b_399dfa72d94b49a49da788a0464b7fb2~mv2.jpg": "assets/img/e-399dfa72d94b.jpg",
+  "5c383b_3d31be3b7521442d871fce2ca5d5855e~mv2.jpg": "assets/img/e-3d31be3b7521.jpg",
+  "5c383b_4069deb335d44a7bbfaf2abaacbc25fd~mv2_d_2100_1290_s_2.png": "assets/img/e-4069deb335d4.jpg",
+  "5c383b_413fa29f39a94acfb2d595791d1d777d~mv2.jpg": "assets/img/e-413fa29f39a9.jpg",
+  "5c383b_43422a7abb5d4d6496bff31ea257f79b~mv2.jpg": "assets/img/e-43422a7abb5d.jpg",
+  "5c383b_436ec028ad4c4bf8a0120a0b7928d91c~mv2.jpg": "assets/img/e-436ec028ad4c.jpg",
+  "5c383b_46c560a6d94b4418bed1e9cf64c646ef~mv2.jpg": "assets/img/e-46c560a6d94b.jpg",
+  "5c383b_4a952c0d18834339a123362069e97e82~mv2.jpg": "assets/img/e-4a952c0d1883.jpg",
+  "5c383b_57dbe21d67d545458a9efcc900929f26~mv2.jpg": "assets/img/e-57dbe21d67d5.jpg",
+  "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg": "assets/img/lebijou-cover.jpg",
+  "5c383b_618462c222ab415dbf9002ddbcf2d4ba~mv2_d_1932_1302_s_2.png": "assets/img/e-618462c222ab.jpg",
+  "5c383b_634f6b29507640c7ba1d65da1e1ea960~mv2.jpg": "assets/img/e-634f6b29507.jpg",
+  "5c383b_680d109689f24392bd1a4231d81cbde1~mv2.jpg": "assets/img/e-680d109689f2.jpg",
+  "5c383b_6a252e3b4d02449f8613778e14197209~mv2.jpg": "assets/img/e-6a252e3b4d02.jpg",
+  "5c383b_6d4172cf48524e228ed8a2794b2a76a9~mv2.jpg": "assets/img/e-6d4172cf4852.jpg",
+  "5c383b_6e48b6f978af4a6c852306e82defb5a2~mv2.jpg": "assets/img/casah-cover.jpg",
+  "5c383b_700ac76a8a7e4af88e42d48603f7c613~mv2.jpg": "assets/img/e-700ac76a8a7e.jpg",
+  "5c383b_71fdd520a1814c11bdfbc9270b43911e~mv2.jpg": "assets/img/e-71fdd520a181.jpg",
+  "5c383b_72f49837e80241dd8976007ae333b94c~mv2.jpg": "assets/img/e-72f49837e802.jpg",
+  "5c383b_7842f8bcba194ce0b2b8157e07b6cdbb~mv2.jpg": "assets/img/e-7842f8bcba19.jpg",
+  "5c383b_79f27591c68641f5abacef5c5c9dc729~mv2.jpg": "assets/img/e-79f27591c686.jpg",
+  "5c383b_82e37681f84745d8be140f15cac1a89c~mv2.jpg": "assets/img/e-82e37681f847.jpg",
+  "5c383b_89aa2cae41af4a0088addcde739a8ee3~mv2.jpg": "assets/img/e-89aa2cae41af.jpg",
+  "5c383b_8b949f6a44fb4cdbb261f1da70825edd~mv2.jpg": "assets/img/e-8b949f6a44fb.jpg",
+  "5c383b_913ed2417e8d485f9f3bf54686e72f26~mv2.jpg": "assets/img/e-913ed2417e8d.jpg",
+  "5c383b_939f492be96147f39b37b6b1d1530e65~mv2.jpg": "assets/img/e-939f492be961.jpg",
+  "5c383b_9e34a5d7774045339d373605ba356a0a~mv2.jpg": "assets/img/e-9e34a5d77740.jpg",
+  "5c383b_9efd199eadcd4208af7acd6893c46792~mv2.jpg": "assets/img/e-9efd199eadcd.jpg",
+  "5c383b_a031f0138d6045ca89b2bace6e383341~mv2.jpg": "assets/img/e-a031f0138d60.jpg",
+  "5c383b_a1245b0acc0945e1a3e431016253a778~mv2.jpg": "assets/img/e-a1245b0acc09.jpg",
+  "5c383b_a1aa346c4601494082bbd3ac99be5707~mv2_d_1800_1200_s_2.jpg": "assets/img/e-a1aa346c4601.jpg",
+  "5c383b_a2770133ea6e41cca23226810616cc45~mv2_d_1800_1200_s_2.jpg": "assets/img/e-a2770133ea6e.jpg",
+  "5c383b_a74db35204cf4b14811acd06773e6c70~mv2_d_1788_1899_s_2.jpg": "assets/img/e-a74db35204cf.jpg",
+  "5c383b_a8ab5be38572479d819d7829987a8901~mv2.jpg": "assets/img/e-a8ab5be38572.jpg",
+  "5c383b_af281a68c16e4c3fb94b3620d3a07f4f~mv2.jpg": "assets/img/e-af281a68c16e.jpg",
+  "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg": "assets/img/cthru-cover.jpg",
+  "5c383b_bfd14a73de9d40f28e829577d074296b~mv2.jpg": "assets/img/e-bfd14a73de9d.jpg",
+  "5c383b_c0b64552bc3b4599b053c6213af0c9aa~mv2.jpg": "assets/img/e-c0b64552bc3b.jpg",
+  "5c383b_caa183bb58e5444286728d6388a1d8f0~mv2_d_1800_1200_s_2.jpg": "assets/img/e-caa183bb58e5.jpg",
+  "5c383b_d1c01ed73bf3495d91bcbbc66426e3e7~mv2_d_1800_1200_s_2.jpg": "assets/img/e-d1c01ed73bf3.jpg",
+  "5c383b_d343c06a29ba4689804f74eebcd8c122~mv2.jpg": "assets/img/e-d343c06a29ba.jpg",
+  "5c383b_e3595dd2bd3146838fa75e4ac252ef64~mv2.jpg": "assets/img/e-e3595dd2bd31.jpg",
+  "5c383b_e512c085d2864e718285d3f0bbca6c46~mv2_d_1800_1200_s_2.jpg": "assets/img/e-e512c085d286.jpg",
+  "5c383b_e660755345994c8abf6b93a1bc2b6df9~mv2.jpg": "assets/img/e-e66075534599.jpg",
+  "5c383b_e6f1d2fd73ab4b0aaf7d26c067444274~mv2.jpg": "assets/img/e-e6f1d2fd73ab.jpg",
+  "5c383b_e7fa96e7c95b46f2921e31af34a46801~mv2.jpg": "assets/img/e-e7fa96e7c95b.jpg",
+  "5c383b_e8b518eee52f4d8a8c837e66e331af6e~mv2.jpg": "assets/img/e-e8b518eee52f.jpg",
+  "5c383b_e8c04611cec1445993842a289356a0a2~mv2.jpg": "assets/img/e-e8c04611cec1.jpg",
+  "5c383b_ed7d76ee11804f7ba93fe72c331e9d6d~mv2.jpg": "assets/img/e-ed7d76ee1180.jpg",
+  "5c383b_ee09bf9ac7d344dda676920c3bd36462~mv2_d_1800_1200_s_2.jpg": "assets/img/e-ee09bf9ac7d3.jpg",
+  "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg": "assets/img/e-fcb4f7079a5e.jpg"
+};
 function wix(id, opts = {}) {
   if (typeof PHOTO !== "undefined" && PHOTO[id]) id = PHOTO[id];
   if (/^(https?:)?\//.test(id) || id.indexOf("assets/") === 0) return id;
+  if (ENHANCED[id] && (opts.w || 1600) >= 1200) return ENHANCED[id];
   if (typeof window !== "undefined" && window.__resources && window.__MEDIA2KEY) {
     const key = window.__MEDIA2KEY[id];
     if (key && window.__resources[key]) return window.__resources[key];
@@ -959,9 +1032,9 @@ const SHOT = {
   oneOak: "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
   houseG: "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
   aura: "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
-  cThru: "assets/img/cthru-cover.jpg",
+  cThru: "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
   lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
-  leBijou: "assets/img/lebijou-cover.jpg"
+  leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg"
 };
 const ABOUT_VALUES = [["Alignment", "We succeed when our clients and partners do. We take the owner's side, and we put our own capital and reputation behind our convictions."], ["Discretion", "We work quietly for private clients, principals and family offices. Confidentiality is built into every engagement."], ["Stewardship", "We treat every project and every dollar of capital as if it were our own — because, often, it is."], ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."]];
 const PORTFOLIO_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
@@ -1021,7 +1094,7 @@ function Home({
     muted: true,
     playsInline: true,
     preload: "metadata",
-    src: "assets/noesis-film.mp4?v=2",
+    src: "assets/noesis-film.mp4?v=3",
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -1454,7 +1527,7 @@ function Home({
     poster: wix(SHOT.oneOak, {
       w: 1200
     }),
-    src: "assets/noesis-reel.mp4?v=1",
+    src: "assets/noesis-reel.mp4?v=2",
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -1522,7 +1595,7 @@ function Home({
       v.loop = false;
       v.controls = true;
       v.muted = false;
-      v.src = "assets/noesis-launch.mp4?v=1";
+      v.src = "assets/noesis-launch.mp4?v=2";
       v.load();
       const p = v.play();
       if (p && p.catch) p.catch(() => {});
@@ -2185,12 +2258,12 @@ const GAL = {
   "one-oak": ["5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg", "5c383b_338fba4cdcd845ccbfb911288478e8bc~mv2.jpg", "5c383b_6d4172cf48524e228ed8a2794b2a76a9~mv2.jpg", "5c383b_57dbe21d67d545458a9efcc900929f26~mv2.jpg", "5c383b_a8ab5be38572479d819d7829987a8901~mv2.jpg", "5c383b_413fa29f39a94acfb2d595791d1d777d~mv2.jpg", "5c383b_e7fa96e7c95b46f2921e31af34a46801~mv2.jpg", "5c383b_12fe95a979394c05baede9636975f3b2~mv2.jpg", "5c383b_4a952c0d18834339a123362069e97e82~mv2.jpg", "5c383b_3120130080e7438cacdfd14c39299b17~mv2.jpg"],
   "casa-mani": ["5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg", "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "5c383b_0e99a86ffe9847d5a712e0428605e4b0~mv2_d_6720_4480_s_4_2.jpg", "5c383b_f0a8d5cb5ea2484eb0f1e204f4c3aba4~mv2_d_6231_4154_s_4_2.jpg", "5c383b_0f02013ca50d40cea1580a1a7686f991~mv2_d_6365_4243_s_4_2.jpg", "5c383b_2ea4055dc65b4a3184a2e891f9ab3fa3~mv2_d_6720_4480_s_4_2.jpg", "5c383b_1bd88da82049431aa3e72fe8f597bbd1~mv2_d_6720_4480_s_4_2.jpg", "5c383b_2b1b5d11c30f423980cd76d0731ef7f1~mv2_d_6720_4480_s_4_2.jpg", "5c383b_d1c071eaa5c74ac69dbd755f2808c63c~mv2_d_5199_3466_s_4_2.jpg", "5c383b_6361166f13c445e28e73c9d4337dbccc~mv2_d_6720_4480_s_4_2.jpg"],
   "aura-house": ["5c383b_8be95aceeb054c139923461a4b0fa067~mv2_d_2674_1896_s_2.jpg", "5c383b_233b24a92a964f4f828b493dd4345cdb~mv2_d_2832_4256_s_4_2.jpg", "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg", "5c383b_2f9f270caa1b44108f0ad800002c0656~mv2_d_4256_2832_s_4_2.jpg", "5c383b_2517ac00087f41ba96107d95afb62f1b~mv2_d_4300_4184_s_4_2.jpg", "5c383b_f994f94836154b328e49770f7eaf27b8~mv2_d_4256_2568_s_4_2.jpg", "5c383b_c7b31e8cfbbf4a9493ba56f42a7e4d51~mv2_d_2832_4256_s_4_2.jpg", "5c383b_a9894c3e37ed444c8f098fc8a8ca8ea0~mv2_d_4256_2832_s_4_2.jpg", "5c383b_32ae9e58eb064bfc9ab594c02b017184~mv2_d_4256_2832_s_4_2.jpg", "5c383b_b3baecffd6684ad0a6fb631ec04ef977~mv2_d_2832_4256_s_4_2.jpg"],
-  "c-thru": ["assets/img/cthru-cover.jpg", "5c383b_700ac76a8a7e4af88e42d48603f7c613~mv2.jpg", "5c383b_a74db35204cf4b14811acd06773e6c70~mv2_d_1788_1899_s_2.jpg", "5c383b_6a252e3b4d02449f8613778e14197209~mv2.jpg", "5c383b_c0b64552bc3b4599b053c6213af0c9aa~mv2.jpg", "5c383b_8b949f6a44fb4cdbb261f1da70825edd~mv2.jpg", "5c383b_e512c085d2864e718285d3f0bbca6c46~mv2_d_1800_1200_s_2.jpg", "5c383b_17a065f4eb4d479b863408b00b915311~mv2_d_1800_1200_s_2.jpg", "5c383b_2ad9da5386244e4ea246f1d14533f7c2~mv2_d_1800_1200_s_2.jpg", "5c383b_a2770133ea6e41cca23226810616cc45~mv2_d_1800_1200_s_2.jpg"],
+  "c-thru": ["5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg", "5c383b_700ac76a8a7e4af88e42d48603f7c613~mv2.jpg", "5c383b_a74db35204cf4b14811acd06773e6c70~mv2_d_1788_1899_s_2.jpg", "5c383b_6a252e3b4d02449f8613778e14197209~mv2.jpg", "5c383b_c0b64552bc3b4599b053c6213af0c9aa~mv2.jpg", "5c383b_8b949f6a44fb4cdbb261f1da70825edd~mv2.jpg", "5c383b_e512c085d2864e718285d3f0bbca6c46~mv2_d_1800_1200_s_2.jpg", "5c383b_17a065f4eb4d479b863408b00b915311~mv2_d_1800_1200_s_2.jpg", "5c383b_2ad9da5386244e4ea246f1d14533f7c2~mv2_d_1800_1200_s_2.jpg", "5c383b_a2770133ea6e41cca23226810616cc45~mv2_d_1800_1200_s_2.jpg"],
   "lolivier": ["5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg", "5c383b_257cefb780784aa0b63061a9ea2aa29b~mv2.jpg", "5c383b_939f492be96147f39b37b6b1d1530e65~mv2.jpg", "5c383b_46c560a6d94b4418bed1e9cf64c646ef~mv2.jpg", "5c383b_e8b518eee52f4d8a8c837e66e331af6e~mv2.jpg", "5c383b_3d31be3b7521442d871fce2ca5d5855e~mv2.jpg", "5c383b_0d870af7326f4875976ceb413368be2f~mv2.jpg", "5c383b_af281a68c16e4c3fb94b3620d3a07f4f~mv2.jpg", "5c383b_9e34a5d7774045339d373605ba356a0a~mv2.jpg", "5c383b_680d109689f24392bd1a4231d81cbde1~mv2.jpg"],
   "quiet-storm": ["5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg", "5c383b_9418a6ed29454c48851aee4739a55be2~mv2_d_2560_1440_s_2.jpg", "5c383b_3ae9a87b8b524876875c807198fa21b8~mv2_d_2560_1440_s_2.jpg", "5c383b_0cc02cedcedb4dd6aa6066b64e8e4df0~mv2_d_2560_1440_s_2.jpg", "5c383b_be67b6b3cbf342d693e29ca18c1f75a2~mv2_d_2560_1440_s_2.jpg", "5c383b_c51caa97fd75492583fe21aaddac4227~mv2_d_2560_1440_s_2.jpg", "5c383b_865132670bcb422081f2de983b249617~mv2_d_2560_1440_s_2.jpg", "5c383b_d232464d64c140b9acd3747f147f6e2e~mv2_d_2560_1440_s_2.jpg"],
-  "le-bijou": ["assets/img/lebijou-cover.jpg", "5c383b_7d56173da62a4c48b18feeadf3b26627~mv2_d_3300_2419_s_4_2.jpg", "5c383b_349ad261601f411282845fac17e4eae4~mv2.jpg", "5c383b_28d75206da854c4c8a20817a431a2f10~mv2.jpg", "5c383b_89aa2cae41af4a0088addcde739a8ee3~mv2.jpg", "5c383b_e3595dd2bd3146838fa75e4ac252ef64~mv2.jpg", "5c383b_1e3d7195fb844e22b60bc51bb63d37b6~mv2.jpg", "5c383b_399dfa72d94b49a49da788a0464b7fb2~mv2.jpg", "5c383b_2d3c5141a92d4ed5928e91b271511890~mv2.jpg", "5c383b_634f6b29507640c7ba1d65da1e1ea960~mv2.jpg"],
+  "le-bijou": ["5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg", "5c383b_7d56173da62a4c48b18feeadf3b26627~mv2_d_3300_2419_s_4_2.jpg", "5c383b_349ad261601f411282845fac17e4eae4~mv2.jpg", "5c383b_28d75206da854c4c8a20817a431a2f10~mv2.jpg", "5c383b_89aa2cae41af4a0088addcde739a8ee3~mv2.jpg", "5c383b_e3595dd2bd3146838fa75e4ac252ef64~mv2.jpg", "5c383b_1e3d7195fb844e22b60bc51bb63d37b6~mv2.jpg", "5c383b_399dfa72d94b49a49da788a0464b7fb2~mv2.jpg", "5c383b_2d3c5141a92d4ed5928e91b271511890~mv2.jpg", "5c383b_634f6b29507640c7ba1d65da1e1ea960~mv2.jpg"],
   "house-g": ["5c383b_d8b5e33dc63c4cd9af9019f54523ea3f~mv2_d_5730_5687_s_4_2.jpg", "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg", "5c383b_f20bd004d85a4feaa6ad9de515346150~mv2_d_5760_3840_s_4_2.jpg", "5c383b_e1eb014ee84541d5a2840e03301b7c93~mv2_d_5702_3801_s_4_2.jpg", "5c383b_ee4c9dd7678b413199aec31fbe2ad1e5~mv2_d_5760_3840_s_4_2.jpg", "5c383b_3f60c4d3df6e4e20bf9d5c975be8186a~mv2_d_5760_3840_s_4_2.jpg", "5c383b_e58ecce85f154188919fee1be21a3af8~mv2_d_5760_3840_s_4_2.jpg", "5c383b_7d7133f381b945a7a28636247f8f20cb~mv2_d_5760_3840_s_4_2.jpg", "5c383b_6035f7a90846474aba0e922bf9c14ddb~mv2_d_5760_3840_s_4_2.jpg", "5c383b_89e20dfa5e3347caa173a8f72fa22ec4~mv2_d_5759_3837_s_4_2.jpg"],
-  "casa-h": ["assets/img/casah-cover.jpg", "5c383b_79f27591c68641f5abacef5c5c9dc729~mv2.jpg", "5c383b_30e83f23d3044ced8c692784faf50290~mv2.jpg", "5c383b_82e37681f84745d8be140f15cac1a89c~mv2.jpg", "5c383b_a1245b0acc0945e1a3e431016253a778~mv2.jpg", "5c383b_7842f8bcba194ce0b2b8157e07b6cdbb~mv2.jpg", "5c383b_d343c06a29ba4689804f74eebcd8c122~mv2.jpg", "5c383b_288e8aff1dda4604b66c51f16efe6574~mv2.jpg", "5c383b_71fdd520a1814c11bdfbc9270b43911e~mv2.jpg"],
+  "casa-h": ["5c383b_6e48b6f978af4a6c852306e82defb5a2~mv2.jpg", "5c383b_79f27591c68641f5abacef5c5c9dc729~mv2.jpg", "5c383b_30e83f23d3044ced8c692784faf50290~mv2.jpg", "5c383b_82e37681f84745d8be140f15cac1a89c~mv2.jpg", "5c383b_a1245b0acc0945e1a3e431016253a778~mv2.jpg", "5c383b_7842f8bcba194ce0b2b8157e07b6cdbb~mv2.jpg", "5c383b_d343c06a29ba4689804f74eebcd8c122~mv2.jpg", "5c383b_288e8aff1dda4604b66c51f16efe6574~mv2.jpg", "5c383b_71fdd520a1814c11bdfbc9270b43911e~mv2.jpg"],
   "neo-soul": ["5c383b_0c990cf327cd4e00a23ea997cc8df0ef~mv2_d_2560_1440_s_2.jpg", "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg", "5c383b_b074f44ae27c4ead96ac5fefeaf1f870~mv2_d_2560_1440_s_2.jpg", "5c383b_3e63015f82f24cc38079e19c9c142568~mv2_d_2560_1440_s_2.jpg", "5c383b_39c681a391904ba5bcb73ccb9aa4cfb7~mv2_d_2560_1440_s_2.jpg", "5c383b_b8f362fd5896441ea62dd7508420c932~mv2_d_2560_1441_s_2.jpg", "5c383b_64ef3275421d48cca6feb348d84a8274~mv2_d_2560_1441_s_2.jpg", "5c383b_8b5d8fc108104f899d80cc3dcd29262b~mv2_d_2560_1441_s_2.jpg", "5c383b_da67860cae17475c8f96fd39b6df4739~mv2_d_2560_1441_s_2.jpg"],
   "29degrees": ["5c383b_ee09bf9ac7d344dda676920c3bd36462~mv2_d_1800_1200_s_2.jpg", "5c383b_43422a7abb5d4d6496bff31ea257f79b~mv2.jpg", "5c383b_a1aa346c4601494082bbd3ac99be5707~mv2_d_1800_1200_s_2.jpg", "5c383b_1c44f1b7f6d14ceb8a181dc9b1583776~mv2_d_1800_1200_s_2.jpg", "5c383b_436ec028ad4c4bf8a0120a0b7928d91c~mv2.jpg", "5c383b_e6f1d2fd73ab4b0aaf7d26c067444274~mv2.jpg", "5c383b_d1c01ed73bf3495d91bcbbc66426e3e7~mv2_d_1800_1200_s_2.jpg", "5c383b_0685f94a8360485b8734c509d3fe9f49~mv2_d_1800_1200_s_2.jpg", "5c383b_383959ccae0c42a38ea2c942add8df1c~mv2_d_1800_1200_s_2.jpg", "5c383b_caa183bb58e5444286728d6388a1d8f0~mv2_d_1800_1200_s_2.jpg"],
   "en-suite": ["5c383b_e660755345994c8abf6b93a1bc2b6df9~mv2.jpg", "5c383b_e8c04611cec1445993842a289356a0a2~mv2.jpg", "5c383b_181567c37df5419baf12968bf36be13f~mv2.jpg", "5c383b_913ed2417e8d485f9f3bf54686e72f26~mv2.jpg", "5c383b_bfd14a73de9d40f28e829577d074296b~mv2.jpg", "5c383b_72f49837e80241dd8976007ae333b94c~mv2.jpg", "5c383b_9efd199eadcd4208af7acd6893c46792~mv2.jpg", "5c383b_ed7d76ee11804f7ba93fe72c331e9d6d~mv2.jpg", "5c383b_2d52734942534cc1b3d3619a6dca77f9~mv2.jpg", "5c383b_a031f0138d6045ca89b2bace6e383341~mv2.jpg"]
@@ -2209,7 +2282,7 @@ const CATEGORIES = [{
     loc: "Sunset Strip, Los Angeles",
     year: "2015",
     gallery: GAL["one-oak"],
-    video: "assets/oneoak-film.mp4?v=1",
+    video: "assets/oneoak-film.mp4?v=2",
     text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
     facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]]
   }, {

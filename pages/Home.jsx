@@ -8,9 +8,9 @@ const SHOT = {
   oneOak:   "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
   houseG:   "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
   aura:     "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
-  cThru:    "assets/img/cthru-cover.jpg",
+  cThru:    "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
   lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
-  leBijou:  "assets/img/lebijou-cover.jpg",
+  leBijou:  "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
 };
 
 const ABOUT_VALUES = [
@@ -90,7 +90,7 @@ function Home({ go, intent, setIntent }) {
           src={wix(SHOT.casaMani, { w: 2000 })}
           srcSet={`${wix(SHOT.casaMani, { w: 1200 })} 1200w, ${wix(SHOT.casaMani, { w: 2000 })} 2000w, ${wix(SHOT.casaMani, { w: 2600 })} 2600w`} />
         <video className="cine__vid" autoPlay loop muted playsInline preload="metadata"
-          src="assets/noesis-film.mp4?v=2"
+          src="assets/noesis-film.mp4?v=3"
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = true;
             const tryPlay = () => {
@@ -300,7 +300,7 @@ function Home({ go, intent, setIntent }) {
       <section className="cine cine--video" style={{ height: "min(86vh, 840px)", minHeight: 500 }}>
         <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" />
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-          poster={wix(SHOT.oneOak, { w: 1200 })} src="assets/noesis-reel.mp4?v=1"
+          poster={wix(SHOT.oneOak, { w: 1200 })} src="assets/noesis-reel.mp4?v=2"
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
             const tryPlay = () => {
@@ -323,7 +323,7 @@ function Home({ go, intent, setIntent }) {
                 const v = sec && sec.querySelector("video");
                 if (!v) return;
                 v.__manual = true; v.loop = false; v.controls = true; v.muted = false;
-                v.src = "assets/noesis-launch.mp4?v=1"; v.load();
+                v.src = "assets/noesis-launch.mp4?v=2"; v.load();
                 const p = v.play(); if (p && p.catch) p.catch(() => {});
                 const cap = sec.querySelector(".cine__cap"); if (cap) cap.style.display = "none";
                 const grad = sec.querySelector(".cine__grad"); if (grad) grad.style.display = "none";
