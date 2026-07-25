@@ -114,7 +114,7 @@ function Home({ go, setIntent }) {
             </p>
           </div>
 
-          <div className="gateway reveal">
+          <div className="gateway reveal" data-spy="development,investment">
             {HOME_PILLARS.map(([n, t, route, d]) => (
               <button key={n} className="gate" onClick={() => go(route)} aria-label={`${t} — open the ${t} page`}>
                 <span className="gate__n">{n}</span>
@@ -125,7 +125,7 @@ function Home({ go, setIntent }) {
             ))}
           </div>
 
-          <button className="accessory reveal" onClick={() => go("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
+          <button className="accessory reveal" data-spy="owners-rep" onClick={() => go("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
             <span className="accessory__lbl">Also — Owner's Representation &amp; Project Management</span>
             <span className="accessory__d">For a select few owners, the same discipline applied to your project — one accountable advocate from entitlement to delivery.</span>
             <span className="accessory__cta">Our capabilities <span className="arr" /></span>
@@ -134,7 +134,7 @@ function Home({ go, setIntent }) {
       </section>
 
       {/* 3 ── PROOF BAND + THE PRINCIPAL ───────────────────────────── */}
-      <section id="record" className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      <section id="record" className="section" data-spy="firm" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> The Delivered Record</div>
           <div className="statband reveal u-mt-24">
@@ -172,7 +172,7 @@ function Home({ go, setIntent }) {
       </section>
 
       {/* 4 ── FEATURED PROJECT ─────────────────────────────────────── */}
-      <section id="featured" className="section">
+      <section id="featured" className="section" data-spy="properties">
         <div className="wrap">
           <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}>
             <div className="col-8">
@@ -266,7 +266,7 @@ function Home({ go, setIntent }) {
       </section>
 
       {/* 6 ── CLOSE ────────────────────────────────────────────────── */}
-      <section className="section section--ink">
+      <section className="section section--ink" data-spy="inquiries">
         <div className="wrap grid-12 u-end">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Inquiries</div>

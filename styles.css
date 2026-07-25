@@ -1417,3 +1417,25 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 .cine h1, .cine .h-display, .cine .pull, .cine .lede, .cine .eyebrow {
   text-shadow: 0 1px 34px rgba(14,11,8,.55), 0 1px 3px rgba(14,11,8,.28);
 }
+
+/* ── Nav scroll-spy indicator ───────────────────────────────────────────────
+   One bar that slides between items as you scroll, instead of six borders
+   switching on and off. It sits on the same baseline the old per-button
+   border-bottom occupied, so nothing shifts; those borders go transparent and
+   this becomes the single marker. The easing is a soft overshoot-free glide so
+   it reads as following the scroll rather than snapping. */
+.nav__links { position: relative; }
+.nav__links button.is-active { border-bottom-color: transparent; }
+.nav__ind {
+  position: absolute; left: 0; top: 0; height: 1px; width: 0;
+  background: var(--accent-deep); opacity: 0; pointer-events: none;
+  transform: translateX(0);
+  transition: transform .42s cubic-bezier(.22,1,.36,1),
+              width     .42s cubic-bezier(.22,1,.36,1),
+              opacity   .28s ease,
+              background-color .3s ease;
+}
+.nav--over .nav__ind { background: var(--accent); }
+@media (prefers-reduced-motion: reduce) {
+  .nav__ind { transition: opacity .2s ease; }
+}

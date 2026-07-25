@@ -82,6 +82,11 @@ function Nav({ active, go }) {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [over, setOver] = React.useState(true);
+  const [spy, setSpy] = React.useState(null);      // block currently under the scan line
+  const linksRef = React.useRef(null);
+  const indRef = React.useRef(null);
+  // On a sub-page the bar marks the route; on the gateway it follows the scroll.
+  const marker = spy || (SECTIONS.some(([k]) => k === active) ? active : null);
 
   // The on-dark treatment is only correct when a dark plate is genuinely behind the
   // bar. Deciding it from scroll position alone assumed every page opens on a
@@ -141,6 +146,64 @@ function Nav({ active, go }) {
     };
   }, [open]);
 
+  // Scroll-spy. Blocks carry data-spy="<route>" (or a comma list, which splits the
+  // block's scroll range evenly — the gateway holds both primary pillars). The bar
+  // then tracks what you are actually reading instead of sitting on a static route.
+  React.useEffect(() => {
+    let bands = [];
+    const measure = () => {
+      bands = [];
+      document.querySelectorAll("[data-spy]").forEach((el) => {
+        const keys = (el.getAttribute("data-spy") || "").split(",").map((s) => s.trim()).filter(Boolean);
+        if (!keys.length) return;
+        const r = el.getBoundingClientRect();
+        const top = r.top + window.scrollY, slice = r.height / keys.length;
+        keys.forEach((k, i) => bands.push({ k, top: top + i * slice, bottom: top + (i + 1) * slice }));
+      });
+      bands.sort((a, b) => a.top - b.top);
+    };
+    const onScroll = () => {
+      if (!bands.length) { setSpy(null); return; }
+      const line = window.scrollY + window.innerHeight * 0.38;
+      let hit = null;
+      for (const b of bands) {
+        if (line >= b.top && line < b.bottom) { hit = b.k; break; }
+        if (line >= b.bottom) hit = b.k;          // between blocks: hold the last one passed
+      }
+      setSpy(hit);
+    };
+    const onResize = () => { measure(); onScroll(); };
+    measure(); onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    // Blocks are revealed on scroll and images settle late, so re-measure briefly.
+    const t = setTimeout(onResize, 600), t2 = setTimeout(onResize, 1800);
+    return () => {
+      clearTimeout(t); clearTimeout(t2);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [active]);
+
+  // Slide the bar to whichever item is marked.
+  React.useEffect(() => {
+    const place = () => {
+      const wrap = linksRef.current, ind = indRef.current;
+      if (!wrap || !ind) return;
+      const btn = marker ? wrap.querySelector(`button[data-k="${marker}"]`) : null;
+      if (!btn || !btn.offsetWidth) { ind.style.opacity = "0"; return; }
+      ind.style.opacity = "1";
+      ind.style.width = btn.offsetWidth + "px";
+      // Ride the text buttons' own baseline — the row is taller than they are
+      // because the CTA sets its height, so a fixed bottom would sit too low.
+      ind.style.top = (btn.offsetTop + btn.offsetHeight - 1) + "px";
+      ind.style.transform = `translateX(${btn.offsetLeft}px)`;
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [marker]);
+
   const tap = (k) => { go(k); setOpen(false); };
   // While the drawer is open the bar sits on linen, not on the hero — keeping the
   // on-dark treatment would paint the logo and close button bone-on-bone.
@@ -151,9 +214,14 @@ function Nav({ active, go }) {
       <div className="wrap nav__inner u-flex u-between u-center">
         <Logo onClick={() => tap("top")} />
 
-        <nav className="nav__links" aria-label="Primary">
+        <nav className="nav__links" aria-label="Primary" ref={linksRef}>
+          {/* The bar is one element that slides between items, so it reads as a
+              single marker tracking your position rather than six on/off borders.
+              aria-current stays bound to the real route — the glide is visual. */}
+          <span className="nav__ind" ref={indRef} aria-hidden="true" />
           {SECTIONS.map(([k, label]) => (
-            <button key={k} className={active === k ? "is-active" : ""} aria-current={active === k ? "page" : undefined} onClick={() => tap(k)}>{label}</button>
+            <button key={k} data-k={k} className={marker === k ? "is-active" : ""}
+              aria-current={active === k ? "page" : undefined} onClick={() => tap(k)}>{label}</button>
           ))}
           <button onClick={() => tap("inquiries")} className="btn nav__cta">Request an Introduction</button>
         </nav>

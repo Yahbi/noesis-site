@@ -833,6 +833,10 @@ function Nav({
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [over, setOver] = React.useState(true);
+  const [spy, setSpy] = React.useState(null);
+  const linksRef = React.useRef(null);
+  const indRef = React.useRef(null);
+  const marker = spy || (SECTIONS.some(([k]) => k === active) ? active : null);
   React.useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -900,6 +904,78 @@ function Nav({
       if (trigger && trigger.focus) trigger.focus();
     };
   }, [open]);
+  React.useEffect(() => {
+    let bands = [];
+    const measure = () => {
+      bands = [];
+      document.querySelectorAll("[data-spy]").forEach(el => {
+        const keys = (el.getAttribute("data-spy") || "").split(",").map(s => s.trim()).filter(Boolean);
+        if (!keys.length) return;
+        const r = el.getBoundingClientRect();
+        const top = r.top + window.scrollY,
+          slice = r.height / keys.length;
+        keys.forEach((k, i) => bands.push({
+          k,
+          top: top + i * slice,
+          bottom: top + (i + 1) * slice
+        }));
+      });
+      bands.sort((a, b) => a.top - b.top);
+    };
+    const onScroll = () => {
+      if (!bands.length) {
+        setSpy(null);
+        return;
+      }
+      const line = window.scrollY + window.innerHeight * 0.38;
+      let hit = null;
+      for (const b of bands) {
+        if (line >= b.top && line < b.bottom) {
+          hit = b.k;
+          break;
+        }
+        if (line >= b.bottom) hit = b.k;
+      }
+      setSpy(hit);
+    };
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+    measure();
+    onScroll();
+    window.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    window.addEventListener("resize", onResize);
+    const t = setTimeout(onResize, 600),
+      t2 = setTimeout(onResize, 1800);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t2);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [active]);
+  React.useEffect(() => {
+    const place = () => {
+      const wrap = linksRef.current,
+        ind = indRef.current;
+      if (!wrap || !ind) return;
+      const btn = marker ? wrap.querySelector(`button[data-k="${marker}"]`) : null;
+      if (!btn || !btn.offsetWidth) {
+        ind.style.opacity = "0";
+        return;
+      }
+      ind.style.opacity = "1";
+      ind.style.width = btn.offsetWidth + "px";
+      ind.style.top = btn.offsetTop + btn.offsetHeight - 1 + "px";
+      ind.style.transform = `translateX(${btn.offsetLeft}px)`;
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [marker]);
   const tap = k => {
     go(k);
     setOpen(false);
@@ -913,10 +989,16 @@ function Nav({
     onClick: () => tap("top")
   }), React.createElement("nav", {
     className: "nav__links",
-    "aria-label": "Primary"
-  }, SECTIONS.map(([k, label]) => React.createElement("button", {
+    "aria-label": "Primary",
+    ref: linksRef
+  }, React.createElement("span", {
+    className: "nav__ind",
+    ref: indRef,
+    "aria-hidden": "true"
+  }), SECTIONS.map(([k, label]) => React.createElement("button", {
     key: k,
-    className: active === k ? "is-active" : "",
+    "data-k": k,
+    className: marker === k ? "is-active" : "",
     "aria-current": active === k ? "page" : undefined,
     onClick: () => tap(k)
   }, label)), React.createElement("button", {
@@ -1303,7 +1385,8 @@ function Home({
       maxWidth: "22ch"
     }
   }, "We develop real estate \u2014 and ", React.createElement("em", null, "invest in what we develop."))), React.createElement("div", {
-    className: "gateway reveal"
+    className: "gateway reveal",
+    "data-spy": "development,investment"
   }, HOME_PILLARS.map(([n, t, route, d]) => React.createElement("button", {
     key: n,
     className: "gate",
@@ -1321,6 +1404,7 @@ function Home({
     className: "arr"
   }))))), React.createElement("button", {
     className: "accessory reveal",
+    "data-spy": "owners-rep",
     onClick: () => go("owners-rep"),
     "aria-label": "Owner's Representation and Project Management \u2014 open the page"
   }, React.createElement("span", {
@@ -1334,6 +1418,7 @@ function Home({
   }))))), React.createElement("section", {
     id: "record",
     className: "section",
+    "data-spy": "firm",
     style: {
       paddingTop: 0,
       borderTop: 0
@@ -1390,7 +1475,8 @@ function Home({
     onClick: () => go("firm")
   }, "The firm & founder"))))), React.createElement("section", {
     id: "featured",
-    className: "section"
+    className: "section",
+    "data-spy": "properties"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
@@ -1601,7 +1687,8 @@ function Home({
   }, "Watch the film \xB7 2 min ", React.createElement("span", {
     className: "arr"
   }))))), React.createElement("section", {
-    className: "section section--ink"
+    className: "section section--ink",
+    "data-spy": "inquiries"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end"
   }, React.createElement("div", {
