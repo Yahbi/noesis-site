@@ -127,7 +127,7 @@ function Home({ go, setIntent }) {
         </div>
       </section>
 
-      {/* 3 ── PROOF BAND ───────────────────────────────────────────── */}
+      {/* 3 ── PROOF BAND + THE PRINCIPAL ───────────────────────────── */}
       <section id="record" className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> The Delivered Record</div>
@@ -136,13 +136,31 @@ function Home({ go, setIntent }) {
               <div key={l}><div className="num">{v}</div><div className="statband__l">{l}</div></div>
             ))}
           </div>
-          <div className="reveal qgrid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
-            {HOME_PROOF.map(([v, l]) => (
-              <div key={l}>
-                <div style={{ fontFamily: "var(--sans)", fontWeight: 200, fontSize: "clamp(22px,2.4vw,30px)", color: "var(--accent)", lineHeight: 1 }}>{v}</div>
-                <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".06em", color: "var(--muted)", marginTop: 8, lineHeight: 1.35 }}>{l}</div>
+
+          {/* The principal — his record is the firm's record, so it is attributed here. */}
+          <div className="principal reveal">
+            <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">
+              <img src={wix(PHOTO.igal, { w: 800 })} alt="Igal N. Azran, Founder & CEO" loading="lazy" />
+            </button>
+            <div className="principal__body">
+              <div className="eyebrow"><span className="dot" /> The Principal</div>
+              <div className="principal__name">Igal N. Azran</div>
+              <div className="principal__role">Founder &amp; CEO · Previously CIM Group · CBRE</div>
+              <p className="principal__bio">
+                Igal founded Noesis in 2009 and has led its development and investment work ever since.
+                Born in Morocco and raised between France, Spain and Israel, he brings a genuinely
+                international perspective — and a builder's discipline — to every venture.
+              </p>
+              <div className="principal__stats">
+                {HOME_PROOF.map(([v, l]) => (
+                  <div key={l}>
+                    <div className="principal__num">{v}</div>
+                    <div className="principal__lbl">{l}</div>
+                  </div>
+                ))}
               </div>
-            ))}
+              <button className="link-u principal__link" onClick={() => go("firm")}>The firm &amp; founder</button>
+            </div>
           </div>
         </div>
       </section>

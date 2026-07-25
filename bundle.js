@@ -1279,30 +1279,41 @@ function Home({
   }, v), React.createElement("div", {
     className: "statband__l"
   }, l)))), React.createElement("div", {
-    className: "reveal qgrid",
-    style: {
-      gridTemplateColumns: "repeat(3, 1fr)"
-    }
+    className: "principal reveal"
+  }, React.createElement("button", {
+    className: "principal__portrait",
+    onClick: () => go("firm"),
+    "aria-label": "Igal N. Azran \u2014 read about the firm and founder"
+  }, React.createElement("img", {
+    src: wix(PHOTO.igal, {
+      w: 800
+    }),
+    alt: "Igal N. Azran, Founder & CEO",
+    loading: "lazy"
+  })), React.createElement("div", {
+    className: "principal__body"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Principal"), React.createElement("div", {
+    className: "principal__name"
+  }, "Igal N. Azran"), React.createElement("div", {
+    className: "principal__role"
+  }, "Founder & CEO \xB7 Previously CIM Group \xB7 CBRE"), React.createElement("p", {
+    className: "principal__bio"
+  }, "Igal founded Noesis in 2009 and has led its development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective \u2014 and a builder's discipline \u2014 to every venture."), React.createElement("div", {
+    className: "principal__stats"
   }, HOME_PROOF.map(([v, l]) => React.createElement("div", {
     key: l
   }, React.createElement("div", {
-    style: {
-      fontFamily: "var(--sans)",
-      fontWeight: 200,
-      fontSize: "clamp(22px,2.4vw,30px)",
-      color: "var(--accent)",
-      lineHeight: 1
-    }
+    className: "principal__num"
   }, v), React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 10.5,
-      letterSpacing: ".06em",
-      color: "var(--muted)",
-      marginTop: 8,
-      lineHeight: 1.35
-    }
-  }, l)))))), React.createElement("section", {
+    className: "principal__lbl"
+  }, l)))), React.createElement("button", {
+    className: "link-u principal__link",
+    onClick: () => go("firm")
+  }, "The firm & founder"))))), React.createElement("section", {
     id: "featured",
     className: "section"
   }, React.createElement("div", {
