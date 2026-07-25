@@ -6,8 +6,22 @@
 const SHOT = {
   casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
   oneOak:   "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
+  houseG:   "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
+  aura:     "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
+  cThru:    "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
+  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
   leBijou:  "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
 };
+
+// Selected work — the six tiles that make the gateway feel like a portfolio.
+const HOME_WORK = [
+  [SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Designed & built · 2018"],
+  [SHOT.oneOak, "one-oak", "One Oak", "Sunset Strip", "Designed & built · 2015"],
+  [SHOT.aura, "aura-house", "Aura House", "Tel Aviv", "Developed · sold over asking"],
+  [SHOT.cThru, "c-thru", "C Thru", "Beverly Grove", "Designed & built · 2016"],
+  [SHOT.houseG, "house-g", "House G", "Melrose", "Designed & developed · 2016"],
+  [SHOT.lolivier, "lolivier", "L'Olivier House", "Los Angeles", "Designed & built · 2015"],
+];
 
 // Full delivered record — 17 gallery projects + 6 record-only entries.
 const HOME_STATS = [
@@ -159,6 +173,23 @@ function Home({ go, setIntent }) {
               <span className="story-feature__cta">Read the story <span className="arr" /></span>
             </div>
           </button>
+
+          <div className="collage reveal u-mt-64">
+            {HOME_WORK.map(([img, id, name, loc, work]) => (
+              <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the project story`}
+                onClick={() => go("story:" + id)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("story:" + id); } }}>
+                <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
+                <div className="pcard__cap">
+                  <div>
+                    <div className="pcard__name">{name}</div>
+                    <div className="pcard__loc">{loc}</div>
+                  </div>
+                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

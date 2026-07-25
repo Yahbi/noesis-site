@@ -42,6 +42,9 @@ function Development({ go }) {
             </h1>
           </div>
           <div className="col-5">
+            <p className="wwd__lead" style={{ maxWidth: "20ch", marginBottom: 24 }}>
+              We take a project from a <em>parcel of land</em> to a finished landmark — and own the outcome.
+            </p>
             <p className="lede">
               Noesis conceives, entitles, designs and builds its own real estate. Since 2009 we have
               developed distinctly unique product — beginning with single-family residences and growing

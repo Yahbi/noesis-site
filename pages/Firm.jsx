@@ -79,6 +79,7 @@ function Firm({ go }) {
         </div>
 
         <div className="wrap u-mt-64">
+          <button className="link-u" onClick={() => go("properties")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent-deep)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px", marginBottom: 48, display: "inline-block" }}>See the work</button>
           <div className="eyebrow reveal"><span className="dot" /> How We Work</div>
           <div className="reveal qgrid">
             {FIRM_VALUES.map(([t, d], i) => (

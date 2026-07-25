@@ -46,9 +46,15 @@ function Approach({ go }) {
               design and construction process — giving you one point of contact.
             </p>
             <p className="body u-mt-16" style={{ color: "var(--muted)", maxWidth: "52ch" }}>
-              We represent the owner and investor and always have your best interest in mind during site
-              visits, contractor hiring and progress reporting — a service we extend to a select few
-              owners alongside our own developments.
+              A major project is won or lost in the management of it. We represent the owner and investor
+              and always have your best interest in mind during site visits, contractor hiring and
+              progress reporting — a service we extend to a select few owners alongside our own
+              developments.
+            </p>
+            <p className="body u-mt-16" style={{ color: "var(--muted)", maxWidth: "52ch" }}>
+              We are engaged by private owners, family offices and developers building landmark
+              residential and commercial projects — people for whom the cost of getting it right is
+              repaid many times over.
             </p>
           </div>
         </div>
@@ -103,8 +109,9 @@ function Approach({ go }) {
           alt="A Noesis-delivered living space opening to the pool" />
         <div className="cine__grad" />
         <div className="cine__cap">
-          <div className="wrap" style={{ paddingBottom: "clamp(30px,5vw,60px)" }}>
+          <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
             <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Delivered by Noesis</div>
+            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "20ch" }}>The single party at the table accountable for the whole.</h2>
           </div>
         </div>
       </section>

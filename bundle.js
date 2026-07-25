@@ -1030,8 +1030,13 @@ window.Logo = Logo;
 const SHOT = {
   casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
   oneOak: "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
+  houseG: "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
+  aura: "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
+  cThru: "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
+  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
   leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg"
 };
+const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Designed & built · 2018"], [SHOT.oneOak, "one-oak", "One Oak", "Sunset Strip", "Designed & built · 2015"], [SHOT.aura, "aura-house", "Aura House", "Tel Aviv", "Developed · sold over asking"], [SHOT.cThru, "c-thru", "C Thru", "Beverly Grove", "Designed & built · 2016"], [SHOT.houseG, "house-g", "House G", "Melrose", "Designed & developed · 2016"], [SHOT.lolivier, "lolivier", "L'Olivier House", "Los Angeles", "Designed & built · 2015"]];
 const HOME_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const HOME_PILLARS = [["01", "Development", "development", "We acquire and develop ground-up — luxury residences, small-lot subdivisions and apartment buildings — conceived, entitled, designed and built by our own team."], ["02", "Investment", "investment", "We invest our own capital alongside our partners', across opportunistic, value-add and stabilized strategies, where our development edge creates the value."]];
 const HOME_PROOF = [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]];
@@ -1362,7 +1367,46 @@ function Home({
     className: "story-feature__cta"
   }, "Read the story ", React.createElement("span", {
     className: "arr"
-  })))))), React.createElement("section", {
+  })))), React.createElement("div", {
+    className: "collage reveal u-mt-64"
+  }, HOME_WORK.map(([img, id, name, loc, work]) => React.createElement("article", {
+    key: name,
+    className: "pcard",
+    role: "button",
+    tabIndex: 0,
+    "aria-label": `${name}, ${loc} — view the project story`,
+    onClick: () => go("story:" + id),
+    onKeyDown: e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        go("story:" + id);
+      }
+    }
+  }, React.createElement("div", {
+    className: "pcard__media"
+  }, React.createElement("img", {
+    className: `pcard__img ${name === "Casa Mani" || name === "Aura House" ? "img--warm" : ""}`,
+    src: wix(img, {
+      w: 1300
+    }),
+    alt: name,
+    loading: "lazy"
+  })), React.createElement("div", {
+    className: "pcard__cap"
+  }, React.createElement("div", null, React.createElement("div", {
+    className: "pcard__name"
+  }, name), React.createElement("div", {
+    className: "pcard__loc"
+  }, loc)), React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 10.5,
+      letterSpacing: ".08em",
+      textTransform: "uppercase",
+      color: "var(--accent-deep)",
+      whiteSpace: "nowrap"
+    }
+  }, work))))))), React.createElement("section", {
     className: "cine cine--video",
     style: {
       height: "min(86vh, 840px)",
@@ -1535,6 +1579,12 @@ function Development({
   }, React.createElement("span", null, "landmark.")))), React.createElement("div", {
     className: "col-5"
   }, React.createElement("p", {
+    className: "wwd__lead",
+    style: {
+      maxWidth: "20ch",
+      marginBottom: 24
+    }
+  }, "We take a project from a ", React.createElement("em", null, "parcel of land"), " to a finished landmark \u2014 and own the outcome."), React.createElement("p", {
     className: "lede"
   }, "Noesis conceives, entitles, designs and builds its own real estate. Since 2009 we have developed distinctly unique product \u2014 beginning with single-family residences and growing into small-lot subdivisions, apartment buildings and other residential and commercial developments."), React.createElement("p", {
     className: "body u-mt-16",
@@ -2137,7 +2187,22 @@ function Firm({
     }
   }, "We are thankful for our history and look forward to the opportunities ahead in making a positive difference in the world around us."))), React.createElement("div", {
     className: "wrap u-mt-64"
-  }, React.createElement("div", {
+  }, React.createElement("button", {
+    className: "link-u",
+    onClick: () => go("properties"),
+    style: {
+      background: "transparent",
+      border: 0,
+      borderBottom: "1px solid var(--accent)",
+      color: "var(--accent-deep)",
+      fontSize: 11,
+      letterSpacing: ".18em",
+      textTransform: "uppercase",
+      padding: "0 0 4px",
+      marginBottom: 48,
+      display: "inline-block"
+    }
+  }, "See the work"), React.createElement("div", {
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
@@ -2677,7 +2742,13 @@ function Approach({
       color: "var(--muted)",
       maxWidth: "52ch"
     }
-  }, "We represent the owner and investor and always have your best interest in mind during site visits, contractor hiring and progress reporting \u2014 a service we extend to a select few owners alongside our own developments.")))), React.createElement("section", {
+  }, "A major project is won or lost in the management of it. We represent the owner and investor and always have your best interest in mind during site visits, contractor hiring and progress reporting \u2014 a service we extend to a select few owners alongside our own developments."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "52ch"
+    }
+  }, "We are engaged by private owners, family offices and developers building landmark residential and commercial projects \u2014 people for whom the cost of getting it right is repaid many times over.")))), React.createElement("section", {
     className: "section",
     style: {
       paddingTop: "clamp(28px,3vw,44px)"
@@ -2749,7 +2820,7 @@ function Approach({
   }, React.createElement("div", {
     className: "wrap",
     style: {
-      paddingBottom: "clamp(30px,5vw,60px)"
+      paddingBottom: "clamp(36px,6vw,72px)"
     }
   }, React.createElement("div", {
     className: "eyebrow",
@@ -2758,7 +2829,13 @@ function Approach({
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " Delivered by Noesis")))), React.createElement("section", {
+  }), " Delivered by Noesis"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "20ch"
+    }
+  }, "The single party at the table accountable for the whole.")))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
