@@ -66,8 +66,22 @@ function Investment({ go, setIntent }) {
         </div>
       </section>
 
+      {/* CINEMATIC PLATE — the asset the thesis produces */}
+      <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
+        <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/inv-sunset.jpg"
+          alt="A Noesis residence above Los Angeles at dusk" />
+        <div className="cine__grad" />
+        <div className="cine__cap">
+          <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
+            <p className="pull" style={{ color: "var(--bone)", maxWidth: "24ch" }}>
+              We invest where our <em>development edge</em> creates the value.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* STRATEGIES */}
-      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      <section className="section" style={{ paddingTop: "clamp(40px,5vw,72px)", borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Investment Strategies</div>
           <div className="rows u-mt-24">
@@ -98,6 +112,21 @@ function Investment({ go, setIntent }) {
       {/* PRINCIPLES */}
       <section className="section">
         <div className="wrap">
+          <div className="grid-12 reveal" style={{ alignItems: "center", marginBottom: "clamp(40px,5vw,72px)" }}>
+            <div className="col-7">
+              <div className="thumb thumb--wide" style={{ overflow: "hidden" }}>
+                <img src="assets/img/inv-multifamily.jpg" alt="A Noesis multifamily building, Los Angeles" loading="lazy"
+                  className="img--warm" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+            </div>
+            <div className="col-5">
+              <div className="eyebrow"><span className="dot" /> Value-Add in Practice</div>
+              <p className="body-lg u-mt-16" style={{ maxWidth: "42ch" }}>
+                Boutique multifamily, developed and held — the asset class behind the mid-term strategy,
+                built to the same standard as our single-family work.
+              </p>
+            </div>
+          </div>
           <div className="eyebrow reveal"><span className="dot" /> How We Invest</div>
           <div className="reveal qgrid">
             {INV_PRINCIPLES.map(([n, t, d]) => (

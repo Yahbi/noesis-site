@@ -1543,6 +1543,19 @@ function Development({
       maxWidth: "52ch"
     }
   }, "Our approach has always been to build a strong, resourceful and knowledgeable foundation before undertaking new ventures in each asset class.")))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(78vh, 760px)",
+      minHeight: 420
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    "data-parallax": "0.12",
+    src: "assets/img/dev-facade.jpg",
+    alt: "A Noesis-developed residence, Los Angeles"
+  }), React.createElement("div", {
+    className: "cine__grad"
+  })), React.createElement("section", {
     className: "section",
     style: {
       paddingTop: "clamp(28px,3vw,44px)"
@@ -1634,6 +1647,19 @@ function Development({
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
+    className: "pair reveal",
+    style: {
+      marginBottom: "clamp(36px,4.5vw,64px)"
+    }
+  }, React.createElement("figure", null, React.createElement("img", {
+    src: "assets/img/dev-detail.jpg",
+    alt: "Interior detailing \u2014 patterned tile and custom vanity",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
+    src: "assets/img/build-pour.jpg",
+    alt: "A Noesis concrete pour, Los Angeles",
+    loading: "lazy"
+  }), React.createElement("figcaption", null, "Self-delivered \u2014 on site, Los Angeles"))), React.createElement("div", {
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
@@ -1828,9 +1854,35 @@ function Investment({
       maxWidth: "64ch"
     }
   }, "Back in 2009 our founder focused on single-family residences, striving to provide a distinctly unique product that would enhance the lives of those it touched while benefiting the communities around it. Today Noesis has grown that mission into various real asset types \u2014 small-lot subdivisions, apartment buildings, and other residential and commercial developments \u2014 always building a strong, resourceful and knowledgeable foundation before entering a new asset class.")))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(78vh, 760px)",
+      minHeight: 420
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    "data-parallax": "0.12",
+    src: "assets/img/inv-sunset.jpg",
+    alt: "A Noesis residence above Los Angeles at dusk"
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(36px,6vw,72px)"
+    }
+  }, React.createElement("p", {
+    className: "pull",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "24ch"
+    }
+  }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value.")))), React.createElement("section", {
     className: "section",
     style: {
-      paddingTop: 0,
+      paddingTop: "clamp(40px,5vw,72px)",
       borderTop: 0
     }
   }, React.createElement("div", {
@@ -1890,6 +1942,40 @@ function Investment({
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
+    className: "grid-12 reveal",
+    style: {
+      alignItems: "center",
+      marginBottom: "clamp(40px,5vw,72px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "thumb thumb--wide",
+    style: {
+      overflow: "hidden"
+    }
+  }, React.createElement("img", {
+    src: "assets/img/inv-multifamily.jpg",
+    alt: "A Noesis multifamily building, Los Angeles",
+    loading: "lazy",
+    className: "img--warm",
+    style: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover"
+    }
+  }))), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Value-Add in Practice"), React.createElement("p", {
+    className: "body-lg u-mt-16",
+    style: {
+      maxWidth: "42ch"
+    }
+  }, "Boutique multifamily, developed and held \u2014 the asset class behind the mid-term strategy, built to the same standard as our single-family work."))), React.createElement("div", {
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
@@ -1981,9 +2067,10 @@ function Investment({
 }
 window.Investment = Investment;
 const FIRM_VALUES = [["Alignment", "We succeed when our clients and partners do. We take the owner's side, and we put our own capital and reputation behind our convictions."], ["Discretion", "We work quietly for private clients, principals and family offices. Confidentiality is built into every engagement."], ["Stewardship", "We treat every project and every dollar of capital as if it were our own — because, often, it is."], ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."]];
+const FIRM_TEAM = [["Sylvain Sabbah-Mani", "Partner", null], ["Sara Davallou", "Office & Property Manager", "sara"], ["Jim Jones", "Project Superintendent", "jim"], ["Erin McNicholas", "Accounting Manager", "erin"], ["Eli Abitbol", "Project Coordinator", "eli"]];
 const FIRM_FOUNDER = {
   name: "Igal N. Azran",
-  title: "Founder & Principal",
+  title: "Founder & CEO",
   prev: "Previously · CIM Group · CBRE · STMC",
   edu: "MSc · Real Estate",
   stats: [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]],
@@ -2092,12 +2179,10 @@ function Firm({
     alt: "My Genesee living room, Beverly Grove",
     loading: "lazy"
   }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
-    src: wix(PHOTO.genesee_int_2, {
-      w: 1200
-    }),
-    alt: "My Genesee kitchen, Beverly Grove",
+    src: "assets/img/firm-living.jpg",
+    alt: "A Noesis living room above Los Angeles",
     loading: "lazy"
-  }), React.createElement("figcaption", null, "Four residences \xB7 2019"))))), React.createElement("section", {
+  }), React.createElement("figcaption", null, "Delivered work \xB7 Los Angeles"))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -2214,6 +2299,56 @@ function Firm({
       maxWidth: "64ch"
     }
   }, p)))))), React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "eyebrow reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,36px)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Team"), React.createElement("div", {
+    className: "team reveal"
+  }, FIRM_TEAM.map(([name, role, key]) => React.createElement("article", {
+    key: name,
+    className: "member"
+  }, React.createElement("div", {
+    className: "member__img"
+  }, key ? React.createElement("img", {
+    src: wix(PHOTO[key], {
+      w: 700
+    }),
+    alt: name,
+    loading: "lazy"
+  }) : React.createElement("span", {
+    className: "member__mark",
+    "aria-hidden": "true"
+  }, name.split(" ").map(w => w[0]).join("").slice(0, 2))), React.createElement("div", {
+    className: "member__name"
+  }, name), React.createElement("div", {
+    className: "member__role"
+  }, role)))), React.createElement("div", {
+    className: "reveal",
+    style: {
+      marginTop: "clamp(28px,3.5vw,44px)",
+      borderTop: "1px solid var(--rule)",
+      paddingTop: 20
+    }
+  }, React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 11,
+      letterSpacing: ".12em",
+      textTransform: "uppercase",
+      color: "var(--muted)"
+    }
+  }, "California BRE # 02001795 \xA0\xB7\xA0 General Contractor # 1046562")))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end"
@@ -2597,6 +2732,33 @@ function Approach({
   }, t), React.createElement("p", {
     className: "flow__desc"
   }, d)))))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(70vh, 640px)",
+      minHeight: 400
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    "data-parallax": "0.1",
+    src: "assets/img/or-living.jpg",
+    alt: "A Noesis-delivered living space opening to the pool"
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(30px,5vw,60px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      color: "rgba(236,230,216,.62)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Delivered by Noesis")))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"

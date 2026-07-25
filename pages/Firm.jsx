@@ -8,9 +8,19 @@ const FIRM_VALUES = [
   ["Craft", "An obsession with how things are made. The difference between built and realized lives in the details we refuse to compromise."],
 ];
 
+// The team, from the firm's own business cards. Names and roles only —
+// individual direct lines and emails are deliberately not republished.
+const FIRM_TEAM = [
+  ["Sylvain Sabbah-Mani", "Partner", null],
+  ["Sara Davallou", "Office & Property Manager", "sara"],
+  ["Jim Jones", "Project Superintendent", "jim"],
+  ["Erin McNicholas", "Accounting Manager", "erin"],
+  ["Eli Abitbol", "Project Coordinator", "eli"],
+];
+
 const FIRM_FOUNDER = {
   name: "Igal N. Azran",
-  title: "Founder & Principal",
+  title: "Founder & CEO",
   prev: "Previously · CIM Group · CBRE · STMC",
   edu: "MSc · Real Estate",
   stats: [
@@ -91,8 +101,8 @@ function Firm({ go }) {
               <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src={wix(PHOTO.genesee_int_2, { w: 1200 })} alt="My Genesee kitchen, Beverly Grove" loading="lazy" />
-              <figcaption>Four residences · 2019</figcaption>
+              <img src="assets/img/firm-living.jpg" alt="A Noesis living room above Los Angeles" loading="lazy" />
+              <figcaption>Delivered work · Los Angeles</figcaption>
             </figure>
           </div>
         </div>
@@ -130,6 +140,31 @@ function Firm({ go }) {
               {FIRM_FOUNDER.bio.slice(1).map((p, i) => (
                 <p key={i} className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>{p}</p>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* THE TEAM */}
+      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap">
+          <div className="eyebrow reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}><span className="dot" /> The Team</div>
+          <div className="team reveal">
+            {FIRM_TEAM.map(([name, role, key]) => (
+              <article key={name} className="member">
+                <div className="member__img">
+                  {key
+                    ? <img src={wix(PHOTO[key], { w: 700 })} alt={name} loading="lazy" />
+                    : <span className="member__mark" aria-hidden="true">{name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</span>}
+                </div>
+                <div className="member__name">{name}</div>
+                <div className="member__role">{role}</div>
+              </article>
+            ))}
+          </div>
+          <div className="reveal" style={{ marginTop: "clamp(28px,3.5vw,44px)", borderTop: "1px solid var(--rule)", paddingTop: 20 }}>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)" }}>
+              California BRE # 02001795 &nbsp;·&nbsp; General Contractor # 1046562
             </div>
           </div>
         </div>

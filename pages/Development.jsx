@@ -56,6 +56,13 @@ function Development({ go }) {
         </div>
       </section>
 
+      {/* OPENING PLATE — a delivered Noesis residence */}
+      <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
+        <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/dev-facade.jpg"
+          alt="A Noesis-developed residence, Los Angeles" />
+        <div className="cine__grad" />
+      </section>
+
       {/* WHAT WE DEVELOP */}
       <section className="section" style={{ paddingTop: "clamp(28px,3vw,44px)" }}>
         <div className="wrap">
@@ -111,6 +118,16 @@ function Development({ go }) {
       {/* THE CRAFT — architecture / interiors / contracting */}
       <section className="section">
         <div className="wrap">
+          <div className="pair reveal" style={{ marginBottom: "clamp(36px,4.5vw,64px)" }}>
+            <figure>
+              <img src="assets/img/dev-detail.jpg" alt="Interior detailing — patterned tile and custom vanity" loading="lazy" />
+              <figcaption>Interior detailing — materials sourced worldwide</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" />
+              <figcaption>Self-delivered — on site, Los Angeles</figcaption>
+            </figure>
+          </div>
           <div className="eyebrow reveal"><span className="dot" /> The Craft</div>
           <div className="rows u-mt-24">
             {DEV_CRAFT.map(([t, d], i) => (

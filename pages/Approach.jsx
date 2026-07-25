@@ -97,6 +97,18 @@ function Approach({ go }) {
         </div>
       </section>
 
+      {/* CINEMATIC PLATE — a delivered interior */}
+      <section className="cine" style={{ height: "min(70vh, 640px)", minHeight: 400 }}>
+        <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/or-living.jpg"
+          alt="A Noesis-delivered living space opening to the pool" />
+        <div className="cine__grad" />
+        <div className="cine__cap">
+          <div className="wrap" style={{ paddingBottom: "clamp(30px,5vw,60px)" }}>
+            <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Delivered by Noesis</div>
+          </div>
+        </div>
+      </section>
+
       {/* SECTORS */}
       <section className="section">
         <div className="wrap">
