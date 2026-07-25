@@ -1262,3 +1262,34 @@ section[id] { scroll-margin-top: 72px; }
   font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone); }
 .story-feature:hover .story-feature__cta .arr { transform: translateX(4px); }
 @media (max-width: 640px) { .story-feature { aspect-ratio: 4 / 5; } }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Home gateway — the two primary pillars as large destination cards, with the
+   accessory service line as a single quiet band beneath. The 60/40 emphasis
+   made structural: two big doors, one small one.
+   ───────────────────────────────────────────────────────────────────────────── */
+.gateway { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); }
+@media (max-width: 760px) { .gateway { grid-template-columns: 1fr; } }
+
+.gate { display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+  background: var(--paper); border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  padding: clamp(26px, 3vw, 44px); cursor: pointer; transition: background .3s, transform .5s cubic-bezier(.2,.7,.2,1); }
+.gate:hover { background: var(--bone-3, var(--paper)); transform: translateY(-3px); }
+.gate__n { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--accent-deep); }
+.gate__t { font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 3.6vw, 48px);
+  line-height: 1.04; letter-spacing: -.02em; color: var(--ink); margin-top: 14px; }
+.gate__d { color: var(--ink-soft); font-size: 15px; line-height: 1.6; margin-top: 16px; max-width: 46ch; }
+.gate__cta { display: inline-flex; align-items: center; gap: 10px; margin-top: clamp(20px, 2.5vw, 32px);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-deep); }
+.gate:hover .gate__cta .arr { width: 20px; }
+
+.accessory { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(16px, 2.4vw, 36px);
+  width: 100%; text-align: left; margin-top: clamp(16px, 2vw, 28px); padding: clamp(20px, 2.2vw, 30px) clamp(22px, 2.6vw, 36px);
+  background: transparent; border: 1px dashed var(--rule); cursor: pointer; transition: border-color .3s, background .3s; }
+.accessory:hover { border-color: var(--accent); background: var(--accent-soft, transparent); }
+.accessory__lbl { font-family: var(--sans); font-weight: 500; font-size: 12.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink); white-space: nowrap; }
+.accessory__d { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+.accessory__cta { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); white-space: nowrap; }
+@media (max-width: 860px) { .accessory { grid-template-columns: 1fr; gap: 10px; } .accessory__lbl { white-space: normal; } }

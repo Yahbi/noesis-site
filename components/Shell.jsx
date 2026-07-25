@@ -1,12 +1,13 @@
 // Nav + Footer — one-page, scroll-spy, stone & linen
 
-// Re-weighted: Development + Investment lead; Owner's Rep is the accessory line.
+// Multi-page: each entry is a routed view. Development + Investment lead;
+// Owner's Rep is the accessory line.
 const SECTIONS = [
   ["development", "Development"],
   ["investment",  "Investment"],
-  ["projects",    "Portfolio"],
+  ["properties",  "Portfolio"],
   ["owners-rep",  "Owner's Rep"],
-  ["about",       "Firm"],
+  ["firm",        "Firm"],
   ["inquiries",   "Inquiries"],
 ];
 

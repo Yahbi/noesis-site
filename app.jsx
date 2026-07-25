@@ -1,4 +1,13 @@
-// App shell — one continuous page + scroll-spy, with a full Properties view.
+// App shell — MULTI-PAGE: every destination is its own view with a shareable
+// hash route, its own document title, and browser back/forward support.
+//   #/                     home gateway
+//   #/development          Development pillar
+//   #/investment           Investment pillar
+//   #/portfolio            Portfolio index
+//   #/portfolio/<id>       immersive project story
+//   #/owners-rep           Owner's Representation (accessory)
+//   #/firm                 The Firm + founder
+//   #/inquiries            Inquiries
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "#9A6A3E",
@@ -7,78 +16,70 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
 const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
-const SECTION_IDS = ["development", "investment", "projects", "owners-rep", "about", "inquiries"];
+// Every routable page view (order = nav order).
+const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
 
+const ROUTE_TITLES = {
+  home: "Noesis Group — Real Estate Development & Investment | Owner's Representation",
+  development: "Development — From Land to Landmark | Noesis Group",
+  investment: "Investment — Capital, Aligned | Noesis Group",
+  properties: "Portfolio · The Delivered Record | Noesis Group",
+  "owners-rep": "Owner's Representation & Project Management | Noesis Group",
+  firm: "The Firm & Founder | Noesis Group",
+  inquiries: "Inquiries — Request an Introduction | Noesis Group",
+};
+
 function App() {
-  // view: "home" (one-pager) · "properties" (index) · "approach" · "story" (case study)
   const [view, setView] = React.useState("home");
   const [story, setStory] = React.useState(null);      // active project id for the story view
-  const [active, setActive] = React.useState(null);
-  const [intent, setIntent] = React.useState(null);   // "investor" | "owner" | null — seeds the enquiry form
+  const [intent, setIntent] = React.useState(null);    // "investor" | null — seeds the enquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const pending = React.useRef(null);
-  const returnTo = React.useRef("properties");   // where a story's Back button should land
+  const returnTo = React.useRef("properties");         // where a story's Back button lands
 
   const lenis = () => (window.__motion && window.__motion.lenis) || null;
 
-  const scrollToId = React.useCallback((id) => {
-    if (id === "top" || id === "hero") {
-      const l = lenis();
-      if (l) l.scrollTo(0, { duration: 1.1 }); else window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-    const el = document.getElementById(id);
-    if (!el) return;
+  const scrollTop = () => {
     const l = lenis();
-    if (l) l.scrollTo(el, { offset: -NAV_OFFSET, duration: 1.1 });
-    else el.scrollIntoView({ behavior: "smooth" });
-  }, []);
+    if (l && l.scrollTo) l.scrollTo(0, { immediate: true });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
 
-  // Shareable hash addresses for every destination (deep links + browser history).
+  // Shareable hash addresses for every destination.
   const hashFor = (id) => {
     if (typeof id === "string" && id.indexOf("story:") === 0) return "#/portfolio/" + id.slice(6);
     if (id === "properties") return "#/portfolio";
-    if (id === "approach") return "#/approach";
-    if (id === "top" || id === "hero") return "#/";
+    if (id === "top" || id === "hero" || id === "home") return "#/";
     return "#/" + id;
   };
 
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
-  // `silent` applies a route without pushing history (used by popstate / initial load).
+  // `silent` applies a route without pushing history (popstate / initial load).
   const go = React.useCallback((id, silent) => {
     if (!silent) { try { history.pushState(null, "", hashFor(id)); } catch (e) {} }
-    if (typeof id === "string" && id.indexOf("story:") === 0) {   // immersive case study
-      if (view !== "story") returnTo.current = (view === "home" ? "home" : "properties");   // remember origin; keep it across story→story
+
+    if (typeof id === "string" && id.indexOf("story:") === 0) {
+      if (view !== "story") returnTo.current = (view === "home" ? "home" : "properties");
       setStory(id.slice(6));
       setView("story");
-      const l = lenis();
-      if (l && l.scrollTo) l.scrollTo(0, { immediate: true });
-      window.scrollTo({ top: 0, behavior: "auto" });
+      scrollTop();
       return;
     }
-    if (id === "properties" || id === "approach") {   // deep sub-views
-      setView(id);
-      window.scrollTo({ top: 0, behavior: "auto" });
-      return;
-    }
-    if (view !== "home") {
-      pending.current = id;          // jump home, then scroll once mounted
-      setView("home");
-      return;
-    }
-    scrollToId(id);
-  }, [view, scrollToId]);
+    if (id === "top" || id === "hero" || id === "home") { setView("home"); scrollTop(); return; }
+    if (PAGE_VIEWS.indexOf(id) !== -1) { setView(id); scrollTop(); return; }
+    // Unknown target (legacy in-page anchor) — fall back to the gateway.
+    setView("home"); scrollTop();
+  }, [view]);
 
-  // Deep links + back/forward: parse #/portfolio, #/portfolio/<id>, #/approach, #/<section>.
+  // Deep links + back/forward.
   const applyHash = React.useCallback(() => {
     const h = window.location.hash || "";
     const m = h.match(/^#\/([^/]*)(?:\/(.+))?$/);
-    if (!m || !m[1]) { if (h === "" || h === "#/" || h === "#") go("top", true); return; }
+    if (!m || !m[1]) { go("home", true); return; }
     const seg = m[1], sub = m[2];
     if (seg === "portfolio") return go(sub ? "story:" + sub : "properties", true);
-    if (seg === "approach") return go("approach", true);
-    if (SECTION_IDS.indexOf(seg) !== -1) return go(seg, true);
+    if (PAGE_VIEWS.indexOf(seg) !== -1) return go(seg, true);
+    go("home", true);
   }, [go]);
 
   React.useEffect(() => {
@@ -86,11 +87,11 @@ function App() {
     return () => window.removeEventListener("popstate", applyHash);
   }, [applyHash]);
 
-  // Honor a deep link on first load (after the DOM settles enough to scroll).
+  // Honor a deep link on first load.
   React.useEffect(() => {
     if (window.location.hash && window.location.hash !== "#/") {
-      const t = setTimeout(applyHash, 150);
-      return () => clearTimeout(t);
+      const id = setTimeout(applyHash, 120);
+      return () => clearTimeout(id);
     }
   }, []);
 
@@ -102,75 +103,44 @@ function App() {
     document.documentElement.style.setProperty("--serif", stack);
   }, [t.accent, t.displayFont]);
 
-  // After a view switch: hand off to motion layer, run any pending scroll,
-  // and give each destination its own document title (history + shares + tabs).
+  // After a view switch: rebind motion and set this destination's title.
   React.useEffect(() => {
     if (window.__motion) window.__motion.refresh();
-    const base = "Noesis Group — Real Estate Development & Investment";
     if (view === "story" && story && typeof PROJECTS !== "undefined" && PROJECTS[story]) {
       document.title = PROJECTS[story].name + " · Portfolio | Noesis Group";
-    } else if (view === "properties") {
-      document.title = "Portfolio · The Delivered Record | Noesis Group";
-    } else if (view === "approach") {
-      document.title = "Owner's Representation & Capabilities | Noesis Group";
     } else {
-      document.title = base + " | Owner's Representation";
+      document.title = ROUTE_TITLES[view] || ROUTE_TITLES.home;
     }
-    if (view === "home" && pending.current) {
-      const id = pending.current; pending.current = null;
-      // wait a frame so the home DOM is committed before measuring
-      setTimeout(() => scrollToId(id), 60);
-    }
-  }, [view, story, scrollToId]);   // `story` so next-project navigation rebinds motion
+  }, [view, story]);
 
-  // Scroll-spy — highlight the section currently crossing mid-viewport.
-  React.useEffect(() => {
-    if (view !== "home") { setActive(null); return; }
-    const els = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean);
-    if (!els.length) return;
-    const seen = new Set();
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) seen.add(e.target.id); else seen.delete(e.target.id); });
-      const first = SECTION_IDS.find((id) => seen.has(id));
-      setActive(first || (window.scrollY < 120 ? null : active));
-    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, [view]);
-
-  // Map legacy page calls inside Projects onto one-page navigation.
+  // Map legacy page calls inside Projects onto the router.
   const projectsNav = React.useCallback((p) => {
     if (p === "services") return go("owners-rep");
-    if (p === "home") return go("top");
+    if (p === "home") return go("home");
     go(p);
   }, [go]);
+
+  const active = view === "story" ? "properties" : view;
 
   return (
     <>
       <Nav active={active} go={go} />
 
-      {view === "home" ? <Home go={go} intent={intent} setIntent={setIntent} /> : view === "approach" ? (
-        <>
-          <button className="back-home" onClick={() => go("owners-rep")} aria-label="Back to Owner's Representation">
-            <span className="back-home__arr" aria-hidden="true" /> Back
-          </button>
-          <Approach go={go} />
-        </>
-      ) : view === "story" ? (
-        <>
-          <button className="back-home" onClick={() => go(returnTo.current === "home" ? "projects" : "properties")} aria-label={returnTo.current === "home" ? "Back to home" : "Back to properties"}>
-            <span className="back-home__arr" aria-hidden="true" /> Back
-          </button>
-          <ProjectStory key={story} project={typeof PROJECTS !== "undefined" ? PROJECTS[story] : null} go={go} />
-        </>
-      ) : (
-        <>
-          <button className="back-home" onClick={() => go("projects")} aria-label="Back to home">
-            <span className="back-home__arr" aria-hidden="true" /> Back
-          </button>
-          <Projects setPage={projectsNav} />
-        </>
-      )}
+      {view === "home" ? <Home go={go} setIntent={setIntent} />
+        : view === "development" ? <Development go={go} />
+        : view === "investment" ? <Investment go={go} setIntent={setIntent} />
+        : view === "owners-rep" ? <Approach go={go} />
+        : view === "firm" ? <Firm go={go} />
+        : view === "inquiries" ? <Inquiries intent={intent} />
+        : view === "story" ? (
+          <>
+            <button className="back-home" onClick={() => go(returnTo.current === "home" ? "home" : "properties")}
+              aria-label={returnTo.current === "home" ? "Back to home" : "Back to portfolio"}>
+              <span className="back-home__arr" aria-hidden="true" /> Back
+            </button>
+            <ProjectStory key={story} project={typeof PROJECTS !== "undefined" ? PROJECTS[story] : null} go={go} />
+          </>
+        ) : <Projects setPage={projectsNav} />}
 
       <Footer go={go} />
 
@@ -182,7 +152,7 @@ function App() {
           <TweakSection label="Typography" />
           <TweakSelect label="Display font" value={t.displayFont} options={DISPLAY_FONTS} onChange={(v) => setTweak("displayFont", v)} />
           <TweakSection label="View" />
-          <TweakSelect label="Switch view" value={view} options={["home", "properties"]} onChange={(v) => setView(v)} />
+          <TweakSelect label="Switch view" value={view} options={["home"].concat(PAGE_VIEWS)} onChange={(v) => go(v)} />
         </TweaksPanel>
       )}
     </>

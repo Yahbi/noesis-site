@@ -13,6 +13,10 @@ npx babel \
   components/Placeholder.jsx \
   components/Shell.jsx \
   pages/Home.jsx \
+  pages/Development.jsx \
+  pages/Investment.jsx \
+  pages/Firm.jsx \
+  pages/Inquiries.jsx \
   pages/Approach.jsx \
   pages/Projects.jsx \
   pages/ProjectStory.jsx \

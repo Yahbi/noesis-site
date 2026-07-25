@@ -117,13 +117,13 @@ function Projects({ setPage }) {
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
         <div className="wrap grid-12" style={{ alignItems: "end" }}>
           <div className="col-8">
-            <div className="eyebrow"><span className="dot" /> Properties · 2009 — Present</div>
-            <h1 className="h-display lx-h u-mt-24"><span className="ln"><span>Properties</span></span></h1>
+            <div className="eyebrow"><span className="dot" /> Portfolio · 2009 — Present</div>
+            <h1 className="h-display lx-h u-mt-24"><span className="ln"><span>The Record</span></span></h1>
           </div>
           <div className="col-4">
             <p className="lede">
-              Luxury residences and buildings designed, developed and delivered by the Noesis
-              team — the operating record behind the way we manage projects for clients today.
+              Luxury residences and buildings conceived, developed and delivered by the Noesis
+              team — the delivered proof behind what we build, what we hold, and how we manage.
             </p>
           </div>
         </div>
