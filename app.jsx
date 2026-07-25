@@ -30,9 +30,53 @@ const ROUTE_TITLES = {
   inquiries: "Inquiries — Request an Introduction | Noesis Group",
 };
 
+// Clean-URL routing. Each route is a REAL static page emitted by build.sh
+// (development/index.html, portfolio/casa-mani/index.html, …) carrying its own
+// title/meta/canonical, a <base href> and window.__ROUTE. That gives true 200s
+// and crawlable per-page metadata; in-app navigation then uses pushState.
+const ROUTE_PATHS = {
+  home: "", development: "development/", investment: "investment/",
+  properties: "portfolio/", "owners-rep": "owners-rep/", firm: "firm/", inquiries: "inquiries/",
+};
+
+// Site root: from <base href> on generated sub-pages, else this document's directory.
+const BASE = (function () {
+  const b = document.querySelector("base");
+  const href = b && b.getAttribute("href");
+  if (href) return href;
+  return window.location.pathname.replace(/[^/]*$/, "");
+})();
+
+function pathFor(id) {
+  if (typeof id === "string" && id.indexOf("story:") === 0) return "portfolio/" + id.slice(6) + "/";
+  return ROUTE_PATHS[id] != null ? ROUTE_PATHS[id] : "";
+}
+
+// Parse a location into a view id ("development", "story:casa-mani", "home").
+function routeFromLocation() {
+  // A legacy #/ deep link wins over the page's own default route, so old shared
+  // links still land correctly; otherwise use the injected route, then the path.
+  const h = window.location.hash || "";
+  const hm = h.match(/^#\/([^/]*)(?:\/(.+?))?\/?$/);
+  if (!hm && window.__ROUTE) return window.__ROUTE;                // injected by the static page
+  const p = window.location.pathname;
+  const rel = (p.indexOf(BASE) === 0 ? p.slice(BASE.length) : p).replace(/^\/+|index\.html$/g, "");
+  const src = hm ? [hm[1], hm[2]] : rel.replace(/\/+$/, "").split("/");
+  const seg = src[0], sub = src[1];
+  if (!seg) return "home";
+  if (seg === "portfolio") return sub ? "story:" + sub : "properties";
+  return ROUTE_PATHS[seg] != null ? seg : "home";
+}
+
 function App() {
-  const [view, setView] = React.useState("home");
-  const [story, setStory] = React.useState(null);      // active project id for the story view
+  const [view, setView] = React.useState(() => {
+    const r = routeFromLocation();
+    return r.indexOf("story:") === 0 ? "story" : r;
+  });
+  const [story, setStory] = React.useState(() => {     // active project id for the story view
+    const r = routeFromLocation();
+    return r.indexOf("story:") === 0 ? r.slice(6) : null;
+  });
   const [intent, setIntent] = React.useState(null);    // "investor" | null — seeds the enquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const returnTo = React.useRef("properties");         // where a story's Back button lands
@@ -45,18 +89,11 @@ function App() {
     window.scrollTo({ top: 0, behavior: "auto" });
   };
 
-  // Shareable hash addresses for every destination.
-  const hashFor = (id) => {
-    if (typeof id === "string" && id.indexOf("story:") === 0) return "#/portfolio/" + id.slice(6);
-    if (id === "properties") return "#/portfolio";
-    if (id === "top" || id === "hero" || id === "home") return "#/";
-    return "#/" + id;
-  };
-
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
   // `silent` applies a route without pushing history (popstate / initial load).
   const go = React.useCallback((id, silent) => {
-    if (!silent) { try { history.pushState(null, "", hashFor(id)); } catch (e) {} }
+    const target = (id === "top" || id === "hero") ? "home" : id;
+    if (!silent) { try { history.pushState(null, "", BASE + pathFor(target)); } catch (e) {} }
 
     if (typeof id === "string" && id.indexOf("story:") === 0) {
       if (view !== "story") returnTo.current = (view === "home" ? "home" : "properties");
@@ -71,27 +108,24 @@ function App() {
     setView("home"); scrollTop();
   }, [view]);
 
-  // Deep links + back/forward.
-  const applyHash = React.useCallback(() => {
-    const h = window.location.hash || "";
-    const m = h.match(/^#\/([^/]*)(?:\/(.+))?$/);
-    if (!m || !m[1]) { go("home", true); return; }
-    const seg = m[1], sub = m[2];
-    if (seg === "portfolio") return go(sub ? "story:" + sub : "properties", true);
-    if (PAGE_VIEWS.indexOf(seg) !== -1) return go(seg, true);
-    go("home", true);
+  // Back / forward.
+  const applyRoute = React.useCallback(() => {
+    window.__ROUTE = null;              // only valid for the initial static page load
+    go(routeFromLocation(), true);
   }, [go]);
 
   React.useEffect(() => {
-    window.addEventListener("popstate", applyHash);
-    return () => window.removeEventListener("popstate", applyHash);
-  }, [applyHash]);
+    window.addEventListener("popstate", applyRoute);
+    return () => window.removeEventListener("popstate", applyRoute);
+  }, [applyRoute]);
 
-  // Honor a deep link on first load.
+  // Legacy #/ deep links → upgrade to the clean path, in place.
   React.useEffect(() => {
-    if (window.location.hash && window.location.hash !== "#/") {
-      const id = setTimeout(applyHash, 120);
-      return () => clearTimeout(id);
+    const h = window.location.hash;
+    if (h && /^#\//.test(h)) {
+      const r = routeFromLocation();
+      try { history.replaceState(null, "", BASE + pathFor(r)); } catch (e) {}
+      go(r, true);
     }
   }, []);
 

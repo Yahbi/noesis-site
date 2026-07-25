@@ -3667,9 +3667,47 @@ const ROUTE_TITLES = {
   firm: "The Firm & Founder | Noesis Group",
   inquiries: "Inquiries — Request an Introduction | Noesis Group"
 };
+const ROUTE_PATHS = {
+  home: "",
+  development: "development/",
+  investment: "investment/",
+  properties: "portfolio/",
+  "owners-rep": "owners-rep/",
+  firm: "firm/",
+  inquiries: "inquiries/"
+};
+const BASE = function () {
+  const b = document.querySelector("base");
+  const href = b && b.getAttribute("href");
+  if (href) return href;
+  return window.location.pathname.replace(/[^/]*$/, "");
+}();
+function pathFor(id) {
+  if (typeof id === "string" && id.indexOf("story:") === 0) return "portfolio/" + id.slice(6) + "/";
+  return ROUTE_PATHS[id] != null ? ROUTE_PATHS[id] : "";
+}
+function routeFromLocation() {
+  const h = window.location.hash || "";
+  const hm = h.match(/^#\/([^/]*)(?:\/(.+?))?\/?$/);
+  if (!hm && window.__ROUTE) return window.__ROUTE;
+  const p = window.location.pathname;
+  const rel = (p.indexOf(BASE) === 0 ? p.slice(BASE.length) : p).replace(/^\/+|index\.html$/g, "");
+  const src = hm ? [hm[1], hm[2]] : rel.replace(/\/+$/, "").split("/");
+  const seg = src[0],
+    sub = src[1];
+  if (!seg) return "home";
+  if (seg === "portfolio") return sub ? "story:" + sub : "properties";
+  return ROUTE_PATHS[seg] != null ? seg : "home";
+}
 function App() {
-  const [view, setView] = React.useState("home");
-  const [story, setStory] = React.useState(null);
+  const [view, setView] = React.useState(() => {
+    const r = routeFromLocation();
+    return r.indexOf("story:") === 0 ? "story" : r;
+  });
+  const [story, setStory] = React.useState(() => {
+    const r = routeFromLocation();
+    return r.indexOf("story:") === 0 ? r.slice(6) : null;
+  });
   const [intent, setIntent] = React.useState(null);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const returnTo = React.useRef("properties");
@@ -3684,16 +3722,11 @@ function App() {
       behavior: "auto"
     });
   };
-  const hashFor = id => {
-    if (typeof id === "string" && id.indexOf("story:") === 0) return "#/portfolio/" + id.slice(6);
-    if (id === "properties") return "#/portfolio";
-    if (id === "top" || id === "hero" || id === "home") return "#/";
-    return "#/" + id;
-  };
   const go = React.useCallback((id, silent) => {
+    const target = id === "top" || id === "hero" ? "home" : id;
     if (!silent) {
       try {
-        history.pushState(null, "", hashFor(id));
+        history.pushState(null, "", BASE + pathFor(target));
       } catch (e) {}
     }
     if (typeof id === "string" && id.indexOf("story:") === 0) {
@@ -3716,27 +3749,22 @@ function App() {
     setView("home");
     scrollTop();
   }, [view]);
-  const applyHash = React.useCallback(() => {
-    const h = window.location.hash || "";
-    const m = h.match(/^#\/([^/]*)(?:\/(.+))?$/);
-    if (!m || !m[1]) {
-      go("home", true);
-      return;
-    }
-    const seg = m[1],
-      sub = m[2];
-    if (seg === "portfolio") return go(sub ? "story:" + sub : "properties", true);
-    if (PAGE_VIEWS.indexOf(seg) !== -1) return go(seg, true);
-    go("home", true);
+  const applyRoute = React.useCallback(() => {
+    window.__ROUTE = null;
+    go(routeFromLocation(), true);
   }, [go]);
   React.useEffect(() => {
-    window.addEventListener("popstate", applyHash);
-    return () => window.removeEventListener("popstate", applyHash);
-  }, [applyHash]);
+    window.addEventListener("popstate", applyRoute);
+    return () => window.removeEventListener("popstate", applyRoute);
+  }, [applyRoute]);
   React.useEffect(() => {
-    if (window.location.hash && window.location.hash !== "#/") {
-      const id = setTimeout(applyHash, 120);
-      return () => clearTimeout(id);
+    const h = window.location.hash;
+    if (h && /^#\//.test(h)) {
+      const r = routeFromLocation();
+      try {
+        history.replaceState(null, "", BASE + pathFor(r));
+      } catch (e) {}
+      go(r, true);
     }
   }, []);
   React.useEffect(() => {

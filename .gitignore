@@ -3,3 +3,6 @@ node_modules/
 
 # Local preview server config (Claude Code)
 .claude/
+
+# Local-only symlink used to mirror the GitHub Pages base path when testing
+noesis-site
