@@ -1,13 +1,13 @@
-// Approach — the deep "Our full capabilities" sub-view (reached from What We Do).
-// Holds the richer Services content: 6 capabilities + 2 sectors. Stone & linen.
+// Approach — the deep "Our full capabilities" sub-view (reached from Owner's Rep).
+// Copy sourced from the client's own service docs (ARCHIVES 03-DESIGN / 04-BUILD).
 
 const CAPABILITIES = [
-  ["01", "Owner's Representation", "We sit in the owner's seat as your single, accountable advocate — directing the entire project team, safeguarding your intent, and making sure every decision serves your interest."],
-  ["02", "Development Management", "End-to-end management of ground-up and repositioning projects: feasibility, structuring, entitlement, delivery and disposition — one team from raw opportunity to realized asset."],
-  ["03", "Project & Construction Management", "Schedule, budget, procurement, contractor selection and on-site quality control — run with the discipline of a builder who has self-delivered luxury projects."],
-  ["04", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."],
-  ["05", "Design Management", "Assembling and aligning architects, interior designers and engineers around a single vision and budget — protecting design integrity while keeping value and constructability in view."],
-  ["06", "Cost & Risk Management", "Independent budgeting, value engineering, contingency strategy and proactive risk control — so surprises are surfaced early and the owner stays in command of capital."],
+  ["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled and transparent, open communication throughout."],
+  ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."],
+  ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Elements curated from around the world — Moroccan doors, handmade glass tiles by Israeli artists — with every detail planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."],
+  ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."],
+  ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."],
+  ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."],
 ];
 
 const SECTORS = [
@@ -80,13 +80,34 @@ function Approach({ go }) {
         </div>
       </section>
 
-      {/* CINEMATIC PLATE */}
+      {/* DESIGN PHILOSOPHY — the firm's own words (Design landing doc) */}
+      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap grid-12">
+          <div className="col-4 reveal">
+            <div className="eyebrow"><span className="dot" /> The Design Philosophy</div>
+          </div>
+          <div className="col-8 reveal">
+            <p className="pull" style={{ maxWidth: "30ch", color: "var(--ink)" }}>
+              Contemporary in nature, with minimalist elements that provide a <em>warm, earthy and organic</em> sensibility.
+            </p>
+            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
+              We subscribe to the notion that less is more and refrain from over-designing — we let our
+              design and finishes speak for themselves. With a multicultural heritage — both Igal Azran,
+              principal, and Stephanie Harroch, architect, are from Morocco — a subtle Mediterranean and
+              Spanish influence runs through our fresh, environmentally sustainable work.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CINEMATIC PLATE — a Noesis pour, self-delivered */}
       <section className="cine" style={{ height: "min(72vh, 680px)", minHeight: 420 }}>
-        <img className="cine__img" data-parallax="0.1" src={wix(PHOTO.stanley_int_2, { w: 2400 })} alt="" />
+        <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <h2 className="h-1 caps" style={{ color: "var(--bone)", maxWidth: "20ch" }}>The single party at the table accountable for the whole.</h2>
+            <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> On Site · Self-Delivered</div>
+            <h2 className="h-1 caps u-mt-16" style={{ color: "var(--bone)", maxWidth: "20ch" }}>The single party at the table accountable for the whole.</h2>
           </div>
         </div>
       </section>

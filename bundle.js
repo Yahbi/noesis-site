@@ -1339,15 +1339,7 @@ function Home({
   }, React.createElement("span", {
     className: "dot"
   }), " How We Invest"), React.createElement("div", {
-    className: "reveal",
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      gap: "clamp(20px,2.5vw,40px)",
-      marginTop: 28,
-      borderTop: "1px solid var(--rule)",
-      paddingTop: 36
-    }
+    className: "reveal qgrid"
   }, PRINCIPLES.map(([n, t, d]) => React.createElement("div", {
     key: n
   }, React.createElement("div", {
@@ -1377,7 +1369,7 @@ function Home({
       color: "var(--muted)",
       maxWidth: "62ch"
     }
-  }, "When an opportunity meets our standard we bring it to that network privately. Qualified and accredited investors are welcome to request a confidential introduction \u2014 no obligation, and no live offering implied.")), React.createElement("div", {
+  }, "Noesis has built strong ties with a network of high-net-worth individuals, both local and foreign, with access to private equity and exclusive opportunities \u2014 and we are open to partnering with like-minded investors. When an opportunity meets our standard we bring it to that network privately. Qualified and accredited investors are welcome to request a confidential introduction \u2014 no obligation, and no live offering implied.")), React.createElement("div", {
     className: "col-4 u-tr reveal"
   }, React.createElement("button", {
     className: "btn btn--ghost",
@@ -1628,7 +1620,13 @@ function Home({
     className: "col-5"
   }, React.createElement("p", {
     className: "body-lg"
-  }, "The same discipline behind our own developments, applied to your asset \u2014 one accountable advocate, a disciplined, gated path from first study to final handover, the owner informed and in command at every stage."))), React.createElement("div", {
+  }, "The same discipline behind our own developments, applied to your asset \u2014 one accountable advocate, a disciplined, gated path from first study to final handover, the owner informed and in command at every stage."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--bone-soft)",
+      maxWidth: "52ch"
+    }
+  }, "From site preparation through building completion we manage and oversee every element of design and construction with a single point of contact \u2014 suggesting the best use of land, orchestrating architecture through engineering, and handling all zoning, permitting, approvals and entitlements, with transparent, open communication throughout. The practice spans project management, general contracting, consulting, architecture and interior design."))), React.createElement("div", {
     className: "flow u-mt-64"
   }, PROCESS.map(([n, t, d]) => React.createElement("div", {
     key: n,
@@ -1677,15 +1675,7 @@ function Home({
   }, React.createElement("span", {
     className: "dot"
   }), " How We Work"), React.createElement("div", {
-    className: "reveal",
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      gap: "clamp(20px,2.5vw,40px)",
-      marginTop: 28,
-      borderTop: "1px solid var(--rule)",
-      paddingTop: 36
-    }
+    className: "reveal qgrid"
   }, ABOUT_VALUES.map(([t, d], i) => React.createElement("div", {
     key: t
   }, React.createElement("div", {
@@ -2016,11 +2006,7 @@ function InquiryForm({
   }, React.createElement("span", {
     className: "dot"
   }), " ", investor ? "Confidential investor introduction" : "Send a message"), React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: "26px 24px"
-    }
+    className: "form-grid"
   }, React.createElement("div", {
     className: "field"
   }, React.createElement("label", null, "Name"), React.createElement("input", {
@@ -2091,7 +2077,7 @@ function InquiryForm({
   }))));
 }
 window.Home = Home;
-const CAPABILITIES = [["01", "Owner's Representation", "We sit in the owner's seat as your single, accountable advocate — directing the entire project team, safeguarding your intent, and making sure every decision serves your interest."], ["02", "Development Management", "End-to-end management of ground-up and repositioning projects: feasibility, structuring, entitlement, delivery and disposition — one team from raw opportunity to realized asset."], ["03", "Project & Construction Management", "Schedule, budget, procurement, contractor selection and on-site quality control — run with the discipline of a builder who has self-delivered luxury projects."], ["04", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["05", "Design Management", "Assembling and aligning architects, interior designers and engineers around a single vision and budget — protecting design integrity while keeping value and constructability in view."], ["06", "Cost & Risk Management", "Independent budgeting, value engineering, contingency strategy and proactive risk control — so surprises are surfaced early and the owner stays in command of capital."]];
+const CAPABILITIES = [["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled and transparent, open communication throughout."], ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."], ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Elements curated from around the world — Moroccan doors, handmade glass tiles by Israeli artists — with every detail planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."], ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."], ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."]];
 const SECTORS = [{
   tag: "Luxury Residential",
   title: "Custom family estates, from $5M",
@@ -2204,18 +2190,43 @@ function Approach({
   }, s.title), React.createElement("p", {
     className: "sector__desc"
   }, s.desc))))))), React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap grid-12"
+  }, React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Design Philosophy")), React.createElement("div", {
+    className: "col-8 reveal"
+  }, React.createElement("p", {
+    className: "pull",
+    style: {
+      maxWidth: "30ch",
+      color: "var(--ink)"
+    }
+  }, "Contemporary in nature, with minimalist elements that provide a ", React.createElement("em", null, "warm, earthy and organic"), " sensibility."), React.createElement("p", {
+    className: "body-lg u-mt-24",
+    style: {
+      maxWidth: "64ch"
+    }
+  }, "We subscribe to the notion that less is more and refrain from over-designing \u2014 we let our design and finishes speak for themselves. With a multicultural heritage \u2014 both Igal Azran, principal, and Stephanie Harroch, architect, are from Morocco \u2014 a subtle Mediterranean and Spanish influence runs through our fresh, environmentally sustainable work.")))), React.createElement("section", {
     className: "cine",
     style: {
       height: "min(72vh, 680px)",
       minHeight: 420
     }
   }, React.createElement("img", {
-    className: "cine__img",
+    className: "cine__img img--warm",
     "data-parallax": "0.1",
-    src: wix(PHOTO.stanley_int_2, {
-      w: 2400
-    }),
-    alt: ""
+    src: "assets/img/build-pour.jpg",
+    alt: "A Noesis concrete pour, Los Angeles"
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -2225,8 +2236,15 @@ function Approach({
     style: {
       paddingBottom: "clamp(36px,6vw,72px)"
     }
-  }, React.createElement("h2", {
-    className: "h-1 caps",
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      color: "rgba(236,230,216,.62)"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " On Site \xB7 Self-Delivered"), React.createElement("h2", {
+    className: "h-1 caps u-mt-16",
     style: {
       color: "var(--bone)",
       maxWidth: "20ch"
@@ -3362,6 +3380,16 @@ function App() {
   }, [t.accent, t.displayFont]);
   React.useEffect(() => {
     if (window.__motion) window.__motion.refresh();
+    const base = "Noesis Group — Real Estate Development & Investment";
+    if (view === "story" && story && typeof PROJECTS !== "undefined" && PROJECTS[story]) {
+      document.title = PROJECTS[story].name + " · Portfolio | Noesis Group";
+    } else if (view === "properties") {
+      document.title = "Portfolio · The Delivered Record | Noesis Group";
+    } else if (view === "approach") {
+      document.title = "Owner's Representation & Capabilities | Noesis Group";
+    } else {
+      document.title = base + " | Owner's Representation";
+    }
     if (view === "home" && pending.current) {
       const id = pending.current;
       pending.current = null;

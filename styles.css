@@ -466,6 +466,9 @@ img.img-in { animation: img-fade .6s ease both; }
 
 @media (max-width: 900px) {
   .col-6, .col-4, .col-3, .col-8, .col-7, .col-5 { grid-column: span 12; }
+  /* Inline desktop gaps (48/56px) x 11 column-tracks exceed a phone's width once
+     every col spans 12 — clamp the gap so stacked grids can never overflow. */
+  .grid-12 { gap: 24px !important; }
 }
 
 /* Tablet: 2-up for the 6-stat / 2-span tracks instead of cramped single cells */
@@ -1200,6 +1203,20 @@ section[id] { scroll-margin-top: 72px; }
 .story__spec .v { font-family: var(--serif); font-weight: 300; font-size: clamp(19px, 1.7vw, 26px);
   color: var(--ink); line-height: 1.14; letter-spacing: -.01em; margin-top: 10px; text-wrap: balance; }
 @media (max-width: 400px) { .story__specs { grid-template-columns: 1fr; } }
+
+/* Inquiry form grid — two columns that stack on phones; fields may never
+   exceed their track (textarea intrinsic width otherwise forces overflow). */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 24px; }
+.form-grid .field { min-width: 0; }
+.field input, .field select, .field textarea { width: 100%; min-width: 0; box-sizing: border-box; }
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .form-grid .field[style*="1 / -1"] { grid-column: auto !important; } }
+
+/* Quad grid — 4-across editorial facts (values, principles) that STACK on small
+   screens (inline grid styles can't carry media queries; this class replaces them). */
+.qgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(20px, 2.5vw, 40px);
+  margin-top: 28px; border-top: 1px solid var(--rule); padding-top: 36px; }
+@media (max-width: 900px) { .qgrid { grid-template-columns: repeat(2, 1fr); row-gap: 30px; } }
+@media (max-width: 540px) { .qgrid { grid-template-columns: 1fr; } }
 
 /* Narrative prose — every project paragraph past the lede, in full, as readable body
    copy set between the cinematic plates. This is where the description lives; scenes

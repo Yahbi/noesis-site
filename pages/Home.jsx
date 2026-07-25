@@ -207,7 +207,7 @@ function Home({ go, intent, setIntent }) {
 
         <div className="wrap u-mt-64">
           <div className="eyebrow reveal"><span className="dot" /> How We Invest</div>
-          <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "clamp(20px,2.5vw,40px)", marginTop: 28, borderTop: "1px solid var(--rule)", paddingTop: 36 }}>
+          <div className="reveal qgrid">
             {PRINCIPLES.map(([n, t, d]) => (
               <div key={n}>
                 <div className="wwd-cap__n">{n}</div>
@@ -219,9 +219,11 @@ function Home({ go, intent, setIntent }) {
           <div className="grid-12 u-end u-mt-64">
             <div className="col-8 reveal">
               <p className="body" style={{ color: "var(--muted)", maxWidth: "62ch" }}>
-                When an opportunity meets our standard we bring it to that network privately. Qualified and
-                accredited investors are welcome to request a confidential introduction — no obligation,
-                and no live offering implied.
+                Noesis has built strong ties with a network of high-net-worth individuals, both local and
+                foreign, with access to private equity and exclusive opportunities — and we are open to
+                partnering with like-minded investors. When an opportunity meets our standard we bring it
+                to that network privately. Qualified and accredited investors are welcome to request a
+                confidential introduction — no obligation, and no live offering implied.
               </p>
             </div>
             <div className="col-4 u-tr reveal">
@@ -346,6 +348,13 @@ function Home({ go, intent, setIntent }) {
                 advocate, a disciplined, gated path from first study to final handover, the owner informed
                 and in command at every stage.
               </p>
+              <p className="body u-mt-16" style={{ color: "var(--bone-soft)", maxWidth: "52ch" }}>
+                From site preparation through building completion we manage and oversee every element of
+                design and construction with a single point of contact — suggesting the best use of land,
+                orchestrating architecture through engineering, and handling all zoning, permitting,
+                approvals and entitlements, with transparent, open communication throughout. The practice
+                spans project management, general contracting, consulting, architecture and interior design.
+              </p>
             </div>
           </div>
           <div className="flow u-mt-64">
@@ -385,7 +394,7 @@ function Home({ go, intent, setIntent }) {
 
         <div className="wrap u-mt-64">
           <div className="eyebrow reveal"><span className="dot" /> How We Work</div>
-          <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "clamp(20px,2.5vw,40px)", marginTop: 28, borderTop: "1px solid var(--rule)", paddingTop: 36 }}>
+          <div className="reveal qgrid">
             {ABOUT_VALUES.map(([t, d], i) => (
               <div key={t}>
                 <div className="wwd-cap__n">0{i + 1}</div>
@@ -540,7 +549,7 @@ function InquiryForm({ intent }) {
   return (
     <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
       <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : "Send a message"}</div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "26px 24px" }}>
+      <div className="form-grid">
         <div className="field"><label>Name</label><input name="name" type="text" placeholder="Your name" required /></div>
         <div className="field"><label>Email</label><input name="email" type="email" placeholder="you@email.com" required /></div>
         <div className="field"><label>Location</label><input name="location" type="text" placeholder="City / country" /></div>

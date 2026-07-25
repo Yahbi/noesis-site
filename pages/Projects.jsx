@@ -1,5 +1,5 @@
-// Properties — the Noesis built portfolio. Real photography sourced from noesisusa.com,
-// reframed as the delivery record behind the firm's owner's-rep practice.
+// Portfolio — the Noesis delivered record. Real photography sourced from noesisusa.com;
+// the proof engine behind both the development and investment pillars.
 
 // Single-family galleries (raw wix media ids, page order — cover first).
 const GAL = {

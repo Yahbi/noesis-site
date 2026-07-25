@@ -102,9 +102,20 @@ function App() {
     document.documentElement.style.setProperty("--serif", stack);
   }, [t.accent, t.displayFont]);
 
-  // After a view switch: hand off to motion layer, run any pending scroll.
+  // After a view switch: hand off to motion layer, run any pending scroll,
+  // and give each destination its own document title (history + shares + tabs).
   React.useEffect(() => {
     if (window.__motion) window.__motion.refresh();
+    const base = "Noesis Group — Real Estate Development & Investment";
+    if (view === "story" && story && typeof PROJECTS !== "undefined" && PROJECTS[story]) {
+      document.title = PROJECTS[story].name + " · Portfolio | Noesis Group";
+    } else if (view === "properties") {
+      document.title = "Portfolio · The Delivered Record | Noesis Group";
+    } else if (view === "approach") {
+      document.title = "Owner's Representation & Capabilities | Noesis Group";
+    } else {
+      document.title = base + " | Owner's Representation";
+    }
     if (view === "home" && pending.current) {
       const id = pending.current; pending.current = null;
       // wait a frame so the home DOM is committed before measuring
