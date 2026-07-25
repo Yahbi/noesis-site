@@ -3689,6 +3689,7 @@ function ProjectStory({
     style: {
       position: "relative",
       zIndex: 1,
+      width: "100%",
       paddingBottom: "clamp(52px,9vh,120px)"
     }
   }, React.createElement("div", {

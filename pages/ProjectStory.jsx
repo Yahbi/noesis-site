@@ -68,7 +68,10 @@ function ProjectStory({ project, go }) {
           src={wix(cover, { w: 2000 })}
           srcSet={`${wix(cover, { w: 1200 })} 1200w, ${wix(cover, { w: 2000 })} 2000w, ${wix(cover, { w: 2600 })} 2600w, ${wix(cover, { w: 3400 })} 3400w`} />
         <div className="cine__grad" />
-        <div className="wrap" style={{ position: "relative", zIndex: 1, paddingBottom: "clamp(52px,9vh,120px)" }}>
+        {/* width:100% is load-bearing — the cover is a column flex container, and a
+            .wrap's auto side margins cancel flex stretch, leaving the title block
+            shrink-to-fit and centred instead of on the site's left content margin. */}
+        <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%", paddingBottom: "clamp(52px,9vh,120px)" }}>
           <div className="eyebrow" data-hero-fade>
             <span className="dot" /> {p.category}{p.year ? ` · ${p.year}` : ""}
           </div>
