@@ -115,7 +115,7 @@ function Projects({ setPage }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12" style={{ alignItems: "end" }}>
+        <div className="wrap grid-12 u-end">
           <div className="col-8">
             <div className="eyebrow"><span className="dot" /> Portfolio · 2009 — Present</div>
             <h1 className="h-display lx-h u-mt-24"><span className="ln"><span>The Record</span></span></h1>
@@ -199,7 +199,7 @@ function Projects({ setPage }) {
                   </div>
                   <div className="pcard__cap">
                     <div>
-                      <div className="pcard__name">{p.name}</div>
+                      <h3 className="pcard__name">{p.name}</h3>
                       <div className="pcard__loc">{p.loc}</div>
                     </div>
                     {p.year && <div className="pcard__yr">{p.year}</div>}

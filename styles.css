@@ -716,7 +716,10 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
   color: var(--bone); display: inline-flex; align-items: center; gap: 10px; }
 .pcard__cta .arr { width: 16px; }
 .pcard__cap { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 14px; }
-.pcard__name { font-family: var(--serif); font-size: 22px; letter-spacing: -.01em; line-height: 1.12; }
+/* An <h3> now (the cards contribute to the page outline), so weight and margin are
+   pinned rather than left to the UA's bold-with-margins heading default. */
+.pcard__name { font-family: var(--serif); font-size: 22px; letter-spacing: -.01em; line-height: 1.12;
+  font-weight: 400; margin: 0; }
 .pcard__loc { font-size: 13px; color: var(--muted); margin-top: 3px; }
 .pcard__yr { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); flex: 0 0 auto; }
 
@@ -1375,9 +1378,14 @@ section[id] { scroll-margin-top: 72px; }
 
 /* On-dark captions: the override below only covered headings, so every eyebrow,
    lede and pull inside a .cine__cap had to be patched inline in the JSX. */
-.cine__cap .eyebrow { color: var(--bone-soft); }
-.cine__cap .lede, .cine__cap .body, .cine__cap .body-lg, .cine__cap .pull { color: var(--bone-soft); }
-.cine__cap .pull em { color: var(--accent); }
+/* Anything on a cinematic plate reads on dark. Scoped to .cine, not just
+   .cine__cap, because several plates put their copy straight in a .wrap — that
+   gap is why twelve hand-written rgba(236,230,216,…) overrides existed. */
+.cine .eyebrow { color: var(--bone-soft); }
+.cine .lede, .cine .body, .cine .body-lg, .cine .pull { color: var(--bone-soft); }
+.cine .pull em { color: var(--accent); }
+.cine .btn--ghost { color: var(--bone); border-color: var(--bone-soft); }
+.cine .btn--ghost:hover { background: var(--bone); color: var(--ink); }
 
 /* Measure: kills six inline maxWidth:"64ch" patches. */
 .body-lg { max-width: 64ch; }

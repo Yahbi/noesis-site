@@ -79,8 +79,8 @@ function Home({ go, setIntent }) {
         <div className="cine__grad" />
 
         <div className="wrap u-flex u-between" style={{ position: "relative", zIndex: 1, width: "100%" }}>
-          <div className="eyebrow" style={{ color: "rgba(236,230,216,.7)" }}><span className="dot" /> Noesis — Est. 2009</div>
-          <div className="eyebrow u-hide-720" style={{ color: "rgba(236,230,216,.7)" }}>Beverly Hills · International</div>
+          <div className="eyebrow"><span className="dot" /> Noesis — Est. 2009</div>
+          <div className="eyebrow u-hide-720">Beverly Hills · International</div>
         </div>
 
         <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%" }}>
@@ -88,9 +88,9 @@ function Home({ go, setIntent }) {
             <span className="ln"><span>We build what</span></span>{" "}
             <span className="ln"><span>we invest in.</span></span>
           </h1>
-          <div className="grid-12 u-mt-40" style={{ alignItems: "end" }}>
+          <div className="grid-12 u-mt-40 u-end">
             <div className="col-6">
-              <p className="lede" data-hero-fade style={{ maxWidth: "46ch", color: "rgba(236,230,216,.86)" }}>
+              <p className="lede" data-hero-fade style={{ maxWidth: "46ch" }}>
                 Noesis is an international real-estate development and investment firm. We conceive,
                 build and hold the assets we believe in — and bring that same builder's discipline to
                 a select few owners.
@@ -98,7 +98,7 @@ function Home({ go, setIntent }) {
             </div>
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
               <button className="btn" onClick={() => goInvestor("investment")} data-magnetic>For Investors</button>
-              <button className="btn btn--ghost" onClick={() => go("owners-rep")} data-magnetic style={{ color: "var(--bone)", borderColor: "rgba(236,230,216,.7)" }}>For Owners &amp; Developers</button>
+              <button className="btn btn--ghost" onClick={() => go("owners-rep")} data-magnetic>For Owners &amp; Developers</button>
             </div>
           </div>
         </div>
@@ -191,7 +191,7 @@ function Home({ go, setIntent }) {
               srcSet={`${wix(SHOT.leBijou, { w: 1200 })} 1200w, ${wix(SHOT.leBijou, { w: 2000 })} 2000w`} />
             <div className="story-feature__grad" />
             <div className="story-feature__cap">
-              <div className="eyebrow" style={{ color: "rgba(236,230,216,.72)" }}><span className="dot" /> Featured Project</div>
+              <div className="eyebrow"><span className="dot" /> Featured Project</div>
               <div className="story-feature__name">Le Bijou</div>
               <div className="story-feature__meta">Beverly Hills — “the jewel,” where receding walls of glass make indoor-outdoor living real.</div>
               <span className="story-feature__cta">Read the story <span className="arr" /></span>
@@ -209,7 +209,7 @@ function Home({ go, setIntent }) {
                 <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" onError={imgFallback} /></div>
                 <div className="pcard__cap">
                   <div>
-                    <div className="pcard__name">{name}</div>
+                    <h3 className="pcard__name">{name}</h3>
                     <div className="pcard__loc">{loc}</div>
                   </div>
                   <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
@@ -239,7 +239,7 @@ function Home({ go, setIntent }) {
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Conceived, developed &amp; delivered by Noesis</div>
+            <div className="eyebrow"><span className="dot" /> Conceived, developed &amp; delivered by Noesis</div>
             <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "18ch" }}>We have stood where our partners stand.</h2>
             <button className="btn u-mt-24" data-magnetic
               onClick={(e) => {

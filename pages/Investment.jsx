@@ -24,7 +24,7 @@ function Investment({ go, setIntent }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12" style={{ alignItems: "end" }}>
+        <div className="wrap grid-12 u-end">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Investment · Primary Practice</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "12ch" }}>

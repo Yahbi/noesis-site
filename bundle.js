@@ -1236,17 +1236,11 @@ function Home({
       width: "100%"
     }
   }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.7)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " Noesis \u2014 Est. 2009"), React.createElement("div", {
-    className: "eyebrow u-hide-720",
-    style: {
-      color: "rgba(236,230,216,.7)"
-    }
+    className: "eyebrow u-hide-720"
   }, "Beverly Hills \xB7 International")), React.createElement("div", {
     className: "wrap",
     style: {
@@ -1265,18 +1259,14 @@ function Home({
   }, React.createElement("span", null, "We build what")), " ", React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "we invest in."))), React.createElement("div", {
-    className: "grid-12 u-mt-40",
-    style: {
-      alignItems: "end"
-    }
+    className: "grid-12 u-mt-40 u-end"
   }, React.createElement("div", {
     className: "col-6"
   }, React.createElement("p", {
     className: "lede",
     "data-hero-fade": true,
     style: {
-      maxWidth: "46ch",
-      color: "rgba(236,230,216,.86)"
+      maxWidth: "46ch"
     }
   }, "Noesis is an international real-estate development and investment firm. We conceive, build and hold the assets we believe in \u2014 and bring that same builder's discipline to a select few owners.")), React.createElement("div", {
     className: "col-6 u-flex u-gap-16",
@@ -1292,11 +1282,7 @@ function Home({
   }, "For Investors"), React.createElement("button", {
     className: "btn btn--ghost",
     onClick: () => go("owners-rep"),
-    "data-magnetic": true,
-    style: {
-      color: "var(--bone)",
-      borderColor: "rgba(236,230,216,.7)"
-    }
+    "data-magnetic": true
   }, "For Owners & Developers"))))), React.createElement("section", {
     id: "pillars",
     className: "section"
@@ -1453,10 +1439,7 @@ function Home({
   }), React.createElement("div", {
     className: "story-feature__cap"
   }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.72)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " Featured Project"), React.createElement("div", {
@@ -1491,7 +1474,7 @@ function Home({
     onError: imgFallback
   })), React.createElement("div", {
     className: "pcard__cap"
-  }, React.createElement("div", null, React.createElement("div", {
+  }, React.createElement("div", null, React.createElement("h3", {
     className: "pcard__name"
   }, name), React.createElement("div", {
     className: "pcard__loc"
@@ -1572,10 +1555,7 @@ function Home({
       paddingBottom: "clamp(36px,6vw,72px)"
     }
   }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.62)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " Conceived, developed & delivered by Noesis"), React.createElement("h2", {
@@ -1670,10 +1650,7 @@ function Development({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12",
-    style: {
-      alignItems: "end"
-    }
+    className: "wrap grid-12 u-end"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -1795,10 +1772,7 @@ function Development({
       paddingBottom: "clamp(36px,6vw,72px)"
     }
   }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.62)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " On Site \xB7 Self-Delivered"), React.createElement("h2", {
@@ -1972,10 +1946,7 @@ function Investment({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12",
-    style: {
-      alignItems: "end"
-    }
+    className: "wrap grid-12 u-end"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -2256,10 +2227,7 @@ function Firm({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12",
-    style: {
-      alignItems: "end"
-    }
+    className: "wrap grid-12 u-end"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -2861,10 +2829,7 @@ function Approach({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12",
-    style: {
-      alignItems: "end"
-    }
+    className: "wrap grid-12 u-end"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -2972,10 +2937,7 @@ function Approach({
       paddingBottom: "clamp(36px,6vw,72px)"
     }
   }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.62)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " Delivered by Noesis"), React.createElement("h2", {
@@ -3231,10 +3193,7 @@ function Projects({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12",
-    style: {
-      alignItems: "end"
-    }
+    className: "wrap grid-12 u-end"
   }, React.createElement("div", {
     className: "col-8"
   }, React.createElement("div", {
@@ -3400,7 +3359,7 @@ function Projects({
         className: "arr"
       })))), React.createElement("div", {
         className: "pcard__cap"
-      }, React.createElement("div", null, React.createElement("div", {
+      }, React.createElement("div", null, React.createElement("h3", {
         className: "pcard__name"
       }, p.name), React.createElement("div", {
         className: "pcard__loc"
@@ -3734,10 +3693,7 @@ function ProjectStory({
     }
   }, React.createElement("div", {
     className: "eyebrow",
-    "data-hero-fade": true,
-    style: {
-      color: "rgba(236,230,216,.72)"
-    }
+    "data-hero-fade": true
   }, React.createElement("span", {
     className: "dot"
   }), " ", p.category, p.year ? ` · ${p.year}` : ""), React.createElement("h1", {
@@ -3750,7 +3706,6 @@ function ProjectStory({
     className: "lede u-mt-16",
     "data-hero-fade": true,
     style: {
-      color: "rgba(236,230,216,.86)",
       maxWidth: "40ch"
     }
   }, p.loc)), React.createElement("div", {
@@ -3855,10 +3810,7 @@ function ProjectStory({
       paddingBottom: "clamp(28px,5vw,56px)"
     }
   }, React.createElement("div", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.62)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " ", p.name, " \u2014 on film")))), Array.from({
@@ -4031,10 +3983,7 @@ function ProjectStory({
     "data-magnetic": true,
     "aria-label": `Open next project — ${next.name}`
   }, React.createElement("span", {
-    className: "eyebrow",
-    style: {
-      color: "rgba(236,230,216,.62)"
-    }
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
   }), " Next Project"), React.createElement("span", {

@@ -33,7 +33,7 @@ function Development({ go }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12" style={{ alignItems: "end" }}>
+        <div className="wrap grid-12 u-end">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Development · Primary Practice</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "13ch" }}>
@@ -112,7 +112,7 @@ function Development({ go }) {
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> On Site · Self-Delivered</div>
+            <div className="eyebrow"><span className="dot" /> On Site · Self-Delivered</div>
             <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "20ch" }}>We build it ourselves.</h2>
           </div>
         </div>

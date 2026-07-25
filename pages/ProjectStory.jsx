@@ -69,11 +69,11 @@ function ProjectStory({ project, go }) {
           srcSet={`${wix(cover, { w: 1200 })} 1200w, ${wix(cover, { w: 2000 })} 2000w, ${wix(cover, { w: 2600 })} 2600w, ${wix(cover, { w: 3400 })} 3400w`} />
         <div className="cine__grad" />
         <div className="wrap" style={{ position: "relative", zIndex: 1, paddingBottom: "clamp(52px,9vh,120px)" }}>
-          <div className="eyebrow" data-hero-fade style={{ color: "rgba(236,230,216,.72)" }}>
+          <div className="eyebrow" data-hero-fade>
             <span className="dot" /> {p.category}{p.year ? ` · ${p.year}` : ""}
           </div>
           <h1 className="h-display u-mt-16" style={{ color: "var(--bone)", maxWidth: "15ch" }}>{p.name}</h1>
-          <div className="lede u-mt-16" data-hero-fade style={{ color: "rgba(236,230,216,.86)", maxWidth: "40ch" }}>{p.loc}</div>
+          <div className="lede u-mt-16" data-hero-fade style={{ maxWidth: "40ch" }}>{p.loc}</div>
         </div>
         <div className="story__cue" data-hero-fade aria-hidden="true"><span /></div>
       </section>
@@ -124,7 +124,7 @@ function ProjectStory({ project, go }) {
           <div className="cine__grad" />
           <div className="cine__cap">
             <div className="wrap" style={{ paddingBottom: "clamp(28px,5vw,56px)" }}>
-              <div className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> {p.name} — on film</div>
+              <div className="eyebrow"><span className="dot" /> {p.name} — on film</div>
             </div>
           </div>
         </section>
@@ -208,7 +208,7 @@ function ProjectStory({ project, go }) {
           <div className="cine__cap">
             <div className="wrap" style={{ paddingBottom: "clamp(40px,7vw,92px)" }}>
               <button className="story__next-hit" onClick={() => go("story:" + next.id)} data-magnetic aria-label={`Open next project — ${next.name}`}>
-                <span className="eyebrow" style={{ color: "rgba(236,230,216,.62)" }}><span className="dot" /> Next Project</span>
+                <span className="eyebrow"><span className="dot" /> Next Project</span>
                 <span className="h-display story__next-name u-mt-8">{next.name}</span>
               </button>
               <div className="story__endnav">
