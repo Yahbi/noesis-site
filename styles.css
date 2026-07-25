@@ -13,9 +13,9 @@
   --bone-3:      #201C15;
   --ink:         #2E2A22;
   --ink-2:       #4A4234;
-  --ink-soft:    #6F6757;
+  --ink-soft:    #635B4C;
   --bone-soft:   rgba(236,230,216,.78);
-  --muted:       #948B78;
+  --muted:       #6A6250;
   --muted-2:     #B0A892;
   --rule:        rgba(46,42,34,.16);
   --rule-soft:   rgba(46,42,34,.08);
@@ -95,10 +95,13 @@ img.img-in { animation: img-fade .6s ease both; }
   border-radius: 50%; vertical-align: middle; margin-right: 10px;
   transform: translateY(-2px);
 }
+/* Single authority for .h-display. Three later generations used to restate these
+   properties; this block is what actually rendered once the cascade settled. */
 .h-display {
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(56px, 9vw, 148px);
-  line-height: .94; letter-spacing: -.02em;
+  font-family: var(--serif); font-weight: 200;
+  font-size: clamp(46px, 7.4vw, 122px);
+  line-height: .98; letter-spacing: -.004em;
+  font-optical-sizing: auto;
 }
 .h-1 {
   font-family: var(--serif); font-weight: 400;
@@ -144,11 +147,15 @@ img.img-in { animation: img-fade .6s ease both; }
 .divider { height: 1px; background: var(--rule); border: 0; margin: 0; }
 
 /* Buttons / links ------------------------------------------------------ */
+/* Single authority for .btn — three later generations restated these and the
+   effective values below are what the cascade already resolved to. */
 .btn {
   display: inline-flex; align-items: center; gap: 12px;
-  padding: 14px 22px; border: 1px solid var(--accent); background: var(--accent);
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: 17px 28px; border: 1px solid var(--accent); background: var(--accent);
   color: var(--on-accent); border-radius: var(--rad);
-  font-family: var(--sans); font-size: 13px; letter-spacing: .02em; font-weight: 500;
+  font-family: var(--sans); font-size: 11.5px; letter-spacing: .12em;
+  font-weight: 500; text-transform: uppercase;
   transition: background .15s, color .15s, transform .15s, border-color .15s;
 }
 .btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--on-accent); transform: translateY(-1px); }
@@ -278,6 +285,9 @@ img.img-in { animation: img-fade .6s ease both; }
 .nav__inner {
   display: flex; align-items: center; justify-content: space-between;
   padding-top: 18px; padding-bottom: 18px;
+  /* The drawer is a child of .nav and carries z-index 49; without its own layer
+     the bar — logo and close button — would paint underneath it. */
+  position: relative; z-index: 50;
 }
 .nav__brand-btn {
   background: transparent; border: 0; padding: 0; color: var(--bone);
@@ -403,7 +413,6 @@ img.img-in { animation: img-fade .6s ease both; }
   transition: background .18s, color .18s, border-color .18s;
 }
 .social:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-.caps { text-transform: uppercase; letter-spacing: .01em; }
 .accent { color: var(--accent); }
 
 /* Tabular table -------------------------------------------------------- */
@@ -478,8 +487,8 @@ img.img-in { animation: img-fade .6s ease both; }
 @media (max-width: 760px) {
   .grid-12 > [style*="span 2"] { grid-column: span 6 !important; }
   .grid-12 > [style*="span 1"] { grid-column: span 12 !important; }
-  .section { padding: clamp(56px, 12vw, 96px) 0; }
-  .h-display { font-size: clamp(48px, 14vw, 96px); }
+  /* .section / .h-display mobile scales are asserted at the END of this file —
+     later unconditional re-declarations were silently beating them here. */
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -656,7 +665,6 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
   box-shadow: inset 0 0 180px 40px rgba(8,8,10,.6); }
 
 /* Polished primary button — sheen sweep on hover ------------------------- */
-.btn { position: relative; overflow: hidden; isolation: isolate; }
 .btn::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
@@ -665,7 +673,6 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .btn:hover::before { transform: translateX(120%); }
 
 /* Slightly grander hero display type ------------------------------------- */
-.h-display { font-size: clamp(46px, 7.4vw, 122px); line-height: .92; }
 
 /* Hairline shimmer on section dividers (very subtle) --------------------- */
 .section { position: relative; }
@@ -745,8 +752,9 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .lb__caption { padding: 14px clamp(20px,4vw,52px) 0; color: var(--ink-soft); font-size: 14px; line-height: 1.55;
   max-width: 92ch; }
 .lb__rail { display: flex; gap: 8px; overflow-x: auto; padding: 16px clamp(20px,4vw,52px) clamp(18px,2.4vw,28px); scrollbar-width: thin; }
-.lb__thumb { flex: 0 0 auto; width: 90px; height: 62px; object-fit: cover; opacity: .4; cursor: pointer;
-  border: 1px solid transparent; transition: opacity .25s, border-color .25s; }
+.lb__thumb { flex: 0 0 auto; width: 90px; height: 62px; padding: 0; background: transparent; opacity: .4;
+  cursor: pointer; border: 1px solid transparent; transition: opacity .25s, border-color .25s; overflow: hidden; }
+.lb__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lb__thumb:hover { opacity: .75; }
 .lb__thumb.is-active { opacity: 1; border-color: var(--accent); }
 @media (max-width: 640px) { .lb__caption { display: none; } .lb__thumb { width: 64px; height: 46px; } }
@@ -773,7 +781,6 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 
 /* Type — Fraunces couture display */
 .serif       { font-optical-sizing: auto; letter-spacing: -.015em; }
-.h-display   { font-weight: 360; line-height: .9;  letter-spacing: -.038em; font-optical-sizing: auto; }
 .h-1         { font-weight: 370; line-height: .98; letter-spacing: -.03em; }
 .h-2         { font-weight: 380; letter-spacing: -.024em; }
 .h-3         { font-weight: 400; letter-spacing: -.015em; }
@@ -791,8 +798,6 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .section--ink .h-1, .section--ink .h-2, .section--ink .h-display { color: var(--bone); }
 
 /* Buttons — ink outline default, bordeaux fill, couture tracking */
-.btn { border-radius: var(--rad); font-family: var(--sans); font-weight: 500; letter-spacing: .12em;
-  font-size: 11.5px; text-transform: uppercase; padding: 17px 28px; }
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn--ghost:hover { background: var(--ink); color: var(--bone); }
 .section--ink .btn--ghost { color: var(--bone); border-color: var(--bone); }
@@ -881,7 +886,6 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: rgba(11
 @media (max-width: 760px){ .statline { grid-template-columns: repeat(2,1fr); row-gap: 40px; } }
 
 /* Inner-page coherence in the ivory world */
-.caps { text-transform: none; letter-spacing: -.022em; }   /* couture sentence-case, not shouty caps */
 .pull { color: var(--ink); }
 .pull em { color: var(--accent); font-style: italic; }
 .eyebrow--on { color: var(--muted); }
@@ -1060,7 +1064,6 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* — Jost geometric display: thin, architectural — */
-.h-display { font-weight: 200; letter-spacing: -.004em; line-height: .98; }
 .h-1 { font-weight: 200; letter-spacing: 0; line-height: 1.05; }
 .h-2 { font-weight: 300; letter-spacing: 0; line-height: 1.1; }
 .h-3 { font-weight: 300; letter-spacing: .005em; }
@@ -1070,6 +1073,8 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .num { font-weight: 200; letter-spacing: 0; }
 .eyebrow { font-family: var(--sans); font-weight: 500; letter-spacing: .26em; font-size: 10.5px; color: var(--muted); }
 .eyebrow .dot { background: var(--accent); }
+/* Single authority for .caps — two earlier generations (one of them sentence-case)
+   sat dead below this and made the stylesheet contradict what actually renders. */
 .caps { text-transform: uppercase; letter-spacing: .05em; font-weight: 300; }
 .accent { color: var(--accent); }
 .italic { font-style: italic; }
@@ -1091,7 +1096,6 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .nav__burger span { background: var(--ink); }
 .grain { mix-blend-mode: multiply; opacity: .028; }
 .cine__grad { background: linear-gradient(180deg, rgba(20,16,11,.4) 0%, rgba(20,16,11,.1) 42%, rgba(20,16,11,.78) 100%); }
-.btn { font-weight: 500; letter-spacing: .12em; }
 
 /* — Logo: NOESIS wordmark with the red line through its centre — */
 .logo { position: relative; display: inline-flex; align-items: center; padding: 8px 0; background: transparent; border: 0; cursor: pointer; }
@@ -1335,3 +1339,50 @@ section[id] { scroll-margin-top: 72px; }
 .principal__link { background: transparent; border: 0; border-bottom: 1px solid var(--accent);
   color: var(--accent-deep); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
   padding: 0 0 4px; margin-top: clamp(20px, 2.4vw, 30px); cursor: pointer; }
+
+/* The film plate while the full launch film is playing: dim the caption instead of
+   destroying it, so the visitor can still see where they are and the button survives. */
+.cine--video.is-playing .cine__cap { opacity: 0; pointer-events: none; transition: opacity .4s; }
+.cine--video.is-playing .cine__grad { opacity: .25; transition: opacity .4s; }
+.cine--video.is-playing:hover .cine__cap { opacity: .92; pointer-events: auto; }
+
+/* Disabled controls must look disabled (there was no rule at all). */
+.btn:disabled, .btn[disabled] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+
+/* Form fields keep a visible keyboard focus ring — the earlier `outline:none`
+   out-specified the global :focus-visible and left the only form on the site bare. */
+.field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Touch: every control reaches the 44px target on coarse pointers. */
+@media (hover: none) {
+  .chip, .link-u, .story__navlink, .social, .back-home,
+  .footer .link-u, .principal__link { min-height: 44px; display: inline-flex; align-items: center; }
+  .lb__thumb { width: 74px; height: 52px; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE RHYTHM — asserted last so it actually wins.
+   `.section` and `.h-display` are re-declared several times above (design passes
+   layered rather than replaced); the phone scales must come after all of them or
+   sections run ~68% too tall and the hero never uses its fluid curve.
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .section { padding: clamp(56px, 12vw, 96px) 0; }
+  .h-display { font-size: clamp(48px, 14vw, 96px); }
+}
+
+/* On-dark captions: the override below only covered headings, so every eyebrow,
+   lede and pull inside a .cine__cap had to be patched inline in the JSX. */
+.cine__cap .eyebrow { color: var(--bone-soft); }
+.cine__cap .lede, .cine__cap .body, .cine__cap .body-lg, .cine__cap .pull { color: var(--bone-soft); }
+.cine__cap .pull em { color: var(--accent); }
+
+/* Measure: kills six inline maxWidth:"64ch" patches. */
+.body-lg { max-width: 64ch; }
+
+/* Portfolio cards are real links now (own static page, crawlable, open-in-new-tab).
+   As anchors they must inherit the card's type treatment, not the link default. */
+a.pcard, a.pfeat__media { color: inherit; text-decoration: none; display: block; }
+a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }

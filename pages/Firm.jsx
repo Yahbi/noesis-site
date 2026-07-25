@@ -44,7 +44,7 @@ function Firm({ go }) {
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> The Firm · Est. 2009</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "12ch" }}>
-              <span className="ln"><span>Perception</span></span>
+              <span className="ln"><span>Perception</span></span>{" "}
               <span className="ln"><span>by intellect.</span></span>
             </h1>
           </div>
@@ -98,11 +98,11 @@ function Firm({ go }) {
         <div className="wrap">
           <div className="pair reveal">
             <figure>
-              <img src={wix(PHOTO.genesee_int_1, { w: 1500 })} alt="My Genesee living room, Beverly Grove" loading="lazy" />
+              <img src={wix(PHOTO.genesee_int_1, { w: 1500 })} alt="My Genesee living room, Beverly Grove" loading="lazy" onError={imgFallback} />
               <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/firm-living.jpg" alt="A Noesis living room above Los Angeles" loading="lazy" />
+              <img src="assets/img/firm-living.jpg" alt="A Noesis living room above Los Angeles" loading="lazy" onError={imgFallback} />
               <figcaption>Delivered work · Los Angeles</figcaption>
             </figure>
           </div>
@@ -119,7 +119,8 @@ function Firm({ go }) {
                 <img src={wix(PHOTO.igal, { w: 1100 })} alt={FIRM_FOUNDER.name}
                   style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) contrast(1.02)", transition: "filter .5s" }}
                   onMouseEnter={(e) => (e.currentTarget.style.filter = "grayscale(0)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(1) contrast(1.02)")} />
+                  onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(1) contrast(1.02)")}
+                  loading="lazy" onError={imgFallback} />
               </div>
               <div className="serif u-mt-24" style={{ fontSize: 30, letterSpacing: "-.01em", lineHeight: 1.05, color: "var(--ink)" }}>{FIRM_FOUNDER.name}</div>
               <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 8 }}>{FIRM_FOUNDER.title}</div>
@@ -155,7 +156,7 @@ function Firm({ go }) {
               <article key={name} className="member">
                 <div className="member__img">
                   {key
-                    ? <img src={wix(PHOTO[key], { w: 700 })} alt={name} loading="lazy" />
+                    ? <img src={wix(PHOTO[key], { w: 700 })} alt={name} loading="lazy" onError={imgFallback} />
                     : <span className="member__mark" aria-hidden="true">{name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</span>}
                 </div>
                 <div className="member__name">{name}</div>

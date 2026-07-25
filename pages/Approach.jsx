@@ -35,7 +35,7 @@ function Approach({ go }) {
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Owner's Representation · Project Management</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "13ch" }}>
-              <span className="ln"><span>Our discipline,</span></span>
+              <span className="ln"><span>Our discipline,</span></span>{" "}
               <span className="ln"><span>your project.</span></span>
             </h1>
           </div>
@@ -106,7 +106,7 @@ function Approach({ go }) {
       {/* CINEMATIC PLATE — a delivered interior */}
       <section className="cine" style={{ height: "min(70vh, 640px)", minHeight: 400 }}>
         <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/or-living.jpg"
-          alt="A Noesis-delivered living space opening to the pool" />
+          alt="A Noesis-delivered living space opening to the pool" onError={imgFallback} />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
@@ -123,7 +123,7 @@ function Approach({ go }) {
           <div className="sectors reveal">
             {SECTORS.map((s) => (
               <article key={s.tag} className="sector">
-                <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" /><div className="sector__grad" /></div>
+                <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" onError={imgFallback} /><div className="sector__grad" /></div>
                 <div className="sector__body">
                   <div className="sector__tag">{s.tag}</div>
                   <div className="sector__title">{s.title}</div>

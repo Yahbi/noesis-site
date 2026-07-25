@@ -37,7 +37,7 @@ function Development({ go }) {
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Development · Primary Practice</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "13ch" }}>
-              <span className="ln"><span>From land to</span></span>
+              <span className="ln"><span>From land to</span></span>{" "}
               <span className="ln"><span>landmark.</span></span>
             </h1>
           </div>
@@ -62,7 +62,7 @@ function Development({ go }) {
       {/* OPENING PLATE — a delivered Noesis residence */}
       <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
         <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/dev-facade.jpg"
-          alt="A Noesis-developed residence, Los Angeles" />
+          alt="A Noesis-developed residence, Los Angeles" onError={imgFallback} />
         <div className="cine__grad" />
       </section>
 
@@ -108,7 +108,7 @@ function Development({ go }) {
 
       {/* CINEMATIC PLATE — a real Noesis pour */}
       <section className="cine" style={{ height: "min(72vh, 680px)", minHeight: 420 }}>
-        <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" />
+        <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" onError={imgFallback} />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
@@ -123,11 +123,11 @@ function Development({ go }) {
         <div className="wrap">
           <div className="pair reveal" style={{ marginBottom: "clamp(36px,4.5vw,64px)" }}>
             <figure>
-              <img src="assets/img/dev-detail.jpg" alt="Interior detailing — patterned tile and custom vanity" loading="lazy" />
+              <img src="assets/img/dev-detail.jpg" alt="Interior detailing — patterned tile and custom vanity" loading="lazy" onError={imgFallback} />
               <figcaption>Interior detailing — materials sourced worldwide</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" />
+              <img src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" onError={imgFallback} />
               <figcaption>Self-delivered — on site, Los Angeles</figcaption>
             </figure>
           </div>

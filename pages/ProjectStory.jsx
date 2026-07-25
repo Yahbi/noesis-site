@@ -66,7 +66,7 @@ function ProjectStory({ project, go }) {
       <section className="cine story__cover" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
         <img className="cine__img img--warm" alt={p.name} fetchpriority="high" sizes="100vw" onError={onImgError}
           src={wix(cover, { w: 2000 })}
-          srcSet={`${wix(cover, { w: 1200 })} 1200w, ${wix(cover, { w: 2000 })} 2000w, ${wix(cover, { w: 2600 })} 2600w`} />
+          srcSet={`${wix(cover, { w: 1200 })} 1200w, ${wix(cover, { w: 2000 })} 2000w, ${wix(cover, { w: 2600 })} 2600w, ${wix(cover, { w: 3400 })} 3400w`} />
         <div className="cine__grad" />
         <div className="wrap" style={{ position: "relative", zIndex: 1, paddingBottom: "clamp(52px,9vh,120px)" }}>
           <div className="eyebrow" data-hero-fade style={{ color: "rgba(236,230,216,.72)" }}>
@@ -110,7 +110,7 @@ function ProjectStory({ project, go }) {
           <img className="cine__img img--warm" alt={`${p.name} — film still`} loading="lazy" onError={onImgError}
             src={wix(cover, { w: 1600 })} />
           <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-            poster={wix(cover, { w: 1200 })} src={p.video}
+            poster={wix(cover, { w: 1200 })} src={film(p.video)}
             ref={(el) => {
               if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
               const tryPlay = () => {
@@ -140,7 +140,7 @@ function ProjectStory({ project, go }) {
               <img className="cine__img img--warm" data-parallax="0.16" loading="lazy" sizes="100vw" onError={onImgError}
                 alt={`${p.name} — view ${i + 1}`}
                 src={wix(scenes[i], { w: 2000 })}
-                srcSet={`${wix(scenes[i], { w: 1200 })} 1200w, ${wix(scenes[i], { w: 2000 })} 2000w`} />
+                srcSet={`${wix(scenes[i], { w: 1200 })} 1200w, ${wix(scenes[i], { w: 2000 })} 2000w, ${wix(scenes[i], { w: 3000 })} 3000w`} />
               <div className="cine__grad" />
             </section>
           )}
@@ -185,7 +185,7 @@ function ProjectStory({ project, go }) {
                   <div className="pcard__media">
                     <img className="pcard__img" alt={`${p.name} — ${i + 1}`} loading="lazy" onError={onImgError}
                       src={wix(img, { w: 900 })}
-                      srcSet={`${wix(img, { w: 600 })} 600w, ${wix(img, { w: 900 })} 900w, ${wix(img, { w: 1300 })} 1300w`}
+                      srcSet={`${wix(img, { w: 800 })} 800w, ${wix(img, { w: 1400 })} 1400w`}
                       sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                     <div className="pcard__over"><span className="pcard__cta" style={{ marginTop: "auto" }}>View <span className="arr" /></span></div>
                   </div>

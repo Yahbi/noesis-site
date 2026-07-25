@@ -660,7 +660,13 @@ const ENHANCED = {
 function wix(id, opts = {}) {
   if (typeof PHOTO !== "undefined" && PHOTO[id]) id = PHOTO[id];
   if (/^(https?:)?\//.test(id) || id.indexOf("assets/") === 0) return id;
-  if (ENHANCED[id] && (opts.w || 1600) >= 1200) return ENHANCED[id];
+  if (ENHANCED[id]) {
+    const want = opts.w || 1600;
+    const base = ENHANCED[id].replace(/\.jpg$/, "");
+    if (want <= 900) return base + "-w800.jpg";
+    if (want <= 1500) return base + "-w1400.jpg";
+    return ENHANCED[id];
+  }
   if (typeof window !== "undefined" && window.__resources && window.__MEDIA2KEY) {
     const key = window.__MEDIA2KEY[id];
     if (key && window.__resources[key]) return window.__resources[key];
@@ -709,7 +715,29 @@ const PHOTO = {
   sara: "5c383b_72a8ba6fa96c4e2585359a14107b2d65~mv2_d_3024_3024_s_4_2.jpg",
   jim: "5c383b_fc570d696b644e9d9a9147495f114cfb~mv2_d_3024_3024_s_4_2.jpg"
 };
+function imgFallback(e) {
+  e.currentTarget.style.opacity = "0";
+}
+const FILM_TIERS = {
+  "noesis-film": [1080, 1440],
+  "noesis-reel": [1080, 1440],
+  "oneoak-film": [1080, 1440, 2160],
+  "noesis-launch": [1080, 1440]
+};
+const FILM_V = 4;
+function film(base) {
+  const tiers = FILM_TIERS[base] || [1080];
+  const conn = navigator.connection || {};
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const px = (window.innerWidth || 1280) * dpr;
+  let want;
+  if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) want = 1080;else if (px < 2000) want = 1080;else if (px < 3000) want = 1440;else want = 2160;
+  const pick = tiers.indexOf(want) !== -1 ? want : tiers[tiers.length - 1];
+  return `assets/${base}-${pick}.mp4?v=${FILM_V}`;
+}
 window.wix = wix;
+window.film = film;
+window.imgFallback = imgFallback;
 window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
 const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Inquiries"]];
@@ -809,7 +837,9 @@ function Nav({
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 12);
-      setOver(y < window.innerHeight - 110);
+      const hero = document.querySelector("main > section");
+      const dark = !!hero && /(^|\s)cine(\s|$)/.test(hero.className || "");
+      setOver(dark && y < hero.getBoundingClientRect().height - 110);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, {
@@ -820,18 +850,61 @@ function Nav({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [active]);
   React.useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
+  React.useEffect(() => {
+    if (!open || !window.matchMedia) return;
+    const mq = window.matchMedia("(min-width: 861px)");
+    const onChange = e => {
+      if (e.matches) setOpen(false);
+    };
+    if (mq.matches) {
+      setOpen(false);
+      return;
+    }
+    mq.addEventListener ? mq.addEventListener("change", onChange) : mq.addListener(onChange);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener("change", onChange) : mq.removeListener(onChange);
+    };
+  }, [open]);
+  React.useEffect(() => {
+    if (!open) return;
+    const trigger = document.activeElement;
+    const onKey = e => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    let tries = 0;
+    const t = setInterval(() => {
+      const first = document.querySelector("#nav-drawer .nav__drawer-links button");
+      if (first) {
+        first.focus();
+        if (document.activeElement === first) {
+          clearInterval(t);
+          return;
+        }
+      }
+      if (++tries > 20) clearInterval(t);
+    }, 40);
+    return () => {
+      clearInterval(t);
+      window.removeEventListener("keydown", onKey);
+      if (trigger && trigger.focus) trigger.focus();
+    };
+  }, [open]);
   const tap = k => {
     go(k);
     setOpen(false);
   };
-  const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled ? "nav--over" : ""}`;
+  const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled && !open ? "nav--over" : ""}`;
   return React.createElement("header", {
     className: cls
   }, React.createElement("div", {
@@ -844,6 +917,7 @@ function Nav({
   }, SECTIONS.map(([k, label]) => React.createElement("button", {
     key: k,
     className: active === k ? "is-active" : "",
+    "aria-current": active === k ? "page" : undefined,
     onClick: () => tap(k)
   }, label)), React.createElement("button", {
     onClick: () => tap("inquiries"),
@@ -852,8 +926,10 @@ function Nav({
     className: `nav__burger ${open ? "is-open" : ""}`,
     "aria-label": open ? "Close menu" : "Open menu",
     "aria-expanded": open,
+    "aria-controls": "nav-drawer",
     onClick: () => setOpen(o => !o)
   }, React.createElement("span", null), React.createElement("span", null), React.createElement("span", null))), React.createElement("div", {
+    id: "nav-drawer",
     className: `nav__drawer ${open ? "is-open" : ""}`,
     "aria-hidden": !open
   }, React.createElement("nav", {
@@ -862,6 +938,7 @@ function Nav({
   }, SECTIONS.map(([k, label], i) => React.createElement("button", {
     key: k,
     className: active === k ? "is-active" : "",
+    "aria-current": active === k ? "page" : undefined,
     style: {
       transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s"
     },
@@ -879,7 +956,11 @@ function Nav({
     }
   }, "Request an Introduction"), React.createElement("div", {
     className: "nav__drawer-meta"
-  }, "T (310) 855\xB73634 \xB7 INFO@NOESISUSA.COM"), React.createElement(SocialRow, null))));
+  }, React.createElement("a", {
+    href: "tel:+13108553634"
+  }, "T (310) 855\xB73634"), " \xB7 ", React.createElement("a", {
+    href: "mailto:info@noesisusa.com"
+  }, "INFO@NOESISUSA.COM")), React.createElement(SocialRow, null))));
 }
 function CityClocks() {
   const [now, setNow] = React.useState(() => new Date());
@@ -1015,13 +1096,9 @@ function Footer({
       letterSpacing: ".08em",
       textTransform: "uppercase"
     }
-  }, React.createElement("a", {
-    href: "#",
-    onClick: e => e.preventDefault()
-  }, "Disclosures"), React.createElement("a", {
-    href: "#",
-    onClick: e => e.preventDefault()
-  }, "Privacy")))));
+  }, React.createElement("span", {
+    title: "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security."
+  }, "No offer or solicitation")))));
 }
 window.Nav = Nav;
 window.Footer = Footer;
@@ -1075,20 +1152,29 @@ function Home({
       w: 2000
     })} 2000w, ${wix(SHOT.casaMani, {
       w: 2600
-    })} 2600w`
+    })} 2600w, ${wix(SHOT.casaMani, {
+      w: 3400
+    })} 3400w`,
+    onError: imgFallback
   }), React.createElement("video", {
     className: "cine__vid",
     autoPlay: true,
     loop: true,
     muted: true,
     playsInline: true,
-    preload: "metadata",
-    src: "assets/noesis-film.mp4?v=3",
+    preload: "none",
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
       el.muted = true;
       el.__inView = true;
+      const attach = () => {
+        if (el.isConnected && !el.src) {
+          el.src = film("noesis-film");
+          el.load();
+          tryPlay();
+        }
+      };
       const tryPlay = () => {
         if (!el.isConnected) {
           clearInterval(el.__iv);
@@ -1116,7 +1202,7 @@ function Home({
         setTimeout(() => {
           if (!el.isConnected) return;
           el.style.display = "";
-          el.src = "assets/noesis-film.mp4?r=" + Date.now();
+          el.src = film("noesis-film") + "&r=" + Date.now();
           el.load();
           tryPlay();
         }, w);
@@ -1134,7 +1220,9 @@ function Home({
         });
         el.__io.observe(el);
       }
-      tryPlay();
+      if (document.readyState === "complete") setTimeout(attach, 0);else window.addEventListener("load", attach, {
+        once: true
+      });
       el.__iv = setInterval(tryPlay, 2500);
       document.addEventListener("visibilitychange", tryPlay);
     }
@@ -1174,7 +1262,7 @@ function Home({
     }
   }, React.createElement("span", {
     className: "ln"
-  }, React.createElement("span", null, "We build what")), React.createElement("span", {
+  }, React.createElement("span", null, "We build what")), " ", React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "we invest in."))), React.createElement("div", {
     className: "grid-12 u-mt-40",
@@ -1289,7 +1377,8 @@ function Home({
       w: 800
     }),
     alt: "Igal N. Azran, Founder & CEO",
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   })), React.createElement("div", {
     className: "principal__body"
   }, React.createElement("div", {
@@ -1347,7 +1436,7 @@ function Home({
     className: "story-feature__img img--warm",
     alt: "Le Bijou, Beverly Hills",
     loading: "lazy",
-    sizes: "100vw",
+    sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     onError: e => {
       e.currentTarget.style.opacity = "0";
     },
@@ -1380,18 +1469,15 @@ function Home({
     className: "arr"
   })))), React.createElement("div", {
     className: "collage reveal u-mt-64"
-  }, HOME_WORK.map(([img, id, name, loc, work]) => React.createElement("article", {
+  }, HOME_WORK.map(([img, id, name, loc, work]) => React.createElement("a", {
     key: name,
     className: "pcard",
-    role: "button",
-    tabIndex: 0,
+    href: BASE + pathFor("story:" + id),
     "aria-label": `${name}, ${loc} — view the project story`,
-    onClick: () => go("story:" + id),
-    onKeyDown: e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        go("story:" + id);
-      }
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      go("story:" + id);
     }
   }, React.createElement("div", {
     className: "pcard__media"
@@ -1401,7 +1487,8 @@ function Home({
       w: 1300
     }),
     alt: name,
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   })), React.createElement("div", {
     className: "pcard__cap"
   }, React.createElement("div", null, React.createElement("div", {
@@ -1428,7 +1515,8 @@ function Home({
     src: wix(SHOT.oneOak, {
       w: 2200
     }),
-    alt: ""
+    alt: "",
+    onError: imgFallback
   }), React.createElement("video", {
     className: "cine__vid",
     autoPlay: true,
@@ -1439,7 +1527,7 @@ function Home({
     poster: wix(SHOT.oneOak, {
       w: 1200
     }),
-    src: "assets/noesis-reel.mp4?v=2",
+    src: film("noesis-reel"),
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -1503,18 +1591,32 @@ function Home({
       const sec = e.currentTarget.closest("section");
       const v = sec && sec.querySelector("video");
       if (!v) return;
+      const restore = () => {
+        v.__manual = false;
+        v.loop = true;
+        v.controls = false;
+        v.muted = true;
+        v.src = film("noesis-reel");
+        v.load();
+        const pr = v.play();
+        if (pr && pr.catch) pr.catch(() => {});
+        sec.classList.remove("is-playing");
+      };
       v.__manual = true;
       v.loop = false;
       v.controls = true;
       v.muted = false;
-      v.src = "assets/noesis-launch.mp4?v=2";
+      v.addEventListener("error", restore, {
+        once: true
+      });
+      v.addEventListener("ended", restore, {
+        once: true
+      });
+      v.src = film("noesis-launch");
       v.load();
       const p = v.play();
-      if (p && p.catch) p.catch(() => {});
-      const cap = sec.querySelector(".cine__cap");
-      if (cap) cap.style.display = "none";
-      const grad = sec.querySelector(".cine__grad");
-      if (grad) grad.style.display = "none";
+      if (p && p.catch) p.catch(restore);
+      sec.classList.add("is-playing");
     }
   }, "Watch the film \xB7 2 min ", React.createElement("span", {
     className: "arr"
@@ -1585,7 +1687,7 @@ function Development({
     }
   }, React.createElement("span", {
     className: "ln"
-  }, React.createElement("span", null, "From land to")), React.createElement("span", {
+  }, React.createElement("span", null, "From land to")), " ", React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "landmark.")))), React.createElement("div", {
     className: "col-5"
@@ -1613,7 +1715,8 @@ function Development({
     className: "cine__img img--warm",
     "data-parallax": "0.12",
     src: "assets/img/dev-facade.jpg",
-    alt: "A Noesis-developed residence, Los Angeles"
+    alt: "A Noesis-developed residence, Los Angeles",
+    onError: imgFallback
   }), React.createElement("div", {
     className: "cine__grad"
   })), React.createElement("section", {
@@ -1680,7 +1783,8 @@ function Development({
     className: "cine__img img--warm",
     "data-parallax": "0.1",
     src: "assets/img/build-pour.jpg",
-    alt: "A Noesis concrete pour, Los Angeles"
+    alt: "A Noesis concrete pour, Los Angeles",
+    onError: imgFallback
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -1715,11 +1819,13 @@ function Development({
   }, React.createElement("figure", null, React.createElement("img", {
     src: "assets/img/dev-detail.jpg",
     alt: "Interior detailing \u2014 patterned tile and custom vanity",
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
     src: "assets/img/build-pour.jpg",
     alt: "A Noesis concrete pour, Los Angeles",
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   }), React.createElement("figcaption", null, "Self-delivered \u2014 on site, Los Angeles"))), React.createElement("div", {
     className: "eyebrow reveal"
   }, React.createElement("span", {
@@ -1883,7 +1989,7 @@ function Investment({
     }
   }, React.createElement("span", {
     className: "ln"
-  }, React.createElement("span", null, "Capital,")), React.createElement("span", {
+  }, React.createElement("span", null, "Capital,")), " ", React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "aligned.")))), React.createElement("div", {
     className: "col-5"
@@ -1924,7 +2030,8 @@ function Investment({
     className: "cine__img img--warm",
     "data-parallax": "0.12",
     src: "assets/img/inv-sunset.jpg",
-    alt: "A Noesis residence above Los Angeles at dusk"
+    alt: "A Noesis residence above Los Angeles at dusk",
+    onError: imgFallback
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -2024,7 +2131,8 @@ function Investment({
       width: "100%",
       height: "100%",
       objectFit: "cover"
-    }
+    },
+    onError: imgFallback
   }))), React.createElement("div", {
     className: "col-5"
   }, React.createElement("div", {
@@ -2165,7 +2273,7 @@ function Firm({
     }
   }, React.createElement("span", {
     className: "ln"
-  }, React.createElement("span", null, "Perception")), React.createElement("span", {
+  }, React.createElement("span", null, "Perception")), " ", React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "by intellect.")))), React.createElement("div", {
     className: "col-5"
@@ -2253,11 +2361,13 @@ function Firm({
       w: 1500
     }),
     alt: "My Genesee living room, Beverly Grove",
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
     src: "assets/img/firm-living.jpg",
     alt: "A Noesis living room above Los Angeles",
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   }), React.createElement("figcaption", null, "Delivered work \xB7 Los Angeles"))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
@@ -2295,7 +2405,9 @@ function Firm({
       transition: "filter .5s"
     },
     onMouseEnter: e => e.currentTarget.style.filter = "grayscale(0)",
-    onMouseLeave: e => e.currentTarget.style.filter = "grayscale(1) contrast(1.02)"
+    onMouseLeave: e => e.currentTarget.style.filter = "grayscale(1) contrast(1.02)",
+    loading: "lazy",
+    onError: imgFallback
   })), React.createElement("div", {
     className: "serif u-mt-24",
     style: {
@@ -2401,7 +2513,8 @@ function Firm({
       w: 700
     }),
     alt: name,
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   }) : React.createElement("span", {
     className: "member__mark",
     "aria-hidden": "true"
@@ -2456,7 +2569,7 @@ function Inquiries({
   }, React.createElement("section", {
     style: {
       paddingTop: "clamp(120px, 12vh, 150px)",
-      paddingBottom: "clamp(40px, 6vw, 80px)"
+      paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
     className: "wrap grid-12",
@@ -2471,11 +2584,13 @@ function Inquiries({
   }, React.createElement("span", {
     className: "dot"
   }), " Inquiries"), React.createElement("h1", {
-    className: "h-display caps u-mt-16",
+    className: "h-display lx-h u-mt-24",
     style: {
       maxWidth: "12ch"
     }
-  }, "Let's begin."), React.createElement("p", {
+  }, React.createElement("span", {
+    className: "ln"
+  }, React.createElement("span", null, "Let's begin."))), React.createElement("p", {
     className: "lede u-mt-24",
     style: {
       maxWidth: "44ch"
@@ -2573,7 +2688,7 @@ function InquiryForm({
           }
         });
         if (!res.ok) throw new Error("bad status");
-        setSent(true);
+        setSent("endpoint");
       } catch (err) {
         setError("Something went wrong sending your message. Please email info@noesisusa.com directly.");
       } finally {
@@ -2584,7 +2699,7 @@ function InquiryForm({
     const subject = `Enquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
     const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
     window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setSent("mailto");
   };
   if (sent) return React.createElement("div", {
     style: {
@@ -2596,24 +2711,31 @@ function InquiryForm({
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " Received"), React.createElement("h3", {
+  }), " ", sent === "endpoint" ? "Received" : "Almost there"), React.createElement("h2", {
     className: "h-2 u-mt-16"
-  }, "Thank you."), React.createElement("p", {
+  }, sent === "endpoint" ? "Thank you." : "One last step."), sent === "endpoint" ? React.createElement("p", {
     className: "body u-mt-16"
-  }, investor ? "Your enquiry is reviewed personally by our principal and held in confidence." : "We've received your message and will respond within one business day."), !INQ_ENDPOINT && React.createElement("p", {
+  }, investor ? "Your enquiry is reviewed personally by our principal and held in confidence." : "We've received your message and will respond within one business day.") : React.createElement(React.Fragment, null, React.createElement("p", {
+    className: "body u-mt-16"
+  }, "We've opened a pre-filled message in your mail app \u2014 ", React.createElement("strong", null, "press send there"), " and it reaches our principal directly. Nothing has been sent yet."), React.createElement("p", {
     className: "body u-mt-16",
     style: {
       color: "var(--muted)"
     }
-  }, "If your mail app didn't open, write to us directly at ", React.createElement("a", {
+  }, "If no mail app opened, write to", " ", React.createElement("a", {
     href: "mailto:info@noesisusa.com",
     style: {
       color: "var(--accent-deep)"
     }
-  }, "info@noesisusa.com"), "."), React.createElement("button", {
+  }, "info@noesisusa.com"), " ", "or call ", React.createElement("a", {
+    href: "tel:+13108553634",
+    style: {
+      color: "var(--accent-deep)"
+    }
+  }, "(310) 855\xB73634"), ".")), React.createElement("button", {
     className: "btn btn--ghost u-mt-40",
     onClick: () => setSent(false)
-  }, "Send another"));
+  }, "Write another"));
   return React.createElement("form", {
     onSubmit: submit,
     style: {
@@ -2632,27 +2754,39 @@ function InquiryForm({
     className: "form-grid"
   }, React.createElement("div", {
     className: "field"
-  }, React.createElement("label", null, "Name"), React.createElement("input", {
+  }, React.createElement("label", {
+    htmlFor: "f-name"
+  }, "Name"), React.createElement("input", {
+    id: "f-name",
     name: "name",
     type: "text",
     placeholder: "Your name",
     required: true
   })), React.createElement("div", {
     className: "field"
-  }, React.createElement("label", null, "Email"), React.createElement("input", {
+  }, React.createElement("label", {
+    htmlFor: "f-email"
+  }, "Email"), React.createElement("input", {
+    id: "f-email",
     name: "email",
     type: "email",
     placeholder: "you@email.com",
     required: true
   })), React.createElement("div", {
     className: "field"
-  }, React.createElement("label", null, "Location"), React.createElement("input", {
+  }, React.createElement("label", {
+    htmlFor: "f-loc"
+  }, "Location"), React.createElement("input", {
+    id: "f-loc",
     name: "location",
     type: "text",
     placeholder: "City / country"
   })), React.createElement("div", {
     className: "field"
-  }, React.createElement("label", null, "I'm reaching out as"), React.createElement("select", {
+  }, React.createElement("label", {
+    htmlFor: "f-role"
+  }, "I'm reaching out as"), React.createElement("select", {
+    id: "f-role",
     name: "role",
     value: role,
     onChange: e => setRole(e.target.value),
@@ -2665,7 +2799,10 @@ function InquiryForm({
     style: {
       gridColumn: "1 / -1"
     }
-  }, React.createElement("label", null, "Message"), React.createElement("textarea", {
+  }, React.createElement("label", {
+    htmlFor: "f-msg"
+  }, "Message"), React.createElement("textarea", {
+    id: "f-msg",
     name: "message",
     rows: "5",
     placeholder: "Tell us about your interest in investing, or your project.",
@@ -2741,7 +2878,7 @@ function Approach({
     }
   }, React.createElement("span", {
     className: "ln"
-  }, React.createElement("span", null, "Our discipline,")), React.createElement("span", {
+  }, React.createElement("span", null, "Our discipline,")), " ", React.createElement("span", {
     className: "ln"
   }, React.createElement("span", null, "your project.")))), React.createElement("div", {
     className: "col-5"
@@ -2823,7 +2960,8 @@ function Approach({
     className: "cine__img img--warm",
     "data-parallax": "0.1",
     src: "assets/img/or-living.jpg",
-    alt: "A Noesis-delivered living space opening to the pool"
+    alt: "A Noesis-delivered living space opening to the pool",
+    onError: imgFallback
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -2869,7 +3007,8 @@ function Approach({
       w: 1500
     }),
     alt: s.title,
-    loading: "lazy"
+    loading: "lazy",
+    onError: imgFallback
   }), React.createElement("div", {
     className: "sector__grad"
   })), React.createElement("div", {
@@ -2931,7 +3070,7 @@ const CATEGORIES = [{
     loc: "Sunset Strip, Los Angeles",
     year: "2015",
     gallery: GAL["one-oak"],
-    video: "assets/oneoak-film.mp4?v=2",
+    video: "oneoak-film",
     text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
     facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]]
   }, {
@@ -3169,23 +3308,21 @@ function Projects({
     className: "dot"
   }), " Featured \xB7 ", cat.label), React.createElement("div", {
     className: "pfeat"
-  }, React.createElement("div", {
+  }, React.createElement("a", {
     className: "pfeat__media",
-    role: "button",
-    tabIndex: 0,
+    href: BASE + pathFor("story:" + feat.id),
     "aria-label": `Open the ${feat.name} story`,
-    onClick: () => openStory(feat),
-    onKeyDown: e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openStory(feat);
-      }
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      openStory(feat);
     }
   }, React.createElement("img", {
     src: wix(feat.cover || feat.gallery[0], {
       w: 1900
     }),
-    alt: feat.name
+    alt: feat.name,
+    onError: imgFallback
   }), feat.gallery.length > 1 && React.createElement("div", {
     className: "pfeat__badge"
   }, feat.gallery.length, " Photos")), React.createElement("div", null, React.createElement("div", {
@@ -3233,45 +3370,44 @@ function Projects({
   }, rest.map(p => {
     const cover = p.cover || p.gallery[0];
     const count = p.gallery.length;
-    return React.createElement("article", {
-      key: p.id,
-      className: "pcard",
-      role: "button",
-      tabIndex: 0,
-      "aria-label": `Open the ${p.name} story`,
-      onClick: () => openStory(p),
-      onKeyDown: e => {
-        if (e.key === "Enter" || e.key === " ") {
+    return (React.createElement("a", {
+        key: p.id,
+        className: "pcard",
+        href: BASE + pathFor("story:" + p.id),
+        "aria-label": `Open the ${p.name} story`,
+        onClick: e => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
           e.preventDefault();
           openStory(p);
         }
-      }
-    }, React.createElement("div", {
-      className: "pcard__media"
-    }, React.createElement("img", {
-      className: "pcard__img",
-      src: wix(cover, {
-        w: 1100
-      }),
-      alt: p.name,
-      loading: "lazy"
-    }), React.createElement("div", {
-      className: "pcard__over"
-    }, count > 1 && React.createElement("span", {
-      className: "pcard__count"
-    }, count, " Photos"), React.createElement("span", {
-      className: "pcard__cta"
-    }, "View Project ", React.createElement("span", {
-      className: "arr"
-    })))), React.createElement("div", {
-      className: "pcard__cap"
-    }, React.createElement("div", null, React.createElement("div", {
-      className: "pcard__name"
-    }, p.name), React.createElement("div", {
-      className: "pcard__loc"
-    }, p.loc)), p.year && React.createElement("div", {
-      className: "pcard__yr"
-    }, p.year)));
+      }, React.createElement("div", {
+        className: "pcard__media"
+      }, React.createElement("img", {
+        className: "pcard__img",
+        src: wix(cover, {
+          w: 1300
+        }),
+        alt: p.name,
+        loading: "lazy",
+        onError: imgFallback
+      }), React.createElement("div", {
+        className: "pcard__over"
+      }, count > 1 && React.createElement("span", {
+        className: "pcard__count"
+      }, count, " Photos"), React.createElement("span", {
+        className: "pcard__cta"
+      }, "View Project ", React.createElement("span", {
+        className: "arr"
+      })))), React.createElement("div", {
+        className: "pcard__cap"
+      }, React.createElement("div", null, React.createElement("div", {
+        className: "pcard__name"
+      }, p.name), React.createElement("div", {
+        className: "pcard__loc"
+      }, p.loc)), p.year && React.createElement("div", {
+        className: "pcard__yr"
+      }, p.year)))
+    );
   })))), React.createElement("section", {
     className: "section",
     style: {
@@ -3389,7 +3525,7 @@ function Lightbox({
       const k = (i + d + imgs.length) % imgs.length;
       const pre = new Image();
       pre.src = wix(imgs[k], {
-        w: 2000
+        w: 2600
       });
     });
   }, [i, imgs]);
@@ -3446,10 +3582,21 @@ function Lightbox({
   }))), React.createElement("img", {
     className: "lb__img",
     key: i,
+    alt: `${project.name} — photograph ${i + 1}`,
     src: wix(imgs[i], {
       w: 2000
     }),
-    alt: `${project.name} — photograph ${i + 1}`
+    srcSet: `${wix(imgs[i], {
+      w: 1400
+    })} 1400w, ${wix(imgs[i], {
+      w: 2000
+    })} 2000w, ${wix(imgs[i], {
+      w: 2600
+    })} 2600w, ${wix(imgs[i], {
+      w: 3400
+    })} 3400w`,
+    sizes: "(max-width: 900px) 100vw, 90vw",
+    onError: imgFallback
   }), multi && React.createElement("button", {
     className: "lb__arrow lb__arrow--next",
     onClick: () => go(1),
@@ -3467,15 +3614,20 @@ function Lightbox({
     className: "lb__caption"
   }, lede), multi && React.createElement("div", {
     className: "lb__rail"
-  }, imgs.map((im, k) => React.createElement("img", {
+  }, imgs.map((im, k) => React.createElement("button", {
     key: im,
+    type: "button",
     className: `lb__thumb ${k === i ? "is-active" : ""}`,
+    onClick: () => setI(k),
+    "aria-label": `View photograph ${k + 1} of ${imgs.length}`,
+    "aria-current": k === i ? "true" : undefined
+  }, React.createElement("img", {
     src: wix(im, {
       w: 220
     }),
-    alt: `Thumbnail ${k + 1}`,
-    onClick: () => setI(k)
-  }))));
+    alt: "",
+    onError: imgFallback
+  })))));
 }
 const PROJECT_LIST = CATEGORIES.flatMap(c => c.items.map(it => ({
   ...it,
@@ -3568,7 +3720,9 @@ function ProjectStory({
       w: 2000
     })} 2000w, ${wix(cover, {
       w: 2600
-    })} 2600w`
+    })} 2600w, ${wix(cover, {
+      w: 3400
+    })} 3400w`
   }), React.createElement("div", {
     className: "cine__grad"
   }), React.createElement("div", {
@@ -3657,7 +3811,7 @@ function ProjectStory({
     poster: wix(cover, {
       w: 1200
     }),
-    src: p.video,
+    src: film(p.video),
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -3731,7 +3885,9 @@ function ProjectStory({
       w: 1200
     })} 1200w, ${wix(scenes[i], {
       w: 2000
-    })} 2000w`
+    })} 2000w, ${wix(scenes[i], {
+      w: 3000
+    })} 3000w`
   }), React.createElement("div", {
     className: "cine__grad"
   })), bodyParas[i] && React.createElement("section", {
@@ -3824,12 +3980,10 @@ function ProjectStory({
       w: 900
     }),
     srcSet: `${wix(img, {
-      w: 600
-    })} 600w, ${wix(img, {
-      w: 900
-    })} 900w, ${wix(img, {
-      w: 1300
-    })} 1300w`,
+      w: 800
+    })} 800w, ${wix(img, {
+      w: 1400
+    })} 1400w`,
     sizes: "(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
   }), React.createElement("div", {
     className: "pcard__over"
@@ -4019,7 +4173,7 @@ function App() {
   }, []);
   React.useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
-    document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
+    if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent-deep");else document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
     const stack = `"${t.displayFont}", "Helvetica Neue", Arial, sans-serif`;
     document.documentElement.style.setProperty("--serif", stack);
   }, [t.accent, t.displayFont]);

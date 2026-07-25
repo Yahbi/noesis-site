@@ -81,8 +81,16 @@ function wix(id, opts = {}) {
   if (typeof PHOTO !== "undefined" && PHOTO[id]) id = PHOTO[id];
   // Local/absolute assets (e.g. Higgsfield-enhanced covers in assets/img/) pass through untouched.
   if (/^(https?:)?\//.test(id) || id.indexOf("assets/") === 0) return id;
-  // Enhanced original available and a large rendition requested -> serve the enhanced file.
-  if (ENHANCED[id] && (opts.w || 1600) >= 1200) return ENHANCED[id];
+  // Enhanced original available -> serve the nearest DERIVED width, not always the
+  // 2200px master. Previously this was a boolean gate, so a 440px thumbnail slot
+  // downloaded the full 2200px file and every srcSet descriptor was fiction.
+  if (ENHANCED[id]) {
+    const want = opts.w || 1600;
+    const base = ENHANCED[id].replace(/\.jpg$/, "");
+    if (want <= 900) return base + "-w800.jpg";
+    if (want <= 1500) return base + "-w1400.jpg";
+    return ENHANCED[id];                      // 2200px master — their true optical ceiling
+  }
   // Offline/standalone: if the bundler inlined this media, return its blob URL.
   if (typeof window !== "undefined" && window.__resources && window.__MEDIA2KEY) {
     const key = window.__MEDIA2KEY[id];
@@ -139,7 +147,46 @@ const PHOTO = {
   jim:   "5c383b_fc570d696b644e9d9a9147495f114cfb~mv2_d_3024_3024_s_4_2.jpg",
 };
 
+// A failed image must never leave a blank well on a linen page — fade it out and
+// let the container's tone carry, the same behaviour ProjectStory already used.
+function imgFallback(e) { e.currentTarget.style.opacity = "0"; }
+
+// Films ship in three tiers cut from the same 4K master. Pick by the device pixels
+// the full-bleed surface actually has, so a phone is never handed a 4K autoplay
+// loop for a panel that cannot resolve it.
+//
+// `<source media>` is deliberately not used: browsers evaluate it once at load and
+// never re-check, and the player's error/retry path reassigns el.src directly.
+// Which tiers actually ship, per film. 2160p is reserved for the surface where a
+// visitor deliberately watches a building; the home hero and reel are ambient loops
+// that autoplay behind a gradient scrim with headline text over them, where a 4K cut
+// costs 69MB and a sustained 13 Mbps to buy detail nobody can see. The 4K masters for
+// those two are archived, so raising the cap later is a one-line change.
+const FILM_TIERS = {
+  "noesis-film":   [1080, 1440],
+  "noesis-reel":   [1080, 1440],
+  "oneoak-film":   [1080, 1440, 2160],
+  "noesis-launch": [1080, 1440],          // 137s — a 4K cut cannot fit the 100MB file ceiling
+};
+const FILM_V = 4;
+
+function film(base) {
+  const tiers = FILM_TIERS[base] || [1080];
+  const conn = navigator.connection || {};
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const px = (window.innerWidth || 1280) * dpr;
+  let want;
+  if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) want = 1080;
+  else if (px < 2000) want = 1080;
+  else if (px < 3000) want = 1440;
+  else want = 2160;
+  const pick = tiers.indexOf(want) !== -1 ? want : tiers[tiers.length - 1];
+  return `assets/${base}-${pick}.mp4?v=${FILM_V}`;
+}
+
 window.wix = wix;
+window.film = film;
+window.imgFallback = imgFallback;
 window.PHOTO = PHOTO;
 // Reverse map (media id -> resource key) so wix() can resolve inlined blobs offline.
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));

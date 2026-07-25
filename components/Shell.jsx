@@ -83,24 +83,68 @@ function Nav({ active, go }) {
   const [scrolled, setScrolled] = React.useState(false);
   const [over, setOver] = React.useState(true);
 
+  // The on-dark treatment is only correct when a dark plate is genuinely behind the
+  // bar. Deciding it from scroll position alone assumed every page opens on a
+  // full-bleed film — but six of the eight open on linen, so the wordmark and the
+  // burger were painted bone-on-bone: invisible until the visitor scrolled.
+  // Re-runs on `active` because a route change scrolls to top without firing scroll.
   React.useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 12);
-      setOver(y < window.innerHeight - 110);   // light text while over the hero film
+      const hero = document.querySelector("main > section");
+      const dark = !!hero && /(^|\s)cine(\s|$)/.test(hero.className || "");
+      setOver(dark && y < hero.getBoundingClientRect().height - 110);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
-  }, []);
+  }, [active]);
   React.useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  // The burger is hidden above 860px — if the viewport grows while the drawer is
+  // open, close it, or the page stays scroll-locked with no way to dismiss.
+  React.useEffect(() => {
+    if (!open || !window.matchMedia) return;
+    const mq = window.matchMedia("(min-width: 861px)");
+    const onChange = (e) => { if (e.matches) setOpen(false); };
+    if (mq.matches) { setOpen(false); return; }
+    mq.addEventListener ? mq.addEventListener("change", onChange) : mq.addListener(onChange);
+    return () => { mq.removeEventListener ? mq.removeEventListener("change", onChange) : mq.removeListener(onChange); };
+  }, [open]);
+
+  // Escape closes; focus moves into the drawer on open and returns to the burger on close.
+  React.useEffect(() => {
+    if (!open) return;
+    const trigger = document.activeElement;
+    const onKey = (e) => { if (e.key === "Escape") { e.preventDefault(); setOpen(false); } };
+    window.addEventListener("keydown", onKey);
+    // The drawer is `visibility:hidden` until its 0.3s fade begins, so nothing
+    // inside it is focusable the instant it opens — retry until focus takes.
+    let tries = 0;
+    const t = setInterval(() => {
+      const first = document.querySelector("#nav-drawer .nav__drawer-links button");
+      if (first) {
+        first.focus();
+        if (document.activeElement === first) { clearInterval(t); return; }
+      }
+      if (++tries > 20) clearInterval(t);
+    }, 40);
+    return () => {
+      clearInterval(t);
+      window.removeEventListener("keydown", onKey);
+      if (trigger && trigger.focus) trigger.focus();
+    };
+  }, [open]);
+
   const tap = (k) => { go(k); setOpen(false); };
-  const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled ? "nav--over" : ""}`;
+  // While the drawer is open the bar sits on linen, not on the hero — keeping the
+  // on-dark treatment would paint the logo and close button bone-on-bone.
+  const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled && !open ? "nav--over" : ""}`;
 
   return (
     <header className={cls}>
@@ -109,20 +153,20 @@ function Nav({ active, go }) {
 
         <nav className="nav__links" aria-label="Primary">
           {SECTIONS.map(([k, label]) => (
-            <button key={k} className={active === k ? "is-active" : ""} onClick={() => tap(k)}>{label}</button>
+            <button key={k} className={active === k ? "is-active" : ""} aria-current={active === k ? "page" : undefined} onClick={() => tap(k)}>{label}</button>
           ))}
           <button onClick={() => tap("inquiries")} className="btn nav__cta">Request an Introduction</button>
         </nav>
 
-        <button className={`nav__burger ${open ? "is-open" : ""}`} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(o => !o)}>
+        <button className={`nav__burger ${open ? "is-open" : ""}`} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="nav-drawer" onClick={() => setOpen(o => !o)}>
           <span></span><span></span><span></span>
         </button>
       </div>
 
-      <div className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
+      <div id="nav-drawer" className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <nav className="nav__drawer-links" aria-label="Mobile">
           {SECTIONS.map(([k, label], i) => (
-            <button key={k} className={active === k ? "is-active" : ""}
+            <button key={k} className={active === k ? "is-active" : ""} aria-current={active === k ? "page" : undefined}
               style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s" }} onClick={() => tap(k)}>
               <span className="nav__drawer-idx">0{i + 1}</span>{label}
             </button>
@@ -130,7 +174,7 @@ function Nav({ active, go }) {
         </nav>
         <div className="nav__drawer-foot">
           <button onClick={() => tap("inquiries")} className="btn" style={{ width: "100%", justifyContent: "center" }}>Request an Introduction</button>
-          <div className="nav__drawer-meta">T (310) 855·3634 · INFO@NOESISUSA.COM</div>
+          <div className="nav__drawer-meta"><a href="tel:+13108553634">T (310) 855·3634</a> · <a href="mailto:info@noesisusa.com">INFO@NOESISUSA.COM</a></div>
           <SocialRow />
         </div>
       </div>
@@ -193,8 +237,7 @@ function Footer({ go }) {
           <CityClocks />
           <div style={{ letterSpacing: ".08em", textTransform: "uppercase", fontSize: 10.5 }}>© 2026 Noesis Group · All rights reserved</div>
           <div className="u-flex u-gap-24" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase" }}>
-            <a href="#" onClick={(e)=>e.preventDefault()}>Disclosures</a>
-            <a href="#" onClick={(e)=>e.preventDefault()}>Privacy</a>
+            <span title="Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.">No offer or solicitation</span>
           </div>
         </div>
       </div>

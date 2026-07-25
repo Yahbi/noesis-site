@@ -28,7 +28,7 @@ const CATEGORIES = [
   {
     key: "sfr", label: "Single Family Residences",
     items: [
-      { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"], video: "assets/oneoak-film.mp4?v=2",
+      { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"], video: "oneoak-film",
         text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
         facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]] },
       { id: "casa-mani", name: "Casa Mani", loc: "Beverly Hills", year: "2018", gallery: GAL["casa-mani"],
@@ -148,12 +148,14 @@ function Projects({ setPage }) {
         <div className="wrap">
           <div className="eyebrow" style={{ marginBottom: 28 }}><span className="dot" /> Featured · {cat.label}</div>
           <div className="pfeat">
-            <div className="pfeat__media" role="button" tabIndex={0} aria-label={`Open the ${feat.name} story`}
-              onClick={() => openStory(feat)}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openStory(feat); } }}>
-              <img src={wix(feat.cover || feat.gallery[0], { w: 1900 })} alt={feat.name} />
+            <a className="pfeat__media" href={BASE + pathFor("story:" + feat.id)} aria-label={`Open the ${feat.name} story`}
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                e.preventDefault(); openStory(feat);
+              }}>
+              <img src={wix(feat.cover || feat.gallery[0], { w: 1900 })} alt={feat.name} onError={imgFallback} />
               {feat.gallery.length > 1 && <div className="pfeat__badge">{feat.gallery.length} Photos</div>}
-            </div>
+            </a>
             <div>
               <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)" }}>
                 {feat.loc}{feat.year ? ` · ${feat.year}` : ""}
@@ -179,11 +181,17 @@ function Projects({ setPage }) {
               const cover = p.cover || p.gallery[0];
               const count = p.gallery.length;
               return (
-                <article key={p.id} className="pcard" role="button" tabIndex={0} aria-label={`Open the ${p.name} story`}
-                  onClick={() => openStory(p)}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openStory(p); } }}>
+                // A real href, not role="button": every project has its own static
+                // page, and a faked button left all 17 of them unreachable by a
+                // crawler and unopenable in a new tab. Modifier-clicks fall through.
+                <a key={p.id} className="pcard" href={BASE + pathFor("story:" + p.id)}
+                  aria-label={`Open the ${p.name} story`}
+                  onClick={(e) => {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                    e.preventDefault(); openStory(p);
+                  }}>
                   <div className="pcard__media">
-                    <img className="pcard__img" src={wix(cover, { w: 1100 })} alt={p.name} loading="lazy" />
+                    <img className="pcard__img" src={wix(cover, { w: 1300 })} alt={p.name} loading="lazy" onError={imgFallback} />
                     <div className="pcard__over">
                       {count > 1 && <span className="pcard__count">{count} Photos</span>}
                       <span className="pcard__cta">View Project <span className="arr" /></span>
@@ -196,7 +204,7 @@ function Projects({ setPage }) {
                     </div>
                     {p.year && <div className="pcard__yr">{p.year}</div>}
                   </div>
-                </article>
+                </a>
               );
             })}
           </div>
@@ -277,7 +285,7 @@ function Lightbox({ project, start, onClose }) {
     [1, -1].forEach((d) => {
       const k = (i + d + imgs.length) % imgs.length;
       const pre = new Image();
-      pre.src = wix(imgs[k], { w: 2000 });
+      pre.src = wix(imgs[k], { w: 2600 });
     });
   }, [i, imgs]);
 
@@ -306,7 +314,10 @@ function Lightbox({ project, start, onClose }) {
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M14 3 L6 11 l8 8" /></svg>
           </button>
         )}
-        <img className="lb__img" key={i} src={wix(imgs[i], { w: 2000 })} alt={`${project.name} — photograph ${i + 1}`} />
+        <img className="lb__img" key={i} alt={`${project.name} — photograph ${i + 1}`}
+          src={wix(imgs[i], { w: 2000 })}
+          srcSet={`${wix(imgs[i], { w: 1400 })} 1400w, ${wix(imgs[i], { w: 2000 })} 2000w, ${wix(imgs[i], { w: 2600 })} 2600w, ${wix(imgs[i], { w: 3400 })} 3400w`}
+          sizes="(max-width: 900px) 100vw, 90vw" onError={imgFallback} />
         {multi && (
           <button className="lb__arrow lb__arrow--next" onClick={() => go(1)} aria-label="Next photo">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M8 3 l8 8 l-8 8" /></svg>
@@ -319,8 +330,11 @@ function Lightbox({ project, start, onClose }) {
       {multi && (
         <div className="lb__rail">
           {imgs.map((im, k) => (
-            <img key={im} className={`lb__thumb ${k === i ? "is-active" : ""}`} src={wix(im, { w: 220 })}
-              alt={`Thumbnail ${k + 1}`} onClick={() => setI(k)} />
+            <button key={im} type="button" className={`lb__thumb ${k === i ? "is-active" : ""}`}
+              onClick={() => setI(k)} aria-label={`View photograph ${k + 1} of ${imgs.length}`}
+              aria-current={k === i ? "true" : undefined}>
+              <img src={wix(im, { w: 220 })} alt="" onError={imgFallback} />
+            </button>
           ))}
         </div>
       )}

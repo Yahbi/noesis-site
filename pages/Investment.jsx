@@ -28,7 +28,7 @@ function Investment({ go, setIntent }) {
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Investment · Primary Practice</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "12ch" }}>
-              <span className="ln"><span>Capital,</span></span>
+              <span className="ln"><span>Capital,</span></span>{" "}
               <span className="ln"><span>aligned.</span></span>
             </h1>
           </div>
@@ -69,7 +69,7 @@ function Investment({ go, setIntent }) {
       {/* CINEMATIC PLATE — the asset the thesis produces */}
       <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
         <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/inv-sunset.jpg"
-          alt="A Noesis residence above Los Angeles at dusk" />
+          alt="A Noesis residence above Los Angeles at dusk" onError={imgFallback} />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
@@ -116,7 +116,7 @@ function Investment({ go, setIntent }) {
             <div className="col-7">
               <div className="thumb thumb--wide" style={{ overflow: "hidden" }}>
                 <img src="assets/img/inv-multifamily.jpg" alt="A Noesis multifamily building, Los Angeles" loading="lazy"
-                  className="img--warm" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  className="img--warm" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={imgFallback} />
               </div>
             </div>
             <div className="col-5">

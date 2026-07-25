@@ -9,11 +9,11 @@ const INQ_ENDPOINT = "";
 function Inquiries({ intent }) {
   return (
     <main className="page-enter">
-      <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(40px, 6vw, 80px)" }}>
+      <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
         <div className="wrap grid-12" style={{ gap: 56, alignItems: "start" }}>
           <div className="col-5 reveal">
             <div className="eyebrow"><span className="dot" /> Inquiries</div>
-            <h1 className="h-display caps u-mt-16" style={{ maxWidth: "12ch" }}>Let's begin.</h1>
+            <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "12ch" }}><span className="ln"><span>Let's begin.</span></span></h1>
             <p className="lede u-mt-24" style={{ maxWidth: "44ch" }}>
               Whether you have capital to deploy or a project to deliver, we welcome a confidential
               conversation. Every enquiry is reviewed personally by our principal, who responds within one
@@ -47,7 +47,7 @@ function Inquiries({ intent }) {
 
 function InquiryForm({ intent }) {
   const investor = intent === "investor";
-  const [sent, setSent] = React.useState(false);
+  const [sent, setSent] = React.useState(false);   // false | "endpoint" | "mailto"
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState("");
   const [role, setRole] = React.useState("");
@@ -63,7 +63,7 @@ function InquiryForm({ intent }) {
         setSubmitting(true);
         const res = await fetch(INQ_ENDPOINT, { method: "POST", body: fd, headers: { Accept: "application/json" } });
         if (!res.ok) throw new Error("bad status");
-        setSent(true);
+        setSent("endpoint");
       } catch (err) {
         setError("Something went wrong sending your message. Please email info@noesisusa.com directly.");
       } finally { setSubmitting(false); }
@@ -72,24 +72,33 @@ function InquiryForm({ intent }) {
     const subject = `Enquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
     const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
     window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setSent("mailto");
   };
 
   if (sent) return (
     <div style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
-      <div className="eyebrow"><span className="dot" /> Received</div>
-      <h3 className="h-2 u-mt-16">Thank you.</h3>
-      <p className="body u-mt-16">
-        {investor
-          ? "Your enquiry is reviewed personally by our principal and held in confidence."
-          : "We've received your message and will respond within one business day."}
-      </p>
-      {!INQ_ENDPOINT && (
-        <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
-          If your mail app didn't open, write to us directly at <a href="mailto:info@noesisusa.com" style={{ color: "var(--accent-deep)" }}>info@noesisusa.com</a>.
+      <div className="eyebrow"><span className="dot" /> {sent === "endpoint" ? "Received" : "Almost there"}</div>
+      <h2 className="h-2 u-mt-16">{sent === "endpoint" ? "Thank you." : "One last step."}</h2>
+      {sent === "endpoint" ? (
+        <p className="body u-mt-16">
+          {investor
+            ? "Your enquiry is reviewed personally by our principal and held in confidence."
+            : "We've received your message and will respond within one business day."}
         </p>
+      ) : (
+        <>
+          <p className="body u-mt-16">
+            We've opened a pre-filled message in your mail app — <strong>press send there</strong> and it reaches our
+            principal directly. Nothing has been sent yet.
+          </p>
+          <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
+            If no mail app opened, write to{" "}
+            <a href="mailto:info@noesisusa.com" style={{ color: "var(--accent-deep)" }}>info@noesisusa.com</a>{" "}
+            or call <a href="tel:+13108553634" style={{ color: "var(--accent-deep)" }}>(310) 855·3634</a>.
+          </p>
+        </>
       )}
-      <button className="btn btn--ghost u-mt-40" onClick={() => setSent(false)}>Send another</button>
+      <button className="btn btn--ghost u-mt-40" onClick={() => setSent(false)}>Write another</button>
     </div>
   );
 
@@ -97,12 +106,12 @@ function InquiryForm({ intent }) {
     <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
       <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : "Send a message"}</div>
       <div className="form-grid">
-        <div className="field"><label>Name</label><input name="name" type="text" placeholder="Your name" required /></div>
-        <div className="field"><label>Email</label><input name="email" type="email" placeholder="you@email.com" required /></div>
-        <div className="field"><label>Location</label><input name="location" type="text" placeholder="City / country" /></div>
+        <div className="field"><label htmlFor="f-name">Name</label><input id="f-name" name="name" type="text" placeholder="Your name" required /></div>
+        <div className="field"><label htmlFor="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@email.com" required /></div>
+        <div className="field"><label htmlFor="f-loc">Location</label><input id="f-loc" name="location" type="text" placeholder="City / country" /></div>
         <div className="field">
-          <label>I'm reaching out as</label>
-          <select name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
+          <label htmlFor="f-role">I'm reaching out as</label>
+          <select id="f-role" name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
             <option value="" disabled>Select one</option>
             <option>Investor — capital partnership</option>
             <option>Owner / Principal — a project to deliver</option>
@@ -110,7 +119,7 @@ function InquiryForm({ intent }) {
             <option>Other</option>
           </select>
         </div>
-        <div className="field" style={{ gridColumn: "1 / -1" }}><label>Message</label><textarea name="message" rows="5" placeholder="Tell us about your interest in investing, or your project." required></textarea></div>
+        <div className="field" style={{ gridColumn: "1 / -1" }}><label htmlFor="f-msg">Message</label><textarea id="f-msg" name="message" rows="5" placeholder="Tell us about your interest in investing, or your project." required></textarea></div>
       </div>
       <div role="status" aria-live="polite">
         {error && <p className="body u-mt-24" style={{ color: "var(--accent-deep)" }}>{error}</p>}

@@ -66,6 +66,17 @@ for p in projects:
 projects = uniq
 
 FIRM = "Noesis Group"
+# The seven top-level destinations, linked from every page's <noscript> fallback.
+NOSCRIPT_NAV = [
+    ("",             "Home"),
+    ("development/", "Development"),
+    ("investment/",  "Investment"),
+    ("portfolio/",   "Portfolio"),
+    ("owners-rep/",  "Owner's Representation"),
+    ("firm/",        "The Firm"),
+    ("inquiries/",   "Inquiries"),
+]
+
 ROUTES = [
     ("",             "home",        f"{FIRM} — Real Estate Development & Investment | Owner's Representation",
      "Noesis is an international real-estate development and investment firm based in Beverly Hills. We build what we invest in — luxury residences, small-lot subdivisions and apartment buildings — and offer owner's representation to a select few owners.",
@@ -129,9 +140,16 @@ def page(path, route, title, desc, heading, blurb):
     # tell the app which destination this page is, before the bundle runs
     h = h.replace("<body", '<script>window.__ROUTE=' + json.dumps(route) + ';</script>\n<body', 1)
     # a crawlable summary for bots that do not execute JS
+    # Without links the fallback was a dead end: a crawler that does not run JS
+    # could read one page and had no way to reach the other 23.
+    nav_links = ''.join(
+        '<li><a href="' + BASE_PATH + p + '" style="color:#7A5236">' + html.escape(t) + '</a></li>'
+        for p, t in NOSCRIPT_NAV if p != path)
     noscript = ('  <noscript><div style="max-width:60ch;margin:120px auto;padding:0 24px;font-family:Jost,Helvetica,Arial,sans-serif;color:#2E2A22">'
                 '<h1>' + html.escape(heading) + '</h1><p>' + html.escape(blurb) + '</p>'
-                '<p>' + html.escape(desc) + '</p></div></noscript>\n')
+                '<p>' + html.escape(desc) + '</p>'
+                '<nav aria-label="Sections"><ul style="list-style:none;padding:0;line-height:2">'
+                + nav_links + '</ul></nav></div></noscript>\n')
     h = h.replace('  <div id="root"></div>', noscript + '  <div id="root"></div>', 1)
     return h
 

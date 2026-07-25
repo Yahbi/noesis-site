@@ -54,21 +54,27 @@ function Home({ go, setIntent }) {
       <section id="hero" className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(92px,13vh,150px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
         <img className="cine__img img--warm" alt="A Noesis-developed residence" fetchpriority="high" sizes="100vw"
           src={wix(SHOT.casaMani, { w: 2000 })}
-          srcSet={`${wix(SHOT.casaMani, { w: 1200 })} 1200w, ${wix(SHOT.casaMani, { w: 2000 })} 2000w, ${wix(SHOT.casaMani, { w: 2600 })} 2600w`} />
-        <video className="cine__vid" autoPlay loop muted playsInline preload="metadata"
-          src="assets/noesis-film.mp4?v=3"
+          srcSet={`${wix(SHOT.casaMani, { w: 1200 })} 1200w, ${wix(SHOT.casaMani, { w: 2000 })} 2000w, ${wix(SHOT.casaMani, { w: 2600 })} 2600w, ${wix(SHOT.casaMani, { w: 3400 })} 3400w`} onError={imgFallback} />
+        {/* The film carries no src at first paint. The still above it is the hero's
+            LCP element and is already served at up to 3400w; letting a 4K loop race
+            it would only delay the thing the visitor actually sees. The source is
+            attached once the page has loaded, and the still stays underneath. */}
+        <video className="cine__vid" autoPlay loop muted playsInline preload="none"
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = true;
+            const attach = () => { if (el.isConnected && !el.src) { el.src = film("noesis-film"); el.load(); tryPlay(); } };
             const tryPlay = () => {
               if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
               if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }
               else if (!el.paused) { el.pause(); }   // off-screen / hidden → save decode + battery
             };
             el.__tries = 0;
-            el.addEventListener("error", () => { const d = [2000, 8000, 20000, 45000]; if (el.__tries >= d.length) { el.style.display = "none"; return; } const w = d[el.__tries++]; setTimeout(() => { if (!el.isConnected) return; el.style.display = ""; el.src = "assets/noesis-film.mp4?r=" + Date.now(); el.load(); tryPlay(); }, w); });
+            el.addEventListener("error", () => { const d = [2000, 8000, 20000, 45000]; if (el.__tries >= d.length) { el.style.display = "none"; return; } const w = d[el.__tries++]; setTimeout(() => { if (!el.isConnected) return; el.style.display = ""; el.src = film("noesis-film") + "&r=" + Date.now(); el.load(); tryPlay(); }, w); });
             el.addEventListener("playing", () => { el.style.display = ""; el.__tries = 0; });
             if ("IntersectionObserver" in window) { el.__io = new IntersectionObserver((ents) => { el.__inView = ents[0] && ents[0].isIntersecting; tryPlay(); }, { threshold: 0.01 }); el.__io.observe(el); }
-            tryPlay(); el.__iv = setInterval(tryPlay, 2500); document.addEventListener("visibilitychange", tryPlay);
+            if (document.readyState === "complete") setTimeout(attach, 0);
+            else window.addEventListener("load", attach, { once: true });
+            el.__iv = setInterval(tryPlay, 2500); document.addEventListener("visibilitychange", tryPlay);
           }} />
         <div className="cine__grad" />
 
@@ -79,7 +85,7 @@ function Home({ go, setIntent }) {
 
         <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%" }}>
           <h1 className="h-display lx-h" style={{ maxWidth: "18ch", color: "var(--bone)" }}>
-            <span className="ln"><span>We build what</span></span>
+            <span className="ln"><span>We build what</span></span>{" "}
             <span className="ln"><span>we invest in.</span></span>
           </h1>
           <div className="grid-12 u-mt-40" style={{ alignItems: "end" }}>
@@ -140,7 +146,7 @@ function Home({ go, setIntent }) {
           {/* The principal — his record is the firm's record, so it is attributed here. */}
           <div className="principal reveal">
             <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">
-              <img src={wix(PHOTO.igal, { w: 800 })} alt="Igal N. Azran, Founder & CEO" loading="lazy" />
+              <img src={wix(PHOTO.igal, { w: 800 })} alt="Igal N. Azran, Founder & CEO" loading="lazy" onError={imgFallback} />
             </button>
             <div className="principal__body">
               <div className="eyebrow"><span className="dot" /> The Principal</div>
@@ -179,7 +185,7 @@ function Home({ go, setIntent }) {
           </div>
 
           <button className="story-feature reveal" onClick={() => go("story:le-bijou")} aria-label="Featured project — Le Bijou, read the story">
-            <img className="story-feature__img img--warm" alt="Le Bijou, Beverly Hills" loading="lazy" sizes="100vw"
+            <img className="story-feature__img img--warm" alt="Le Bijou, Beverly Hills" loading="lazy" sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
               onError={(e) => { e.currentTarget.style.opacity = "0"; }}
               src={wix(SHOT.leBijou, { w: 2000 })}
               srcSet={`${wix(SHOT.leBijou, { w: 1200 })} 1200w, ${wix(SHOT.leBijou, { w: 2000 })} 2000w`} />
@@ -194,10 +200,13 @@ function Home({ go, setIntent }) {
 
           <div className="collage reveal u-mt-64">
             {HOME_WORK.map(([img, id, name, loc, work]) => (
-              <article key={name} className="pcard" role="button" tabIndex={0} aria-label={`${name}, ${loc} — view the project story`}
-                onClick={() => go("story:" + id)}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go("story:" + id); } }}>
-                <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" /></div>
+              <a key={name} className="pcard" href={BASE + pathFor("story:" + id)}
+                aria-label={`${name}, ${loc} — view the project story`}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                  e.preventDefault(); go("story:" + id);
+                }}>
+                <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" onError={imgFallback} /></div>
                 <div className="pcard__cap">
                   <div>
                     <div className="pcard__name">{name}</div>
@@ -205,7 +214,7 @@ function Home({ go, setIntent }) {
                   </div>
                   <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </div>
@@ -213,9 +222,9 @@ function Home({ go, setIntent }) {
 
       {/* 5 ── THE FILM ─────────────────────────────────────────────── */}
       <section className="cine cine--video" style={{ height: "min(86vh, 840px)", minHeight: 500 }}>
-        <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" />
+        <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" onError={imgFallback} />
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-          poster={wix(SHOT.oneOak, { w: 1200 })} src="assets/noesis-reel.mp4?v=2"
+          poster={wix(SHOT.oneOak, { w: 1200 })} src={film("noesis-reel")}
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
             const tryPlay = () => {
@@ -237,11 +246,20 @@ function Home({ go, setIntent }) {
                 const sec = e.currentTarget.closest("section");
                 const v = sec && sec.querySelector("video");
                 if (!v) return;
+                // Play the full launch film with sound. Recoverable: the caption
+                // dims rather than disappearing, and a failed load restores the loop.
+                const restore = () => {
+                  v.__manual = false; v.loop = true; v.controls = false; v.muted = true;
+                  v.src = film("noesis-reel"); v.load();
+                  const pr = v.play(); if (pr && pr.catch) pr.catch(() => {});
+                  sec.classList.remove("is-playing");
+                };
                 v.__manual = true; v.loop = false; v.controls = true; v.muted = false;
-                v.src = "assets/noesis-launch.mp4?v=2"; v.load();
-                const p = v.play(); if (p && p.catch) p.catch(() => {});
-                const cap = sec.querySelector(".cine__cap"); if (cap) cap.style.display = "none";
-                const grad = sec.querySelector(".cine__grad"); if (grad) grad.style.display = "none";
+                v.addEventListener("error", restore, { once: true });
+                v.addEventListener("ended", restore, { once: true });
+                v.src = film("noesis-launch"); v.load();
+                const p = v.play(); if (p && p.catch) p.catch(restore);
+                sec.classList.add("is-playing");
               }}>Watch the film · 2 min <span className="arr" /></button>
           </div>
         </div>

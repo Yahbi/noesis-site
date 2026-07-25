@@ -132,7 +132,11 @@ function App() {
   // Theme tokens (accent + display font) live as CSS custom properties.
   React.useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
-    document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
+    // Only derive --accent-deep when the designer is experimenting with a non-brand
+    // accent; for the brand bronze, let styles.css own the AA-checked #7A5236 so the
+    // stylesheet is not lying about what actually renders.
+    if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent-deep");
+    else document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
     const stack = `"${t.displayFont}", "Helvetica Neue", Arial, sans-serif`;
     document.documentElement.style.setProperty("--serif", stack);
   }, [t.accent, t.displayFont]);
