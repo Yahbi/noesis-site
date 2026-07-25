@@ -35,8 +35,19 @@ function App() {
     else el.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  // Shareable hash addresses for every destination (deep links + browser history).
+  const hashFor = (id) => {
+    if (typeof id === "string" && id.indexOf("story:") === 0) return "#/portfolio/" + id.slice(6);
+    if (id === "properties") return "#/portfolio";
+    if (id === "approach") return "#/approach";
+    if (id === "top" || id === "hero") return "#/";
+    return "#/" + id;
+  };
+
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
-  const go = React.useCallback((id) => {
+  // `silent` applies a route without pushing history (used by popstate / initial load).
+  const go = React.useCallback((id, silent) => {
+    if (!silent) { try { history.pushState(null, "", hashFor(id)); } catch (e) {} }
     if (typeof id === "string" && id.indexOf("story:") === 0) {   // immersive case study
       if (view !== "story") returnTo.current = (view === "home" ? "home" : "properties");   // remember origin; keep it across story→story
       setStory(id.slice(6));
@@ -58,6 +69,30 @@ function App() {
     }
     scrollToId(id);
   }, [view, scrollToId]);
+
+  // Deep links + back/forward: parse #/portfolio, #/portfolio/<id>, #/approach, #/<section>.
+  const applyHash = React.useCallback(() => {
+    const h = window.location.hash || "";
+    const m = h.match(/^#\/([^/]*)(?:\/(.+))?$/);
+    if (!m || !m[1]) { if (h === "" || h === "#/" || h === "#") go("top", true); return; }
+    const seg = m[1], sub = m[2];
+    if (seg === "portfolio") return go(sub ? "story:" + sub : "properties", true);
+    if (seg === "approach") return go("approach", true);
+    if (SECTION_IDS.indexOf(seg) !== -1) return go(seg, true);
+  }, [go]);
+
+  React.useEffect(() => {
+    window.addEventListener("popstate", applyHash);
+    return () => window.removeEventListener("popstate", applyHash);
+  }, [applyHash]);
+
+  // Honor a deep link on first load (after the DOM settles enough to scroll).
+  React.useEffect(() => {
+    if (window.location.hash && window.location.hash !== "#/") {
+      const t = setTimeout(applyHash, 150);
+      return () => clearTimeout(t);
+    }
+  }, []);
 
   // Theme tokens (accent + display font) live as CSS custom properties.
   React.useEffect(() => {

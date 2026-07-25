@@ -3289,7 +3289,19 @@ function App() {
       behavior: "smooth"
     });
   }, []);
-  const go = React.useCallback(id => {
+  const hashFor = id => {
+    if (typeof id === "string" && id.indexOf("story:") === 0) return "#/portfolio/" + id.slice(6);
+    if (id === "properties") return "#/portfolio";
+    if (id === "approach") return "#/approach";
+    if (id === "top" || id === "hero") return "#/";
+    return "#/" + id;
+  };
+  const go = React.useCallback((id, silent) => {
+    if (!silent) {
+      try {
+        history.pushState(null, "", hashFor(id));
+      } catch (e) {}
+    }
     if (typeof id === "string" && id.indexOf("story:") === 0) {
       if (view !== "story") returnTo.current = view === "home" ? "home" : "properties";
       setStory(id.slice(6));
@@ -3319,6 +3331,29 @@ function App() {
     }
     scrollToId(id);
   }, [view, scrollToId]);
+  const applyHash = React.useCallback(() => {
+    const h = window.location.hash || "";
+    const m = h.match(/^#\/([^/]*)(?:\/(.+))?$/);
+    if (!m || !m[1]) {
+      if (h === "" || h === "#/" || h === "#") go("top", true);
+      return;
+    }
+    const seg = m[1],
+      sub = m[2];
+    if (seg === "portfolio") return go(sub ? "story:" + sub : "properties", true);
+    if (seg === "approach") return go("approach", true);
+    if (SECTION_IDS.indexOf(seg) !== -1) return go(seg, true);
+  }, [go]);
+  React.useEffect(() => {
+    window.addEventListener("popstate", applyHash);
+    return () => window.removeEventListener("popstate", applyHash);
+  }, [applyHash]);
+  React.useEffect(() => {
+    if (window.location.hash && window.location.hash !== "#/") {
+      const t = setTimeout(applyHash, 150);
+      return () => clearTimeout(t);
+    }
+  }, []);
   React.useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
     document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
