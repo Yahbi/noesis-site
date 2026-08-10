@@ -9,6 +9,29 @@ const CAPABILITIES = [
   ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."],
   ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."],
   ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."],
+  ["07", "Asset & Property Management · Sales & Acquisitions", "Stewardship does not end at handover. For the buildings we deliver and hold we carry the management forward — leasing, capital improvements and property management — with sales and acquisitions when the strategy calls for it."],
+];
+
+// The client's own framing of owner's representation, verbatim from their site
+// outline: "HONESTY. OPEN BOOK. A TRUSTWORTHY PARTNER."
+const OR_VALUES = [
+  ["Honesty", "We represent you, and only you. Transparent and open communication runs through the entire design and build — during site visits, contractor hiring and progress reporting."],
+  ["Open Book", "On a daily basis we supervise the work — handling all communication, direction and supervision — and you see what we see. The details can be overwhelming; countless years of experience prepare us for whatever challenge may arise."],
+  ["A Trustworthy Partner", "People are our best asset. Our expansive network of construction professionals and tradespeople is reputable and trustworthy — relationships earned across our own developments, put to work on yours."],
+];
+
+// Two ways an owner engages the practice.
+const OR_ENGAGE = [
+  ["01", "The Full Mandate", "One accountable representative from site preparation through building completion. We collaborate with engineers, subcontractors and construction personnel, handle all zoning, permitting, approvals, entitlements and planning issues, and supervise the build daily — communication, direction and supervision — to the owner's standard."],
+  ["02", "As-Needed Counsel", "Not every project wants a full mandate. We guide owners through the process as questions arise — permit approvals, construction management, a site visit, a construction issue, a design decision — the same experience and market knowledge, engaged on your terms."],
+];
+
+// The discipline was earned as principal and project manager — the same record
+// attributed on the Firm page, applied here in its owner's-rep context.
+const OR_PROOF = [
+  ["$75M", "Construction budget managed"],
+  ["22 days", "Delivered ahead of schedule"],
+  ["12%", "Delivered under budget"],
 ];
 
 const OR_PROCESS = [
@@ -24,6 +47,8 @@ const SECTORS = [
     desc: "For principals building a primary residence or estate, we manage architects, interiors and craftsmen to an exacting standard — with the discretion ultra-prime work demands." },
   { tag: "Commercial & Multifamily", title: "Owner's rep for large-scale projects", img: "ying_ext_tall",
     desc: "For developers and institutions delivering major commercial and multifamily assets, we bring program discipline, cost certainty and a builder's judgment to every phase." },
+  { tag: "Stabilization & Management", title: "Leasing, improvements, management", img: "stanley_ext_1",
+    desc: "For owners of apartment buildings: leasing, capital improvements and partial redevelopment, then ongoing asset and property management — the same stabilization discipline we apply to our own value-add holdings." },
 ];
 
 function Approach({ go }) {
@@ -76,6 +101,22 @@ function Approach({ go }) {
         </div>
       </section>
 
+      {/* HOW WE REPRESENT YOU — the client's own positioning: honesty, open book, partnership */}
+      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap">
+          <div className="eyebrow reveal"><span className="dot" /> How We Represent You</div>
+          <div className="reveal qgrid qgrid--3 u-mt-24">
+            {OR_VALUES.map(([t, d], i) => (
+              <div key={t}>
+                <div className="wwd-cap__n">0{i + 1}</div>
+                <div className="wwd-cap__t">{t}</div>
+                <p className="wwd-cap__d">{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* PROCESS */}
       <section className="section section--ink section--snug">
         <div className="wrap">
@@ -103,6 +144,40 @@ function Approach({ go }) {
         </div>
       </section>
 
+      {/* THE PRECONSTRUCTION ADVANTAGE — in-house design capability de-risks delivery */}
+      <section className="section section--lead">
+        <div className="wrap grid-12" style={{ alignItems: "start" }}>
+          <div className="col-8 reveal">
+            <div className="eyebrow"><span className="dot" /> The Preconstruction Advantage</div>
+            <p className="pull u-mt-24" style={{ maxWidth: "28ch" }}>
+              Once it's time to build, construction moves forward <em>free and clear.</em>
+            </p>
+            <p className="body-lg u-mt-24">
+              Our architects, designers, engineers and administrators work hand-in-hand with one
+              another — and with the city, the planning department and contractors — to deliver
+              meticulously planned, detailed blueprints that are a delight to make real. That
+              collaborative environment puts valuable input into the earliest drawing stages —
+              which is why, once ground is broken, the build holds its line.
+            </p>
+            <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
+              Throughout the entire process — from draft to completion — the client stays at the
+              forefront: your exclusive needs and aspirations, delivered at our standard.
+            </p>
+          </div>
+          <div className="col-4 reveal">
+            <div className="eyebrow"><span className="dot" /> The Record, Applied</div>
+            <div className="u-mt-24" style={{ display: "grid", gap: 24, borderLeft: "1px solid var(--rule)", paddingLeft: "clamp(20px,2vw,32px)" }}>
+              {OR_PROOF.map(([v, l]) => (
+                <div key={l}>
+                  <div className="principal__num">{v}</div>
+                  <div className="principal__lbl">{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CINEMATIC PLATE — a delivered interior */}
       <section className="cine" style={{ height: "min(70vh, 640px)", minHeight: 400 }}>
         <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/or-living.jpg"
@@ -116,11 +191,27 @@ function Approach({ go }) {
         </div>
       </section>
 
+      {/* HOW WE ENGAGE — full mandate or as-needed counsel */}
+      <section className="section">
+        <div className="wrap">
+          <div className="eyebrow reveal"><span className="dot" /> How We Engage</div>
+          <div className="rows u-mt-24">
+            {OR_ENGAGE.map(([n, t, d]) => (
+              <div key={n} className="row reveal">
+                <div className="row__idx">{n}</div>
+                <div className="row__title">{t}</div>
+                <p className="row__desc">{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SECTORS */}
       <section className="section">
         <div className="wrap">
           <div className="eyebrow reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}><span className="dot" /> Where We Work</div>
-          <div className="sectors reveal">
+          <div className="sectors sectors--3 reveal">
             {SECTORS.map((s) => (
               <article key={s.tag} className="sector">
                 <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" onError={imgFallback} /><div className="sector__grad" /></div>

@@ -1515,3 +1515,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   .grid-12 > [class*="col-"].u-tr { text-align: left; }
   .grid-12 > [class*="col-"].u-flex { justify-content: flex-start !important; }
 }
+
+/* Three-up sector band (Owner's Rep: residential / commercial / stabilization). */
+.sectors--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .sectors--3 { grid-template-columns: 1fr; } }

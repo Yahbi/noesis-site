@@ -2848,7 +2848,10 @@ function InquiryForm({
   }))));
 }
 window.Inquiries = Inquiries;
-const CAPABILITIES = [["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled and transparent, open communication throughout."], ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."], ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Every detail is planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."], ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."], ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."]];
+const CAPABILITIES = [["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled and transparent, open communication throughout."], ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."], ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Every detail is planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."], ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."], ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."], ["07", "Asset & Property Management · Sales & Acquisitions", "Stewardship does not end at handover. For the buildings we deliver and hold we carry the management forward — leasing, capital improvements and property management — with sales and acquisitions when the strategy calls for it."]];
+const OR_VALUES = [["Honesty", "We represent you, and only you. Transparent and open communication runs through the entire design and build — during site visits, contractor hiring and progress reporting."], ["Open Book", "On a daily basis we supervise the work — handling all communication, direction and supervision — and you see what we see. The details can be overwhelming; countless years of experience prepare us for whatever challenge may arise."], ["A Trustworthy Partner", "People are our best asset. Our expansive network of construction professionals and tradespeople is reputable and trustworthy — relationships earned across our own developments, put to work on yours."]];
+const OR_ENGAGE = [["01", "The Full Mandate", "One accountable representative from site preparation through building completion. We collaborate with engineers, subcontractors and construction personnel, handle all zoning, permitting, approvals, entitlements and planning issues, and supervise the build daily — communication, direction and supervision — to the owner's standard."], ["02", "As-Needed Counsel", "Not every project wants a full mandate. We guide owners through the process as questions arise — permit approvals, construction management, a site visit, a construction issue, a design decision — the same experience and market knowledge, engaged on your terms."]];
+const OR_PROOF = [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]];
 const OR_PROCESS = [["01", "Strategy & Feasibility", "Site and market analysis, highest-and-best-use, financial modeling and risk assessment."], ["02", "Entitlement & Approvals", "Navigating planning, zoning, permitting and the stakeholders who decide a project's fate."], ["03", "Design & Preconstruction", "Assembling and directing the design team; budgeting, value engineering and procurement."], ["04", "Construction Delivery", "Managing contractors, schedule, cost and quality to completion, at the owner's standard."], ["05", "Handover & Realization", "Closeout and handover, then leasing, sale or stabilization to realize the asset's full value."]];
 const SECTORS = [{
   tag: "Luxury Residential",
@@ -2860,6 +2863,11 @@ const SECTORS = [{
   title: "Owner's rep for large-scale projects",
   img: "ying_ext_tall",
   desc: "For developers and institutions delivering major commercial and multifamily assets, we bring program discipline, cost certainty and a builder's judgment to every phase."
+}, {
+  tag: "Stabilization & Management",
+  title: "Leasing, improvements, management",
+  img: "stanley_ext_1",
+  desc: "For owners of apartment buildings: leasing, capital improvements and partial redevelopment, then ongoing asset and property management — the same stabilization discipline we apply to our own value-add holdings."
 }];
 function Approach({
   go
@@ -2924,6 +2932,28 @@ function Approach({
   }, t), React.createElement("p", {
     className: "row__desc"
   }, d)))))), React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "eyebrow reveal"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " How We Represent You"), React.createElement("div", {
+    className: "reveal qgrid qgrid--3 u-mt-24"
+  }, OR_VALUES.map(([t, d], i) => React.createElement("div", {
+    key: t
+  }, React.createElement("div", {
+    className: "wwd-cap__n"
+  }, "0", i + 1), React.createElement("div", {
+    className: "wwd-cap__t"
+  }, t), React.createElement("p", {
+    className: "wwd-cap__d"
+  }, d)))))), React.createElement("section", {
     className: "section section--ink section--snug"
   }, React.createElement("div", {
     className: "wrap"
@@ -2956,6 +2986,51 @@ function Approach({
   }, t), React.createElement("p", {
     className: "flow__desc"
   }, d)))))), React.createElement("section", {
+    className: "section section--lead"
+  }, React.createElement("div", {
+    className: "wrap grid-12",
+    style: {
+      alignItems: "start"
+    }
+  }, React.createElement("div", {
+    className: "col-8 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Preconstruction Advantage"), React.createElement("p", {
+    className: "pull u-mt-24",
+    style: {
+      maxWidth: "28ch"
+    }
+  }, "Once it's time to build, construction moves forward ", React.createElement("em", null, "free and clear.")), React.createElement("p", {
+    className: "body-lg u-mt-24"
+  }, "Our architects, designers, engineers and administrators work hand-in-hand with one another \u2014 and with the city, the planning department and contractors \u2014 to deliver meticulously planned, detailed blueprints that are a delight to make real. That collaborative environment puts valuable input into the earliest drawing stages \u2014 which is why, once ground is broken, the build holds its line."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--muted)"
+    }
+  }, "Throughout the entire process \u2014 from draft to completion \u2014 the client stays at the forefront: your exclusive needs and aspirations, delivered at our standard.")), React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Record, Applied"), React.createElement("div", {
+    className: "u-mt-24",
+    style: {
+      display: "grid",
+      gap: 24,
+      borderLeft: "1px solid var(--rule)",
+      paddingLeft: "clamp(20px,2vw,32px)"
+    }
+  }, OR_PROOF.map(([v, l]) => React.createElement("div", {
+    key: l
+  }, React.createElement("div", {
+    className: "principal__num"
+  }, v), React.createElement("div", {
+    className: "principal__lbl"
+  }, l))))))), React.createElement("section", {
     className: "cine",
     style: {
       height: "min(70vh, 640px)",
@@ -2991,6 +3066,25 @@ function Approach({
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
+    className: "eyebrow reveal"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " How We Engage"), React.createElement("div", {
+    className: "rows u-mt-24"
+  }, OR_ENGAGE.map(([n, t, d]) => React.createElement("div", {
+    key: n,
+    className: "row reveal"
+  }, React.createElement("div", {
+    className: "row__idx"
+  }, n), React.createElement("div", {
+    className: "row__title"
+  }, t), React.createElement("p", {
+    className: "row__desc"
+  }, d)))))), React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
     className: "eyebrow reveal",
     style: {
       marginBottom: "clamp(24px,3vw,36px)"
@@ -2998,7 +3092,7 @@ function Approach({
   }, React.createElement("span", {
     className: "dot"
   }), " Where We Work"), React.createElement("div", {
-    className: "sectors reveal"
+    className: "sectors sectors--3 reveal"
   }, SECTORS.map(s => React.createElement("article", {
     key: s.tag,
     className: "sector"
