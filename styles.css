@@ -1519,3 +1519,12 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Three-up sector band (Owner's Rep: residential / commercial / stabilization). */
 .sectors--3 { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 900px) { .sectors--3 { grid-template-columns: 1fr; } }
+
+/* Skip link — first tab stop; invisible until keyboard focus. */
+.skip-link {
+  position: fixed; top: 10px; left: 10px; z-index: 100;
+  background: var(--ink); color: var(--bone); padding: 12px 20px;
+  font-family: var(--sans); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none; transform: translateY(-200%);
+}
+.skip-link:focus-visible { transform: translateY(0); }

@@ -119,9 +119,73 @@ for p in projects:
         p["name"], where,
     ))
 
+# ── per-route og:image ───────────────────────────────────────────────────────
+# Every page used to share Casa Mani's card; a shared story link now previews
+# with that project's own cover. CDN covers use fill (exact 1200x630 crop);
+# pillar pages use their local hero assets.
+gal_first = dict(re.findall(r'"([a-z0-9-]+)":\s*\["(5c383b_[^"]+)"', proj_src))       # GAL key -> first wix id
+apt_first = dict(re.findall(r'(\w+):\s+\["(\w+)"', proj_src))                          # APT key -> first PHOTO key
+placeholder_src = open("components/Placeholder.jsx", encoding="utf-8").read()
+photo_map = dict(re.findall(r'(\w+):\s+"(5c383b_[^"]+)"', placeholder_src))
+# Ids the wix() gate serves from LOCAL enhanced files (fully or above 2200px) —
+# a CDN preload for these would fight the real request and download twice.
+locally_served = set(re.findall(r'"(5c383b_[^"]+)"\s*:\s*"assets/img/', placeholder_src))
+
+def cdn_card(wix_id):
+    return f"https://static.wixstatic.com/media/{wix_id}/v1/fill/w_1200,h_630,al_c,q_85/og.jpg"
+
+story_wid = {}
+for m in re.finditer(r'\{\s*id:\s*"([^"]+)"[^}]*?gallery:\s*(GAL\["([a-z0-9-]+)"\]|APT\.(\w+))[^}]*?(?:cover:\s*"(\w+)")?', proj_src):
+    pid, _, galkey, aptkey, cover = m.group(1), m.group(2), m.group(3), m.group(4), m.group(5)
+    wid = None
+    if cover and cover in photo_map: wid = photo_map[cover]
+    elif galkey and galkey in gal_first: wid = gal_first[galkey]
+    elif aptkey and aptkey in apt_first: wid = photo_map.get(apt_first[aptkey])
+    if wid: story_wid[pid] = wid
+story_cover = {pid: cdn_card(wid) for pid, wid in story_wid.items()}
+
+OG_IMAGES = {
+    "development/": SITE_URL + "assets/img/dev-facade.jpg",
+    "investment/":  SITE_URL + "assets/img/inv-sunset.jpg",
+    "owners-rep/":  SITE_URL + "assets/img/or-living.jpg",
+    "firm/":        SITE_URL + "assets/img/firm-living.jpg",
+    "portfolio/":   cdn_card("5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg"),      # One Oak
+}
+for pid, url in story_cover.items():
+    OG_IMAGES[f"portfolio/{pid}/"] = url
+
 def page(path, route, title, desc, heading, blurb):
     h = shell
     canonical = SITE_URL + path
+    # Per-route social card + matching structured-data image.
+    og = OG_IMAGES.get(path)
+    if og:
+        h = re.sub(r'<meta property="og:image" content=".*?">',
+                   '<meta property="og:image" content="' + html.escape(og, quote=True) + '">', h, count=1)
+        h = re.sub(r'<meta name="twitter:image" content=".*?">',
+                   '<meta name="twitter:image" content="' + html.escape(og, quote=True) + '">', h, count=1)
+    # Breadcrumb trail for crawlers on every sub-page.
+    if path:
+        segs = [("Home", SITE_URL)]
+        if path.startswith("portfolio/") and path != "portfolio/":
+            segs.append(("Portfolio", SITE_URL + "portfolio/"))
+        segs.append((heading, canonical))
+        crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
+                  "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u}
+                                       for i, (n, u) in enumerate(segs)]}
+        h = h.replace("</head>", '  <script type="application/ld+json">' + json.dumps(crumbs) + "</script>\n</head>", 1)
+    # The hero image is the LCP element on home and every story cover — tell the
+    # browser before the bundle even parses.
+    hero = None
+    if route == "home":
+        hero = "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg"
+    elif route.startswith("story:"):
+        hero = story_wid.get(route[6:])
+    if hero in locally_served:
+        hero = None
+    if hero:
+        srcset = ", ".join(f"https://static.wixstatic.com/media/{hero}/v1/fit/w_{w},h_{w},al_c,q_88,enc_avif,quality_auto/{hero} {w}w" for w in (1200, 2000, 2600, 3400))
+        h = h.replace("</head>", f'  <link rel="preload" as="image" imagesrcset="{srcset}" imagesizes="100vw" fetchpriority="high">\n</head>', 1)
     h = re.sub(r"<title>.*?</title>", "<title>" + html.escape(title) + "</title>", h, count=1, flags=re.S)
     h = re.sub(r'<meta name="description" content=".*?">',
                '<meta name="description" content="' + html.escape(desc, quote=True) + '">', h, count=1, flags=re.S)
