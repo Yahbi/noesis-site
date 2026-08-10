@@ -657,6 +657,26 @@ const ENHANCED = {
   "5c383b_ee09bf9ac7d344dda676920c3bd36462~mv2_d_1800_1200_s_2.jpg": "assets/img/e-ee09bf9ac7d3.jpg",
   "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg": "assets/img/e-fcb4f7079a5e.jpg"
 };
+const ENHANCED_HI = {
+  "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-0be22247.jpg",
+  "5c383b_0c990cf327cd4e00a23ea997cc8df0ef~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-0c990cf3.jpg",
+  "5c383b_0cc02cedcedb4dd6aa6066b64e8e4df0~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-0cc02ced.jpg",
+  "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-37553457.jpg",
+  "5c383b_39c681a391904ba5bcb73ccb9aa4cfb7~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-39c681a3.jpg",
+  "5c383b_3ae9a87b8b524876875c807198fa21b8~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-3ae9a87b.jpg",
+  "5c383b_3e63015f82f24cc38079e19c9c142568~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-3e63015f.jpg",
+  "5c383b_64ef3275421d48cca6feb348d84a8274~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-64ef3275.jpg",
+  "5c383b_865132670bcb422081f2de983b249617~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-86513267.jpg",
+  "5c383b_8b5d8fc108104f899d80cc3dcd29262b~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-8b5d8fc1.jpg",
+  "5c383b_8be95aceeb054c139923461a4b0fa067~mv2_d_2674_1896_s_2.jpg": "assets/img/hi-8be95ace.jpg",
+  "5c383b_9418a6ed29454c48851aee4739a55be2~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-9418a6ed.jpg",
+  "5c383b_b074f44ae27c4ead96ac5fefeaf1f870~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-b074f44a.jpg",
+  "5c383b_b8f362fd5896441ea62dd7508420c932~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-b8f362fd.jpg",
+  "5c383b_be67b6b3cbf342d693e29ca18c1f75a2~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-be67b6b3.jpg",
+  "5c383b_c51caa97fd75492583fe21aaddac4227~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-c51caa97.jpg",
+  "5c383b_d232464d64c140b9acd3747f147f6e2e~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-d232464d.jpg",
+  "5c383b_da67860cae17475c8f96fd39b6df4739~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-da67860c.jpg"
+};
 function wix(id, opts = {}) {
   if (typeof PHOTO !== "undefined" && PHOTO[id]) id = PHOTO[id];
   if (/^(https?:)?\//.test(id) || id.indexOf("assets/") === 0) return id;
@@ -666,6 +686,10 @@ function wix(id, opts = {}) {
     if (want <= 900) return base + "-w800.jpg";
     if (want <= 1500) return base + "-w1400.jpg";
     return ENHANCED[id];
+  }
+  if (typeof ENHANCED_HI !== "undefined" && ENHANCED_HI[id]) {
+    const want = opts.w || 1600;
+    if (want > 2200) return ENHANCED_HI[id];
   }
   if (typeof window !== "undefined" && window.__resources && window.__MEDIA2KEY) {
     const key = window.__MEDIA2KEY[id];
@@ -1462,7 +1486,10 @@ function Home({
     className: "principal__role"
   }, "Founder & CEO \xB7 Previously CIM Group \xB7 CBRE"), React.createElement("p", {
     className: "principal__bio"
-  }, "Igal founded Noesis in 2009 and has led its development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective \u2014 and a builder's discipline \u2014 to every venture."), React.createElement("div", {
+  }, "Igal founded Noesis in 2009 and has led its development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective \u2014 and a builder's discipline \u2014 to every venture."), React.createElement("button", {
+    className: "link-u principal__link",
+    onClick: () => go("firm")
+  }, "The firm & founder")), React.createElement("div", {
     className: "principal__stats"
   }, HOME_PROOF.map(([v, l]) => React.createElement("div", {
     key: l
@@ -1470,10 +1497,7 @@ function Home({
     className: "principal__num"
   }, v), React.createElement("div", {
     className: "principal__lbl"
-  }, l)))), React.createElement("button", {
-    className: "link-u principal__link",
-    onClick: () => go("firm")
-  }, "The firm & founder"))))), React.createElement("section", {
+  }, l))))))), React.createElement("section", {
     id: "featured",
     className: "section",
     "data-spy": "properties"
@@ -1585,6 +1609,15 @@ function Home({
       w: 2200
     }),
     alt: "",
+    loading: "lazy",
+    sizes: "100vw",
+    srcSet: `${wix(SHOT.oneOak, {
+      w: 800
+    })} 800w, ${wix(SHOT.oneOak, {
+      w: 1400
+    })} 1400w, ${wix(SHOT.oneOak, {
+      w: 2200
+    })} 2200w`,
     onError: imgFallback
   }), React.createElement("video", {
     className: "cine__vid",
@@ -1593,9 +1626,6 @@ function Home({
     muted: true,
     playsInline: true,
     preload: "none",
-    poster: wix(SHOT.oneOak, {
-      w: 1200
-    }),
     src: film("noesis-reel"),
     ref: el => {
       if (!el || el.__keeper) return;
@@ -1690,7 +1720,7 @@ function Home({
     className: "section section--ink",
     "data-spy": "inquiries"
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 u-end reveal"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -1756,9 +1786,9 @@ function Development({
   }, React.createElement("span", null, "landmark.")))), React.createElement("div", {
     className: "col-5"
   }, React.createElement("p", {
-    className: "wwd__lead",
+    className: "pull",
     style: {
-      maxWidth: "20ch",
+      maxWidth: "30ch",
       marginBottom: 24
     }
   }, "We take a project from a ", React.createElement("em", null, "parcel of land"), " to a finished landmark \u2014 and own the outcome."), React.createElement("p", {
@@ -1784,10 +1814,7 @@ function Development({
   }), React.createElement("div", {
     className: "cine__grad"
   })), React.createElement("section", {
-    className: "section",
-    style: {
-      paddingTop: "clamp(28px,3vw,44px)"
-    }
+    className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
@@ -1828,15 +1855,9 @@ function Development({
       color: "var(--ink)"
     }
   }, "Contemporary in nature, with minimalist elements that provide a ", React.createElement("em", null, "warm, earthy and organic"), " sensibility."), React.createElement("p", {
-    className: "body-lg u-mt-24",
-    style: {
-      maxWidth: "64ch"
-    }
+    className: "body-lg u-mt-24"
   }, "We subscribe to the notion that less is more and refrain from over-designing \u2014 we let our design and finishes speak for themselves. With a multicultural heritage \u2014 both Igal Azran, principal, and Stephanie Harroch, architect, are from Morocco \u2014 a subtle Mediterranean and Spanish influence runs through our fresh, innovative and environmentally sustainable work."), React.createElement("p", {
-    className: "body-lg u-mt-24",
-    style: {
-      maxWidth: "64ch"
-    }
+    className: "body-lg u-mt-24"
   }, "We continue to push the envelope and deliver finished projects that are bold, innovative, and rise above the rest in a competitive real estate landscape.")))), React.createElement("section", {
     className: "cine",
     style: {
@@ -1903,7 +1924,7 @@ function Development({
   }, t), React.createElement("p", {
     className: "row__desc"
   }, d)))))), React.createElement("section", {
-    className: "section section--ink"
+    className: "section section--ink section--snug"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
@@ -1955,38 +1976,19 @@ function Development({
   }, "Delivered, not theorised.")), React.createElement("div", {
     className: "col-7 reveal"
   }, React.createElement("p", {
-    className: "body-lg",
-    style: {
-      maxWidth: "60ch"
-    }
+    className: "body-lg"
   }, "Our principal's construction record predates the firm: a 24-unit luxury condominium delivered 22 days ahead of schedule and 12% under budget, and a $75 million construction budget managed for the L.A. Fashion Center \u2014 coordinating trades, architects and engineers through to completion."), React.createElement("div", {
-    className: "qgrid",
-    style: {
-      gridTemplateColumns: "repeat(3, 1fr)"
-    }
+    className: "qgrid qgrid--3"
   }, DEV_PROOF.map(([v, l]) => React.createElement("div", {
     key: l
   }, React.createElement("div", {
-    style: {
-      fontFamily: "var(--sans)",
-      fontWeight: 200,
-      fontSize: "clamp(22px,2.4vw,30px)",
-      color: "var(--accent)",
-      lineHeight: 1
-    }
+    className: "principal__num"
   }, v), React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 10.5,
-      letterSpacing: ".06em",
-      color: "var(--muted)",
-      marginTop: 8,
-      lineHeight: 1.35
-    }
+    className: "principal__lbl"
   }, l))))))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 u-end reveal"
   }, React.createElement("div", {
     className: "col-8"
   }, React.createElement("h2", {
@@ -2054,10 +2056,7 @@ function Investment({
   }, React.createElement("p", {
     className: "lede"
   }, "We originate, structure and steward real estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside, creating an enhanced lifestyle in communities throughout California while generating value for our investors since 2009.")))), React.createElement("section", {
-    className: "section",
-    style: {
-      paddingTop: "clamp(28px,3vw,44px)"
-    }
+    className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12"
   }, React.createElement("div", {
@@ -2074,10 +2073,7 @@ function Investment({
       maxWidth: "26ch"
     }
   }, "The best returns in real estate come from building the ", React.createElement("em", null, "right thing well"), ". We invest where our development edge creates the value."), React.createElement("p", {
-    className: "body-lg u-mt-24",
-    style: {
-      maxWidth: "64ch"
-    }
+    className: "body-lg u-mt-24"
   }, "Back in 2009 our founder focused on single-family residences, striving to provide a distinctly unique product that would enhance the lives of those it touched while benefiting the communities around it. Today Noesis has grown that mission into various real asset types \u2014 small-lot subdivisions, apartment buildings, and other residential and commercial developments \u2014 always building a strong, resourceful and knowledgeable foundation before entering a new asset class.")))), React.createElement("section", {
     className: "cine",
     style: {
@@ -2106,9 +2102,8 @@ function Investment({
       maxWidth: "24ch"
     }
   }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value.")))), React.createElement("section", {
-    className: "section",
+    className: "section section--lead",
     style: {
-      paddingTop: "clamp(40px,5vw,72px)",
       borderTop: 0
     }
   }, React.createElement("div", {
@@ -2213,20 +2208,9 @@ function Investment({
   }, React.createElement("div", {
     className: "wwd-cap__n"
   }, n), React.createElement("div", {
-    style: {
-      fontFamily: "var(--sans)",
-      fontWeight: 300,
-      fontSize: "clamp(18px,1.6vw,22px)",
-      marginTop: 14,
-      color: "var(--ink)"
-    }
+    className: "wwd-cap__t"
   }, t), React.createElement("p", {
-    style: {
-      color: "var(--ink-soft)",
-      fontSize: 13.5,
-      lineHeight: 1.6,
-      marginTop: 10
-    }
+    className: "wwd-cap__d"
   }, d)))))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
@@ -2274,10 +2258,7 @@ function Investment({
   }, "A private network.")), React.createElement("div", {
     className: "col-7 reveal"
   }, React.createElement("p", {
-    className: "body-lg",
-    style: {
-      maxWidth: "62ch"
-    }
+    className: "body-lg"
   }, "Noesis has built relationships and strong ties with a network of high-net-worth individuals, both local and foreign, with access to private equity funds and exclusive opportunities. We are proud of our reputation and open to partnering with like-minded investors who share a desire to make a positive impact in our community \u2014 across single-family residential, multifamily residential and joint ventures."), React.createElement("p", {
     className: "body u-mt-24",
     style: {
@@ -2335,10 +2316,7 @@ function Firm({
   }, React.createElement("p", {
     className: "lede"
   }, "Noesis is the Greek word for understanding. We are a real-estate development and investment firm \u2014 founded in 2009, based in Beverly Hills, working internationally.")))), React.createElement("section", {
-    className: "section",
-    style: {
-      paddingTop: "clamp(28px,3vw,44px)"
-    }
+    className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12"
   }, React.createElement("div", {
@@ -2350,33 +2328,15 @@ function Firm({
   }), " Our Story")), React.createElement("div", {
     className: "col-8 reveal"
   }, React.createElement("p", {
-    className: "body-lg",
-    style: {
-      maxWidth: "64ch"
-    }
+    className: "body-lg"
   }, "Our founder began with single-family residences, striving to provide a distinctly unique product that would enhance the lives of those it touched while benefiting the communities around it. Today that mission spans small-lot subdivisions, apartment buildings and other residential and commercial developments \u2014 with our capital invested alongside our partners', and our delivery discipline offered to a select few owners as their representative."), React.createElement("p", {
-    className: "body-lg u-mt-24",
-    style: {
-      maxWidth: "64ch"
-    }
-  }, "We are thankful for our history and look forward to the opportunities ahead in making a positive difference in the world around us."))), React.createElement("div", {
+    className: "body-lg u-mt-24"
+  }, "We are thankful for our history and look forward to the opportunities ahead in making a positive difference in the world around us."), React.createElement("button", {
+    className: "link-u principal__link",
+    onClick: () => go("properties")
+  }, "See the work"))), React.createElement("div", {
     className: "wrap u-mt-64"
-  }, React.createElement("button", {
-    className: "link-u",
-    onClick: () => go("properties"),
-    style: {
-      background: "transparent",
-      border: 0,
-      borderBottom: "1px solid var(--accent)",
-      color: "var(--accent-deep)",
-      fontSize: 11,
-      letterSpacing: ".18em",
-      textTransform: "uppercase",
-      padding: "0 0 4px",
-      marginBottom: 48,
-      display: "inline-block"
-    }
-  }, "See the work"), React.createElement("div", {
+  }, React.createElement("div", {
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
@@ -2387,20 +2347,9 @@ function Firm({
   }, React.createElement("div", {
     className: "wwd-cap__n"
   }, "0", i + 1), React.createElement("div", {
-    style: {
-      fontFamily: "var(--sans)",
-      fontWeight: 300,
-      fontSize: "clamp(18px,1.6vw,22px)",
-      marginTop: 14,
-      color: "var(--ink)"
-    }
+    className: "wwd-cap__t"
   }, t), React.createElement("p", {
-    style: {
-      color: "var(--ink-soft)",
-      fontSize: 13.5,
-      lineHeight: 1.6,
-      marginTop: 10
-    }
+    className: "wwd-cap__d"
   }, d)))))), React.createElement("section", {
     className: "section",
     style: {
@@ -2464,22 +2413,9 @@ function Firm({
     loading: "lazy",
     onError: imgFallback
   })), React.createElement("div", {
-    className: "serif u-mt-24",
-    style: {
-      fontSize: 30,
-      letterSpacing: "-.01em",
-      lineHeight: 1.05,
-      color: "var(--ink)"
-    }
+    className: "principal__name"
   }, FIRM_FOUNDER.name), React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".14em",
-      textTransform: "uppercase",
-      color: "var(--accent-deep)",
-      marginTop: 8
-    }
+    className: "principal__role"
   }, FIRM_FOUNDER.title), React.createElement("div", {
     style: {
       borderTop: "1px solid var(--rule)",
@@ -2504,9 +2440,9 @@ function Firm({
       marginTop: 8
     }
   }, FIRM_FOUNDER.edu)), React.createElement("div", {
+    className: "qgrid--3",
     style: {
       display: "grid",
-      gridTemplateColumns: "repeat(3, 1fr)",
       gap: 18,
       borderTop: "1px solid var(--rule)",
       marginTop: 22,
@@ -2515,22 +2451,9 @@ function Firm({
   }, FIRM_FOUNDER.stats.map(([v, l]) => React.createElement("div", {
     key: l
   }, React.createElement("div", {
-    style: {
-      fontFamily: "var(--sans)",
-      fontWeight: 200,
-      fontSize: "clamp(22px,2.4vw,30px)",
-      color: "var(--accent)",
-      lineHeight: 1
-    }
+    className: "principal__num"
   }, v), React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 10.5,
-      letterSpacing: ".06em",
-      color: "var(--muted)",
-      marginTop: 8,
-      lineHeight: 1.35
-    }
+    className: "principal__lbl"
   }, l))))), React.createElement("div", {
     className: "col-7"
   }, React.createElement("p", {
@@ -2595,7 +2518,7 @@ function Firm({
   }, "California BRE # 02001795 \xA0\xB7\xA0 General Contractor # 1046562")))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 u-end reveal"
   }, React.createElement("div", {
     className: "col-8"
   }, React.createElement("h2", {
@@ -2609,7 +2532,8 @@ function Firm({
     className: "col-4 u-tr"
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => go("inquiries")
+    onClick: () => go("inquiries"),
+    "data-magnetic": true
   }, "Start a Conversation ", React.createElement("span", {
     className: "arr"
   }))))));
@@ -2650,7 +2574,13 @@ function Inquiries({
     style: {
       maxWidth: "44ch"
     }
-  }, "Whether you have capital to deploy or a project to deliver, we welcome a confidential conversation. Every enquiry is reviewed personally by our principal, who responds within one business day."), React.createElement("div", {
+  }, "Whether you have capital to deploy or a project to deliver, we welcome a confidential conversation. Every enquiry is reviewed personally by our principal, who responds within one business day."), React.createElement("hr", {
+    className: "hair",
+    style: {
+      margin: "clamp(32px,4vw,48px) 0 0",
+      maxWidth: 280
+    }
+  }), React.createElement("div", {
     className: "u-mt-40"
   }, React.createElement("div", {
     className: "mono",
@@ -2682,11 +2612,10 @@ function Inquiries({
     }
   }, "Telephone"), React.createElement("a", {
     href: "tel:+13108553634",
-    className: "serif u-mt-8",
+    className: "serif u-mt-8 inq-link",
     style: {
       fontSize: 19,
-      display: "block",
-      color: "var(--ink)"
+      display: "block"
     }
   }, "T (310) 855 \xB7 3634"), React.createElement("div", {
     className: "body",
@@ -2704,17 +2633,44 @@ function Inquiries({
     }
   }, "Email"), React.createElement("a", {
     href: "mailto:info@noesisusa.com",
-    className: "serif u-mt-8",
+    className: "serif u-mt-8 inq-link",
     style: {
       fontSize: 19,
-      display: "block",
-      color: "var(--ink)"
+      display: "block"
     }
   }, "INFO@NOESISUSA.COM")))), React.createElement("div", {
     className: "col-7 reveal"
   }, React.createElement(InquiryForm, {
     intent: intent
-  })))));
+  })))), React.createElement("section", {
+    className: "cine",
+    style: {
+      height: "min(44vh, 420px)",
+      minHeight: 300
+    }
+  }, React.createElement("img", {
+    className: "cine__img img--warm",
+    "data-parallax": "0.1",
+    src: wix(PHOTO.genesee_int_1, {
+      w: 2000
+    }),
+    alt: "My Genesee living room, Beverly Grove",
+    loading: "lazy",
+    onError: imgFallback
+  }), React.createElement("div", {
+    className: "cine__grad"
+  }), React.createElement("div", {
+    className: "cine__cap"
+  }, React.createElement("div", {
+    className: "wrap",
+    style: {
+      paddingBottom: "clamp(28px,4vw,44px)"
+    }
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Delivered by Noesis")))));
 }
 function InquiryForm({
   intent
@@ -2949,10 +2905,7 @@ function Approach({
       maxWidth: "52ch"
     }
   }, "We are engaged by private owners, family offices and developers building landmark residential and commercial projects \u2014 people for whom the cost of getting it right is repaid many times over.")))), React.createElement("section", {
-    className: "section",
-    style: {
-      paddingTop: "clamp(28px,3vw,44px)"
-    }
+    className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
@@ -2971,7 +2924,7 @@ function Approach({
   }, t), React.createElement("p", {
     className: "row__desc"
   }, d)))))), React.createElement("section", {
-    className: "section section--ink"
+    className: "section section--ink section--snug"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
@@ -3040,7 +2993,7 @@ function Approach({
   }, React.createElement("div", {
     className: "eyebrow reveal",
     style: {
-      marginBottom: 28
+      marginBottom: "clamp(24px,3vw,36px)"
     }
   }, React.createElement("span", {
     className: "dot"
@@ -3071,7 +3024,7 @@ function Approach({
   }, s.desc))))))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 u-end reveal"
   }, React.createElement("div", {
     className: "col-8"
   }, React.createElement("h2", {
@@ -3085,7 +3038,8 @@ function Approach({
     className: "col-4 u-tr"
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => go("inquiries")
+    onClick: () => go("inquiries"),
+    "data-magnetic": true
   }, "Start a Conversation ", React.createElement("span", {
     className: "arr"
   }))))));
@@ -3400,7 +3354,8 @@ function Projects({
     }
   }, feat.text.split("\n\n")[0]), React.createElement("button", {
     className: "btn u-mt-40",
-    onClick: () => openStory(feat)
+    onClick: () => openStory(feat),
+    "data-magnetic": true
   }, "View the Project ", React.createElement("span", {
     className: "arr"
   })))))), React.createElement("section", {
@@ -3489,7 +3444,7 @@ function Projects({
   }, note)))))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 u-end reveal"
   }, React.createElement("div", {
     className: "col-8"
   }, React.createElement("h2", {
@@ -3503,7 +3458,8 @@ function Projects({
     className: "col-4 u-tr"
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => setPage("services")
+    onClick: () => setPage("services"),
+    "data-magnetic": true
   }, "How We Manage ", React.createElement("span", {
     className: "arr"
   }))))));

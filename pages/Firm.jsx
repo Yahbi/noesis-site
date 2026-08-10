@@ -58,35 +58,35 @@ function Firm({ go }) {
       </section>
 
       {/* ORIGIN */}
-      <section className="section" style={{ paddingTop: "clamp(28px,3vw,44px)" }}>
+      <section className="section section--lead">
         <div className="wrap grid-12">
           <div className="col-4 reveal">
             <div className="eyebrow"><span className="dot" /> Our Story</div>
           </div>
           <div className="col-8 reveal">
-            <p className="body-lg" style={{ maxWidth: "64ch" }}>
+            <p className="body-lg">
               Our founder began with single-family residences, striving to provide a distinctly unique
               product that would enhance the lives of those it touched while benefiting the communities
               around it. Today that mission spans small-lot subdivisions, apartment buildings and other
               residential and commercial developments — with our capital invested alongside our partners',
               and our delivery discipline offered to a select few owners as their representative.
             </p>
-            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
+            <p className="body-lg u-mt-24">
               We are thankful for our history and look forward to the opportunities ahead in making a
               positive difference in the world around us.
             </p>
+            <button className="link-u principal__link" onClick={() => go("properties")}>See the work</button>
           </div>
         </div>
 
         <div className="wrap u-mt-64">
-          <button className="link-u" onClick={() => go("properties")} style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--accent)", color: "var(--accent-deep)", fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", padding: "0 0 4px", marginBottom: 48, display: "inline-block" }}>See the work</button>
           <div className="eyebrow reveal"><span className="dot" /> How We Work</div>
           <div className="reveal qgrid">
             {FIRM_VALUES.map(([t, d], i) => (
               <div key={t}>
                 <div className="wwd-cap__n">0{i + 1}</div>
-                <div style={{ fontFamily: "var(--sans)", fontWeight: 300, fontSize: "clamp(18px,1.6vw,22px)", marginTop: 14, color: "var(--ink)" }}>{t}</div>
-                <p style={{ color: "var(--ink-soft)", fontSize: 13.5, lineHeight: 1.6, marginTop: 10 }}>{d}</p>
+                <div className="wwd-cap__t">{t}</div>
+                <p className="wwd-cap__d">{d}</p>
               </div>
             ))}
           </div>
@@ -122,17 +122,17 @@ function Firm({ go }) {
                   onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(1) contrast(1.02)")}
                   loading="lazy" onError={imgFallback} />
               </div>
-              <div className="serif u-mt-24" style={{ fontSize: 30, letterSpacing: "-.01em", lineHeight: 1.05, color: "var(--ink)" }}>{FIRM_FOUNDER.name}</div>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 8 }}>{FIRM_FOUNDER.title}</div>
+              <div className="principal__name">{FIRM_FOUNDER.name}</div>
+              <div className="principal__role">{FIRM_FOUNDER.title}</div>
               <div style={{ borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 18 }}>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>{FIRM_FOUNDER.prev}</div>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginTop: 8 }}>{FIRM_FOUNDER.edu}</div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18, borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 22 }}>
+              <div className="qgrid--3" style={{ display: "grid", gap: 18, borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 22 }}>
                 {FIRM_FOUNDER.stats.map(([v, l]) => (
                   <div key={l}>
-                    <div style={{ fontFamily: "var(--sans)", fontWeight: 200, fontSize: "clamp(22px,2.4vw,30px)", color: "var(--accent)", lineHeight: 1 }}>{v}</div>
-                    <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".06em", color: "var(--muted)", marginTop: 8, lineHeight: 1.35 }}>{l}</div>
+                    <div className="principal__num">{v}</div>
+                    <div className="principal__lbl">{l}</div>
                   </div>
                 ))}
               </div>
@@ -174,9 +174,9 @@ function Firm({ go }) {
 
       {/* CTA */}
       <section className="section section--ink">
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => go("inquiries")}>Start a Conversation <span className="arr" /></button></div>
+          <div className="col-4 u-tr"><button className="btn" onClick={() => go("inquiries")} data-magnetic>Start a Conversation <span className="arr" /></button></div>
         </div>
       </section>
     </main>

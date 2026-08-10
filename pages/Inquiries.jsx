@@ -19,6 +19,7 @@ function Inquiries({ intent }) {
               conversation. Every enquiry is reviewed personally by our principal, who responds within one
               business day.
             </p>
+            <hr className="hair" style={{ margin: "clamp(32px,4vw,48px) 0 0", maxWidth: 280 }} />
 
             <div className="u-mt-40">
               <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Office</div>
@@ -27,17 +28,31 @@ function Inquiries({ intent }) {
             <div className="u-flex u-gap-40 u-mt-40" style={{ flexWrap: "wrap" }}>
               <div>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Telephone</div>
-                <a href="tel:+13108553634" className="serif u-mt-8" style={{ fontSize: 19, display: "block", color: "var(--ink)" }}>T (310) 855 · 3634</a>
+                <a href="tel:+13108553634" className="serif u-mt-8 inq-link" style={{ fontSize: 19, display: "block" }}>T (310) 855 · 3634</a>
                 <div className="body" style={{ color: "var(--muted)", fontSize: 14 }}>F (424) 282 · 8414</div>
               </div>
               <div>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Email</div>
-                <a href="mailto:info@noesisusa.com" className="serif u-mt-8" style={{ fontSize: 19, display: "block", color: "var(--ink)" }}>INFO@NOESISUSA.COM</a>
+                <a href="mailto:info@noesisusa.com" className="serif u-mt-8 inq-link" style={{ fontSize: 19, display: "block" }}>INFO@NOESISUSA.COM</a>
               </div>
             </div>
           </div>
           <div className="col-7 reveal">
             <InquiryForm intent={intent} />
+          </div>
+        </div>
+      </section>
+
+      {/* CLOSING PLATE — delivered work behind the enquiry */}
+      <section className="cine" style={{ height: "min(44vh, 420px)", minHeight: 300 }}>
+        <img className="cine__img img--warm" data-parallax="0.1"
+          src={wix(PHOTO.genesee_int_1, { w: 2000 })}
+          alt="My Genesee living room, Beverly Grove"
+          loading="lazy" onError={imgFallback} />
+        <div className="cine__grad" />
+        <div className="cine__cap">
+          <div className="wrap" style={{ paddingBottom: "clamp(28px,4vw,44px)" }}>
+            <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>
           </div>
         </div>
       </section>

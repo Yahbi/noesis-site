@@ -61,7 +61,7 @@ function Approach({ go }) {
       </section>
 
       {/* CAPABILITIES */}
-      <section className="section" style={{ paddingTop: "clamp(28px,3vw,44px)" }}>
+      <section className="section section--lead">
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> The Capabilities</div>
           <div className="rows u-mt-24">
@@ -77,7 +77,7 @@ function Approach({ go }) {
       </section>
 
       {/* PROCESS */}
-      <section className="section section--ink">
+      <section className="section section--ink section--snug">
         <div className="wrap">
           <div className="grid-12 u-end reveal">
             <div className="col-7">
@@ -119,7 +119,7 @@ function Approach({ go }) {
       {/* SECTORS */}
       <section className="section">
         <div className="wrap">
-          <div className="eyebrow reveal" style={{ marginBottom: 28 }}><span className="dot" /> Where We Work</div>
+          <div className="eyebrow reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}><span className="dot" /> Where We Work</div>
           <div className="sectors reveal">
             {SECTORS.map((s) => (
               <article key={s.tag} className="sector">
@@ -137,9 +137,9 @@ function Approach({ go }) {
 
       {/* CTA */}
       <section className="section section--ink">
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => go("inquiries")}>Start a Conversation <span className="arr" /></button></div>
+          <div className="col-4 u-tr"><button className="btn" onClick={() => go("inquiries")} data-magnetic>Start a Conversation <span className="arr" /></button></div>
         </div>
       </section>
     </main>

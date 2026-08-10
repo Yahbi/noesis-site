@@ -45,6 +45,9 @@ prod_scripts = f'''  <!-- Production: precompiled bundle, no in-browser compilat
 </body>'''
 shell, n = re.subn(r"  <!-- React \+ Babel.*</body>", prod_scripts, src, flags=re.S)
 assert n == 1, "script block not found"
+# The template carries a hardcoded ?v= on styles.css; without restamping it every
+# build, browsers keep serving their cached stylesheet no matter what changed.
+shell = re.sub(r'styles\.css\?v=\d+', f'styles.css?v={v}', shell)
 shell = shell.replace('content="width=device-width, initial-scale=1">',
                       'content="width=device-width, initial-scale=1">\n  <meta name="robots" content="index, follow">', 1)
 

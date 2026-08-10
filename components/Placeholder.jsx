@@ -76,6 +76,32 @@ const ENHANCED = {
   "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg": "assets/img/e-fcb4f7079a5e.jpg"
 };
 
+// Hi tier — gallery photos whose 2560-2832px natives were pure-upscaled (ByteDance,
+// no repaint) to 3400px masters for the lightbox stage and full-bleed story scenes.
+// Only served for requests above 2200px; everything smaller stays on the CDN.
+// The three 2832x4256 portraits are deliberately absent: the upscaler's 4K cap
+// returned 2737x4096 — BELOW their natives — so the CDN original remains best.
+const ENHANCED_HI = {
+  "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-0be22247.jpg",
+  "5c383b_0c990cf327cd4e00a23ea997cc8df0ef~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-0c990cf3.jpg",
+  "5c383b_0cc02cedcedb4dd6aa6066b64e8e4df0~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-0cc02ced.jpg",
+  "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-37553457.jpg",
+  "5c383b_39c681a391904ba5bcb73ccb9aa4cfb7~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-39c681a3.jpg",
+  "5c383b_3ae9a87b8b524876875c807198fa21b8~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-3ae9a87b.jpg",
+  "5c383b_3e63015f82f24cc38079e19c9c142568~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-3e63015f.jpg",
+  "5c383b_64ef3275421d48cca6feb348d84a8274~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-64ef3275.jpg",
+  "5c383b_865132670bcb422081f2de983b249617~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-86513267.jpg",
+  "5c383b_8b5d8fc108104f899d80cc3dcd29262b~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-8b5d8fc1.jpg",
+  "5c383b_8be95aceeb054c139923461a4b0fa067~mv2_d_2674_1896_s_2.jpg": "assets/img/hi-8be95ace.jpg",
+  "5c383b_9418a6ed29454c48851aee4739a55be2~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-9418a6ed.jpg",
+  "5c383b_b074f44ae27c4ead96ac5fefeaf1f870~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-b074f44a.jpg",
+  "5c383b_b8f362fd5896441ea62dd7508420c932~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-b8f362fd.jpg",
+  "5c383b_be67b6b3cbf342d693e29ca18c1f75a2~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-be67b6b3.jpg",
+  "5c383b_c51caa97fd75492583fe21aaddac4227~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-c51caa97.jpg",
+  "5c383b_d232464d64c140b9acd3747f147f6e2e~mv2_d_2560_1440_s_2.jpg": "assets/img/hi-d232464d.jpg",
+  "5c383b_da67860cae17475c8f96fd39b6df4739~mv2_d_2560_1441_s_2.jpg": "assets/img/hi-da67860c.jpg"
+};
+
 function wix(id, opts = {}) {
   // Accept either a PHOTO key (e.g. "ying_ext_tall") or a raw wix media id.
   if (typeof PHOTO !== "undefined" && PHOTO[id]) id = PHOTO[id];
@@ -90,6 +116,15 @@ function wix(id, opts = {}) {
     if (want <= 900) return base + "-w800.jpg";
     if (want <= 1500) return base + "-w1400.jpg";
     return ENHANCED[id];                      // 2200px master — their true optical ceiling
+  }
+  // High tier: gallery photos whose 2560-2832px natives were upscaled to a 3400px
+  // master. Served ONLY when the request outruns the CDN native (lightbox stage,
+  // full-bleed story scenes) — smaller sizes still come from the CDN, so nothing
+  // downgrades and no derivative set is shipped.
+  if (typeof ENHANCED_HI !== "undefined" && ENHANCED_HI[id]) {
+    const want = opts.w || 1600;
+    if (want > 2200) return ENHANCED_HI[id];  // 3400px upscaled master
+    // fall through to the CDN for everything the native already covers
   }
   // Offline/standalone: if the bundler inlined this media, return its blob URL.
   if (typeof window !== "undefined" && window.__resources && window.__MEDIA2KEY) {

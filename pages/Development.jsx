@@ -42,7 +42,7 @@ function Development({ go }) {
             </h1>
           </div>
           <div className="col-5">
-            <p className="wwd__lead" style={{ maxWidth: "20ch", marginBottom: 24 }}>
+            <p className="pull" style={{ maxWidth: "30ch", marginBottom: 24 }}>
               We take a project from a <em>parcel of land</em> to a finished landmark — and own the outcome.
             </p>
             <p className="lede">
@@ -67,7 +67,7 @@ function Development({ go }) {
       </section>
 
       {/* WHAT WE DEVELOP */}
-      <section className="section" style={{ paddingTop: "clamp(28px,3vw,44px)" }}>
+      <section className="section section--lead">
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> What We Develop</div>
           <div className="rows u-mt-24">
@@ -92,13 +92,13 @@ function Development({ go }) {
             <p className="pull" style={{ maxWidth: "30ch", color: "var(--ink)" }}>
               Contemporary in nature, with minimalist elements that provide a <em>warm, earthy and organic</em> sensibility.
             </p>
-            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
+            <p className="body-lg u-mt-24">
               We subscribe to the notion that less is more and refrain from over-designing — we let our
               design and finishes speak for themselves. With a multicultural heritage — both Igal Azran,
               principal, and Stephanie Harroch, architect, are from Morocco — a subtle Mediterranean and
               Spanish influence runs through our fresh, innovative and environmentally sustainable work.
             </p>
-            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
+            <p className="body-lg u-mt-24">
               We continue to push the envelope and deliver finished projects that are bold, innovative,
               and rise above the rest in a competitive real estate landscape.
             </p>
@@ -145,7 +145,7 @@ function Development({ go }) {
       </section>
 
       {/* DELIVERY MODEL */}
-      <section className="section section--ink">
+      <section className="section section--ink section--snug">
         <div className="wrap">
           <div className="grid-12 u-end reveal">
             <div className="col-7">
@@ -179,17 +179,17 @@ function Development({ go }) {
             <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "12ch" }}>Delivered, not theorised.</h2>
           </div>
           <div className="col-7 reveal">
-            <p className="body-lg" style={{ maxWidth: "60ch" }}>
+            <p className="body-lg">
               Our principal's construction record predates the firm: a 24-unit luxury condominium
               delivered 22 days ahead of schedule and 12% under budget, and a $75 million construction
               budget managed for the L.A. Fashion Center — coordinating trades, architects and engineers
               through to completion.
             </p>
-            <div className="qgrid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+            <div className="qgrid qgrid--3">
               {DEV_PROOF.map(([v, l]) => (
                 <div key={l}>
-                  <div style={{ fontFamily: "var(--sans)", fontWeight: 200, fontSize: "clamp(22px,2.4vw,30px)", color: "var(--accent)", lineHeight: 1 }}>{v}</div>
-                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".06em", color: "var(--muted)", marginTop: 8, lineHeight: 1.35 }}>{l}</div>
+                  <div className="principal__num">{v}</div>
+                  <div className="principal__lbl">{l}</div>
                 </div>
               ))}
             </div>
@@ -199,7 +199,7 @@ function Development({ go }) {
 
       {/* CTA */}
       <section className="section section--ink">
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>See what we have <em className="accent">delivered.</em></h2></div>
           <div className="col-4 u-tr u-flex u-gap-16" style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
             <button className="btn" onClick={() => go("properties")} data-magnetic>The Portfolio <span className="arr" /></button>

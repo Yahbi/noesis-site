@@ -44,7 +44,7 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* THESIS */}
-      <section className="section" style={{ paddingTop: "clamp(28px,3vw,44px)" }}>
+      <section className="section section--lead">
         <div className="wrap grid-12">
           <div className="col-4 reveal">
             <div className="eyebrow"><span className="dot" /> The Thesis</div>
@@ -54,7 +54,7 @@ function Investment({ go, setIntent }) {
               The best returns in real estate come from building the <em>right thing well</em>. We invest
               where our development edge creates the value.
             </p>
-            <p className="body-lg u-mt-24" style={{ maxWidth: "64ch" }}>
+            <p className="body-lg u-mt-24">
               Back in 2009 our founder focused on single-family residences, striving to provide a
               distinctly unique product that would enhance the lives of those it touched while benefiting
               the communities around it. Today Noesis has grown that mission into various real asset
@@ -81,7 +81,7 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* STRATEGIES */}
-      <section className="section" style={{ paddingTop: "clamp(40px,5vw,72px)", borderTop: 0 }}>
+      <section className="section section--lead" style={{ borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Investment Strategies</div>
           <div className="rows u-mt-24">
@@ -132,8 +132,8 @@ function Investment({ go, setIntent }) {
             {INV_PRINCIPLES.map(([n, t, d]) => (
               <div key={n}>
                 <div className="wwd-cap__n">{n}</div>
-                <div style={{ fontFamily: "var(--sans)", fontWeight: 300, fontSize: "clamp(18px,1.6vw,22px)", marginTop: 14, color: "var(--ink)" }}>{t}</div>
-                <p style={{ color: "var(--ink-soft)", fontSize: 13.5, lineHeight: 1.6, marginTop: 10 }}>{d}</p>
+                <div className="wwd-cap__t">{t}</div>
+                <p className="wwd-cap__d">{d}</p>
               </div>
             ))}
           </div>
@@ -166,7 +166,7 @@ function Investment({ go, setIntent }) {
             <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "13ch" }}>A private network.</h2>
           </div>
           <div className="col-7 reveal">
-            <p className="body-lg" style={{ maxWidth: "62ch" }}>
+            <p className="body-lg">
               Noesis has built relationships and strong ties with a network of high-net-worth individuals,
               both local and foreign, with access to private equity funds and exclusive opportunities. We
               are proud of our reputation and open to partnering with like-minded investors who share a

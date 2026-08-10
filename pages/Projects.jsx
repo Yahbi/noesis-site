@@ -167,7 +167,7 @@ function Projects({ setPage }) {
                 ))}
               </div>
               <p className="body-lg" style={{ maxWidth: "54ch" }}>{feat.text.split("\n\n")[0]}</p>
-              <button className="btn u-mt-40" onClick={() => openStory(feat)}>View the Project <span className="arr" /></button>
+              <button className="btn u-mt-40" onClick={() => openStory(feat)} data-magnetic>View the Project <span className="arr" /></button>
             </div>
           </div>
         </div>
@@ -232,9 +232,9 @@ function Projects({ setPage }) {
       </section>
 
       <section className="section section--ink">
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>This standard, on <em className="accent">your project.</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")}>How We Manage <span className="arr" /></button></div>
+          <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")} data-magnetic>How We Manage <span className="arr" /></button></div>
         </div>
       </section>
     </main>

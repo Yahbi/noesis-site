@@ -157,15 +157,17 @@ function Home({ go, setIntent }) {
                 Born in Morocco and raised between France, Spain and Israel, he brings a genuinely
                 international perspective — and a builder's discipline — to every venture.
               </p>
-              <div className="principal__stats">
-                {HOME_PROOF.map(([v, l]) => (
-                  <div key={l}>
-                    <div className="principal__num">{v}</div>
-                    <div className="principal__lbl">{l}</div>
-                  </div>
-                ))}
-              </div>
               <button className="link-u principal__link" onClick={() => go("firm")}>The firm &amp; founder</button>
+            </div>
+            {/* Third grid child: ≥1100px this becomes a thin-rule proof rail filling
+                the dead right rail; 761-1099px a full-width 3-up row; ≤760px stacks. */}
+            <div className="principal__stats">
+              {HOME_PROOF.map(([v, l]) => (
+                <div key={l}>
+                  <div className="principal__num">{v}</div>
+                  <div className="principal__lbl">{l}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -222,9 +224,11 @@ function Home({ go, setIntent }) {
 
       {/* 5 ── THE FILM ─────────────────────────────────────────────── */}
       <section className="cine cine--video" style={{ height: "min(86vh, 840px)", minHeight: 500 }}>
-        <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" onError={imgFallback} />
+        <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" loading="lazy" sizes="100vw"
+          srcSet={`${wix(SHOT.oneOak, { w: 800 })} 800w, ${wix(SHOT.oneOak, { w: 1400 })} 1400w, ${wix(SHOT.oneOak, { w: 2200 })} 2200w`}
+          onError={imgFallback} />
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-          poster={wix(SHOT.oneOak, { w: 1200 })} src={film("noesis-reel")}
+          src={film("noesis-reel")}
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
             const tryPlay = () => {
@@ -267,7 +271,7 @@ function Home({ go, setIntent }) {
 
       {/* 6 ── CLOSE ────────────────────────────────────────────────── */}
       <section className="section section--ink" data-spy="inquiries">
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 u-end reveal">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Inquiries</div>
             <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "16ch" }}>Capital to deploy, or a project to deliver.</h2>
