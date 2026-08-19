@@ -1477,6 +1477,8 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 @media (min-width: 761px) { .principal > .principal__stats { grid-column: 1 / -1; } }
 @media (min-width: 1100px) {
   .principal { grid-template-columns: clamp(220px, 24vw, 320px) minmax(0, 1fr) clamp(190px, 16vw, 230px); }
+  /* Two-column variant: the operator block on Investment ships no stats rail. */
+  .principal--duo { grid-template-columns: clamp(220px, 24vw, 320px) minmax(0, 1fr); }
   .principal > .principal__stats {
     grid-column: auto; grid-template-columns: 1fr; gap: 28px; align-content: start;
     border-left: 1px solid var(--rule); padding-left: clamp(20px, 2vw, 32px); margin-top: 0;

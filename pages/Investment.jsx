@@ -158,6 +158,32 @@ function Investment({ go, setIntent }) {
         </div>
       </section>
 
+      {/* THE OPERATOR — the ink band above says the operator is the edge; name him
+          before the ask. Facts verbatim from Firm.jsx FIRM_FOUNDER. */}
+      <section className="section">
+        <div className="wrap">
+          <div className="principal principal--duo reveal" style={{ borderTop: 0, marginTop: 0, paddingTop: 0 }}>
+            <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">
+              <img src={wix(PHOTO.igal, { w: 800 })} alt="Igal N. Azran, Founder &amp; CEO" loading="lazy" onError={imgFallback} />
+            </button>
+            <div className="principal__body">
+              <div className="eyebrow"><span className="dot" /> The Operator</div>
+              <div className="principal__name">Igal N. Azran</div>
+              <div className="principal__role">Founder &amp; CEO · Previously CIM Group · CBRE · STMC</div>
+              <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginTop: 8 }}>MSc · Real Estate</div>
+              <p className="principal__bio">
+                Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate
+                private-equity and development firm, working on institutional investment and
+                development transactions. Today he originates and leads the firm's developments and
+                investments, maintaining the relationships with domestic and international capital
+                partners behind every venture.
+              </p>
+              <button className="link-u principal__link" onClick={() => go("firm")}>The firm &amp; founder</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PARTNERS + REGULATORY */}
       <section className="section">
         <div className="wrap grid-12" style={{ alignItems: "start" }}>

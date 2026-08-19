@@ -2272,6 +2272,52 @@ function Investment({
   }))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "principal principal--duo reveal",
+    style: {
+      borderTop: 0,
+      marginTop: 0,
+      paddingTop: 0
+    }
+  }, React.createElement("button", {
+    className: "principal__portrait",
+    onClick: () => go("firm"),
+    "aria-label": "Igal N. Azran \u2014 read about the firm and founder"
+  }, React.createElement("img", {
+    src: wix(PHOTO.igal, {
+      w: 800
+    }),
+    alt: "Igal N. Azran, Founder & CEO",
+    loading: "lazy",
+    onError: imgFallback
+  })), React.createElement("div", {
+    className: "principal__body"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Operator"), React.createElement("div", {
+    className: "principal__name"
+  }, "Igal N. Azran"), React.createElement("div", {
+    className: "principal__role"
+  }, "Founder & CEO \xB7 Previously CIM Group \xB7 CBRE \xB7 STMC"), React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 11,
+      letterSpacing: ".1em",
+      textTransform: "uppercase",
+      color: "var(--muted)",
+      marginTop: 8
+    }
+  }, "MSc \xB7 Real Estate"), React.createElement("p", {
+    className: "principal__bio"
+  }, "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Today he originates and leads the firm's developments and investments, maintaining the relationships with domestic and international capital partners behind every venture."), React.createElement("button", {
+    className: "link-u principal__link",
+    onClick: () => go("firm")
+  }, "The firm & founder"))))), React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
     className: "wrap grid-12",
     style: {
       alignItems: "start"
