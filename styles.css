@@ -1528,3 +1528,18 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   text-decoration: none; transform: translateY(-200%);
 }
 .skip-link:focus-visible { transform: translateY(0); }
+
+/* Mobile-only twin of .nav__cta: that button is a child of .nav__links, which is
+   display:none at <=860px, leaving the bar with no ask on any phone. Inherits the
+   bar's own ink/bone flip — same pair as .logo__word and the burger. */
+.nav__cta-mini { display: none; }
+@media (max-width: 860px) {
+  .nav__cta-mini {
+    display: inline-flex; align-items: center; margin-left: auto; margin-right: 18px;
+    background: transparent; border: 0; padding: 12px 2px; min-height: 44px;
+    font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--ink); cursor: pointer;
+  }
+  .nav__cta-mini span { border-bottom: 1px solid var(--accent); padding-bottom: 3px; }
+  .nav--over .nav__cta-mini { color: var(--bone); }
+}

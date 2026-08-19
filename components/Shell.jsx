@@ -11,6 +11,10 @@ const SECTIONS = [
   ["inquiries",   "Inquiries"],
 ];
 
+// Routes whose visitor is an owner or developer, not capital. The global CTA
+// must not pre-receive them as investors.
+const OWNER_ROUTES = ["development", "owners-rep"];
+
 const SOCIALS = [
   ["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"],
   ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"],
@@ -78,7 +82,7 @@ function Logo({ onClick, className }) {
   );
 }
 
-function Nav({ active, go }) {
+function Nav({ active, go, setIntent }) {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [over, setOver] = React.useState(true);
@@ -205,6 +209,14 @@ function Nav({ active, go }) {
   }, [marker]);
 
   const tap = (k) => { go(k); setOpen(false); };
+  // "Request an Introduction" is the same promise the home page makes, and there it
+  // seeds investor intent. Mirror it so the promise resolves the same way from every
+  // page — except on the owner-facing routes, where pre-selecting "Investor" would
+  // mis-receive an owner bringing a site or a project.
+  const tapIntro = (k) => {
+    if (setIntent) setIntent(OWNER_ROUTES.indexOf(active) === -1 ? "investor" : null);
+    tap(k);
+  };
   // While the drawer is open the bar sits on linen, not on the hero — keeping the
   // on-dark treatment would paint the logo and close button bone-on-bone.
   const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled && !open ? "nav--over" : ""}`;
@@ -223,8 +235,16 @@ function Nav({ active, go }) {
             <button key={k} data-k={k} className={marker === k ? "is-active" : ""}
               aria-current={active === k ? "page" : undefined} onClick={() => tap(k)}>{label}</button>
           ))}
-          <button onClick={() => tap("inquiries")} className="btn nav__cta">Request an Introduction</button>
+          <button onClick={() => tapIntro("inquiries")} className="btn nav__cta">Request an Introduction</button>
         </nav>
+
+        {/* The desktop CTA lives inside .nav__links, which is display:none <=860px,
+            so on every phone the highest-value action sat two taps deep. A quiet
+            text twin keeps the ask in the bar; hidden while the drawer shows its own. */}
+        {!open && (
+          <button className="nav__cta-mini" onClick={() => tap("inquiries")}
+            aria-label="Inquire — request an introduction"><span>Inquire</span></button>
+        )}
 
         <button className={`nav__burger ${open ? "is-open" : ""}`} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="nav-drawer" onClick={() => setOpen(o => !o)}>
           <span></span><span></span><span></span>
@@ -241,7 +261,7 @@ function Nav({ active, go }) {
           ))}
         </nav>
         <div className="nav__drawer-foot">
-          <button onClick={() => tap("inquiries")} className="btn" style={{ width: "100%", justifyContent: "center" }}>Request an Introduction</button>
+          <button onClick={() => tapIntro("inquiries")} className="btn" style={{ width: "100%", justifyContent: "center" }}>Request an Introduction</button>
           <div className="nav__drawer-meta"><a href="tel:+13108553634">T (310) 855·3634</a> · <a href="mailto:info@noesisusa.com">INFO@NOESISUSA.COM</a></div>
           <SocialRow />
         </div>

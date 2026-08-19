@@ -77,7 +77,7 @@ function App() {
     const r = routeFromLocation();
     return r.indexOf("story:") === 0 ? r.slice(6) : null;
   });
-  const [intent, setIntent] = React.useState(null);    // "investor" | null — seeds the enquiry form
+  const [intent, setIntent] = React.useState(null);    // "investor" | "owner" | null — seeds the enquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const returnTo = React.useRef("properties");         // where a story's Back button lands
 
@@ -162,12 +162,12 @@ function App() {
 
   return (
     <>
-      <Nav active={active} go={go} />
+      <Nav active={active} go={go} setIntent={setIntent} />
 
       {view === "home" ? <Home go={go} setIntent={setIntent} />
         : view === "development" ? <Development go={go} />
         : view === "investment" ? <Investment go={go} setIntent={setIntent} />
-        : view === "owners-rep" ? <Approach go={go} />
+        : view === "owners-rep" ? <Approach go={go} setIntent={setIntent} />
         : view === "firm" ? <Firm go={go} />
         : view === "inquiries" ? <Inquiries intent={intent} />
         : view === "story" ? (

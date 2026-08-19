@@ -51,7 +51,7 @@ const SECTORS = [
     desc: "For owners of apartment buildings: leasing, capital improvements and partial redevelopment, then ongoing asset and property management — the same stabilization discipline we apply to our own value-add holdings." },
 ];
 
-function Approach({ go }) {
+function Approach({ go, setIntent }) {
   return (
     <main className="page-enter">
       {/* HERO */}
@@ -230,7 +230,7 @@ function Approach({ go }) {
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => go("inquiries")} data-magnetic>Start a Conversation <span className="arr" /></button></div>
+          <div className="col-4 u-tr"><button className="btn" onClick={() => { if (setIntent) setIntent("owner"); go("inquiries"); }} data-magnetic>Discuss Your Project <span className="arr" /></button></div>
         </div>
       </section>
     </main>

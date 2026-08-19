@@ -47,6 +47,7 @@ const HOME_PROOF = [
 
 function Home({ go, setIntent }) {
   const goInvestor = (id) => { if (setIntent) setIntent("investor"); go(id); };
+  const goOwner = (id) => { if (setIntent) setIntent("owner"); go(id); };
   return (
     <main className="page-enter">
 
@@ -62,14 +63,14 @@ function Home({ go, setIntent }) {
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = true;
-            const attach = () => { if (el.isConnected && !el.src) { el.src = film("noesis-film"); el.load(); tryPlay(); } };
+            const attach = () => { const u = film("noesis-film", { ambient: true }); if (u && el.isConnected && !el.src) { el.src = u; el.load(); tryPlay(); } };
             const tryPlay = () => {
               if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
               if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }
               else if (!el.paused) { el.pause(); }   // off-screen / hidden → save decode + battery
             };
             el.__tries = 0;
-            el.addEventListener("error", () => { const d = [2000, 8000, 20000, 45000]; if (el.__tries >= d.length) { el.style.display = "none"; return; } const w = d[el.__tries++]; setTimeout(() => { if (!el.isConnected) return; el.style.display = ""; el.src = film("noesis-film") + "&r=" + Date.now(); el.load(); tryPlay(); }, w); });
+            el.addEventListener("error", () => { const d = [2000, 8000, 20000, 45000]; if (el.__tries >= d.length) { el.style.display = "none"; return; } const w = d[el.__tries++]; setTimeout(() => { if (!el.isConnected) return; const u = film("noesis-film", { ambient: true }); if (!u) return; el.style.display = ""; el.src = u + "&r=" + Date.now(); el.load(); tryPlay(); }, w); });
             el.addEventListener("playing", () => { el.style.display = ""; el.__tries = 0; });
             if ("IntersectionObserver" in window) { el.__io = new IntersectionObserver((ents) => { el.__inView = ents[0] && ents[0].isIntersecting; tryPlay(); }, { threshold: 0.01 }); el.__io.observe(el); }
             if (document.readyState === "complete") setTimeout(attach, 0);
@@ -98,7 +99,7 @@ function Home({ go, setIntent }) {
             </div>
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
               <button className="btn" onClick={() => goInvestor("investment")} data-magnetic>For Investors</button>
-              <button className="btn btn--ghost" onClick={() => go("owners-rep")} data-magnetic>For Owners &amp; Developers</button>
+              <button className="btn btn--ghost" onClick={() => goOwner("owners-rep")} data-magnetic>For Owners &amp; Developers</button>
             </div>
           </div>
         </div>
@@ -125,7 +126,7 @@ function Home({ go, setIntent }) {
             ))}
           </div>
 
-          <button className="accessory reveal" data-spy="owners-rep" onClick={() => go("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
+          <button className="accessory reveal" data-spy="owners-rep" onClick={() => goOwner("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
             <span className="accessory__lbl">Also — Owner's Representation &amp; Project Management</span>
             <span className="accessory__d">For a select few owners, the same discipline applied to your project — one accountable advocate from entitlement to delivery.</span>
             <span className="accessory__cta">Our capabilities <span className="arr" /></span>
@@ -228,7 +229,7 @@ function Home({ go, setIntent }) {
           srcSet={`${wix(SHOT.oneOak, { w: 800 })} 800w, ${wix(SHOT.oneOak, { w: 1400 })} 1400w, ${wix(SHOT.oneOak, { w: 2200 })} 2200w`}
           onError={imgFallback} />
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-          src={film("noesis-reel")}
+          src={film("noesis-reel", { ambient: true }) || undefined}
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
             const tryPlay = () => {
@@ -254,7 +255,7 @@ function Home({ go, setIntent }) {
                 // dims rather than disappearing, and a failed load restores the loop.
                 const restore = () => {
                   v.__manual = false; v.loop = true; v.controls = false; v.muted = true;
-                  v.src = film("noesis-reel"); v.load();
+                  const rl = film("noesis-reel", { ambient: true }); if (rl) { v.src = rl; v.load(); }
                   const pr = v.play(); if (pr && pr.catch) pr.catch(() => {});
                   sec.classList.remove("is-playing");
                 };

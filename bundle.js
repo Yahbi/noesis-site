@@ -748,14 +748,18 @@ const FILM_TIERS = {
   "oneoak-film": [1080, 1440, 2160],
   "noesis-launch": [1080, 1440]
 };
-const FILM_V = 4;
-function film(base) {
+const FILM_V = 5;
+function film(base, opts) {
+  const o = opts || {};
   const tiers = FILM_TIERS[base] || [1080];
   const conn = navigator.connection || {};
+  const thrifty = !!conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "");
+  const reduced = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  if (o.ambient && (reduced || thrifty)) return null;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const px = (window.innerWidth || 1280) * dpr;
   let want;
-  if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) want = 1080;else if (px < 2000) want = 1080;else if (px < 3000) want = 1440;else want = 2160;
+  if (thrifty) want = 1080;else if (px < 2000) want = 1080;else if (px < 3000) want = 1440;else want = 2160;
   const pick = tiers.indexOf(want) !== -1 ? want : tiers[tiers.length - 1];
   return `assets/${base}-${pick}.mp4?v=${FILM_V}`;
 }
@@ -765,6 +769,7 @@ window.imgFallback = imgFallback;
 window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
 const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Inquiries"]];
+const OWNER_ROUTES = ["development", "owners-rep"];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
 const SOCIAL_URLS = {
   Facebook: "https://www.facebook.com/NoesisUSA/",
@@ -852,7 +857,8 @@ function Logo({
 }
 function Nav({
   active,
-  go
+  go,
+  setIntent
 }) {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
@@ -1004,6 +1010,10 @@ function Nav({
     go(k);
     setOpen(false);
   };
+  const tapIntro = k => {
+    if (setIntent) setIntent(OWNER_ROUTES.indexOf(active) === -1 ? "investor" : null);
+    tap(k);
+  };
   const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled && !open ? "nav--over" : ""}`;
   return React.createElement("header", {
     className: cls
@@ -1026,9 +1036,13 @@ function Nav({
     "aria-current": active === k ? "page" : undefined,
     onClick: () => tap(k)
   }, label)), React.createElement("button", {
-    onClick: () => tap("inquiries"),
+    onClick: () => tapIntro("inquiries"),
     className: "btn nav__cta"
-  }, "Request an Introduction")), React.createElement("button", {
+  }, "Request an Introduction")), !open && React.createElement("button", {
+    className: "nav__cta-mini",
+    onClick: () => tap("inquiries"),
+    "aria-label": "Inquire \u2014 request an introduction"
+  }, React.createElement("span", null, "Inquire")), React.createElement("button", {
     className: `nav__burger ${open ? "is-open" : ""}`,
     "aria-label": open ? "Close menu" : "Open menu",
     "aria-expanded": open,
@@ -1054,7 +1068,7 @@ function Nav({
   }, "0", i + 1), label))), React.createElement("div", {
     className: "nav__drawer-foot"
   }, React.createElement("button", {
-    onClick: () => tap("inquiries"),
+    onClick: () => tapIntro("inquiries"),
     className: "btn",
     style: {
       width: "100%",
@@ -1231,6 +1245,10 @@ function Home({
     if (setIntent) setIntent("investor");
     go(id);
   };
+  const goOwner = id => {
+    if (setIntent) setIntent("owner");
+    go(id);
+  };
   return React.createElement("main", {
     className: "page-enter"
   }, React.createElement("section", {
@@ -1275,8 +1293,11 @@ function Home({
       el.muted = true;
       el.__inView = true;
       const attach = () => {
-        if (el.isConnected && !el.src) {
-          el.src = film("noesis-film");
+        const u = film("noesis-film", {
+          ambient: true
+        });
+        if (u && el.isConnected && !el.src) {
+          el.src = u;
           el.load();
           tryPlay();
         }
@@ -1307,8 +1328,12 @@ function Home({
         const w = d[el.__tries++];
         setTimeout(() => {
           if (!el.isConnected) return;
+          const u = film("noesis-film", {
+            ambient: true
+          });
+          if (!u) return;
           el.style.display = "";
-          el.src = film("noesis-film") + "&r=" + Date.now();
+          el.src = u + "&r=" + Date.now();
           el.load();
           tryPlay();
         }, w);
@@ -1387,7 +1412,7 @@ function Home({
     "data-magnetic": true
   }, "For Investors"), React.createElement("button", {
     className: "btn btn--ghost",
-    onClick: () => go("owners-rep"),
+    onClick: () => goOwner("owners-rep"),
     "data-magnetic": true
   }, "For Owners & Developers"))))), React.createElement("section", {
     id: "pillars",
@@ -1429,7 +1454,7 @@ function Home({
   }))))), React.createElement("button", {
     className: "accessory reveal",
     "data-spy": "owners-rep",
-    onClick: () => go("owners-rep"),
+    onClick: () => goOwner("owners-rep"),
     "aria-label": "Owner's Representation and Project Management \u2014 open the page"
   }, React.createElement("span", {
     className: "accessory__lbl"
@@ -1626,7 +1651,9 @@ function Home({
     muted: true,
     playsInline: true,
     preload: "none",
-    src: film("noesis-reel"),
+    src: film("noesis-reel", {
+      ambient: true
+    }) || undefined,
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -1692,8 +1719,13 @@ function Home({
         v.loop = true;
         v.controls = false;
         v.muted = true;
-        v.src = film("noesis-reel");
-        v.load();
+        const rl = film("noesis-reel", {
+          ambient: true
+        });
+        if (rl) {
+          v.src = rl;
+          v.load();
+        }
         const pr = v.play();
         if (pr && pr.catch) pr.catch(() => {});
         sec.classList.remove("is-playing");
@@ -2676,6 +2708,7 @@ function InquiryForm({
   intent
 }) {
   const investor = intent === "investor";
+  const owner = intent === "owner";
   const [sent, setSent] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -2683,6 +2716,9 @@ function InquiryForm({
   React.useEffect(() => {
     if (investor) setRole("Investor — capital partnership");
   }, [investor]);
+  React.useEffect(() => {
+    if (owner) setRole("Owner / Principal — a project to deliver");
+  }, [owner]);
   const submit = async e => {
     e.preventDefault();
     setError("");
@@ -2765,7 +2801,7 @@ function InquiryForm({
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " ", investor ? "Confidential investor introduction" : "Send a message"), React.createElement("div", {
+  }), " ", investor ? "Confidential investor introduction" : owner ? "Confidential project enquiry" : "Send a message"), React.createElement("div", {
     "aria-hidden": "true",
     style: {
       position: "absolute",
@@ -2891,7 +2927,8 @@ const SECTORS = [{
   desc: "For owners of apartment buildings: leasing, capital improvements and partial redevelopment, then ongoing asset and property management — the same stabilization discipline we apply to our own value-add holdings."
 }];
 function Approach({
-  go
+  go,
+  setIntent
 }) {
   return React.createElement("main", {
     className: "page-enter"
@@ -3153,9 +3190,12 @@ function Approach({
     className: "col-4 u-tr"
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => go("inquiries"),
+    onClick: () => {
+      if (setIntent) setIntent("owner");
+      go("inquiries");
+    },
     "data-magnetic": true
-  }, "Start a Conversation ", React.createElement("span", {
+  }, "Discuss Your Project ", React.createElement("span", {
     className: "arr"
   }))))));
 }
@@ -3925,7 +3965,9 @@ function ProjectStory({
     poster: wix(cover, {
       w: 1200
     }),
-    src: film(p.video),
+    src: film(p.video, {
+      ambient: true
+    }) || undefined,
     ref: el => {
       if (!el || el.__keeper) return;
       el.__keeper = true;
@@ -4301,7 +4343,8 @@ function App() {
   const active = view === "story" ? "properties" : view;
   return React.createElement(React.Fragment, null, React.createElement(Nav, {
     active: active,
-    go: go
+    go: go,
+    setIntent: setIntent
   }), view === "home" ? React.createElement(Home, {
     go: go,
     setIntent: setIntent
@@ -4311,7 +4354,8 @@ function App() {
     go: go,
     setIntent: setIntent
   }) : view === "owners-rep" ? React.createElement(Approach, {
-    go: go
+    go: go,
+    setIntent: setIntent
   }) : view === "firm" ? React.createElement(Firm, {
     go: go
   }) : view === "inquiries" ? React.createElement(Inquiries, {

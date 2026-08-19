@@ -203,15 +203,23 @@ const FILM_TIERS = {
   "oneoak-film":   [1080, 1440, 2160],
   "noesis-launch": [1080, 1440],          // 137s — a 4K cut cannot fit the 100MB file ceiling
 };
-const FILM_V = 4;
+const FILM_V = 5;
 
-function film(base) {
+// opts.ambient marks a decorative autoplaying loop (hero, reel, story plate) as
+// opposed to a film the visitor deliberately starts. Ambient loops are suppressed
+// entirely for anyone who asked for reduced motion or is saving data — they get
+// the still that already sits beneath, and none of the megabytes.
+function film(base, opts) {
+  const o = opts || {};
   const tiers = FILM_TIERS[base] || [1080];
   const conn = navigator.connection || {};
+  const thrifty = !!conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "");
+  const reduced = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  if (o.ambient && (reduced || thrifty)) return null;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const px = (window.innerWidth || 1280) * dpr;
   let want;
-  if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) want = 1080;
+  if (thrifty) want = 1080;
   else if (px < 2000) want = 1080;
   else if (px < 3000) want = 1440;
   else want = 2160;

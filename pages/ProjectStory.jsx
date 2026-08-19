@@ -113,7 +113,7 @@ function ProjectStory({ project, go }) {
           <img className="cine__img img--warm" alt={`${p.name} — film still`} loading="lazy" onError={onImgError}
             src={wix(cover, { w: 1600 })} />
           <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-            poster={wix(cover, { w: 1200 })} src={film(p.video)}
+            poster={wix(cover, { w: 1200 })} src={film(p.video, { ambient: true }) || undefined}
             ref={(el) => {
               if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
               const tryPlay = () => {

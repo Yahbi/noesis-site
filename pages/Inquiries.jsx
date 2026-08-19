@@ -71,11 +71,13 @@ function Inquiries({ intent }) {
 
 function InquiryForm({ intent }) {
   const investor = intent === "investor";
+  const owner = intent === "owner";
   const [sent, setSent] = React.useState(false);   // false | "endpoint" | "mailto"
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState("");
   const [role, setRole] = React.useState("");
   React.useEffect(() => { if (investor) setRole("Investor — capital partnership"); }, [investor]);
+  React.useEffect(() => { if (owner) setRole("Owner / Principal — a project to deliver"); }, [owner]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -131,7 +133,7 @@ function InquiryForm({ intent }) {
 
   return (
     <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
-      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : "Send a message"}</div>
+      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : owner ? "Confidential project enquiry" : "Send a message"}</div>
       <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
         <label htmlFor="f-company-website">Do not fill this in</label>
         <input id="f-company-website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
