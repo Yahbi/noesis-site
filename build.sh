@@ -8,12 +8,22 @@ cd "$(dirname "$0")"
 
 V=$(date +%s)
 
-# Where the site is served from (used for <base href> and canonical URLs).
-SITE_URL="https://yahbi.github.io/noesis-site/"
-BASE_PATH="/noesis-site/"
+# Where the site is served from (used for <base href>, canonical URLs, OG tags
+# and structured data). Override for a custom domain WITHOUT touching any file:
+#   SITE_URL="https://noesisusa.com/" BASE_PATH="/" ./build.sh
+# See GOLIVE.md for the full cutover sequence.
+SITE_URL="${SITE_URL:-https://yahbi.github.io/noesis-site/}"
+BASE_PATH="${BASE_PATH:-/noesis-site/}"
 
 # 1) Transform JSX -> plain JS, concatenated in load order (same as the dev HTML).
-npx babel \
+# Use the LOCAL babel explicitly. `npx babel` silently falls back to the
+# deprecated Babel 5.8.38 package from npm when node_modules is missing, which
+# cannot parse modern syntax — the build then fails in confusing ways.
+if [ ! -x node_modules/.bin/babel ]; then
+  echo "babel missing — running npm install" >&2
+  npm install --no-audit --no-fund >/dev/null
+fi
+./node_modules/.bin/babel \
   tweaks-panel.jsx \
   components/Placeholder.jsx \
   components/Shell.jsx \
@@ -35,6 +45,9 @@ import re, sys, os, html, json, shutil
 
 v, SITE_URL, BASE_PATH = sys.argv[1], sys.argv[2], sys.argv[3]
 src = open("Noesis Website.html", encoding="utf-8").read()
+# The dev template hardcodes the github.io URL; normalise it to whatever SITE_URL
+# is so a domain switch updates canonical, og:url AND the JSON-LD in one move.
+src = src.replace("https://yahbi.github.io/noesis-site/", SITE_URL)
 
 prod_scripts = f'''  <!-- Production: precompiled bundle, no in-browser compilation -->
   <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
@@ -48,6 +61,14 @@ assert n == 1, "script block not found"
 # The template carries a hardcoded ?v= on styles.css; without restamping it every
 # build, browsers keep serving their cached stylesheet no matter what changed.
 shell = re.sub(r'styles\.css\?v=\d+', f'styles.css?v={v}', shell)
+# Optional, provider-agnostic analytics: create analytics.html containing the
+# snippet your provider gives you (Cloudflare, Plausible, Fathom...) and it is
+# injected into every page. Absent file = no tracking, no cookie banner needed.
+if os.path.exists("analytics.html"):
+    _snippet = open("analytics.html", encoding="utf-8").read().strip()
+    if _snippet:
+        shell = shell.replace("</head>", "  " + _snippet + "\n</head>", 1)
+
 shell = shell.replace('content="width=device-width, initial-scale=1">',
                       'content="width=device-width, initial-scale=1">\n  <meta name="robots" content="index, follow">', 1)
 

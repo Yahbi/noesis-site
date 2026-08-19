@@ -1,9 +1,18 @@
 // Inquiries — the contact destination. Holds the dual-intent form (investor /
 // owner) and the office details. Split out of the one-pager in the multi-page pass.
 
-// Set INQ_ENDPOINT to a Formspree/Basin (or serverless) URL to deliver submissions
-// straight to info@noesisusa.com. While empty, the form opens the visitor's mail
-// client pre-filled — so an enquiry is never silently dropped.
+// ─────────────────────────────────────────────────────────────────────────────
+// LEAD DELIVERY — the single most valuable action on this site.
+//
+// While INQ_ENDPOINT is empty the form falls back to opening the visitor's mail
+// client. That fallback is unreliable: phones without a configured mail app and
+// browser-based webmail users often get NOTHING, so real enquiries are lost.
+//
+// TO GO LIVE: create a free form endpoint (formspree.io or usebasin.com), point
+// it at info@noesisusa.com, and paste the URL below. Nothing else changes —
+// submissions then POST directly and the visitor sees a proper confirmation.
+//   e.g. const INQ_ENDPOINT = "https://formspree.io/f/xxxxxxxx";
+// ─────────────────────────────────────────────────────────────────────────────
 const INQ_ENDPOINT = "";
 
 function Inquiries({ intent }) {
@@ -73,6 +82,9 @@ function InquiryForm({ intent }) {
     setError("");
     const fd = new FormData(e.currentTarget);
     const g = (k) => (fd.get(k) || "").toString();
+    // Honeypot — only automated submitters fill this. Silently accept and drop,
+    // so the bot sees success and does not retry with a different shape.
+    if (g("company_website")) { setSent("endpoint"); return; }
     if (INQ_ENDPOINT) {
       try {
         setSubmitting(true);
@@ -120,6 +132,10 @@ function InquiryForm({ intent }) {
   return (
     <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
       <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : "Send a message"}</div>
+      <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+        <label htmlFor="f-company-website">Do not fill this in</label>
+        <input id="f-company-website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className="form-grid">
         <div className="field"><label htmlFor="f-name">Name</label><input id="f-name" name="name" type="text" placeholder="Your name" required /></div>
         <div className="field"><label htmlFor="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@email.com" required /></div>

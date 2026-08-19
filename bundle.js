@@ -2688,6 +2688,10 @@ function InquiryForm({
     setError("");
     const fd = new FormData(e.currentTarget);
     const g = k => (fd.get(k) || "").toString();
+    if (g("company_website")) {
+      setSent("endpoint");
+      return;
+    }
     if (INQ_ENDPOINT) {
       try {
         setSubmitting(true);
@@ -2762,6 +2766,23 @@ function InquiryForm({
   }, React.createElement("span", {
     className: "dot"
   }), " ", investor ? "Confidential investor introduction" : "Send a message"), React.createElement("div", {
+    "aria-hidden": "true",
+    style: {
+      position: "absolute",
+      left: "-9999px",
+      width: 1,
+      height: 1,
+      overflow: "hidden"
+    }
+  }, React.createElement("label", {
+    htmlFor: "f-company-website"
+  }, "Do not fill this in"), React.createElement("input", {
+    id: "f-company-website",
+    name: "company_website",
+    type: "text",
+    tabIndex: -1,
+    autoComplete: "off"
+  })), React.createElement("div", {
     className: "form-grid"
   }, React.createElement("div", {
     className: "field"
