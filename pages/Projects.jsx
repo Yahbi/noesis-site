@@ -139,7 +139,10 @@ function FeatureBlock({ p, open, flip }) {
   );
 }
 
-function Projects({ setPage }) {
+function Projects({ setPage, setIntent }) {
+  // The record is the highest-proof surface on the site; whichever CTA a visitor
+  // takes from here seeds the enquiry form with the audience they self-selected.
+  const goWith = (who, id) => { if (setIntent) setIntent(who); setPage(id); };
   const [tab, setTab] = React.useState("sfr");
   const tabsRef = React.useRef(null);
   const indRef = React.useRef(null);
@@ -284,7 +287,14 @@ function Projects({ setPage }) {
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>This standard, on <em className="accent">your project.</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => setPage("services")} data-magnetic>How We Manage <span className="arr" /></button></div>
+          <div className="col-4 u-tr cta-row">
+            <button className="btn" onClick={() => goWith("investor", "inquiries")} data-magnetic>
+              Request an Introduction <span className="arr" />
+            </button>
+            <button className="btn btn--ghost" onClick={() => goWith("owner", "owners-rep")} data-magnetic>
+              How We Manage
+            </button>
+          </div>
         </div>
       </section>
     </main>

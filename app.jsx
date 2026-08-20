@@ -151,9 +151,9 @@ function App() {
     }
   }, [view, story]);
 
-  // Map legacy page calls inside Projects onto the router.
+  // Projects routes straight through; only "home" needs the explicit branch
+  // because story views live under the same setter.
   const projectsNav = React.useCallback((p) => {
-    if (p === "services") return go("owners-rep");
     if (p === "home") return go("home");
     go(p);
   }, [go]);
@@ -178,7 +178,7 @@ function App() {
             </button>
             <ProjectStory key={story} project={typeof PROJECTS !== "undefined" ? PROJECTS[story] : null} go={go} />
           </>
-        ) : <Projects setPage={projectsNav} />}
+        ) : <Projects setPage={projectsNav} setIntent={setIntent} />}
 
       <Footer go={go} />
 

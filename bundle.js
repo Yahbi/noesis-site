@@ -3743,8 +3743,13 @@ function FeatureBlock({
   }))));
 }
 function Projects({
-  setPage
+  setPage,
+  setIntent
 }) {
+  const goWith = (who, id) => {
+    if (setIntent) setIntent(who);
+    setPage(id);
+  };
   const [tab, setTab] = React.useState("sfr");
   const tabsRef = React.useRef(null);
   const indRef = React.useRef(null);
@@ -3975,14 +3980,18 @@ function Projects({
   }, "This standard, on ", React.createElement("em", {
     className: "accent"
   }, "your project."))), React.createElement("div", {
-    className: "col-4 u-tr"
+    className: "col-4 u-tr cta-row"
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => setPage("services"),
+    onClick: () => goWith("investor", "inquiries"),
     "data-magnetic": true
-  }, "How We Manage ", React.createElement("span", {
+  }, "Request an Introduction ", React.createElement("span", {
     className: "arr"
-  }))))));
+  })), React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => goWith("owner", "owners-rep"),
+    "data-magnetic": true
+  }, "How We Manage")))));
 }
 function Lightbox({
   project,
@@ -4701,7 +4710,6 @@ function App() {
     }
   }, [view, story]);
   const projectsNav = React.useCallback(p => {
-    if (p === "services") return go("owners-rep");
     if (p === "home") return go("home");
     go(p);
   }, [go]);
@@ -4737,7 +4745,8 @@ function App() {
     project: typeof PROJECTS !== "undefined" ? PROJECTS[story] : null,
     go: go
   })) : React.createElement(Projects, {
-    setPage: projectsNav
+    setPage: projectsNav,
+    setIntent: setIntent
   }), React.createElement(Footer, {
     go: go
   }), /[?&]tweaks=1/.test(window.location.search) && React.createElement(TweaksPanel, null, React.createElement(TweakSection, {
