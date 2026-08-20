@@ -51,8 +51,8 @@ src = open("Noesis Website.html", encoding="utf-8").read()
 src = src.replace("https://yahbi.github.io/noesis-site/", SITE_URL)
 
 prod_scripts = f'''  <!-- Production: precompiled bundle, no in-browser compilation -->
-  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
   <script defer src="motion.js?v={v}"></script>
   <script defer src="bundle.js?v={v}"></script>
 
