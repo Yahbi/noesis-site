@@ -90,7 +90,7 @@ function Investment({ go, setIntent }) {
                 <div className="row__idx">{n}</div>
                 <div>
                   <div className="row__title">{t}</div>
-                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 10 }}>{hold}</div>
+                  <div className="label label--accent" style={{ marginTop: 10 }}>{hold}</div>
                 </div>
                 <div>
                   <p className="row__desc">{desc}</p>
@@ -170,7 +170,7 @@ function Investment({ go, setIntent }) {
               <div className="eyebrow"><span className="dot" /> The Operator</div>
               <div className="principal__name">Igal N. Azran</div>
               <div className="principal__role">Founder &amp; CEO · Previously CIM Group · CBRE · STMC</div>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginTop: 8 }}>MSc · Real Estate</div>
+              <div className="label" style={{ marginTop: 8 }}>MSc · Real Estate</div>
               <p className="principal__bio">
                 Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate
                 private-equity and development firm, working on institutional investment and

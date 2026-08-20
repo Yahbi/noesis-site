@@ -123,7 +123,7 @@ function FeatureBlock({ p, open, flip }) {
         {p.rendering && <div className="pfeat__badge pfeat__badge--render">Architectural rendering</div>}
       </a>
       <div>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)" }}>
+        <div className="label">
           {p.loc}{p.year ? ` \u00b7 ${p.year}` : ""}
         </div>
         <h2 className="h-2 u-mt-8" style={{ textTransform: "none" }}>{p.name}</h2>
@@ -204,7 +204,7 @@ function Projects({ setPage, setIntent }) {
               </button>
             ))}
           </div>
-          <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)" }}>{cat.items.length} projects</div>
+          <div className="label">{cat.items.length} projects</div>
         </div>
         <div className="wrap">
           <p className="body-lg pcat__lede" key={cat.key}>{cat.blurb}</p>
@@ -275,7 +275,7 @@ function Projects({ setPage, setIntent }) {
                 <div className="row__idx">0{i + 1}</div>
                 <div>
                   <div className="row__title">{name}</div>
-                  <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent-deep)", marginTop: 10 }}>{loc} · {year}</div>
+                  <div className="label label--accent" style={{ marginTop: 10 }}>{loc} · {year}</div>
                 </div>
                 <p className="row__desc">{note}</p>
               </div>

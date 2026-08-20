@@ -125,8 +125,8 @@ function Firm({ go }) {
               <div className="principal__name">{FIRM_FOUNDER.name}</div>
               <div className="principal__role">{FIRM_FOUNDER.title}</div>
               <div style={{ borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 18 }}>
-                <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>{FIRM_FOUNDER.prev}</div>
-                <div className="mono" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginTop: 8 }}>{FIRM_FOUNDER.edu}</div>
+                <div className="label">{FIRM_FOUNDER.prev}</div>
+                <div className="label" style={{ marginTop: 8 }}>{FIRM_FOUNDER.edu}</div>
               </div>
               <div className="qgrid--3" style={{ display: "grid", gap: 18, borderTop: "1px solid var(--rule)", marginTop: 22, paddingTop: 22 }}>
                 {FIRM_FOUNDER.stats.map(([v, l]) => (
@@ -165,7 +165,7 @@ function Firm({ go }) {
             ))}
           </div>
           <div className="reveal" style={{ marginTop: "clamp(28px,3.5vw,44px)", borderTop: "1px solid var(--rule)", paddingTop: 20 }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)" }}>
+            <div className="label">
               California BRE # 02001795 &nbsp;·&nbsp; General Contractor # 1046562
             </div>
           </div>

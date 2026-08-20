@@ -6,7 +6,10 @@
 set -e
 cd "$(dirname "$0")"
 
-V=$(date +%s)
+# Cache-bust stamp. Overridable so a build can be reproduced byte-for-byte:
+# CI pins BUILD_V to the stamp already committed, rebuilds, and diffs — any
+# difference means source and generated artifacts have drifted apart.
+V="${BUILD_V:-$(date +%s)}"
 
 # Where the site is served from (used for <base href>, canonical URLs, OG tags
 # and structured data). Override for a custom domain WITHOUT touching any file:

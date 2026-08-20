@@ -13,9 +13,9 @@
   --bone-3:      #201C15;
   --ink:         #2E2A22;
   --ink-2:       #4A4234;
-  --ink-soft:    #635B4C;
+  --ink-soft:    #61594A;   /* 5.25 on linen, 4.60 on #DBD2C2 */
   --bone-soft:   rgba(236,230,216,.78);
-  --muted:       #6A6250;
+  --muted:       #605949;   /* 5.27 on linen, 4.62 on #DBD2C2 */
   --muted-2:     #B0A892;
   --rule:        rgba(46,42,34,.16);
   --rule-soft:   rgba(46,42,34,.08);
@@ -25,6 +25,8 @@
   --accent-deep: #7A5236;
   --accent-soft: rgba(154,106,62,.10);
   --on-accent:   #F2ECDE;
+  --accent-cta:  #895E37;   /* text-bearing bronze fills — 4.78 with --on-accent */
+  --accent-on-ink: #C08A55; /* small bronze text on ink plates — 5.2 on #28231B */
   --ok:          #5E8C6E;
 
   --serif:  "Jost", "Helvetica Neue", Arial, sans-serif;
@@ -140,7 +142,7 @@ img.img-in { animation: img-fade .6s ease both; }
 .btn {
   display: inline-flex; align-items: center; gap: 12px;
   position: relative; overflow: hidden; isolation: isolate;
-  padding: 17px 28px; border: 1px solid var(--accent); background: var(--accent);
+  padding: 17px 28px; border: 1px solid var(--accent-cta); background: var(--accent-cta);
   color: var(--on-accent); border-radius: var(--rad);
   font-family: var(--sans); font-size: 11.5px; letter-spacing: .12em;
   font-weight: 500; text-transform: uppercase;
@@ -239,7 +241,7 @@ img.img-in { animation: img-fade .6s ease both; }
   text-transform: uppercase; color: var(--ink-soft);
   transition: background .25s ease, color .25s ease, border-color .25s ease;
 }
-.chip--active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.chip--active { background: var(--accent-cta); color: var(--on-accent); border-color: var(--accent-cta); }
 .chip:hover:not(.chip--active) { color: var(--accent-deep); background: var(--accent-soft); border-color: var(--accent); }
 
 /* Nav ------------------------------------------------------------------ */
@@ -614,7 +616,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .pfeat__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-img); }
 .pfeat__media:hover img { transform: scale(1.045); }
 .pfeat__badge { position: absolute; top: 16px; left: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--on-accent); background: var(--accent); padding: 6px 10px; border-radius: 2px; }
+  text-transform: uppercase; color: var(--on-accent); background: var(--accent-cta); padding: 6px 10px; border-radius: 2px; }
 .pfeat__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; margin: 26px 0; }
 .pfeat__fact .k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .pfeat__fact .v { font-family: var(--serif); font-size: 20px; margin-top: 4px; }
@@ -765,7 +767,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 /* Cards / chips / tables / links */
 .card { background: var(--paper); border-color: var(--rule); }
 .chip { color: var(--ink-soft); border-color: var(--rule); }
-.chip--active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.chip--active { background: var(--accent-cta); color: var(--on-accent); border-color: var(--accent-cta); }
 .thumb { background: var(--paper-2); }
 .thumb__label { background: var(--ink); color: var(--bone); }
 .tbl th, .tbl td { border-bottom-color: var(--rule); }
@@ -1510,7 +1512,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 .ptab.is-active { color: var(--ink); }
 .ptab__n {
   font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em;
-  color: var(--accent); transform: translateY(-2px);
+  color: var(--accent-deep); transform: translateY(-2px);
 }
 .ptabs__ind {
   position: absolute; left: 0; top: 0; height: 1px; width: 0; opacity: 0;
@@ -1547,3 +1549,27 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Paired CTAs — wraps to a column before the two buttons collide. */
 .cta-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
 @media (max-width: 700px) { .cta-row { justify-content: flex-start; } }
+
+/* Micro-labels. These repeat all over the site (office/telephone captions, stat
+   captions, record-row locations) and were re-implemented inline at six different
+   trackings, which reads as jitter on what should be one recurring element.
+   One class, one tracking. */
+.label {
+  font-family: var(--mono); font-weight: 400; font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.label--sm { font-size: 10.5px; letter-spacing: .08em; }
+.label--accent { color: var(--accent-deep); }
+
+/* Bronze micro-labels on the ink plates. The global rule sends this group to
+   --accent-deep, which is correct on linen (5.6:1) and unreadable on dark
+   (2.1–2.3:1). Same inversion the focus ring needed. */
+.section--ink, .cine, .shero,
+/* and the dark cards that sit on light sections */
+.sector, .track, .pillar {
+  --accent-label: var(--accent-on-ink);
+}
+:is(.section--ink, .cine, .shero, .sector, .track, .pillar)
+  :is(.kicker, .track__for, .sector__tag, .row__idx, .flow__num, .wwd-cap__n) {
+  color: var(--accent-label, var(--accent-deep));
+}

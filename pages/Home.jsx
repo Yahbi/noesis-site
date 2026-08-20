@@ -237,7 +237,7 @@ function Home({ go, setIntent }) {
                     <h3 className="pcard__name">{name}</h3>
                     <div className="pcard__loc">{loc}</div>
                   </div>
-                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
+                  <div className="mono label label--sm" style={{ color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
                 </div>
               </a>
             ))}

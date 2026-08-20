@@ -1204,18 +1204,9 @@ function Footer({
       color: "var(--muted)"
     }
   }, React.createElement(CityClocks, null), React.createElement("div", {
-    style: {
-      letterSpacing: ".08em",
-      textTransform: "uppercase",
-      fontSize: 10.5
-    }
+    className: "label label--sm"
   }, "\xA9 2026 Noesis Group \xB7 All rights reserved"), React.createElement("div", {
-    className: "u-flex u-gap-24",
-    style: {
-      fontSize: 10.5,
-      letterSpacing: ".08em",
-      textTransform: "uppercase"
-    }
+    className: "u-flex u-gap-24 label label--sm"
   }, React.createElement("span", {
     title: "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security."
   }, "No offer or solicitation")))));
@@ -1871,11 +1862,8 @@ function Home({
   }, name), React.createElement("div", {
     className: "pcard__loc"
   }, loc)), React.createElement("div", {
-    className: "mono",
+    className: "mono label label--sm",
     style: {
-      fontSize: 10.5,
-      letterSpacing: ".08em",
-      textTransform: "uppercase",
       color: "var(--accent-deep)",
       whiteSpace: "nowrap"
     }
@@ -2411,12 +2399,8 @@ function Investment({
   }, n), React.createElement("div", null, React.createElement("div", {
     className: "row__title"
   }, t), React.createElement("div", {
-    className: "mono",
+    className: "label label--accent",
     style: {
-      fontSize: 11,
-      letterSpacing: ".14em",
-      textTransform: "uppercase",
-      color: "var(--accent-deep)",
       marginTop: 10
     }
   }, hold)), React.createElement("div", null, React.createElement("p", {
@@ -2559,12 +2543,8 @@ function Investment({
   }, "Igal N. Azran"), React.createElement("div", {
     className: "principal__role"
   }, "Founder & CEO \xB7 Previously CIM Group \xB7 CBRE \xB7 STMC"), React.createElement("div", {
-    className: "mono",
+    className: "label",
     style: {
-      fontSize: 11,
-      letterSpacing: ".1em",
-      textTransform: "uppercase",
-      color: "var(--muted)",
       marginTop: 8
     }
   }, "MSc \xB7 Real Estate"), React.createElement("p", {
@@ -2758,20 +2738,10 @@ function Firm({
       paddingTop: 18
     }
   }, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".1em",
-      textTransform: "uppercase",
-      color: "var(--muted)"
-    }
+    className: "label"
   }, FIRM_FOUNDER.prev), React.createElement("div", {
-    className: "mono",
+    className: "label",
     style: {
-      fontSize: 11,
-      letterSpacing: ".1em",
-      textTransform: "uppercase",
-      color: "var(--muted)",
       marginTop: 8
     }
   }, FIRM_FOUNDER.edu)), React.createElement("div", {
@@ -2843,13 +2813,7 @@ function Firm({
       paddingTop: 20
     }
   }, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".12em",
-      textTransform: "uppercase",
-      color: "var(--muted)"
-    }
+    className: "label"
   }, "California BRE # 02001795 \xA0\xB7\xA0 General Contractor # 1046562")))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
@@ -2918,13 +2882,7 @@ function Inquiries({
   }), React.createElement("div", {
     className: "u-mt-40"
   }, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".12em",
-      color: "var(--muted)",
-      textTransform: "uppercase"
-    }
+    className: "label"
   }, "Office"), React.createElement("div", {
     className: "serif u-mt-8",
     style: {
@@ -2938,13 +2896,7 @@ function Inquiries({
       flexWrap: "wrap"
     }
   }, React.createElement("div", null, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".12em",
-      color: "var(--muted)",
-      textTransform: "uppercase"
-    }
+    className: "label"
   }, "Telephone"), React.createElement("a", {
     href: "tel:+13108553634",
     className: "serif u-mt-8 inq-link",
@@ -2959,13 +2911,7 @@ function Inquiries({
       fontSize: 14
     }
   }, "F (424) 282 \xB7 8414")), React.createElement("div", null, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".12em",
-      color: "var(--muted)",
-      textTransform: "uppercase"
-    }
+    className: "label"
   }, "Email"), React.createElement("a", {
     href: "mailto:info@noesisusa.com",
     className: "serif u-mt-8 inq-link",
@@ -3708,13 +3654,7 @@ function FeatureBlock({
   }, p.gallery.length, " Photos"), p.rendering && React.createElement("div", {
     className: "pfeat__badge pfeat__badge--render"
   }, "Architectural rendering")), React.createElement("div", null, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".14em",
-      textTransform: "uppercase",
-      color: "var(--muted)"
-    }
+    className: "label"
   }, p.loc, p.year ? ` \u00b7 ${p.year}` : ""), React.createElement("h2", {
     className: "h-2 u-mt-8",
     style: {
@@ -3843,13 +3783,7 @@ function Projects({
   }, c.label, React.createElement("span", {
     className: "ptab__n"
   }, c.items.length)))), React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".12em",
-      textTransform: "uppercase",
-      color: "var(--muted)"
-    }
+    className: "label"
   }, cat.items.length, " projects")), React.createElement("div", {
     className: "wrap"
   }, React.createElement("p", {
@@ -3956,12 +3890,8 @@ function Projects({
   }, "0", i + 1), React.createElement("div", null, React.createElement("div", {
     className: "row__title"
   }, name), React.createElement("div", {
-    className: "mono",
+    className: "label label--accent",
     style: {
-      fontSize: 11,
-      letterSpacing: ".14em",
-      textTransform: "uppercase",
-      color: "var(--accent-deep)",
       marginTop: 10
     }
   }, loc, " \xB7 ", year)), React.createElement("p", {

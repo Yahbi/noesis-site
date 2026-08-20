@@ -31,17 +31,17 @@ function Inquiries({ intent }) {
             <hr className="hair" style={{ margin: "clamp(32px,4vw,48px) 0 0", maxWidth: 280 }} />
 
             <div className="u-mt-40">
-              <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Office</div>
+              <div className="label">Office</div>
               <div className="serif u-mt-8" style={{ fontSize: 21, color: "var(--ink)", lineHeight: 1.35 }}>8383 Wilshire Blvd<br />Suite 740<br />Beverly Hills, CA 90211</div>
             </div>
             <div className="u-flex u-gap-40 u-mt-40" style={{ flexWrap: "wrap" }}>
               <div>
-                <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Telephone</div>
+                <div className="label">Telephone</div>
                 <a href="tel:+13108553634" className="serif u-mt-8 inq-link" style={{ fontSize: 19, display: "block" }}>T (310) 855 · 3634</a>
                 <div className="body" style={{ color: "var(--muted)", fontSize: 14 }}>F (424) 282 · 8414</div>
               </div>
               <div>
-                <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", color: "var(--muted)", textTransform: "uppercase" }}>Email</div>
+                <div className="label">Email</div>
                 <a href="mailto:info@noesisusa.com" className="serif u-mt-8 inq-link" style={{ fontSize: 19, display: "block" }}>INFO@NOESISUSA.COM</a>
               </div>
             </div>

@@ -325,8 +325,8 @@ function Footer({ go }) {
 
         <div className="u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16, fontSize: 12, color: "var(--muted)" }}>
           <CityClocks />
-          <div style={{ letterSpacing: ".08em", textTransform: "uppercase", fontSize: 10.5 }}>© 2026 Noesis Group · All rights reserved</div>
-          <div className="u-flex u-gap-24" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase" }}>
+          <div className="label label--sm">© 2026 Noesis Group · All rights reserved</div>
+          <div className="u-flex u-gap-24 label label--sm" >
             <span title="Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.">No offer or solicitation</span>
           </div>
         </div>
