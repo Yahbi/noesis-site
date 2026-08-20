@@ -27,6 +27,7 @@ const APT = {
 const CATEGORIES = [
   {
     key: "sfr", label: "Single Family Residences",
+    blurb: "Ground-up luxury houses — land taken through entitlement, design and construction by the Noesis team. The firm's founding discipline, and the deepest part of the record.",
     items: [
       { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"], video: "oneoak-film",
         text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
@@ -68,6 +69,7 @@ const CATEGORIES = [
   },
   {
     key: "apt", label: "Apartment Buildings",
+    blurb: "Small, boutique buildings of brand-new townhouse apartments, built to the same specification as the houses — Miton Italian kitchens, Caesarstone, and private outdoor space for every unit.",
     items: [
       { id: "ying-yang-lofts", name: "Ying Yang Lofts", loc: "Los Angeles", year: "2019", gallery: APT.ying, cover: "ying_ext_tall",
         text: "Brand-new townhouse apartments designed and built by Noesis for the trendsetters, tastemakers and families who want to live and play in the heart of Los Angeles — culture, dining, entertainment and nightlife all within walking distance.\n\nEach two-bedroom, 2.5-bath unit with flex space carries Porcelanosa fixtures, Caesarstone counters and custom Miton Italian kitchens. Indoor-outdoor California living runs throughout — private grassed yards and rooftop decks with unobstructed city views — fully equipped with LG stainless appliances, full-size laundry and a two-car garage.",
@@ -82,13 +84,14 @@ const CATEGORIES = [
   },
   {
     key: "sls", label: "Small-Lot Subdivisions",
+    blurb: "Detached, fee-simple homes on subdivided infill parcels — the density of an apartment site with the privacy and ownership of a house, in high-demand Los Angeles neighborhoods.",
     items: [
-      { id: "casablanca-homes", name: "Casablanca Homes", loc: "Los Angeles", gallery: ["casablanca"], cover: "casablanca",
+      { id: "casablanca-homes", name: "Casablanca Homes", loc: "Los Angeles", gallery: ["casablanca"], cover: "casablanca", rendering: true,
         text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.",
-        facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"]] },
-      { id: "alexandria-homes", name: "Alexandria Homes", loc: "Los Angeles", gallery: ["alexandria"], cover: "alexandria",
+        facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]] },
+      { id: "alexandria-homes", name: "Alexandria Homes", loc: "Los Angeles", gallery: ["alexandria"], cover: "alexandria", rendering: true,
         text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.",
-        facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"]] },
+        facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]] },
     ],
   },
 ];
@@ -96,13 +99,45 @@ const CATEGORIES = [
 // Delivered projects from the firm's record whose photography isn't digitized yet —
 // listed as track record (facts from the client's completed-projects docs).
 const FURTHER_RECORD = [
-  ["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark."],
-  ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property."],
-  ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths."],
-  ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors."],
-  ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside."],
-  ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings."],
+  ["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark.", "sfr"],
+  ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property.", "sfr"],
+  ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths.", "sfr"],
+  ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors.", "sfr"],
+  ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside.", "apt"],
+  ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings.", "apt"],
 ];
+
+// One featured project, image beside the facts. Extracted so a category with only
+// two projects can present both at this scale instead of stranding one lonely card
+// in a grid built for twelve.
+function FeatureBlock({ p, open, flip }) {
+  return (
+    <div className={`pfeat ${flip ? "pfeat--flip" : ""}`}>
+      <a className="pfeat__media" href={BASE + pathFor("story:" + p.id)} aria-label={`Open the ${p.name} story`}
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+          e.preventDefault(); open(p);
+        }}>
+        <img src={wix(p.cover || p.gallery[0], { w: 1900 })} alt={p.name} onError={imgFallback} />
+        {p.gallery.length > 1 && <div className="pfeat__badge">{p.gallery.length} Photos</div>}
+        {p.rendering && <div className="pfeat__badge pfeat__badge--render">Architectural rendering</div>}
+      </a>
+      <div>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)" }}>
+          {p.loc}{p.year ? ` \u00b7 ${p.year}` : ""}
+        </div>
+        <h2 className="h-2 u-mt-8" style={{ textTransform: "none" }}>{p.name}</h2>
+        <div className="pfeat__facts">
+          {p.facts.slice(0, 4).map(([k, v]) => (
+            <div className="pfeat__fact" key={k}><div className="k">{k}</div><div className="v">{v}</div></div>
+          ))}
+        </div>
+        <p className="body-lg" style={{ maxWidth: "54ch" }}>{p.text.split("\n\n")[0]}</p>
+        <button className="btn u-mt-40" onClick={() => open(p)} data-magnetic>View the Project <span className="arr" /></button>
+      </div>
+    </div>
+  );
+}
 
 function Projects({ setPage }) {
   const [tab, setTab] = React.useState("sfr");
@@ -127,7 +162,10 @@ function Projects({ setPage }) {
   }, [tab]);
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
-  const rest = cat.items.slice(1);
+  // Two projects can't fill a featured-plus-grid layout; show both at feature scale.
+  const duo = cat.items.length <= 2;
+  const rest = duo ? [] : cat.items.slice(1);
+  const record = FURTHER_RECORD.filter(r => r[4] === cat.key);
   const openStory = (p) => setPage("story:" + p.id);   // each card opens the immersive story
 
   return (
@@ -165,40 +203,27 @@ function Projects({ setPage }) {
           </div>
           <div className="mono" style={{ fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--muted)" }}>{cat.items.length} projects</div>
         </div>
+        <div className="wrap">
+          <p className="body-lg pcat__lede" key={cat.key}>{cat.blurb}</p>
+        </div>
       </section>
 
       {/* FEATURED */}
       <section className="section" style={{ paddingBottom: "clamp(36px, 4.5vw, 64px)" }}>
         <div className="wrap">
-          <div className="eyebrow" style={{ marginBottom: 28 }}><span className="dot" /> Featured · {cat.label}</div>
-          <div className="pfeat">
-            <a className="pfeat__media" href={BASE + pathFor("story:" + feat.id)} aria-label={`Open the ${feat.name} story`}
-              onClick={(e) => {
-                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-                e.preventDefault(); openStory(feat);
-              }}>
-              <img src={wix(feat.cover || feat.gallery[0], { w: 1900 })} alt={feat.name} onError={imgFallback} />
-              {feat.gallery.length > 1 && <div className="pfeat__badge">{feat.gallery.length} Photos</div>}
-            </a>
-            <div>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted)" }}>
-                {feat.loc}{feat.year ? ` · ${feat.year}` : ""}
-              </div>
-              <h2 className="h-2 u-mt-8" style={{ textTransform: "none" }}>{feat.name}</h2>
-              <div className="pfeat__facts">
-                {feat.facts.slice(0, 4).map(([k, v]) => (
-                  <div className="pfeat__fact" key={k}><div className="k">{k}</div><div className="v">{v}</div></div>
-                ))}
-              </div>
-              <p className="body-lg" style={{ maxWidth: "54ch" }}>{feat.text.split("\n\n")[0]}</p>
-              <button className="btn u-mt-40" onClick={() => openStory(feat)} data-magnetic>View the Project <span className="arr" /></button>
-            </div>
-          </div>
+          <div className="eyebrow" style={{ marginBottom: 28 }}><span className="dot" /> {duo ? cat.label : `Featured \u00b7 ${cat.label}`}</div>
+          {duo
+            ? cat.items.map((p, i) => (
+                <div key={p.id} style={i ? { marginTop: "clamp(48px, 6vw, 92px)" } : null}>
+                  <FeatureBlock p={p} open={openStory} flip={i % 2 === 1} />
+                </div>
+              ))
+            : <FeatureBlock p={feat} open={openStory} />}
         </div>
       </section>
 
       {/* GALLERY GRID */}
-      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      {rest.length > 0 && <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           <div className={`pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`}>
             {rest.map((p) => {
@@ -218,6 +243,7 @@ function Projects({ setPage }) {
                     <img className="pcard__img" src={wix(cover, { w: 1300 })} alt={p.name} loading="lazy" onError={imgFallback} />
                     <div className="pcard__over">
                       {count > 1 && <span className="pcard__count">{count} Photos</span>}
+                      {p.rendering && <span className="pcard__count pcard__count--render">Rendering</span>}
                       <span className="pcard__cta">View Project <span className="arr" /></span>
                     </div>
                   </div>
@@ -233,15 +259,15 @@ function Projects({ setPage }) {
             })}
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Further delivered work — record-only entries from the firm's project docs
           (no photography digitized yet; facts verbatim from the completed-projects record). */}
-      <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      {record.length > 0 && <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Further Delivered Work · 2011 — 2017</div>
           <div className="rows u-mt-24">
-            {FURTHER_RECORD.map(([name, loc, year, note], i) => (
+            {record.map(([name, loc, year, note], i) => (
               <div key={name} className="row reveal">
                 <div className="row__idx">0{i + 1}</div>
                 <div>
@@ -253,7 +279,7 @@ function Projects({ setPage }) {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">

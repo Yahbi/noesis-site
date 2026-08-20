@@ -3525,6 +3525,7 @@ const APT = {
 const CATEGORIES = [{
   key: "sfr",
   label: "Single Family Residences",
+  blurb: "Ground-up luxury houses — land taken through entitlement, design and construction by the Noesis team. The firm's founding discipline, and the deepest part of the record.",
   items: [{
     id: "one-oak",
     name: "One Oak",
@@ -3626,6 +3627,7 @@ const CATEGORIES = [{
 }, {
   key: "apt",
   label: "Apartment Buildings",
+  blurb: "Small, boutique buildings of brand-new townhouse apartments, built to the same specification as the houses — Miton Italian kitchens, Caesarstone, and private outdoor space for every unit.",
   items: [{
     id: "ying-yang-lofts",
     name: "Ying Yang Lofts",
@@ -3657,25 +3659,89 @@ const CATEGORIES = [{
 }, {
   key: "sls",
   label: "Small-Lot Subdivisions",
+  blurb: "Detached, fee-simple homes on subdivided infill parcels — the density of an apartment site with the privacy and ownership of a house, in high-demand Los Angeles neighborhoods.",
   items: [{
     id: "casablanca-homes",
     name: "Casablanca Homes",
     loc: "Los Angeles",
     gallery: ["casablanca"],
     cover: "casablanca",
+    rendering: true,
     text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.",
-    facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"]]
+    facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]]
   }, {
     id: "alexandria-homes",
     name: "Alexandria Homes",
     loc: "Los Angeles",
     gallery: ["alexandria"],
     cover: "alexandria",
+    rendering: true,
     text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.",
-    facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"]]
+    facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]]
   }]
 }];
-const FURTHER_RECORD = [["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark."], ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property."], ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths."], ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors."], ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside."], ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings."]];
+const FURTHER_RECORD = [["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark.", "sfr"], ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property.", "sfr"], ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths.", "sfr"], ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors.", "sfr"], ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside.", "apt"], ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings.", "apt"]];
+function FeatureBlock({
+  p,
+  open,
+  flip
+}) {
+  return React.createElement("div", {
+    className: `pfeat ${flip ? "pfeat--flip" : ""}`
+  }, React.createElement("a", {
+    className: "pfeat__media",
+    href: BASE + pathFor("story:" + p.id),
+    "aria-label": `Open the ${p.name} story`,
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      open(p);
+    }
+  }, React.createElement("img", {
+    src: wix(p.cover || p.gallery[0], {
+      w: 1900
+    }),
+    alt: p.name,
+    onError: imgFallback
+  }), p.gallery.length > 1 && React.createElement("div", {
+    className: "pfeat__badge"
+  }, p.gallery.length, " Photos"), p.rendering && React.createElement("div", {
+    className: "pfeat__badge pfeat__badge--render"
+  }, "Architectural rendering")), React.createElement("div", null, React.createElement("div", {
+    className: "mono",
+    style: {
+      fontSize: 11,
+      letterSpacing: ".14em",
+      textTransform: "uppercase",
+      color: "var(--muted)"
+    }
+  }, p.loc, p.year ? ` \u00b7 ${p.year}` : ""), React.createElement("h2", {
+    className: "h-2 u-mt-8",
+    style: {
+      textTransform: "none"
+    }
+  }, p.name), React.createElement("div", {
+    className: "pfeat__facts"
+  }, p.facts.slice(0, 4).map(([k, v]) => React.createElement("div", {
+    className: "pfeat__fact",
+    key: k
+  }, React.createElement("div", {
+    className: "k"
+  }, k), React.createElement("div", {
+    className: "v"
+  }, v)))), React.createElement("p", {
+    className: "body-lg",
+    style: {
+      maxWidth: "54ch"
+    }
+  }, p.text.split("\n\n")[0]), React.createElement("button", {
+    className: "btn u-mt-40",
+    onClick: () => open(p),
+    "data-magnetic": true
+  }, "View the Project ", React.createElement("span", {
+    className: "arr"
+  }))));
+}
 function Projects({
   setPage
 }) {
@@ -3707,7 +3773,9 @@ function Projects({
   }, [tab]);
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
-  const rest = cat.items.slice(1);
+  const duo = cat.items.length <= 2;
+  const rest = duo ? [] : cat.items.slice(1);
+  const record = FURTHER_RECORD.filter(r => r[4] === cat.key);
   const openStory = p => setPage("story:" + p.id);
   return React.createElement("main", {
     className: "page-enter"
@@ -3777,7 +3845,12 @@ function Projects({
       textTransform: "uppercase",
       color: "var(--muted)"
     }
-  }, cat.items.length, " projects"))), React.createElement("section", {
+  }, cat.items.length, " projects")), React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("p", {
+    className: "body-lg pcat__lede",
+    key: cat.key
+  }, cat.blurb))), React.createElement("section", {
     className: "section",
     style: {
       paddingBottom: "clamp(36px, 4.5vw, 64px)"
@@ -3791,59 +3864,19 @@ function Projects({
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " Featured \xB7 ", cat.label), React.createElement("div", {
-    className: "pfeat"
-  }, React.createElement("a", {
-    className: "pfeat__media",
-    href: BASE + pathFor("story:" + feat.id),
-    "aria-label": `Open the ${feat.name} story`,
-    onClick: e => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-      e.preventDefault();
-      openStory(feat);
-    }
-  }, React.createElement("img", {
-    src: wix(feat.cover || feat.gallery[0], {
-      w: 1900
-    }),
-    alt: feat.name,
-    onError: imgFallback
-  }), feat.gallery.length > 1 && React.createElement("div", {
-    className: "pfeat__badge"
-  }, feat.gallery.length, " Photos")), React.createElement("div", null, React.createElement("div", {
-    className: "mono",
-    style: {
-      fontSize: 11,
-      letterSpacing: ".14em",
-      textTransform: "uppercase",
-      color: "var(--muted)"
-    }
-  }, feat.loc, feat.year ? ` · ${feat.year}` : ""), React.createElement("h2", {
-    className: "h-2 u-mt-8",
-    style: {
-      textTransform: "none"
-    }
-  }, feat.name), React.createElement("div", {
-    className: "pfeat__facts"
-  }, feat.facts.slice(0, 4).map(([k, v]) => React.createElement("div", {
-    className: "pfeat__fact",
-    key: k
-  }, React.createElement("div", {
-    className: "k"
-  }, k), React.createElement("div", {
-    className: "v"
-  }, v)))), React.createElement("p", {
-    className: "body-lg",
-    style: {
-      maxWidth: "54ch"
-    }
-  }, feat.text.split("\n\n")[0]), React.createElement("button", {
-    className: "btn u-mt-40",
-    onClick: () => openStory(feat),
-    "data-magnetic": true
-  }, "View the Project ", React.createElement("span", {
-    className: "arr"
-  })))))), React.createElement("section", {
+  }), " ", duo ? cat.label : `Featured \u00b7 ${cat.label}`), duo ? cat.items.map((p, i) => React.createElement("div", {
+    key: p.id,
+    style: i ? {
+      marginTop: "clamp(48px, 6vw, 92px)"
+    } : null
+  }, React.createElement(FeatureBlock, {
+    p: p,
+    open: openStory,
+    flip: i % 2 === 1
+  }))) : React.createElement(FeatureBlock, {
+    p: feat,
+    open: openStory
+  }))), rest.length > 0 && React.createElement("section", {
     className: "section",
     style: {
       paddingTop: 0,
@@ -3880,7 +3913,9 @@ function Projects({
         className: "pcard__over"
       }, count > 1 && React.createElement("span", {
         className: "pcard__count"
-      }, count, " Photos"), React.createElement("span", {
+      }, count, " Photos"), p.rendering && React.createElement("span", {
+        className: "pcard__count pcard__count--render"
+      }, "Rendering"), React.createElement("span", {
         className: "pcard__cta"
       }, "View Project ", React.createElement("span", {
         className: "arr"
@@ -3894,7 +3929,7 @@ function Projects({
         className: "pcard__yr"
       }, p.year)))
     );
-  })))), React.createElement("section", {
+  })))), record.length > 0 && React.createElement("section", {
     className: "section",
     style: {
       paddingTop: 0,
@@ -3908,7 +3943,7 @@ function Projects({
     className: "dot"
   }), " Further Delivered Work \xB7 2011 \u2014 2017"), React.createElement("div", {
     className: "rows u-mt-24"
-  }, FURTHER_RECORD.map(([name, loc, year, note], i) => React.createElement("div", {
+  }, record.map(([name, loc, year, note], i) => React.createElement("div", {
     key: name,
     className: "row reveal"
   }, React.createElement("div", {

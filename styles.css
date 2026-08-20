@@ -1645,3 +1645,21 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 }
 @media (prefers-reduced-motion: reduce) { .ptabs__ind { transition: opacity .2s ease; } }
 @media (max-width: 560px) { .ptab { font-size: 12px; letter-spacing: .1em; } .ptabs { gap: 18px; } }
+
+/* Renderings must never read as delivered photography. Same badge geometry as
+   the photo count, differentiated by tone so the distinction is unmissable. */
+.pfeat__badge--render, .pcard__count--render {
+  background: color-mix(in oklab, var(--ink) 78%, transparent);
+  color: var(--bone); letter-spacing: .1em;
+}
+.pfeat__badge--render { top: auto; bottom: 14px; }
+
+/* Category framing + two-project categories.
+   A category with only two projects presents both at feature scale, alternating
+   sides, instead of a featured block followed by one stranded card. */
+.pcat__lede { max-width: 62ch; margin-top: 22px; color: var(--ink-soft); animation: pcatIn .5s var(--ease-glide) both; }
+@keyframes pcatIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.pfeat--flip { grid-template-columns: 1fr 1.45fr; }
+.pfeat--flip .pfeat__media { order: 2; }
+@media (max-width: 860px) { .pfeat--flip { grid-template-columns: 1fr; } .pfeat--flip .pfeat__media { order: 0; } }
+@media (prefers-reduced-motion: reduce) { .pcat__lede { animation: none; } }
