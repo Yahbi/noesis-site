@@ -1,4 +1,6 @@
-#!/bin/zsh
+#!/usr/bin/env bash
+# env bash, not /bin/zsh: the CI runner has no zsh, and the script uses no
+# zsh-only syntax — verified byte-identical output under both shells.
 # Production build — precompile all JSX into one bundle.js, then generate a REAL
 # static page per route (each with its own title/meta/canonical + window.__ROUTE)
 # so every destination returns 200 and is crawlable. Dev workflow is untouched:
