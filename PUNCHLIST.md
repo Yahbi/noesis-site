@@ -30,22 +30,22 @@ file had drifted badly out of date. P0 = do now, P1 = soon, P2 = polish.
 
 ## P1 — open engineering
 
-- **(M) `width`/`height` on images.** 0 of 30 `<img>` tags carry intrinsic
-  dimensions, so every image can shift layout as it loads. 18 have `onError`
-  fallbacks and 19 are lazy, so the remaining gap is specifically CLS.
-- **(S) CI guard.** `index.html`, `404.html`, the 24 route pages and `bundle.js`
-  are generated but committed for Pages. Nothing currently fails a build when
-  source and artifacts drift. Add a check that runs `./build.sh` and fails if the
-  working tree changes.
+Nothing outstanding. The three items previously listed here are resolved:
+
+- **Images / CLS** — closed as *not a defect*. Measured CLS is **0** on home,
+  portfolio, story and firm pages, with zero unreserved images: every container
+  already reserves space via `aspect-ratio` or an explicit height. Adding
+  `width`/`height` attributes would have been busywork.
+- **CI guard** — `.github/workflows/build-check.yml` rebuilds with the committed
+  cache-bust stamp and fails on any drift. `build.sh` accepts `BUILD_V` so a build
+  is byte-for-byte reproducible.
+- **`.label` type class** — 17 inline `letterSpacing` values are now 3, and the
+  three that remain are genuinely bespoke rather than micro-labels.
 
 ## P2 — polish
 
-- **(M) `.label` type class.** 17 inline `letterSpacing` values remain in JSX
-  across roughly six distinct tracking values on what is visually the same
-  micro-label. Collapsing them changes rendered spacing, so it needs a visual
-  pass rather than a blind find/replace.
-- **(L) Credibility band.** The record now carries 17 photographed projects plus
-  6 record-only entries, but there are still no testimonials, named partners or
+- **(L) Credibility band.** The record carries 17 photographed projects plus 6
+  record-only entries, but there are still no testimonials, named partners or
   quantified track-record figures. Client-supplied content.
 
 ---
@@ -68,7 +68,11 @@ with byte-identical computed styles before and after.
 
 Accessibility: focus ring moved from `--accent` (~3.3:1) to `--accent-deep`
 (4.71:1), with a bone ring on dark plates where `--accent-deep` would have been
-2.29:1.
+2.29:1. A canvas-based contrast audit (resolves `oklab`/`color-mix`, composites
+alpha down the ancestor stack) then found and fixed 14 further AA failures:
+`--muted`/`--ink-soft` re-solved for the darker panels, `--accent-cta` for
+text-bearing bronze fills, `--accent-on-ink` for bronze labels on dark plates.
+Every route now audits clean.
 
 Security and SEO: sha384 SRI plus `crossorigin` on all five CDN scripts, JSON-LD
 Organization and BreadcrumbList, `robots.txt`, a 24-URL `sitemap.xml`, per-route
