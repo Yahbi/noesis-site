@@ -1556,7 +1556,17 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   position: sticky; top: 0; height: 100vh; width: 100%;
   overflow: hidden; background: var(--bone);
 }
-.shero__canvas { display: block; width: 100%; height: 100%; }
+/* Layered photographic plates, cross-dissolved by scroll. Each carries its own
+   slow scale drift, so the sequence breathes instead of cutting. */
+.shero__stage { position: absolute; inset: 0; overflow: hidden; background: var(--bone); }
+.shero__plate {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transform-origin: center;
+  /* Deliberately NO will-change here. Seven full-viewport images each promoted
+     to their own compositing layer exhausts GPU memory and the plates stop
+     painting altogether — the hero renders as bare scrim over linen. Opacity
+     and transform are already accelerated without the hint. */
+}
 .shero__grad {
   position: absolute; inset: 0; pointer-events: none;
   /* Reaches higher than a normal .cine scrim: the identity block is tall (display
@@ -1608,3 +1618,30 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   .shero__beat { max-width: none; left: clamp(20px,6vw,40px); right: clamp(20px,6vw,40px); text-align: left; }
   .shero__beat--right .eyebrow { justify-content: flex-start; }
 }
+
+/* ── Portfolio category tabs ─────────────────────────────────────────────────
+   Replaces filled pill chips. Editorial labels on a shared baseline with one
+   bronze indicator that slides between them — the same marker vocabulary as
+   the primary nav, so the page reads as one system. */
+.ptabs { position: relative; display: flex; gap: clamp(20px, 3vw, 44px); flex-wrap: wrap; align-items: flex-end; }
+.ptab {
+  position: relative; background: transparent; border: 0; cursor: pointer;
+  padding: 4px 0 10px; display: inline-flex; align-items: baseline; gap: 8px;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  transition: color .25s ease;
+}
+.ptab:hover { color: var(--accent-deep); }
+.ptab.is-active { color: var(--ink); }
+.ptab__n {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em;
+  color: var(--accent); transform: translateY(-2px);
+}
+.ptabs__ind {
+  position: absolute; left: 0; top: 0; height: 1px; width: 0; opacity: 0;
+  background: var(--accent-deep); pointer-events: none;
+  transition: transform .42s cubic-bezier(.22,1,.36,1),
+              width .42s cubic-bezier(.22,1,.36,1), opacity .28s ease;
+}
+@media (prefers-reduced-motion: reduce) { .ptabs__ind { transition: opacity .2s ease; } }
+@media (max-width: 560px) { .ptab { font-size: 12px; letter-spacing: .1em; } .ptabs { gap: 18px; } }

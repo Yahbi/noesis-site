@@ -1224,8 +1224,7 @@ window.Nav = Nav;
 window.Footer = Footer;
 window.SocialRow = SocialRow;
 window.Logo = Logo;
-const FRAME_COUNT = 120;
-const FRAME_SRC = i => `assets/frames/f_${String(i + 1).padStart(4, "0")}.jpg`;
+const HERO_PLATES = [["5c383b_d1c071eaa5c74ac69dbd755f2808c63c~mv2_d_5199_3466_s_4_2.jpg", "Casa Mani — the approach at dusk"], ["5c383b_0f02013ca50d40cea1580a1a7686f991~mv2_d_6365_4243_s_4_2.jpg", "Casa Mani — street elevation"], ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the rear elevation and pool"], ["5c383b_f0a8d5cb5ea2484eb0f1e204f4c3aba4~mv2_d_6231_4154_s_4_2.jpg", "Casa Mani — living, open to the garden"], ["5c383b_6361166f13c445e28e73c9d4337dbccc~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the family room"], ["5c383b_0e99a86ffe9847d5a712e0428605e4b0~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the kitchen"], ["5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — dusk over the pool"]];
 const BEATS = {
   identity: [0.00, 0.14],
   right: [0.18, 0.50],
@@ -1236,61 +1235,36 @@ function ramp(p, a, b) {
   if (b === a) return p >= b ? 1 : 0;
   return Math.max(0, Math.min(1, (p - a) / (b - a)));
 }
+function clamp01(v) {
+  return Math.max(0, Math.min(1, v));
+}
 function ScrollHero({
   go,
   setIntent
 }) {
   const containerRef = React.useRef(null);
-  const canvasRef = React.useRef(null);
+  const plateRefs = React.useRef([]);
   const identityRef = React.useRef(null);
   const rightRef = React.useRef(null);
   const leftRef = React.useRef(null);
   const closeRef = React.useRef(null);
   const closeBackRef = React.useRef(null);
   React.useEffect(() => {
-    const canvas = canvasRef.current,
-      container = containerRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const imgs = new Array(FRAME_COUNT);
-    let wanted = 0;
-    let painted = -1;
-    let raf = 0;
-    let dead = false;
-    const sizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = canvas.clientWidth || window.innerWidth;
-      const h = canvas.clientHeight || window.innerHeight;
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    const draw = i => {
-      const cw = canvas.clientWidth || window.innerWidth;
-      const ch = canvas.clientHeight || window.innerHeight;
-      const img = imgs[i];
-      const ready = img && img.complete && img.naturalWidth > 0;
-      ctx.fillStyle = "#E7E0D2";
-      ctx.fillRect(0, 0, cw, ch);
-      if (!ready) return false;
-      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      const dw = img.naturalWidth * scale,
-        dh = img.naturalHeight * scale;
-      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
-      return true;
-    };
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = FRAME_SRC(i);
-      img.onload = () => {
-        if (dead) return;
-        if (i === wanted && draw(i)) painted = i;
-      };
-      imgs[i] = img;
-    }
-    const paintText = p => {
+    const container = containerRef.current;
+    if (!container) return;
+    let raf = 0,
+      dead = false;
+    const N = HERO_PLATES.length;
+    const paint = p => {
+      const pos = p * (N - 1);
+      for (let i = 0; i < N; i++) {
+        const el = plateRefs.current[i];
+        if (!el) continue;
+        const o = clamp01(1 - Math.abs(pos - i));
+        el.style.opacity = String(o);
+        const t = clamp01((pos - (i - 1)) / 2);
+        el.style.transform = `scale(${(1.10 - 0.10 * t).toFixed(4)})`;
+      }
       const idOut = ramp(p, BEATS.identity[0], BEATS.identity[1]);
       if (identityRef.current) {
         identityRef.current.style.opacity = String(1 - idOut);
@@ -1321,26 +1295,14 @@ function ScrollHero({
       if (dead) return;
       const rect = container.getBoundingClientRect();
       const range = container.offsetHeight - window.innerHeight;
-      const p = range > 0 ? Math.max(0, Math.min(1, -rect.top / range)) : 0;
-      const target = Math.round(p * (FRAME_COUNT - 1));
-      wanted = target;
-      if (target !== painted && draw(target)) painted = target;
-      paintText(p);
+      paint(range > 0 ? clamp01(-rect.top / range) : 0);
       raf = requestAnimationFrame(tick);
     };
-    const onResize = () => {
-      sizeCanvas();
-      if (!draw(wanted)) painted = -1;
-    };
-    sizeCanvas();
-    draw(0);
+    paint(0);
     raf = requestAnimationFrame(tick);
-    window.addEventListener("resize", onResize);
     return () => {
       dead = true;
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-      for (let i = 0; i < FRAME_COUNT; i++) if (imgs[i]) imgs[i].onload = null;
     };
   }, []);
   const goInvestor = id => {
@@ -1357,11 +1319,34 @@ function ScrollHero({
     id: "hero"
   }, React.createElement("div", {
     className: "shero__sticky"
-  }, React.createElement("canvas", {
-    ref: canvasRef,
-    className: "shero__canvas",
+  }, React.createElement("div", {
+    className: "shero__stage",
     "aria-hidden": "true"
-  }), React.createElement("div", {
+  }, HERO_PLATES.map(([id, alt], i) => React.createElement("img", {
+    key: id,
+    ref: el => {
+      plateRefs.current[i] = el;
+    },
+    className: "shero__plate img--warm",
+    alt: alt,
+    fetchpriority: i === 0 ? "high" : undefined,
+    loading: i === 0 ? undefined : "lazy",
+    decoding: "async",
+    sizes: "100vw",
+    src: wix(id, {
+      w: 2000
+    }),
+    srcSet: `${wix(id, {
+      w: 1400
+    })} 1400w, ${wix(id, {
+      w: 2000
+    })} 2000w, ${wix(id, {
+      w: 2600
+    })} 2600w, ${wix(id, {
+      w: 3400
+    })} 3400w`,
+    onError: imgFallback
+  }))), React.createElement("div", {
     className: "shero__grad",
     "aria-hidden": "true"
   }), React.createElement("div", {
@@ -1415,10 +1400,9 @@ function ScrollHero({
   }, "Conceived, entitled, designed and ", React.createElement("em", null, "built by our own team.")), React.createElement("p", {
     className: "body u-mt-16",
     style: {
-      color: "var(--bone-soft)",
       maxWidth: "40ch"
     }
-  }, "Luxury residences, small-lot subdivisions and apartment buildings \u2014 taken from a parcel of land to a finished landmark.")), React.createElement("div", {
+  }, "Casa Mani, Beverly Hills \u2014 six bedrooms, eight baths, a zero-edge saltwater pool. Taken from a parcel of land to a finished landmark.")), React.createElement("div", {
     className: "shero__beat shero__beat--left",
     ref: leftRef
   }, React.createElement("div", {
@@ -1434,7 +1418,6 @@ function ScrollHero({
   }, "The operator ", React.createElement("em", null, "invests alongside you.")), React.createElement("p", {
     className: "body u-mt-16",
     style: {
-      color: "var(--bone-soft)",
       maxWidth: "40ch"
     }
   }, "Twenty-three delivered projects underwrite every basis, programme and schedule we commit to. The development practice is what de-risks the thesis.")), React.createElement("div", {
@@ -1458,13 +1441,23 @@ function ScrollHero({
       maxWidth: "18ch",
       marginInline: "auto"
     }
-  }, "Capital to deploy, or a project to deliver."), React.createElement("button", {
-    className: "btn shero__close-cta u-mt-40",
+  }, "Capital to deploy, or a project to deliver."), React.createElement("div", {
+    className: "u-flex u-gap-16 u-mt-40",
+    style: {
+      justifyContent: "center",
+      flexWrap: "wrap"
+    }
+  }, React.createElement("button", {
+    className: "btn shero__close-cta",
     onClick: () => goInvestor("inquiries"),
     "data-magnetic": true
   }, "Request an Introduction ", React.createElement("span", {
     className: "arr"
-  }))))));
+  })), React.createElement("button", {
+    className: "btn btn--ghost shero__close-cta",
+    onClick: () => go("story:casa-mani"),
+    "data-magnetic": true
+  }, "See Casa Mani"))))));
 }
 window.ScrollHero = ScrollHero;
 const SHOT = {
@@ -3687,6 +3680,31 @@ function Projects({
   setPage
 }) {
   const [tab, setTab] = React.useState("sfr");
+  const tabsRef = React.useRef(null);
+  const indRef = React.useRef(null);
+  React.useEffect(() => {
+    const place = () => {
+      const wrap = tabsRef.current,
+        ind = indRef.current;
+      if (!wrap || !ind) return;
+      const btn = wrap.querySelector(`button[data-k="${tab}"]`);
+      if (!btn || !btn.offsetWidth) {
+        ind.style.opacity = "0";
+        return;
+      }
+      ind.style.opacity = "1";
+      ind.style.width = btn.offsetWidth + "px";
+      ind.style.transform = `translateX(${btn.offsetLeft}px)`;
+      ind.style.top = btn.offsetTop + btn.offsetHeight - 1 + "px";
+    };
+    place();
+    const t = setTimeout(place, 60);
+    window.addEventListener("resize", place);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", place);
+    };
+  }, [tab]);
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
   const rest = cat.items.slice(1);
@@ -3734,22 +3752,24 @@ function Projects({
       gap: 16
     }
   }, React.createElement("div", {
-    className: "u-flex u-gap-12",
-    style: {
-      flexWrap: "wrap"
-    }
-  }, CATEGORIES.map(c => React.createElement("button", {
+    className: "ptabs",
+    ref: tabsRef,
+    role: "tablist",
+    "aria-label": "Project categories"
+  }, React.createElement("span", {
+    className: "ptabs__ind",
+    ref: indRef,
+    "aria-hidden": "true"
+  }), CATEGORIES.map(c => React.createElement("button", {
     key: c.key,
+    "data-k": c.key,
+    role: "tab",
+    "aria-selected": tab === c.key,
     onClick: () => setTab(c.key),
-    className: `chip ${tab === c.key ? "chip--active" : ""}`,
-    style: {
-      border: 0
-    }
-  }, c.label, " ", React.createElement("span", {
-    style: {
-      opacity: 0.6
-    }
-  }, "\xB7 ", c.items.length)))), React.createElement("div", {
+    className: `ptab ${tab === c.key ? "is-active" : ""}`
+  }, c.label, React.createElement("span", {
+    className: "ptab__n"
+  }, c.items.length)))), React.createElement("div", {
     className: "mono",
     style: {
       fontSize: 11,

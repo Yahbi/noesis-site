@@ -106,6 +106,25 @@ const FURTHER_RECORD = [
 
 function Projects({ setPage }) {
   const [tab, setTab] = React.useState("sfr");
+  const tabsRef = React.useRef(null);
+  const indRef = React.useRef(null);
+  // Slide the indicator to the active tab (and follow font settle / resize).
+  React.useEffect(() => {
+    const place = () => {
+      const wrap = tabsRef.current, ind = indRef.current;
+      if (!wrap || !ind) return;
+      const btn = wrap.querySelector(`button[data-k="${tab}"]`);
+      if (!btn || !btn.offsetWidth) { ind.style.opacity = "0"; return; }
+      ind.style.opacity = "1";
+      ind.style.width = btn.offsetWidth + "px";
+      ind.style.transform = `translateX(${btn.offsetLeft}px)`;
+      ind.style.top = (btn.offsetTop + btn.offsetHeight - 1) + "px";
+    };
+    place();
+    const t = setTimeout(place, 60);
+    window.addEventListener("resize", place);
+    return () => { clearTimeout(t); window.removeEventListener("resize", place); };
+  }, [tab]);
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
   const rest = cat.items.slice(1);
@@ -132,10 +151,15 @@ function Projects({ setPage }) {
       {/* TABS */}
       <section className="section--tight" style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)", position: "sticky", top: 72, zIndex: 20, background: "color-mix(in oklab, var(--bone) 88%, transparent)", backdropFilter: "blur(12px)", paddingTop: 22, paddingBottom: 22 }}>
         <div className="wrap u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
-          <div className="u-flex u-gap-12" style={{ flexWrap: "wrap" }}>
+          {/* Editorial tabs with a sliding bronze indicator — the same marker
+              language as the nav, instead of filled pills. */}
+          <div className="ptabs" ref={tabsRef} role="tablist" aria-label="Project categories">
+            <span className="ptabs__ind" ref={indRef} aria-hidden="true" />
             {CATEGORIES.map(c => (
-              <button key={c.key} onClick={() => setTab(c.key)} className={`chip ${tab === c.key ? "chip--active" : ""}`} style={{ border: 0 }}>
-                {c.label} <span style={{ opacity: 0.6 }}>· {c.items.length}</span>
+              <button key={c.key} data-k={c.key} role="tab" aria-selected={tab === c.key}
+                onClick={() => setTab(c.key)}
+                className={`ptab ${tab === c.key ? "is-active" : ""}`}>
+                {c.label}<span className="ptab__n">{c.items.length}</span>
               </button>
             ))}
           </div>

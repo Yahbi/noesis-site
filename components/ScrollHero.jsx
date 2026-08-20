@@ -1,36 +1,44 @@
-// ScrollHero — the cinematic scroll-scrub hero.
+// ScrollHero — the scroll-driven cinematic landing.
 //
-// A tall scroll container with a sticky canvas: scroll progress drives the frame
-// index of the delivered film, so the visitor flies through a Noesis project by
-// scrolling. Four text beats ride the same progress value.
+// Built on PHOTOGRAPHS, not video frames. Scrubbing a moving-camera film judders
+// (the source is ~2.7 effective fps); stills cross-dissolve, so judder is not
+// even possible — and each plate is a real 6720px architectural photograph
+// rather than a compressed video frame.
 //
-// Stack note: this site is a no-build React 18 + Babel SPA, so there is no
-// framer-motion. Progress-driven opacity/transform is computed directly and
-// written to refs — cheaper than a spring library and it matches the site's
-// existing motion vocabulary (var(--ease-glide) etc.).
+// Layered <img> beats a canvas here: the browser decodes and picks the right
+// srcSet candidate itself, nothing is resampled through a 2D context, and the
+// "frame 0 never painted" race disappears entirely.
 //
-// FRAME_COUNT is the number of files actually on disk in assets/frames/,
-// counted at build time — never an estimate.
-const FRAME_COUNT = 120;
-const FRAME_SRC = (i) => `assets/frames/f_${String(i + 1).padStart(4, "0")}.jpg`;
+// The sequence is Casa Mani (Beverly Hills, 2018) as an arrival narrative:
+// approach at dusk -> architecture -> the reveal -> living -> craft -> dusk.
+// Deliberately omitted from the ten available: the LED-lit cinema and the two
+// bathrooms — utilitarian rooms undercut a landing sequence.
+const HERO_PLATES = [
+  ["5c383b_d1c071eaa5c74ac69dbd755f2808c63c~mv2_d_5199_3466_s_4_2.jpg", "Casa Mani — the approach at dusk"],
+  ["5c383b_0f02013ca50d40cea1580a1a7686f991~mv2_d_6365_4243_s_4_2.jpg", "Casa Mani — street elevation"],
+  ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the rear elevation and pool"],
+  ["5c383b_f0a8d5cb5ea2484eb0f1e204f4c3aba4~mv2_d_6231_4154_s_4_2.jpg", "Casa Mani — living, open to the garden"],
+  ["5c383b_6361166f13c445e28e73c9d4337dbccc~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the family room"],
+  ["5c383b_0e99a86ffe9847d5a712e0428605e4b0~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the kitchen"],
+  ["5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — dusk over the pool"],
+];
 
-// Beat windows, as fractions of the container's scroll range.
 const BEATS = {
-  identity: [0.00, 0.14],   // fades OUT across this range
+  identity: [0.00, 0.14],
   right:    [0.18, 0.50],
   left:     [0.54, 0.88],
-  close:    [0.88, 1.00],   // rises in and HOLDS — never fades back out
+  close:    [0.88, 1.00],
 };
 
-// Linear ramp helper: 0 before a, 1 after b.
 function ramp(p, a, b) {
   if (b === a) return p >= b ? 1 : 0;
   return Math.max(0, Math.min(1, (p - a) / (b - a)));
 }
+function clamp01(v) { return Math.max(0, Math.min(1, v)); }
 
 function ScrollHero({ go, setIntent }) {
   const containerRef = React.useRef(null);
-  const canvasRef = React.useRef(null);
+  const plateRefs = React.useRef([]);
   const identityRef = React.useRef(null);
   const rightRef = React.useRef(null);
   const leftRef = React.useRef(null);
@@ -38,81 +46,41 @@ function ScrollHero({ go, setIntent }) {
   const closeBackRef = React.useRef(null);
 
   React.useEffect(() => {
-    const canvas = canvasRef.current, container = containerRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const container = containerRef.current;
+    if (!container) return;
+    let raf = 0, dead = false;
+    const N = HERO_PLATES.length;
 
-    const imgs = new Array(FRAME_COUNT);
-    let wanted = 0;        // the index the loop currently wants painted
-    let painted = -1;      // the index actually painted from a LOADED image
-    let raf = 0;
-    let dead = false;
+    const paint = (p) => {
+      // Continuous index across the plates; adjacent plates cross-dissolve.
+      const pos = p * (N - 1);
+      for (let i = 0; i < N; i++) {
+        const el = plateRefs.current[i];
+        if (!el) continue;
+        const o = clamp01(1 - Math.abs(pos - i));
+        el.style.opacity = String(o);
+        // Slow drift: each plate eases 1.10 -> 1.00 as the sequence passes it.
+        const t = clamp01((pos - (i - 1)) / 2);
+        el.style.transform = `scale(${(1.10 - 0.10 * t).toFixed(4)})`;
+      }
 
-    const sizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = canvas.clientWidth || window.innerWidth;
-      const h = canvas.clientHeight || window.innerHeight;
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    // Cover-fit. Returns TRUE only when a loaded image was actually painted;
-    // FALSE when it could only lay down the linen fallback. The rAF loop relies
-    // on this: marking a frame "done" on a fallback paint is exactly the bug that
-    // leaves the hero blank forever on a cold load, because the image's own
-    // onload would then have nothing left to trigger a repaint.
-    const draw = (i) => {
-      const cw = canvas.clientWidth || window.innerWidth;
-      const ch = canvas.clientHeight || window.innerHeight;
-      const img = imgs[i];
-      const ready = img && img.complete && img.naturalWidth > 0;
-      ctx.fillStyle = "#E7E0D2";                 // --bone, the site's linen
-      ctx.fillRect(0, 0, cw, ch);
-      if (!ready) return false;
-      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      const dw = img.naturalWidth * scale, dh = img.naturalHeight * scale;
-      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
-      return true;
-    };
-
-    // Preload. Each image, on arrival, paints itself if it is still the wanted
-    // frame — so whichever happens first (this download, or the loop's next
-    // tick) gets the pixels on screen. No dependency on load order.
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = FRAME_SRC(i);
-      img.onload = () => {
-        if (dead) return;
-        if (i === wanted && draw(i)) painted = i;
-      };
-      imgs[i] = img;
-    }
-
-    const paintText = (p) => {
-      // 1 — identity block fades out and drifts up as the scroll begins.
       const idOut = ramp(p, BEATS.identity[0], BEATS.identity[1]);
       if (identityRef.current) {
         identityRef.current.style.opacity = String(1 - idOut);
         identityRef.current.style.transform = `translate3d(0, ${-40 * idOut}px, 0)`;
       }
-      // 2 — right-side beat: in, hold, out.
       if (rightRef.current) {
         const inn = ramp(p, BEATS.right[0], BEATS.right[0] + 0.10);
         const out = ramp(p, BEATS.right[1] - 0.08, BEATS.right[1]);
         rightRef.current.style.opacity = String(inn * (1 - out));
         rightRef.current.style.transform = `translate3d(${40 * (1 - inn) + 30 * out}px, ${-30 * out}px, 0)`;
       }
-      // 3 — left-side beat: in, hold, out.
       if (leftRef.current) {
         const inn = ramp(p, BEATS.left[0], BEATS.left[0] + 0.10);
         const out = ramp(p, BEATS.left[1] - 0.08, BEATS.left[1]);
         leftRef.current.style.opacity = String(inn * (1 - out));
         leftRef.current.style.transform = `translate3d(${-40 * (1 - inn) - 30 * out}px, ${-30 * out}px, 0)`;
       }
-      // 4 — closing block rises and HOLDS to the end of the range.
       const cin = ramp(p, BEATS.close[0], BEATS.close[1]);
       if (closeRef.current) {
         closeRef.current.style.opacity = String(cin);
@@ -123,32 +91,18 @@ function ScrollHero({ go, setIntent }) {
       }
     };
 
+    // rAF + getBoundingClientRect — no scroll listener, so this stays smooth
+    // under momentum scrolling and never fights Lenis.
     const tick = () => {
       if (dead) return;
       const rect = container.getBoundingClientRect();
       const range = container.offsetHeight - window.innerHeight;
-      const p = range > 0 ? Math.max(0, Math.min(1, -rect.top / range)) : 0;
-      const target = Math.round(p * (FRAME_COUNT - 1));
-      wanted = target;
-      // Retry every tick regardless of whether the tracker advanced — the frame
-      // may simply not have finished downloading yet.
-      if (target !== painted && draw(target)) painted = target;
-      paintText(p);
+      paint(range > 0 ? clamp01(-rect.top / range) : 0);
       raf = requestAnimationFrame(tick);
     };
-
-    const onResize = () => { sizeCanvas(); if (!draw(wanted)) painted = -1; };
-
-    sizeCanvas();
-    draw(0);
+    paint(0);
     raf = requestAnimationFrame(tick);
-    window.addEventListener("resize", onResize);
-    return () => {
-      dead = true;
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-      for (let i = 0; i < FRAME_COUNT; i++) if (imgs[i]) imgs[i].onload = null;
-    };
+    return () => { dead = true; cancelAnimationFrame(raf); };
   }, []);
 
   const goInvestor = (id) => { if (setIntent) setIntent("investor"); go(id); };
@@ -157,16 +111,29 @@ function ScrollHero({ go, setIntent }) {
   return (
     <section ref={containerRef} className="shero" id="hero">
       <div className="shero__sticky">
-        <canvas ref={canvasRef} className="shero__canvas" aria-hidden="true" />
+        <div className="shero__stage" aria-hidden="true">
+          {HERO_PLATES.map(([id, alt], i) => (
+            <img
+              key={id}
+              ref={(el) => { plateRefs.current[i] = el; }}
+              className="shero__plate img--warm"
+              alt={alt}
+              fetchpriority={i === 0 ? "high" : undefined}
+              loading={i === 0 ? undefined : "lazy"}
+              decoding="async"
+              sizes="100vw"
+              src={wix(id, { w: 2000 })}
+              srcSet={`${wix(id, { w: 1400 })} 1400w, ${wix(id, { w: 2000 })} 2000w, ${wix(id, { w: 2600 })} 2600w, ${wix(id, { w: 3400 })} 3400w`}
+              onError={imgFallback}
+            />
+          ))}
+        </div>
         <div className="shero__grad" aria-hidden="true" />
 
-        {/* The overlay is NEVER gated on image loading. Each beat's visibility is
-            driven only by scroll progress; the canvas may show linen until frame
-            one arrives, but the words are readable from the first paint. */}
+        {/* Never gated on image loading — each beat's visibility comes only from
+            scroll progress, so the words are readable from the first paint. */}
         <div className="shero__overlay">
 
-          {/* BEAT 1 — identity. Rises on mount (CSS animation, time-based and
-              deliberately independent of scroll), then scroll fades it out. */}
           <div className="shero__identity" ref={identityRef}>
             <div className="wrap">
               <div className="eyebrow shero__rise shero__rise--1"><span className="dot" /> Noesis — Est. 2009</div>
@@ -185,40 +152,42 @@ function ScrollHero({ go, setIntent }) {
             </div>
           </div>
 
-          {/* BEAT 2 — development, on the right. */}
           <div className="shero__beat shero__beat--right" ref={rightRef}>
             <div className="eyebrow"><span className="dot" /> Development</div>
             <p className="pull u-mt-16" style={{ color: "var(--bone)", maxWidth: "16ch" }}>
               Conceived, entitled, designed and <em>built by our own team.</em>
             </p>
-            <p className="body u-mt-16" style={{ color: "var(--bone-soft)", maxWidth: "40ch" }}>
-              Luxury residences, small-lot subdivisions and apartment buildings — taken from a parcel
-              of land to a finished landmark.
+            <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
+              Casa Mani, Beverly Hills — six bedrooms, eight baths, a zero-edge saltwater pool.
+              Taken from a parcel of land to a finished landmark.
             </p>
           </div>
 
-          {/* BEAT 3 — investment, on the left. */}
           <div className="shero__beat shero__beat--left" ref={leftRef}>
             <div className="eyebrow"><span className="dot" /> Investment</div>
             <p className="pull u-mt-16" style={{ color: "var(--bone)", maxWidth: "16ch" }}>
               The operator <em>invests alongside you.</em>
             </p>
-            <p className="body u-mt-16" style={{ color: "var(--bone-soft)", maxWidth: "40ch" }}>
+            <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
               Twenty-three delivered projects underwrite every basis, programme and schedule we
               commit to. The development practice is what de-risks the thesis.
             </p>
           </div>
 
-          {/* BEAT 4 — closing. Rises and holds to the end of the range. */}
           <div className="shero__closeback" ref={closeBackRef} aria-hidden="true" />
           <div className="shero__close" ref={closeRef}>
             <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Beverly Hills · International</div>
             <h2 className="h-display u-mt-16" style={{ color: "var(--bone)", maxWidth: "18ch", marginInline: "auto" }}>
               Capital to deploy, or a project to deliver.
             </h2>
-            <button className="btn shero__close-cta u-mt-40" onClick={() => goInvestor("inquiries")} data-magnetic>
-              Request an Introduction <span className="arr" />
-            </button>
+            <div className="u-flex u-gap-16 u-mt-40" style={{ justifyContent: "center", flexWrap: "wrap" }}>
+              <button className="btn shero__close-cta" onClick={() => goInvestor("inquiries")} data-magnetic>
+                Request an Introduction <span className="arr" />
+              </button>
+              <button className="btn btn--ghost shero__close-cta" onClick={() => go("story:casa-mani")} data-magnetic>
+                See Casa Mani
+              </button>
+            </div>
           </div>
         </div>
       </div>
