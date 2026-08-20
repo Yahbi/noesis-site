@@ -203,7 +203,7 @@ const FILM_TIERS = {
   "oneoak-film":   [1080, 1440, 2160],
   "noesis-launch": [1080, 1440],          // 137s — a 4K cut cannot fit the 100MB file ceiling
 };
-const FILM_V = 5;
+const FILM_V = 6;
 
 // opts.ambient marks a decorative autoplaying loop (hero, reel, story plate) as
 // opposed to a film the visitor deliberately starts. Ambient loops are suppressed

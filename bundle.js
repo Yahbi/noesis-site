@@ -748,7 +748,7 @@ const FILM_TIERS = {
   "oneoak-film": [1080, 1440, 2160],
   "noesis-launch": [1080, 1440]
 };
-const FILM_V = 5;
+const FILM_V = 6;
 function film(base, opts) {
   const o = opts || {};
   const tiers = FILM_TIERS[base] || [1080];
