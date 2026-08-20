@@ -102,7 +102,9 @@ function Nav({ active, go, setIntent }) {
       const y = window.scrollY;
       setScrolled(y > 12);
       const hero = document.querySelector("main > section");
-      const dark = !!hero && /(^|\s)cine(\s|$)/.test(hero.className || "");
+      // .shero is the scroll-scrub hero: a sticky full-viewport film, dark for its
+      // whole range, so it needs the same on-dark bar treatment as a .cine plate.
+      const dark = !!hero && /(^|\s)(cine|shero)(\s|$)/.test(hero.className || "");
       setOver(dark && y < hero.getBoundingClientRect().height - 110);
     };
     onScroll();

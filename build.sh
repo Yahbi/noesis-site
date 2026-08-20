@@ -27,6 +27,7 @@ fi
   tweaks-panel.jsx \
   components/Placeholder.jsx \
   components/Shell.jsx \
+  components/ScrollHero.jsx \
   pages/Home.jsx \
   pages/Development.jsx \
   pages/Investment.jsx \

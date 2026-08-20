@@ -872,7 +872,7 @@ function Nav({
       const y = window.scrollY;
       setScrolled(y > 12);
       const hero = document.querySelector("main > section");
-      const dark = !!hero && /(^|\s)cine(\s|$)/.test(hero.className || "");
+      const dark = !!hero && /(^|\s)(cine|shero)(\s|$)/.test(hero.className || "");
       setOver(dark && y < hero.getBoundingClientRect().height - 110);
     };
     onScroll();
@@ -1224,6 +1224,249 @@ window.Nav = Nav;
 window.Footer = Footer;
 window.SocialRow = SocialRow;
 window.Logo = Logo;
+const FRAME_COUNT = 120;
+const FRAME_SRC = i => `assets/frames/f_${String(i + 1).padStart(4, "0")}.jpg`;
+const BEATS = {
+  identity: [0.00, 0.14],
+  right: [0.18, 0.50],
+  left: [0.54, 0.88],
+  close: [0.88, 1.00]
+};
+function ramp(p, a, b) {
+  if (b === a) return p >= b ? 1 : 0;
+  return Math.max(0, Math.min(1, (p - a) / (b - a)));
+}
+function ScrollHero({
+  go,
+  setIntent
+}) {
+  const containerRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+  const identityRef = React.useRef(null);
+  const rightRef = React.useRef(null);
+  const leftRef = React.useRef(null);
+  const closeRef = React.useRef(null);
+  const closeBackRef = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = canvasRef.current,
+      container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const imgs = new Array(FRAME_COUNT);
+    let wanted = 0;
+    let painted = -1;
+    let raf = 0;
+    let dead = false;
+    const sizeCanvas = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = canvas.clientWidth || window.innerWidth;
+      const h = canvas.clientHeight || window.innerHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const draw = i => {
+      const cw = canvas.clientWidth || window.innerWidth;
+      const ch = canvas.clientHeight || window.innerHeight;
+      const img = imgs[i];
+      const ready = img && img.complete && img.naturalWidth > 0;
+      ctx.fillStyle = "#E7E0D2";
+      ctx.fillRect(0, 0, cw, ch);
+      if (!ready) return false;
+      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const dw = img.naturalWidth * scale,
+        dh = img.naturalHeight * scale;
+      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+      return true;
+    };
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = FRAME_SRC(i);
+      img.onload = () => {
+        if (dead) return;
+        if (i === wanted && draw(i)) painted = i;
+      };
+      imgs[i] = img;
+    }
+    const paintText = p => {
+      const idOut = ramp(p, BEATS.identity[0], BEATS.identity[1]);
+      if (identityRef.current) {
+        identityRef.current.style.opacity = String(1 - idOut);
+        identityRef.current.style.transform = `translate3d(0, ${-40 * idOut}px, 0)`;
+      }
+      if (rightRef.current) {
+        const inn = ramp(p, BEATS.right[0], BEATS.right[0] + 0.10);
+        const out = ramp(p, BEATS.right[1] - 0.08, BEATS.right[1]);
+        rightRef.current.style.opacity = String(inn * (1 - out));
+        rightRef.current.style.transform = `translate3d(${40 * (1 - inn) + 30 * out}px, ${-30 * out}px, 0)`;
+      }
+      if (leftRef.current) {
+        const inn = ramp(p, BEATS.left[0], BEATS.left[0] + 0.10);
+        const out = ramp(p, BEATS.left[1] - 0.08, BEATS.left[1]);
+        leftRef.current.style.opacity = String(inn * (1 - out));
+        leftRef.current.style.transform = `translate3d(${-40 * (1 - inn) - 30 * out}px, ${-30 * out}px, 0)`;
+      }
+      const cin = ramp(p, BEATS.close[0], BEATS.close[1]);
+      if (closeRef.current) {
+        closeRef.current.style.opacity = String(cin);
+        closeRef.current.style.transform = `translate3d(0, ${36 * (1 - cin)}px, 0)`;
+      }
+      if (closeBackRef.current) {
+        closeBackRef.current.style.opacity = String(ramp(p, BEATS.close[0] - 0.02, BEATS.close[1] - 0.04));
+      }
+    };
+    const tick = () => {
+      if (dead) return;
+      const rect = container.getBoundingClientRect();
+      const range = container.offsetHeight - window.innerHeight;
+      const p = range > 0 ? Math.max(0, Math.min(1, -rect.top / range)) : 0;
+      const target = Math.round(p * (FRAME_COUNT - 1));
+      wanted = target;
+      if (target !== painted && draw(target)) painted = target;
+      paintText(p);
+      raf = requestAnimationFrame(tick);
+    };
+    const onResize = () => {
+      sizeCanvas();
+      if (!draw(wanted)) painted = -1;
+    };
+    sizeCanvas();
+    draw(0);
+    raf = requestAnimationFrame(tick);
+    window.addEventListener("resize", onResize);
+    return () => {
+      dead = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+      for (let i = 0; i < FRAME_COUNT; i++) if (imgs[i]) imgs[i].onload = null;
+    };
+  }, []);
+  const goInvestor = id => {
+    if (setIntent) setIntent("investor");
+    go(id);
+  };
+  const goOwner = id => {
+    if (setIntent) setIntent("owner");
+    go(id);
+  };
+  return React.createElement("section", {
+    ref: containerRef,
+    className: "shero",
+    id: "hero"
+  }, React.createElement("div", {
+    className: "shero__sticky"
+  }, React.createElement("canvas", {
+    ref: canvasRef,
+    className: "shero__canvas",
+    "aria-hidden": "true"
+  }), React.createElement("div", {
+    className: "shero__grad",
+    "aria-hidden": "true"
+  }), React.createElement("div", {
+    className: "shero__overlay"
+  }, React.createElement("div", {
+    className: "shero__identity",
+    ref: identityRef
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "eyebrow shero__rise shero__rise--1"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Noesis \u2014 Est. 2009"), React.createElement("h1", {
+    className: "h-display shero__rise shero__rise--2",
+    style: {
+      maxWidth: "18ch",
+      color: "var(--bone)"
+    }
+  }, "We build what we invest in."), React.createElement("p", {
+    className: "lede shero__rise shero__rise--3",
+    style: {
+      maxWidth: "46ch"
+    }
+  }, "An international real-estate development and investment firm. We conceive, build and hold the assets we believe in \u2014 and bring that same builder's discipline to a select few owners."), React.createElement("div", {
+    className: "u-flex u-gap-16 u-mt-40 shero__rise shero__rise--4",
+    style: {
+      flexWrap: "wrap"
+    }
+  }, React.createElement("button", {
+    className: "btn",
+    onClick: () => goInvestor("investment"),
+    "data-magnetic": true
+  }, "For Investors"), React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => goOwner("owners-rep"),
+    "data-magnetic": true
+  }, "For Owners & Developers")))), React.createElement("div", {
+    className: "shero__beat shero__beat--right",
+    ref: rightRef
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Development"), React.createElement("p", {
+    className: "pull u-mt-16",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "16ch"
+    }
+  }, "Conceived, entitled, designed and ", React.createElement("em", null, "built by our own team.")), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--bone-soft)",
+      maxWidth: "40ch"
+    }
+  }, "Luxury residences, small-lot subdivisions and apartment buildings \u2014 taken from a parcel of land to a finished landmark.")), React.createElement("div", {
+    className: "shero__beat shero__beat--left",
+    ref: leftRef
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Investment"), React.createElement("p", {
+    className: "pull u-mt-16",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "16ch"
+    }
+  }, "The operator ", React.createElement("em", null, "invests alongside you.")), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--bone-soft)",
+      maxWidth: "40ch"
+    }
+  }, "Twenty-three delivered projects underwrite every basis, programme and schedule we commit to. The development practice is what de-risks the thesis.")), React.createElement("div", {
+    className: "shero__closeback",
+    ref: closeBackRef,
+    "aria-hidden": "true"
+  }), React.createElement("div", {
+    className: "shero__close",
+    ref: closeRef
+  }, React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      justifyContent: "center"
+    }
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Beverly Hills \xB7 International"), React.createElement("h2", {
+    className: "h-display u-mt-16",
+    style: {
+      color: "var(--bone)",
+      maxWidth: "18ch",
+      marginInline: "auto"
+    }
+  }, "Capital to deploy, or a project to deliver."), React.createElement("button", {
+    className: "btn shero__close-cta u-mt-40",
+    onClick: () => goInvestor("inquiries"),
+    "data-magnetic": true
+  }, "Request an Introduction ", React.createElement("span", {
+    className: "arr"
+  }))))));
+}
+window.ScrollHero = ScrollHero;
 const SHOT = {
   casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
   oneOak: "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
@@ -1237,6 +1480,23 @@ const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "D
 const HOME_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const HOME_PILLARS = [["01", "Development", "development", "We acquire and develop ground-up — luxury residences, small-lot subdivisions and apartment buildings — conceived, entitled, designed and built by our own team."], ["02", "Investment", "investment", "We invest our own capital alongside our partners', across opportunistic, value-add and stabilized strategies, where our development edge creates the value."]];
 const HOME_PROOF = [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]];
+function useScrubHero() {
+  const [ok, setOk] = React.useState(false);
+  React.useEffect(() => {
+    if (!window.matchMedia) return;
+    const conn = navigator.connection || {};
+    if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const mq = window.matchMedia("(min-width: 1024px) and (hover: hover)");
+    const apply = () => setOk(mq.matches);
+    apply();
+    mq.addEventListener ? mq.addEventListener("change", apply) : mq.addListener(apply);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener("change", apply) : mq.removeListener(apply);
+    };
+  }, []);
+  return ok;
+}
 function Home({
   go,
   setIntent
@@ -1249,9 +1509,13 @@ function Home({
     if (setIntent) setIntent("owner");
     go(id);
   };
+  const scrub = useScrubHero();
   return React.createElement("main", {
     className: "page-enter"
-  }, React.createElement("section", {
+  }, scrub && typeof ScrollHero !== "undefined" && React.createElement(ScrollHero, {
+    go: go,
+    setIntent: setIntent
+  }), !scrub && React.createElement("section", {
     id: "hero",
     className: "cine cine--video",
     style: {

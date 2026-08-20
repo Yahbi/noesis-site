@@ -45,14 +45,36 @@ const HOME_PROOF = [
   ["12%", "Delivered under budget"],
 ];
 
+// The scroll-scrub hero is desktop-only by design: it preloads ~12 MB of frames
+// and scrubs on rAF. On touch devices that is both a heavy download and a jittery
+// interaction, so phones, reduced-motion and Save-Data visitors keep the original
+// film hero — which is lighter and already tuned for them.
+function useScrubHero() {
+  const [ok, setOk] = React.useState(false);
+  React.useEffect(() => {
+    if (!window.matchMedia) return;
+    const conn = navigator.connection || {};
+    if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const mq = window.matchMedia("(min-width: 1024px) and (hover: hover)");
+    const apply = () => setOk(mq.matches);
+    apply();
+    mq.addEventListener ? mq.addEventListener("change", apply) : mq.addListener(apply);
+    return () => { mq.removeEventListener ? mq.removeEventListener("change", apply) : mq.removeListener(apply); };
+  }, []);
+  return ok;
+}
+
 function Home({ go, setIntent }) {
   const goInvestor = (id) => { if (setIntent) setIntent("investor"); go(id); };
   const goOwner = (id) => { if (setIntent) setIntent("owner"); go(id); };
+  const scrub = useScrubHero();
   return (
     <main className="page-enter">
+      {scrub && typeof ScrollHero !== "undefined" && <ScrollHero go={go} setIntent={setIntent} />}
 
-      {/* 1 ── HERO ─────────────────────────────────────────────────── */}
-      <section id="hero" className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(92px,13vh,150px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
+      {/* 1 ── HERO (fallback: phones, reduced-motion, Save-Data) ────── */}
+      {!scrub && <section id="hero" className="cine cine--video" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "space-between", paddingTop: "clamp(92px,13vh,150px)", paddingBottom: "clamp(34px,6vh,60px)" }}>
         <img className="cine__img img--warm" alt="A Noesis-developed residence" fetchpriority="high" sizes="100vw"
           src={wix(SHOT.casaMani, { w: 2000 })}
           srcSet={`${wix(SHOT.casaMani, { w: 1200 })} 1200w, ${wix(SHOT.casaMani, { w: 2000 })} 2000w, ${wix(SHOT.casaMani, { w: 2600 })} 2600w, ${wix(SHOT.casaMani, { w: 3400 })} 3400w`} onError={imgFallback} />
@@ -103,7 +125,7 @@ function Home({ go, setIntent }) {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* 2 ── THE TWO PILLARS + accessory line ─────────────────────── */}
       <section id="pillars" className="section">

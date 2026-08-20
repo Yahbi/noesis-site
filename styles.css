@@ -1418,11 +1418,12 @@ section[id] { scroll-margin-top: 72px; }
 /* Anything on a cinematic plate reads on dark. Scoped to .cine, not just
    .cine__cap, because several plates put their copy straight in a .wrap — that
    gap is why twelve hand-written rgba(236,230,216,…) overrides existed. */
-.cine .eyebrow { color: var(--bone-soft); }
-.cine .lede, .cine .body, .cine .body-lg, .cine .pull { color: var(--bone-soft); }
-.cine .pull em { color: var(--accent); }
-.cine .btn--ghost { color: var(--bone); border-color: var(--rule-on-dark-strong); }
-.cine .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.cine .eyebrow, .shero .eyebrow { color: var(--bone-soft); }
+.cine .lede, .cine .body, .cine .body-lg, .cine .pull,
+.shero .lede, .shero .body, .shero .body-lg, .shero .pull { color: var(--bone-soft); }
+.cine .pull em, .shero .pull em { color: var(--accent); }
+.cine .btn--ghost, .shero .btn--ghost { color: var(--bone); border-color: var(--rule-on-dark-strong); }
+.cine .btn--ghost:hover, .shero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
 
 /* Measure: kills six inline maxWidth:"64ch" patches. */
 .body-lg { max-width: 64ch; }
@@ -1544,4 +1545,66 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   }
   .nav__cta-mini span { border-bottom: 1px solid var(--accent); padding-bottom: 3px; }
   .nav--over .nav__cta-mini { color: var(--bone); }
+}
+
+/* ── Scroll-scrub cinematic hero ─────────────────────────────────────────────
+   A tall container with a sticky canvas: scroll drives the film's frame index.
+   Desktop only — phones and reduced-motion visitors keep the still hero rather
+   than downloading 12 MB of frames for a scrub that would stutter on touch. */
+.shero { position: relative; height: 420vh; background: var(--bone); }
+.shero__sticky {
+  position: sticky; top: 0; height: 100vh; width: 100%;
+  overflow: hidden; background: var(--bone);
+}
+.shero__canvas { display: block; width: 100%; height: 100%; }
+.shero__grad {
+  position: absolute; inset: 0; pointer-events: none;
+  /* Reaches higher than a normal .cine scrim: the identity block is tall (display
+     h1 + lede + CTAs) and the film runs bright in places, so the upper half needs
+     tone too or the lede washes out. */
+  background: linear-gradient(to top, rgba(20,16,11,.80) 0%, rgba(20,16,11,.46) 38%, rgba(20,16,11,.16) 68%, transparent 100%);
+}
+.shero__overlay { position: absolute; inset: 0; pointer-events: none; }
+.shero__overlay button { pointer-events: auto; }
+
+.shero__identity {
+  position: absolute; left: 0; right: 0; bottom: clamp(48px, 9vh, 120px);
+  will-change: opacity, transform;
+}
+.shero__beat {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  max-width: 42ch; opacity: 0; will-change: opacity, transform;
+}
+.shero__beat--right { right: clamp(24px, 7vw, 120px); text-align: right; }
+.shero__beat--right .eyebrow { justify-content: flex-end; }
+.shero__beat--left  { left:  clamp(24px, 7vw, 120px); }
+
+.shero__closeback {
+  position: absolute; inset: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(20,16,11,.62) 0%, rgba(20,16,11,.26) 50%, transparent 78%);
+}
+.shero__close {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%); text-align: center; opacity: 0;
+  padding-inline: clamp(20px, 6vw, 80px); will-change: opacity, transform;
+}
+.shero__close-cta { transition: transform .25s var(--ease-glide), background .25s, border-color .25s; }
+.shero__close-cta:hover { transform: scale(1.04); }
+.shero__close-cta:active { transform: scale(.98); }
+
+/* Mount entrance — time-based on purpose: it must play before any scroll input,
+   so it cannot hang off scroll progress. Staggered in reading order. */
+@keyframes sheroRise { from { opacity: 0; transform: translate3d(0, var(--rise, 28px), 0); } to { opacity: 1; transform: none; } }
+.shero__rise { animation: sheroRise 1s cubic-bezier(.16,1,.3,1) both; }
+.shero__rise--1 { --rise: 28px; animation-duration: 1s;   animation-delay: .05s; }
+.shero__rise--2 { --rise: 56px; animation-duration: 1.3s; animation-delay: .2s; }
+.shero__rise--3 { --rise: 36px; animation-duration: 1.1s; animation-delay: .4s; }
+.shero__rise--4 { --rise: 28px; animation-duration: 1s;   animation-delay: .55s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .shero__rise { animation: none; }
+}
+@media (max-width: 900px) {
+  .shero__beat { max-width: none; left: clamp(20px,6vw,40px); right: clamp(20px,6vw,40px); text-align: left; }
+  .shero__beat--right .eyebrow { justify-content: flex-start; }
 }
