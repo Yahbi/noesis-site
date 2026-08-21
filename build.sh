@@ -228,9 +228,10 @@ def page(path, route, title, desc, heading, blurb):
                   '<meta property="og:url" content="' + canonical + '">', 1)
     h = h.replace('<link rel="canonical" href="' + SITE_URL + '">',
                   '<link rel="canonical" href="' + canonical + '">', 1)
-    # sub-pages resolve every relative asset against the site root
-    if path:
-        h = h.replace("<head>", '<head>\n  <base href="' + BASE_PATH + '">', 1)
+    # Every page, root included: the app pushStates to sub-paths, so relative
+    # assets on the home document would otherwise re-resolve against the new
+    # route directory after a nav click and 404.
+    h = h.replace("<head>", '<head>\n  <base href="' + BASE_PATH + '">', 1)
     # tell the app which destination this page is, before the bundle runs
     h = h.replace("<body", '<script>window.__ROUTE=' + json.dumps(route) + ';</script>\n<body', 1)
     # a crawlable summary for bots that do not execute JS

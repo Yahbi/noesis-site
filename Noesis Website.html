@@ -115,7 +115,9 @@
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"><div class="cursor__ring"></div><div class="cursor__dot"></div></div>
 
-  <a href="#root" class="skip-link">Skip to content</a>
+  <!-- Focus the target directly: with <base> set, a bare "#root" resolves
+       against the base URL and navigates home instead of skipping. -->
+  <a href="#root" class="skip-link" onclick="var r=document.getElementById('root');if(r){event.preventDefault();r.setAttribute('tabindex','-1');r.focus();r.scrollIntoView();}">Skip to content</a>
   <div id="root"></div>
 
   <!-- React + Babel (pinned + integrity) -->
