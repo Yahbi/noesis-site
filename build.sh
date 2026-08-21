@@ -265,7 +265,11 @@ open("robots.txt", "w", encoding="utf-8").write(
     "User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % SITE_URL)
 
 import datetime
-today = datetime.date.today().isoformat()
+# Derived from the pinned cache-bust stamp, in UTC, so a build is reproducible
+# regardless of the builder's timezone. Using the local date meant a machine
+# west of UTC and the CI runner disagreed, rewriting all 24 <lastmod> lines
+# and tripping the drift guard.
+today = datetime.datetime.fromtimestamp(int(v), datetime.timezone.utc).date().isoformat()
 urls = []
 for path, route, *_ in ROUTES:
     pri = "1.0" if path == "" else ("0.9" if route in ("development", "investment", "properties") else "0.7")
