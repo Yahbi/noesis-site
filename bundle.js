@@ -3478,6 +3478,7 @@ const CATEGORIES = [{
     loc: "Sunset Strip, Los Angeles",
     year: "2015",
     gallery: GAL["one-oak"],
+    cover: "5c383b_12fe95a979394c05baede9636975f3b2~mv2.jpg",
     video: "oneoak-film",
     text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
     facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]]
@@ -3496,6 +3497,7 @@ const CATEGORIES = [{
     loc: "Tel Aviv",
     year: "2017",
     gallery: GAL["aura-house"],
+    cover: "5c383b_2517ac00087f41ba96107d95afb62f1b~mv2_d_4300_4184_s_4_2.jpg",
     text: "Located in a highly coveted area of Tel Aviv, Aura House offers an open, luxurious, modern design that maximizes space and provides an airy feel — the Noesis standard, delivered abroad.\n\nSold over the asking price, this 4,500-square-foot tri-level property is equipped with a luxe elevator and soaring ceilings. With six bedrooms and seven baths, Aura House is the lap of luxury in one of the most up-and-coming cities in the world.",
     facts: [["Bedrooms", "6"], ["Baths", "7"], ["Size", "4,500 sf"], ["Sold", "Over asking"]]
   }, {
@@ -3522,6 +3524,7 @@ const CATEGORIES = [{
     loc: "Outpost Estates, Beverly Hills",
     year: "2018",
     gallery: GAL["quiet-storm"],
+    cover: "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg",
     rendering: true,
     text: "Once the estate of a music legend, this near-acre-and-a-half in coveted Outpost Estates was reimagined by Noesis as a two-parcel development — 2745 Outpost (33,567 sf) and 2755 Outpost (29,301 sf).\n\nTwo distinct contemporary residences, fully designed, with plans approved by the Mulholland Scenic Parkway Design Review Board and every building department — ready-to-issue permits in hand. Entitlement and delivery, de-risked.",
     facts: [["Area", "Outpost Estates"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]]
@@ -3531,6 +3534,7 @@ const CATEGORIES = [{
     loc: "Beverly Hills",
     year: "2015",
     gallery: GAL["le-bijou"],
+    cover: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
     text: "Le Bijou — 'the jewel' in French — is a gem in the heart of Beverly Hills. At approximately 4,100 square feet, the spacious four-bedroom, 4.5-bath home offers a stunning bird's-eye view from the interior upper mezzanine down to the main floor, high ceilings, smartly placed lighting and various smart-home features.\n\nSeamless indoor-outdoor living is a reality: the sleek, modern gourmet kitchen sits near the formal dining and family rooms, overlooking the lush garden, terrace, pool and jacuzzi. With the finest finishes throughout, Le Bijou feels luxurious, tremendously elegant, yet entirely livable.",
     facts: [["Meaning", "“The Jewel”"], ["Size", "~4,100 sf"], ["Bedrooms", "4"], ["Baths", "4.5"]]
   }, {
@@ -3539,6 +3543,7 @@ const CATEGORIES = [{
     loc: "Melrose, Los Angeles",
     year: "2016",
     gallery: GAL["house-g"],
+    cover: "5c383b_d8b5e33dc63c4cd9af9019f54523ea3f~mv2_d_5730_5687_s_4_2.jpg",
     text: "Centrally located in the Melrose district, House G draws the outdoors in through towering windows and glass pocket doors that open to a private pool and spa. High ceilings give the nearly 3,900-square-foot plan real depth and scale.\n\nFive bedrooms and five full baths, minutes from West Hollywood's finest dining, nightlife and shops.",
     facts: [["Size", "~3,900 sf"], ["Bedrooms", "5"], ["Baths", "5"], ["City", "Los Angeles"]]
   }, {
@@ -3547,6 +3552,7 @@ const CATEGORIES = [{
     loc: "West Hollywood",
     year: "2013",
     gallery: GAL["casa-h"],
+    cover: "5c383b_6e48b6f978af4a6c852306e82defb5a2~mv2.jpg",
     text: "On the market for just three days and sold well over the asking price, Casa H broke real estate records. This approximately 4,500-square-foot, five-bedroom, 5.5-bath home stretches across an oversized 7,500-square-foot lot overlooking the Hollywood Hills.\n\nDesigned to maximize space, Casa H uses innovative cut-outs throughout for privacy and serenity, melding outdoor landscape with indoor living. The focal point is the exterior entertaining space — pool and cabana, a covered outdoor living area with double-sided fireplace, and a passageway to the lush garden and lawn.",
     facts: [["Sold", "In 3 days, over ask"], ["Size", "~4,500 sf"], ["Bedrooms", "5"], ["Baths", "5.5"]]
   }, {
@@ -3565,6 +3571,7 @@ const CATEGORIES = [{
     loc: "Los Angeles",
     year: "2016",
     gallery: GAL["29degrees"],
+    cover: "5c383b_ee09bf9ac7d344dda676920c3bd36462~mv2_d_1800_1200_s_2.jpg",
     text: "A spacious, architectural modern retreat, 29 Degrees is privately situated on a serene, tree-lined street minutes from the Beverly Hills school district, The Grove, the Beverly Center and West Hollywood's finest dining and shops. At more than 4,000 square feet, this contemporary home by Noesis Group is curated to maximize indoor-outdoor living with the Control4 technology system.\n\n29 Degrees boasts 23-foot ceilings that create a zen-like environment. The gourmet kitchen offers dual islands, bar seating and professional-grade appliances, while the exceptionally large spa-like master suite features a fireplace, custom closet, en-suite bath and private balcony.",
     facts: [["Size", ">4,000 sf"], ["Ceilings", "23 ft"], ["Tech", "Control4"], ["Built", "2016"]]
   }, {
@@ -3573,6 +3580,7 @@ const CATEGORIES = [{
     loc: "Los Angeles",
     year: "2014",
     gallery: GAL["en-suite"],
+    cover: "5c383b_e660755345994c8abf6b93a1bc2b6df9~mv2.jpg",
     text: "The most alluring feature of En-Suite is the flawless organic flow of the nearly 4,000-square-foot home. Two spacious master suites with oversized, luxurious private baths balance the four-bedroom, six-bath plan, while ample natural light and outdoor living spaces marry interior and exterior.\n\nThe finest finishes and craftsmanship run throughout — clean lines, modern textures and impeccably designed built-in furniture. En-Suite is an entertainer's dream, from the artfully designed waterfall at the entrance to the pool-side patio and various terraces.",
     facts: [["Size", "~4,000 sf"], ["Bedrooms", "4"], ["Baths", "6"], ["Built", "2014"]]
   }]
