@@ -749,7 +749,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .accent { color: var(--accent); }
 
 /* Section rhythm — more air */
-.section { border-top: 1px solid var(--rule); padding: clamp(94px, 12vw, 180px) 0; }
+.section { border-top: 1px solid var(--rule); padding: clamp(74px, 8.5vw, 126px) 0; }
 .section--ink { background: var(--bone-2); color: var(--bone); border-top-color: var(--rule-on-dark); }
 .section--ink .lede, .section--ink .body, .section--ink .body-lg { color: var(--bone-soft); }
 .section--ink .eyebrow { color: rgba(244,241,234,.5); }
@@ -1627,3 +1627,28 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   font-family:var(--mono); font-size:10px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--accent-deep);
 }
+
+/* ── Section rhythm ────────────────────────────────────────────────────────
+   Every one of the 55 sections carried the same rule and the same generous
+   padding, so nothing could read as more important than anything else and the
+   home page ran past 10,000px. Hierarchy comes from what is given MORE air,
+   which only works if the default is not already the maximum. */
+
+/* A rule between every block is 55 separate announcements. Where a full-bleed
+   plate or a dark section has already done the separating, it is just noise. */
+.cine + .section, .shero + .section, .section--ink + .section,
+.section + .section--ink, .cine + .cine { border-top: 0; }
+
+/* Two adjacent light sections are usually one thought continuing, not two
+   movements. Close the join instead of restating the break. Leads and dark
+   plates are excluded — they are deliberately separate. */
+.section + .section:not(.section--lead):not(.section--ink):not(.section--open) {
+  padding-top: clamp(48px, 5.5vw, 82px);
+}
+
+/* The few sections that genuinely open a movement get real breath. */
+.section--open { padding-top: clamp(104px, 13vw, 190px) !important; }
+
+/* A statement section earns its space by being quieter around the type, not by
+   pushing everything apart. */
+.section--ink { padding: clamp(88px, 10vw, 150px) 0; }
