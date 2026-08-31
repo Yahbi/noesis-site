@@ -383,9 +383,16 @@ img.img-in { animation: img-fade .6s ease both; }
 }
 
 /* Anim ----------------------------------------------------------------- */
+/* Ends on `none`, not translateY(0). With animation-fill-mode: both the final
+   keyframe persists for the life of the element, and translateY(0) — visually
+   identical to no transform — still creates a stacking context AND becomes the
+   containing block for every position:fixed descendant. On <main class="page-enter">
+   that trapped the lightbox (z-index 120 evaluated inside main, which paints under
+   the nav at 50) and un-fixed the story back button and side rail, which scrolled
+   with the page instead of staying put. */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 .fade-in { animation: fade-up .6s ease both; }
 .fade-in.delay-1 { animation-delay: .08s; }
@@ -394,7 +401,12 @@ img.img-in { animation: img-fade .6s ease both; }
 .fade-in.delay-4 { animation-delay: .32s; }
 
 /* Cursor / page transitions ------------------------------------------- */
-.page-enter { animation: fade-up .45s ease both; }
+/* `backwards`, not `both`. With `both` the final keyframe is retained for the life
+   of the element, so <main> kept an animated transform forever — which creates a
+   stacking context and a containing block for position:fixed children. `backwards`
+   applies the start state before the run and then hands the element back to its own
+   computed style, leaving no transform behind. */
+.page-enter { animation: fade-up .45s ease backwards; }
 
 /* Misc utilities ------------------------------------------------------- */
 .u-flex { display: flex; }
