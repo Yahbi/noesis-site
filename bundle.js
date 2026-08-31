@@ -4524,10 +4524,10 @@ function ProjectStory({
 window.ProjectStory = ProjectStory;
 const TWEAK_DEFAULTS = {
   "accent": "#9A6A3E",
-  "displayFont": "Jost"
+  "displayFont": "Instrument Serif"
 };
 const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
-const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
+const DISPLAY_FONTS = ["Instrument Serif", "Jost", "Helvetica Neue"];
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
 const ROUTE_TITLES = {
@@ -4642,8 +4642,11 @@ function App() {
   React.useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
     if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent-deep");else document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
-    const stack = `"${t.displayFont}", "Helvetica Neue", Arial, sans-serif`;
-    document.documentElement.style.setProperty("--serif", stack);
+    if (t.displayFont === TWEAK_DEFAULTS.displayFont) {
+      document.documentElement.style.removeProperty("--serif");
+    } else {
+      document.documentElement.style.setProperty("--serif", `"${t.displayFont}", "Iowan Old Style", Georgia, serif`);
+    }
   }, [t.accent, t.displayFont]);
   React.useEffect(() => {
     if (window.__motion) window.__motion.refresh();

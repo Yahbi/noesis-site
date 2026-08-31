@@ -11,11 +11,11 @@
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "#9A6A3E",
-  "displayFont": "Jost"
+  "displayFont": "Instrument Serif"
 }/*EDITMODE-END*/;
 
 const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
-const DISPLAY_FONTS = ["Jost", "Fraunces", "Helvetica Neue"];
+const DISPLAY_FONTS = ["Instrument Serif", "Jost", "Helvetica Neue"];
 // Every routable page view (order = nav order).
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
@@ -137,8 +137,17 @@ function App() {
     // stylesheet is not lying about what actually renders.
     if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent-deep");
     else document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
-    const stack = `"${t.displayFont}", "Helvetica Neue", Arial, sans-serif`;
-    document.documentElement.style.setProperty("--serif", stack);
+    // Same rule as --accent-deep above: while the panel is on the brand default,
+    // let styles.css own the display face. This inline style is on <html> and beats
+    // the stylesheet unconditionally, so setting it always made the --serif token in
+    // styles.css dead code — whatever it said, a sans stack rendered. It also hard-
+    // coded a sans-serif fallback chain, which is wrong for a serif display face.
+    if (t.displayFont === TWEAK_DEFAULTS.displayFont) {
+      document.documentElement.style.removeProperty("--serif");
+    } else {
+      document.documentElement.style.setProperty(
+        "--serif", `"${t.displayFont}", "Iowan Old Style", Georgia, serif`);
+    }
   }, [t.accent, t.displayFont]);
 
   // After a view switch: rebind motion and set this destination's title.
