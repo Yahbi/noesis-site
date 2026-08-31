@@ -32,19 +32,19 @@ const CATEGORIES = [
       { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"], video: "oneoak-film",
         text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
         facts: [["Bedrooms", "4"], ["Baths", "5"], ["Ceilings", "12 ft"], ["Built", "2015"]] },
-      { id: "casa-mani", name: "Casa Mani", loc: "Beverly Hills", year: "2018", gallery: GAL["casa-mani"],
+      { id: "casa-mani", name: "Casa Mani", loc: "Beverly Hills", year: "2018", gallery: GAL["casa-mani"], cover: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",
         text: "A unique, contemporary retreat in the heart of Beverly Hills, Casa Mani sits minutes from the area's acclaimed schools, shopping, dining and nightlife. This exquisitely crafted contemporary by Noesis Group is a model of style and sophistication from the outside in.\n\nSix bedrooms and eight baths, Miele wine refrigerators, a fully glass-enclosed gym, and a spa-inspired bath with steam shower and its own private massage room. The backyard is built around a zero-edge saltwater pool screened by tall hedging, with energy-efficient landscaping, a Control4 smart-home system and designer fixtures throughout.",
         facts: [["Bedrooms", "6"], ["Baths", "8"], ["Pool", "Zero-edge saltwater"], ["Built", "2018"]] },
       { id: "aura-house", name: "Aura House", loc: "Tel Aviv", year: "2017", gallery: GAL["aura-house"],
         text: "Located in a highly coveted area of Tel Aviv, Aura House offers an open, luxurious, modern design that maximizes space and provides an airy feel — the Noesis standard, delivered abroad.\n\nSold over the asking price, this 4,500-square-foot tri-level property is equipped with a luxe elevator and soaring ceilings. With six bedrooms and seven baths, Aura House is the lap of luxury in one of the most up-and-coming cities in the world.",
         facts: [["Bedrooms", "6"], ["Baths", "7"], ["Size", "4,500 sf"], ["Sold", "Over asking"]] },
-      { id: "c-thru", name: "C Thru", loc: "Beverly Grove, Los Angeles", year: "2016", gallery: GAL["c-thru"],
+      { id: "c-thru", name: "C Thru", loc: "Beverly Grove, Los Angeles", year: "2016", gallery: GAL["c-thru"], cover: "5c383b_a74db35204cf4b14811acd06773e6c70~mv2_d_1788_1899_s_2.jpg",
         text: "Located in the highly desired area of Beverly Grove, just minutes from world-class shopping and dining, C Thru is the definition of style and sophistication from the outside in. Gated and hedged, the home's floating-box façade pairs wood and ceramic with large windows and LED light strips for a distinctive twilight appeal.\n\nInside, the open floor plan — a Noesis Group signature — features soaring ceilings, wide-plank oak floors and a suspended staircase. Two en-suite guest rooms with designer baths and balconies join a master suite with fireplace, wet bar, showroom closet and soaking tub. A large backyard with a zero-edge saltwater pool and spa, Control4 smart-home and designer fixtures complete the home.",
         facts: [["Neighborhood", "Beverly Grove"], ["Floors", "Wide-plank oak"], ["Pool", "Zero-edge saltwater"], ["Built", "2016"]] },
-      { id: "lolivier", name: "L'Olivier House", loc: "Los Angeles", year: "2015", gallery: GAL["lolivier"],
+      { id: "lolivier", name: "L'Olivier House", loc: "Los Angeles", year: "2015", gallery: GAL["lolivier"], cover: "5c383b_0d870af7326f4875976ceb413368be2f~mv2.jpg",
         text: "The majestic 120-year-old olive tree situated in front of the two-story L'Olivier house served as the sole inspiration for this home from start to finish.\n\nBuilt in 2015, the nearly 5,000-square-foot home features four bedrooms, 4.5 baths and an office, and maximizes natural light while keeping a luxurious, sophisticated ambiance throughout. The glamorous master is expansive, with a sitting area and oversized bath whose meticulous tilework accentuates a worldly feel, overlooking the pool and outdoor space — a testament to Noesis Group's commitment to design and detail.",
         facts: [["Size", "~5,000 sf"], ["Bedrooms", "4"], ["Baths", "4.5"], ["Built", "2015"]] },
-      { id: "quiet-storm", name: "Quiet Storm", loc: "Outpost Estates, Beverly Hills", year: "2018", gallery: GAL["quiet-storm"],
+      { id: "quiet-storm", name: "Quiet Storm", loc: "Outpost Estates, Beverly Hills", year: "2018", gallery: GAL["quiet-storm"], rendering: true,
         text: "Once the estate of a music legend, this near-acre-and-a-half in coveted Outpost Estates was reimagined by Noesis as a two-parcel development — 2745 Outpost (33,567 sf) and 2755 Outpost (29,301 sf).\n\nTwo distinct contemporary residences, fully designed, with plans approved by the Mulholland Scenic Parkway Design Review Board and every building department — ready-to-issue permits in hand. Entitlement and delivery, de-risked.",
         facts: [["Area", "Outpost Estates"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]] },
       { id: "le-bijou", name: "Le Bijou", loc: "Beverly Hills", year: "2015", gallery: GAL["le-bijou"],
@@ -56,7 +56,7 @@ const CATEGORIES = [
       { id: "casa-h", name: "Casa H", loc: "West Hollywood", year: "2013", gallery: GAL["casa-h"],
         text: "On the market for just three days and sold well over the asking price, Casa H broke real estate records. This approximately 4,500-square-foot, five-bedroom, 5.5-bath home stretches across an oversized 7,500-square-foot lot overlooking the Hollywood Hills.\n\nDesigned to maximize space, Casa H uses innovative cut-outs throughout for privacy and serenity, melding outdoor landscape with indoor living. The focal point is the exterior entertaining space — pool and cabana, a covered outdoor living area with double-sided fireplace, and a passageway to the lush garden and lawn.",
         facts: [["Sold", "In 3 days, over ask"], ["Size", "~4,500 sf"], ["Bedrooms", "5"], ["Baths", "5.5"]] },
-      { id: "neo-soul", name: "Neo Soul Home", loc: "Outpost Estates, Beverly Hills", year: "2018", gallery: GAL["neo-soul"],
+      { id: "neo-soul", name: "Neo Soul Home", loc: "Outpost Estates, Beverly Hills", year: "2018", gallery: GAL["neo-soul"], cover: "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg", rendering: true,
         text: "A shovel-ready opportunity in celebrity-studded Outpost Estates: issued permits for a new two-story, nearly 6,000-square-foot architectural residence conceived by Noesis.\n\nThe existing single-story ranch — four bedrooms across roughly 3,400 square feet — has been remodeled to immaculate condition, leaving a rare, build-ready canvas in one of Los Angeles' most coveted enclaves.",
         facts: [["Area", "Outpost Estates"], ["Planned", "~6,000 sf"], ["Status", "Permits issued"], ["Year", "2018"]] },
       { id: "29-degrees", name: "29 Degrees", loc: "Los Angeles", year: "2016", gallery: GAL["29degrees"],
@@ -246,14 +246,16 @@ function Projects({ setPage, setIntent }) {
                     <img className="pcard__img" src={wix(cover, { w: 1300 })} alt={p.name} loading="lazy" onError={imgFallback} />
                     <div className="pcard__over">
                       {count > 1 && <span className="pcard__count">{count} Photos</span>}
-                      {p.rendering && <span className="pcard__count pcard__count--render">Rendering</span>}
                       <span className="pcard__cta">View Project <span className="arr" /></span>
                     </div>
                   </div>
                   <div className="pcard__cap">
                     <div>
                       <h3 className="pcard__name">{p.name}</h3>
-                      <div className="pcard__loc">{p.loc}</div>
+                      <div className="pcard__loc">
+                        {p.loc}
+                        {p.rendering && <span className="pcard__render">Rendering</span>}
+                      </div>
                     </div>
                     {p.year && <div className="pcard__yr">{p.year}</div>}
                   </div>

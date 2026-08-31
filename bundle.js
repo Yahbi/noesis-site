@@ -3487,6 +3487,7 @@ const CATEGORIES = [{
     loc: "Beverly Hills",
     year: "2018",
     gallery: GAL["casa-mani"],
+    cover: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",
     text: "A unique, contemporary retreat in the heart of Beverly Hills, Casa Mani sits minutes from the area's acclaimed schools, shopping, dining and nightlife. This exquisitely crafted contemporary by Noesis Group is a model of style and sophistication from the outside in.\n\nSix bedrooms and eight baths, Miele wine refrigerators, a fully glass-enclosed gym, and a spa-inspired bath with steam shower and its own private massage room. The backyard is built around a zero-edge saltwater pool screened by tall hedging, with energy-efficient landscaping, a Control4 smart-home system and designer fixtures throughout.",
     facts: [["Bedrooms", "6"], ["Baths", "8"], ["Pool", "Zero-edge saltwater"], ["Built", "2018"]]
   }, {
@@ -3503,6 +3504,7 @@ const CATEGORIES = [{
     loc: "Beverly Grove, Los Angeles",
     year: "2016",
     gallery: GAL["c-thru"],
+    cover: "5c383b_a74db35204cf4b14811acd06773e6c70~mv2_d_1788_1899_s_2.jpg",
     text: "Located in the highly desired area of Beverly Grove, just minutes from world-class shopping and dining, C Thru is the definition of style and sophistication from the outside in. Gated and hedged, the home's floating-box façade pairs wood and ceramic with large windows and LED light strips for a distinctive twilight appeal.\n\nInside, the open floor plan — a Noesis Group signature — features soaring ceilings, wide-plank oak floors and a suspended staircase. Two en-suite guest rooms with designer baths and balconies join a master suite with fireplace, wet bar, showroom closet and soaking tub. A large backyard with a zero-edge saltwater pool and spa, Control4 smart-home and designer fixtures complete the home.",
     facts: [["Neighborhood", "Beverly Grove"], ["Floors", "Wide-plank oak"], ["Pool", "Zero-edge saltwater"], ["Built", "2016"]]
   }, {
@@ -3511,6 +3513,7 @@ const CATEGORIES = [{
     loc: "Los Angeles",
     year: "2015",
     gallery: GAL["lolivier"],
+    cover: "5c383b_0d870af7326f4875976ceb413368be2f~mv2.jpg",
     text: "The majestic 120-year-old olive tree situated in front of the two-story L'Olivier house served as the sole inspiration for this home from start to finish.\n\nBuilt in 2015, the nearly 5,000-square-foot home features four bedrooms, 4.5 baths and an office, and maximizes natural light while keeping a luxurious, sophisticated ambiance throughout. The glamorous master is expansive, with a sitting area and oversized bath whose meticulous tilework accentuates a worldly feel, overlooking the pool and outdoor space — a testament to Noesis Group's commitment to design and detail.",
     facts: [["Size", "~5,000 sf"], ["Bedrooms", "4"], ["Baths", "4.5"], ["Built", "2015"]]
   }, {
@@ -3519,6 +3522,7 @@ const CATEGORIES = [{
     loc: "Outpost Estates, Beverly Hills",
     year: "2018",
     gallery: GAL["quiet-storm"],
+    rendering: true,
     text: "Once the estate of a music legend, this near-acre-and-a-half in coveted Outpost Estates was reimagined by Noesis as a two-parcel development — 2745 Outpost (33,567 sf) and 2755 Outpost (29,301 sf).\n\nTwo distinct contemporary residences, fully designed, with plans approved by the Mulholland Scenic Parkway Design Review Board and every building department — ready-to-issue permits in hand. Entitlement and delivery, de-risked.",
     facts: [["Area", "Outpost Estates"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]]
   }, {
@@ -3551,6 +3555,8 @@ const CATEGORIES = [{
     loc: "Outpost Estates, Beverly Hills",
     year: "2018",
     gallery: GAL["neo-soul"],
+    cover: "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg",
+    rendering: true,
     text: "A shovel-ready opportunity in celebrity-studded Outpost Estates: issued permits for a new two-story, nearly 6,000-square-foot architectural residence conceived by Noesis.\n\nThe existing single-story ranch — four bedrooms across roughly 3,400 square feet — has been remodeled to immaculate condition, leaving a rare, build-ready canvas in one of Los Angeles' most coveted enclaves.",
     facts: [["Area", "Outpost Estates"], ["Planned", "~6,000 sf"], ["Status", "Permits issued"], ["Year", "2018"]]
   }, {
@@ -3852,9 +3858,7 @@ function Projects({
         className: "pcard__over"
       }, count > 1 && React.createElement("span", {
         className: "pcard__count"
-      }, count, " Photos"), p.rendering && React.createElement("span", {
-        className: "pcard__count pcard__count--render"
-      }, "Rendering"), React.createElement("span", {
+      }, count, " Photos"), React.createElement("span", {
         className: "pcard__cta"
       }, "View Project ", React.createElement("span", {
         className: "arr"
@@ -3864,7 +3868,9 @@ function Projects({
         className: "pcard__name"
       }, p.name), React.createElement("div", {
         className: "pcard__loc"
-      }, p.loc)), p.year && React.createElement("div", {
+      }, p.loc, p.rendering && React.createElement("span", {
+        className: "pcard__render"
+      }, "Rendering"))), p.year && React.createElement("div", {
         className: "pcard__yr"
       }, p.year)))
     );

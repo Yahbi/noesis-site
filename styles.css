@@ -1086,8 +1086,22 @@ section[id] { scroll-margin-top: 72px; }
 /* Tone alignment — a targeted warm-correction for the few cool/twilight source
    photos that sit in prominent slots, so they join the linen/bronze family.
    Layers ON TOP of the global house grade (styles.css ~964); applied per-image. */
-.img--warm { filter: saturate(.72) sepia(.16) contrast(1.05) brightness(1); }
-.sector__img img.img--warm { filter: saturate(.72) sepia(.16) contrast(1.05) brightness(.82); }
+/* The house grade. This was applied per-tag via .img--warm and reached only 14 of
+   30 images — the project cards and the lightbox ran at full saturation against a
+   bone-and-bronze page, which is why colour-heavy frames (a lit pool, a red rug)
+   detonated instead of sitting in the palette. It belongs to the photography, not
+   to individual tags, so it is applied by role here. */
+:root { --grade: saturate(.72) sepia(.16) contrast(1.05); }
+.img--warm,
+.pcard__img,
+.cine__img,
+.story-feature__img { filter: var(--grade); }
+.sector__img img.img--warm,
+img.sector__img { filter: var(--grade) brightness(.82); }
+/* Full-screen inspection and portraits get a lighter hand — a heavy sepia on a
+   face, or on a photograph someone opened deliberately to look at, reads false. */
+.lb__img { filter: saturate(.88) sepia(.06) contrast(1.02); }
+.member__img { filter: saturate(.9) sepia(.05) contrast(1.02); }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    ProjectStory — immersive, scroll-driven case study.
@@ -1572,4 +1586,12 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 :is(.section--ink, .cine, .shero, .sector, .track, .pillar)
   :is(.kicker, .track__for, .sector__tag, .row__idx, .flow__num, .wwd-cap__n) {
   color: var(--accent-label, var(--accent-deep));
+}
+
+/* Always visible, never behind a hover state: a rendering has to be readable as
+   a rendering without the visitor doing anything. */
+.pcard__render{
+  margin-left:10px; padding-left:10px; border-left:1px solid var(--rule);
+  font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--accent-deep);
 }
