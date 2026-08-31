@@ -63,7 +63,9 @@ function Development({ go }) {
       <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
         <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/dev-facade.jpg"
           alt="A Noesis-developed residence, Los Angeles" onError={imgFallback} />
-        <div className="cine__grad" />
+        {/* Nothing is set over this plate — it gets the edge wash, not the scrim
+            built to keep a headline legible. */}
+        <div className="cine__grad cine__grad--plate" />
       </section>
 
       {/* WHAT WE DEVELOP */}

@@ -140,7 +140,12 @@
     st({
       trigger: el, start: "top 86%", once: true,
       onEnter: function () {
-        gsap.to(el, { opacity: 1, y: 0, duration: 1.0, delay: delay || 0, ease: "expo.out" });
+        gsap.to(el, {
+          opacity: 1, y: 0, duration: 1.0, delay: delay || 0, ease: "expo.out",
+          // Release the compositing layer once the reveal is done — will-change
+          // is a promise about upcoming work, and after this it is a false one.
+          onComplete: function () { el.classList.add("is-revealed"); },
+        });
       },
     });
   }
@@ -150,7 +155,10 @@
     st({
       trigger: container, start: opts.start || "top 80%", once: true,
       onEnter: function () {
-        gsap.to(items, { opacity: 1, y: 0, duration: 1.0, ease: "expo.out", stagger: opts.stagger || 0.09 });
+        gsap.to(items, {
+          opacity: 1, y: 0, duration: 1.0, ease: "expo.out", stagger: opts.stagger || 0.09,
+          onComplete: function () { items.forEach(function (el) { el.classList.add("is-revealed"); }); },
+        });
         if (opts.onEnter) opts.onEnter();
       },
     });

@@ -2089,7 +2089,7 @@ function Development({
     alt: "A Noesis-developed residence, Los Angeles",
     onError: imgFallback
   }), React.createElement("div", {
-    className: "cine__grad"
+    className: "cine__grad cine__grad--plate"
   })), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {

@@ -451,6 +451,11 @@ img.img-in { animation: img-fade .6s ease both; }
    Content is only pre-hidden once we KNOW motion is available (html.motion-ready),
    so a CDN failure or reduced-motion never leaves anything invisible. */
 .reveal, [data-reveal] { will-change: opacity, transform; }
+/* ...but only until it has actually revealed. will-change promises future work;
+   once the tween is done the promise is false, and holding the layer costs memory
+   on every revealed element down a 10,000px page. motion.js flips this class on
+   completion. */
+.reveal.is-revealed, [data-reveal].is-revealed { will-change: auto; }
 html.motion-ready .reveal,
 html.motion-ready [data-reveal],
 html.motion-ready .tracks > .track,
@@ -804,6 +809,12 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: color-m
 .lx-line { font-family: var(--serif); display: block; }
 .cine { position: relative; width: 100%; overflow: hidden; background: var(--bone-2); }
 .cine__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Only the plates that actually move. A filtered, full-bleed image being
+   translated every frame repaints its whole area — and re-runs the grade — unless
+   it owns a compositing layer. One to three per route is well within budget; the
+   scroll hero's seven stacked plates are deliberately excluded below, because
+   promoting all of them exhausts GPU memory and they stop painting entirely. */
+.cine__img[data-parallax] { will-change: transform; }
 /* Single authority for the plate scrim (two dead generations sat below this).
    The old curve dipped to 10% opacity at 42% height — exactly where the hero
    headline sits — so against a bright frame (white stucco, luma 248) the type
