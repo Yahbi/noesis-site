@@ -144,7 +144,9 @@ function ProjectStory({ project, go }) {
                 alt={`${p.name} — view ${i + 1}`}
                 src={wix(scenes[i], { w: 2000 })}
                 srcSet={`${wix(scenes[i], { w: 1200 })} 1200w, ${wix(scenes[i], { w: 2000 })} 2000w, ${wix(scenes[i], { w: 3000 })} 3000w`} />
-              <div className="cine__grad" />
+              {/* No caption sits on these — they get the edge-seating wash, not the
+                  heavy scrim built to keep a headline legible. */}
+              <div className="cine__grad cine__grad--plate" />
             </section>
           )}
           {bodyParas[i] && (

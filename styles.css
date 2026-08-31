@@ -816,6 +816,13 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: color-m
     linear-gradient(100deg, rgba(20,16,11,.62) 0%, rgba(20,16,11,.34) 38%, rgba(20,16,11,.06) 68%, rgba(20,16,11,0) 88%),
     linear-gradient(180deg, rgba(20,16,11,.46) 0%, rgba(20,16,11,.28) 40%, rgba(20,16,11,.80) 100%); }
 .cine__cap { position: absolute; left: 0; right: 0; bottom: 0; color: var(--bone); }
+/* A plate with no type on it needs no scrim — it was being dimmed by a curve
+   built to protect a headline that isn't there. Just enough at the edges to seat
+   the photograph against the sections above and below. */
+.cine__grad--plate {
+  background:
+    linear-gradient(180deg, rgba(20,16,11,.16) 0%, rgba(20,16,11,0) 20%,
+                            rgba(20,16,11,0) 76%, rgba(20,16,11,.26) 100%); }
 .rule-x { height: 1px; background: var(--rule); border: 0; width: 100%; }
 .idx { font-family: var(--sans); font-weight: 500; letter-spacing: .2em; font-size: 11px; color: var(--accent); }
 
@@ -852,11 +859,20 @@ html.motion-ready.hero-in .lx-h .ln > span { transform: translateY(0); }
    FINISHING — unified filmic grade · proof band · couture details
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* One photographic voice: warm, slightly desaturated, filmic — across ALL imagery */
+/* One photographic voice, and only one. This grade previously existed in three
+   competing places — an "all imagery" rule, .img--warm, and a later override —
+   so what a given photograph looked like depended on which selector won. Every
+   image now resolves here. Values sit between the old two: enough desaturation
+   to keep colour-heavy frames inside the bone-and-bronze palette, not so much
+   that the architecture goes muddy. */
+:root { --grade: saturate(.80) sepia(.10) contrast(1.04); }
+.img--warm,
 .cine__img, .pcard__img, .pfeat__media img, .sector__img img,
-.lb__img, .lb__thumb, .thumb img, .track__bg img {
-  filter: saturate(.86) sepia(.07) contrast(1.05) brightness(.985);
-}
+.lb__thumb, .thumb img, .track__bg img { filter: var(--grade); }
+/* Two deliberate exceptions. A photograph someone opened full-screen to inspect,
+   and a person's face, both read false under a heavy sepia. */
+.lb__img { filter: saturate(.9) sepia(.04) contrast(1.02); }
+.member__img { filter: saturate(.92) sepia(.04) contrast(1.02); }
 
 /* Text selection in the house style */
 ::selection { background: var(--ink); color: var(--bone); }
@@ -924,7 +940,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .pair { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(20px, 3vw, 52px); align-items: start; }
 .pair figure { margin: 0; }
 .pair img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
-  filter: saturate(.86) sepia(.07) contrast(1.05) brightness(.985); }
+  filter: var(--grade); }
 .pair figure:nth-child(2) { margin-top: clamp(36px, 7vw, 110px); }
 .pair figure:nth-child(2) img { aspect-ratio: 4/5; }
 .pair figcaption { font-family: var(--sans); font-weight: 500; font-size: 10.5px;
@@ -1086,22 +1102,6 @@ section[id] { scroll-margin-top: 72px; }
 /* Tone alignment — a targeted warm-correction for the few cool/twilight source
    photos that sit in prominent slots, so they join the linen/bronze family.
    Layers ON TOP of the global house grade (styles.css ~964); applied per-image. */
-/* The house grade. This was applied per-tag via .img--warm and reached only 14 of
-   30 images — the project cards and the lightbox ran at full saturation against a
-   bone-and-bronze page, which is why colour-heavy frames (a lit pool, a red rug)
-   detonated instead of sitting in the palette. It belongs to the photography, not
-   to individual tags, so it is applied by role here. */
-:root { --grade: saturate(.72) sepia(.16) contrast(1.05); }
-.img--warm,
-.pcard__img,
-.cine__img,
-.story-feature__img { filter: var(--grade); }
-.sector__img img.img--warm,
-img.sector__img { filter: var(--grade) brightness(.82); }
-/* Full-screen inspection and portraits get a lighter hand — a heavy sepia on a
-   face, or on a photograph someone opened deliberately to look at, reads false. */
-.lb__img { filter: saturate(.88) sepia(.06) contrast(1.02); }
-.member__img { filter: saturate(.9) sepia(.05) contrast(1.02); }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    ProjectStory — immersive, scroll-driven case study.

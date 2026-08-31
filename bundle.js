@@ -4360,7 +4360,7 @@ function ProjectStory({
       w: 3000
     })} 3000w`
   }), React.createElement("div", {
-    className: "cine__grad"
+    className: "cine__grad cine__grad--plate"
   })), bodyParas[i] && React.createElement("section", {
     className: "section story__narrative"
   }, React.createElement("div", {
