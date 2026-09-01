@@ -1742,8 +1742,16 @@ function Home({
     "aria-label": "Igal N. Azran \u2014 read about the firm and founder"
   }, React.createElement("img", {
     src: wix(PHOTO.igal, {
-      w: 800
+      w: 1000
     }),
+    srcSet: `${wix(PHOTO.igal, {
+      w: 700
+    })} 700w, ${wix(PHOTO.igal, {
+      w: 1000
+    })} 1000w, ${wix(PHOTO.igal, {
+      w: 1400
+    })} 1400w`,
+    sizes: "(max-width: 760px) 340px, clamp(340px, 30vw, 480px)",
     alt: "Igal N. Azran, Founder & CEO",
     loading: "lazy",
     onError: imgFallback
@@ -4524,10 +4532,10 @@ function ProjectStory({
 window.ProjectStory = ProjectStory;
 const TWEAK_DEFAULTS = {
   "accent": "#9A6A3E",
-  "displayFont": "Instrument Serif"
+  "displayFont": "Newsreader"
 };
 const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
-const DISPLAY_FONTS = ["Instrument Serif", "Jost", "Helvetica Neue"];
+const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
 const ROUTE_TITLES = {

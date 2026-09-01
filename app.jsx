@@ -11,11 +11,11 @@
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "#9A6A3E",
-  "displayFont": "Instrument Serif"
+  "displayFont": "Newsreader"
 }/*EDITMODE-END*/;
 
 const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
-const DISPLAY_FONTS = ["Instrument Serif", "Jost", "Helvetica Neue"];
+const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 // Every routable page view (order = nav order).
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;

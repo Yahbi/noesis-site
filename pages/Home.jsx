@@ -169,7 +169,10 @@ function Home({ go, setIntent }) {
           {/* The principal — his record is the firm's record, so it is attributed here. */}
           <div className="principal reveal">
             <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">
-              <img src={wix(PHOTO.igal, { w: 800 })} alt="Igal N. Azran, Founder & CEO" loading="lazy" onError={imgFallback} />
+              <img src={wix(PHOTO.igal, { w: 1000 })}
+                srcSet={`${wix(PHOTO.igal, { w: 700 })} 700w, ${wix(PHOTO.igal, { w: 1000 })} 1000w, ${wix(PHOTO.igal, { w: 1400 })} 1400w`}
+                sizes="(max-width: 760px) 340px, clamp(340px, 30vw, 480px)"
+                alt="Igal N. Azran, Founder & CEO" loading="lazy" onError={imgFallback} />
             </button>
             <div className="principal__body">
               <div className="eyebrow"><span className="dot" /> The Principal</div>
