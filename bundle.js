@@ -3731,10 +3731,26 @@ function Projects({
       ind.style.top = btn.offsetTop + btn.offsetHeight - 1 + "px";
     };
     place();
+    let ro = null;
+    const wrap = tabsRef.current;
+    if (typeof ResizeObserver !== "undefined" && wrap) {
+      ro = new ResizeObserver(place);
+      ro.observe(wrap);
+      const btn = wrap.querySelector(`button[data-k="${tab}"]`);
+      if (btn) ro.observe(btn);
+    }
+    let cancelled = false;
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (!cancelled) place();
+      }).catch(() => {});
+    }
     const t = setTimeout(place, 60);
     window.addEventListener("resize", place);
     return () => {
+      cancelled = true;
       clearTimeout(t);
+      if (ro) ro.disconnect();
       window.removeEventListener("resize", place);
     };
   }, [tab]);

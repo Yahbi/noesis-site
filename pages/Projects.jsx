@@ -159,9 +159,30 @@ function Projects({ setPage, setIntent }) {
       ind.style.top = (btn.offsetTop + btn.offsetHeight - 1) + "px";
     };
     place();
-    const t = setTimeout(place, 60);
+    // A fixed 60ms timeout cannot know when the webfont actually swaps in, and the
+    // labels are set in Jost — every button width changes at that moment. If the
+    // swap lands after the timeout, place() has already hidden the indicator and
+    // nothing puts it back until the visitor clicks a different tab. Listen for the
+    // real signals instead.
+    let ro = null;
+    const wrap = tabsRef.current;
+    if (typeof ResizeObserver !== "undefined" && wrap) {
+      ro = new ResizeObserver(place);
+      ro.observe(wrap);
+      const btn = wrap.querySelector(`button[data-k="${tab}"]`);
+      if (btn) ro.observe(btn);
+    }
+    let cancelled = false;
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => { if (!cancelled) place(); }).catch(() => {});
+    }
+    const t = setTimeout(place, 60);      // belt, for browsers without fonts.ready
     window.addEventListener("resize", place);
-    return () => { clearTimeout(t); window.removeEventListener("resize", place); };
+    return () => {
+      cancelled = true; clearTimeout(t);
+      if (ro) ro.disconnect();
+      window.removeEventListener("resize", place);
+    };
   }, [tab]);
   const cat = CATEGORIES.find(c => c.key === tab);
   const feat = cat.items[0];
