@@ -1248,13 +1248,27 @@ function ScrollHero({
     const N = HERO_PLATES.length;
     const paint = p => {
       const pos = p * (N - 1);
+      const cur = Math.min(N - 2, Math.floor(pos));
       for (let i = 0; i < N; i++) {
         const el = plateRefs.current[i];
         if (!el) continue;
-        const o = clamp01(1 - Math.abs(pos - i));
-        el.style.opacity = String(o);
+        const live = i === cur || i === cur + 1;
+        if (!live) {
+          if (el.style.visibility !== "hidden") {
+            el.style.visibility = "hidden";
+            el.style.opacity = "0";
+            el.style.willChange = "auto";
+          }
+          continue;
+        }
+        if (el.style.visibility) el.style.visibility = "";
+        if (el.style.willChange !== "transform, opacity") el.style.willChange = "transform, opacity";
+        el.style.opacity = String(clamp01(1 - Math.abs(pos - i)));
         const t = clamp01((pos - (i - 1)) / 2);
-        el.style.transform = `scale(${(1.10 - 0.10 * t).toFixed(4)})`;
+        const sc = 1.10 - 0.10 * t;
+        const dx = (i % 2 ? 1 : -1) * (1 - t) * 1.4;
+        const dy = (1 - t) * -0.7;
+        el.style.transform = `translate3d(${dx.toFixed(3)}%, ${dy.toFixed(3)}%, 0) scale(${sc.toFixed(4)})`;
       }
       const idOut = ramp(p, BEATS.identity[0], BEATS.identity[1]);
       if (identityRef.current) {
@@ -1318,24 +1332,14 @@ function ScrollHero({
     ref: el => {
       plateRefs.current[i] = el;
     },
-    className: "shero__plate img--warm",
+    className: "shero__plate",
     alt: alt,
     fetchpriority: i === 0 ? "high" : undefined,
-    loading: i === 0 ? undefined : "lazy",
+    loading: i < 2 ? undefined : "lazy",
     decoding: "async",
     sizes: "100vw",
-    src: wix(id, {
-      w: 2000
-    }),
-    srcSet: `${wix(id, {
-      w: 1400
-    })} 1400w, ${wix(id, {
-      w: 2000
-    })} 2000w, ${wix(id, {
-      w: 2600
-    })} 2600w, ${wix(id, {
-      w: 3400
-    })} 3400w`,
+    src: `assets/img/hero-${i + 1}-2000.jpg`,
+    srcSet: `assets/img/hero-${i + 1}-1400.jpg 1400w, assets/img/hero-${i + 1}-2000.jpg 2000w, assets/img/hero-${i + 1}-2600.jpg 2600w`,
     onError: imgFallback
   }))), React.createElement("div", {
     className: "shero__grad",
