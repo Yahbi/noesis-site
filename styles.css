@@ -1037,7 +1037,11 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .eyebrow .dot { background: var(--accent); }
 /* Single authority for .caps — two earlier generations (one of them sentence-case)
    sat dead below this and made the stylesheet contradict what actually renders. */
-.caps { text-transform: uppercase; letter-spacing: .05em; font-weight: 300; }
+/* No weight override. 300 was chosen for Jost; Newsreader starts at 400, so it
+   silently clamped and left all 16 caps statements lighter than the headings
+   beside them. The heading class owns the weight now. Serif caps also want a
+   touch less tracking than a geometric sans did. */
+.caps { text-transform: uppercase; letter-spacing: .035em; }
 .accent { color: var(--accent); }
 .italic { font-style: italic; }
 
@@ -1692,4 +1696,23 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   border: 0;
   padding: clamp(30px, 4vw, 52px);
   box-shadow: 0 1px 0 rgba(46,42,34,.06), 0 24px 60px -38px rgba(46,42,34,.30);
+}
+
+/* Project cards. A 6% jump on hover is a stock-photo-site gesture; the point is
+   that the photograph settles, not that it lunges. Slower, shallower, and the
+   caption's rule draws across to acknowledge the pointer. */
+.pcard__media { position: relative; }
+.pcard:hover .pcard__img,
+.pcard:focus-visible .pcard__img { transform: scale(1.028); }
+.pcard__img { transition: transform 1.15s var(--ease-img); }
+.pcard__cap { position: relative; padding-bottom: 12px; }
+.pcard__cap::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 0;
+  background: var(--accent); transition: width .55s var(--ease-glide);
+}
+.pcard:hover .pcard__cap::after,
+.pcard:focus-visible .pcard__cap::after { width: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .pcard:hover .pcard__img { transform: none; }
+  .pcard__cap::after { transition: none; }
 }
