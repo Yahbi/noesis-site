@@ -4385,7 +4385,7 @@ const ROUTE_TITLES = {
   home: "Noesis Group — Real Estate Development & Investment | Owner's Representation",
   development: "Development — From Land to Landmark | Noesis Group",
   investment: "Investment — Capital, Aligned | Noesis Group",
-  properties: "Portfolio · The Delivered Record | Noesis Group",
+  properties: "Portfolio · The Record | Noesis Group",
   "owners-rep": "Owner's Representation & Project Management | Noesis Group",
   firm: "The Firm & Founder | Noesis Group",
   inquiries: "Inquiries — Request an Introduction | Noesis Group"

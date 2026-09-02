@@ -120,7 +120,7 @@ ROUTES = [
      "Noesis originates, structures and stewards real-estate investments for an aligned network of private capital, with the operator invested alongside. Opportunistic, value-add and hybrid stabilized strategies.",
      "Capital, aligned.",
      "Three strategies — Opportunistic (2–3 years), Value-Add (7–10 years) and Hybrid Stabilized (long term) — and the principles behind them. No offer or solicitation."),
-    ("portfolio/",   "properties",  f"Portfolio · The Delivered Record | {FIRM}",
+    ("portfolio/",   "properties",  f"Portfolio · The Record | {FIRM}",
      "Twenty-three projects conceived, developed and delivered by the Noesis team since 2009 — luxury residences, apartment buildings and small-lot subdivisions across Los Angeles, Beverly Hills and Tel Aviv.",
      "The delivered record.",
      "Twenty-three delivered projects: 16 private residences, 5 apartment buildings and 2 small-lot subdivisions."),
