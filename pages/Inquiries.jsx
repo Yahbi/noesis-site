@@ -42,7 +42,7 @@ function Inquiries({ intent }) {
               </div>
               <div>
                 <div className="label">Email</div>
-                <a href="mailto:info@noesisusa.com" className="serif u-mt-8 inq-link" style={{ fontSize: 19, display: "block" }}>INFO@NOESISUSA.COM</a>
+                <a href="mailto:info@noesisusa.com" className="serif u-mt-8 inq-link" style={{ fontSize: 19, display: "block" }}>info@noesisusa.com</a>
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ function InquiryForm({ intent }) {
   };
 
   if (sent) return (
-    <div style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
+    <div className="inq-panel">
       <div className="eyebrow"><span className="dot" /> {sent === "endpoint" ? "Received" : "Almost there"}</div>
       <h2 className="h-2 u-mt-16">{sent === "endpoint" ? "Thank you." : "One last step."}</h2>
       {sent === "endpoint" ? (
@@ -132,7 +132,7 @@ function InquiryForm({ intent }) {
   );
 
   return (
-    <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
+    <form onSubmit={submit} className="inq-panel">
       <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : owner ? "Confidential project inquiry" : "Send a message"}</div>
       <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
         <label htmlFor="f-company-website">Do not fill this in</label>

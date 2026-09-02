@@ -2931,7 +2931,7 @@ function Inquiries({
       fontSize: 19,
       display: "block"
     }
-  }, "INFO@NOESISUSA.COM")))), React.createElement("div", {
+  }, "info@noesisusa.com")))), React.createElement("div", {
     className: "col-7 reveal"
   }, React.createElement(InquiryForm, {
     intent: intent
@@ -3014,11 +3014,7 @@ function InquiryForm({
     setSent("mailto");
   };
   if (sent) return React.createElement("div", {
-    style: {
-      border: "1px solid var(--rule)",
-      padding: "clamp(28px,4vw,48px)",
-      background: "var(--paper)"
-    }
+    className: "inq-panel"
   }, React.createElement("div", {
     className: "eyebrow"
   }, React.createElement("span", {
@@ -3050,11 +3046,7 @@ function InquiryForm({
   }, "Write another"));
   return React.createElement("form", {
     onSubmit: submit,
-    style: {
-      border: "1px solid var(--rule)",
-      padding: "clamp(28px,4vw,48px)",
-      background: "var(--paper)"
-    }
+    className: "inq-panel"
   }, React.createElement("div", {
     className: "eyebrow",
     style: {

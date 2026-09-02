@@ -1679,3 +1679,17 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
    dropping "in." alone onto the second line of the first sentence on the site.
    balance splits the lines evenly instead of filling the first to capacity. */
 .h-display, .h-1, .h-2, .h-3 { text-wrap: balance; }
+
+/* The inquiry panel. It was --paper with a hairline rule — barely a tone off the
+   page, so the border carried it and the whole block read as a weak box on the
+   one page that has to feel like a threshold. A real surface, a soft warm
+   elevation, and no outline. */
+.inq-panel {
+  /* --paper, not --bone-3. Despite the name, --bone-2/-3 are the DARK plate tokens
+     (#28231B / #201C15); only --bone and --paper are light. Using bone-3 here
+     turned the panel near-black under dark text. */
+  background: var(--paper);
+  border: 0;
+  padding: clamp(30px, 4vw, 52px);
+  box-shadow: 0 1px 0 rgba(46,42,34,.06), 0 24px 60px -38px rgba(46,42,34,.30);
+}
