@@ -18,7 +18,7 @@ const HOME_WORK = [
   [SHOT.casaMani,   "casa-mani",       "Casa Mani",      "Beverly Hills",  "Developed & built",  "Private residence",      "2018"],
   [SHOT.leBijou,    "le-bijou",        "Le Bijou",       "Beverly Hills",  "Developed & built",  "Private residence",      "2015"],
   [SHOT.yingYang,   "ying-yang-lofts", "Ying Yang Lofts","Los Angeles",    "Designed & built",   "Apartment building",     "2019"],
-  [SHOT.casablanca, "casablanca-homes","Casablanca Homes","Los Angeles",   "Developed & built",  "Small-lot subdivision",  "", true],
+  [SHOT.casablanca, "casablanca-homes","Casablanca Homes","Los Angeles",   "Noesis development",  "Small-lot subdivision",  "", true],
 ];
 
 // Full delivered record — 17 gallery projects + 6 record-only entries.
@@ -190,7 +190,7 @@ function Home({ go, setIntent }) {
         </div>
       </section>
       {/* 4 ── TRACK RECORD ────────────────────────────────────────── */}
-      <section id="record" className="section" data-spy="firm" style={{ paddingTop: 0, borderTop: 0 }}>
+      <section id="record" className="section" data-spy="properties" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> The Delivered Record</div>
           <div className="statband reveal u-mt-24">
@@ -212,7 +212,7 @@ function Home({ go, setIntent }) {
         </div>
       </section>
       {/* 6 ── FIRM + INQUIRY ───────────────────────────────────────── */}
-      <section className="section section--ink" data-spy="inquiries">
+      <section className="section section--ink" data-spy="firm">
         <div className="wrap grid-12 reveal" style={{ alignItems: "center", gap: "clamp(28px,4vw,64px)" }}>
           <div className="col-4">
             <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">

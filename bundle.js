@@ -1436,7 +1436,7 @@ function ScrollHero({
       maxWidth: "18ch",
       marginInline: "auto"
     }
-  }, "Capital to deploy, or a project to deliver."), React.createElement("div", {
+  }, "Development execution. Investment judgment."), React.createElement("div", {
     className: "u-flex u-gap-16 u-mt-40",
     style: {
       justifyContent: "center",
@@ -1446,13 +1446,13 @@ function ScrollHero({
     className: "btn shero__close-cta",
     onClick: () => goInvestor("inquiries"),
     "data-magnetic": true
-  }, "Request an Introduction ", React.createElement("span", {
+  }, "Start a Conversation ", React.createElement("span", {
     className: "arr"
   })), React.createElement("button", {
     className: "btn btn--ghost shero__close-cta",
-    onClick: () => go("story:casa-mani"),
+    onClick: () => go("properties"),
     "data-magnetic": true
-  }, "See Casa Mani"))))));
+  }, "See the Record"))))));
 }
 window.ScrollHero = ScrollHero;
 const SHOT = {
@@ -1461,7 +1461,7 @@ const SHOT = {
   yingYang: "ying_ext_tall",
   casablanca: "casablanca"
 };
-const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2018"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Developed & built", "Small-lot subdivision", "", true]];
+const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2018"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Noesis development", "Small-lot subdivision", "", true]];
 const HOME_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const HOME_PILLARS = [["01", "Development", "development", "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."], ["02", "Investment", "investment", "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."]];
 function useScrubHero() {
@@ -1770,7 +1770,7 @@ function Home({
   }, asset)))))))), React.createElement("section", {
     id: "record",
     className: "section",
-    "data-spy": "firm",
+    "data-spy": "properties",
     style: {
       paddingTop: 0,
       borderTop: 0
@@ -1813,7 +1813,7 @@ function Home({
     className: "arr"
   }))))), React.createElement("section", {
     className: "section section--ink",
-    "data-spy": "inquiries"
+    "data-spy": "firm"
   }, React.createElement("div", {
     className: "wrap grid-12 reveal",
     style: {

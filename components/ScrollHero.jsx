@@ -195,14 +195,14 @@ function ScrollHero({ go, setIntent }) {
           <div className="shero__close" ref={closeRef}>
             <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Beverly Hills · International</div>
             <h2 className="h-display u-mt-16" style={{ color: "var(--bone)", maxWidth: "18ch", marginInline: "auto" }}>
-              Capital to deploy, or a project to deliver.
+              Development execution. Investment judgment.
             </h2>
             <div className="u-flex u-gap-16 u-mt-40" style={{ justifyContent: "center", flexWrap: "wrap" }}>
               <button className="btn shero__close-cta" onClick={() => goInvestor("inquiries")} data-magnetic>
-                Request an Introduction <span className="arr" />
+                Start a Conversation <span className="arr" />
               </button>
-              <button className="btn btn--ghost shero__close-cta" onClick={() => go("story:casa-mani")} data-magnetic>
-                See Casa Mani
+              <button className="btn btn--ghost shero__close-cta" onClick={() => go("properties")} data-magnetic>
+                See the Record
               </button>
             </div>
           </div>
