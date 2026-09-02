@@ -6,7 +6,7 @@
 //
 // While INQ_ENDPOINT is empty the form falls back to opening the visitor's mail
 // client. That fallback is unreliable: phones without a configured mail app and
-// browser-based webmail users often get NOTHING, so real enquiries are lost.
+// browser-based webmail users often get NOTHING, so real inquiries are lost.
 //
 // TO GO LIVE: create a free form endpoint (formspree.io or usebasin.com), point
 // it at info@noesisusa.com, and paste the URL below. Nothing else changes —
@@ -25,7 +25,7 @@ function Inquiries({ intent }) {
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "12ch" }}><span className="ln"><span>Let's begin.</span></span></h1>
             <p className="lede u-mt-24" style={{ maxWidth: "44ch" }}>
               Whether you have capital to deploy or a project to deliver, we welcome a confidential
-              conversation. Every enquiry is reviewed personally by our principal, who responds within one
+              conversation. Every inquiry is reviewed personally by our principal, who responds within one
               business day.
             </p>
             <hr className="hair" style={{ margin: "clamp(32px,4vw,48px) 0 0", maxWidth: 280 }} />
@@ -52,7 +52,7 @@ function Inquiries({ intent }) {
         </div>
       </section>
 
-      {/* CLOSING PLATE — delivered work behind the enquiry */}
+      {/* CLOSING PLATE — delivered work behind the inquiry */}
       <section className="cine" style={{ height: "min(44vh, 420px)", minHeight: 300 }}>
         <img className="cine__img img--warm" data-parallax="0.1"
           src={wix(PHOTO.genesee_int_1, { w: 2000 })}
@@ -98,7 +98,7 @@ function InquiryForm({ intent }) {
       } finally { setSubmitting(false); }
       return;
     }
-    const subject = `Enquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
+    const subject = `Inquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
     const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
     window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent("mailto");
@@ -111,7 +111,7 @@ function InquiryForm({ intent }) {
       {sent === "endpoint" ? (
         <p className="body u-mt-16">
           {investor
-            ? "Your enquiry is reviewed personally by our principal and held in confidence."
+            ? "Your inquiry is reviewed personally by our principal and held in confidence."
             : "We've received your message and will respond within one business day."}
         </p>
       ) : (
@@ -133,7 +133,7 @@ function InquiryForm({ intent }) {
 
   return (
     <form onSubmit={submit} style={{ border: "1px solid var(--rule)", padding: "clamp(28px,4vw,48px)", background: "var(--paper)" }}>
-      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : owner ? "Confidential project enquiry" : "Send a message"}</div>
+      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : owner ? "Confidential project inquiry" : "Send a message"}</div>
       <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
         <label htmlFor="f-company-website">Do not fill this in</label>
         <input id="f-company-website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
@@ -159,7 +159,7 @@ function InquiryForm({ intent }) {
       </div>
       <div className="u-mt-40 u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
         <div className="mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--muted)" }}>INFO@NOESISUSA.COM · T (310) 855·3634</div>
-        <button type="submit" className="btn" disabled={submitting}>{submitting ? "Sending…" : "Send Enquiry"} <span className="arr" /></button>
+        <button type="submit" className="btn" disabled={submitting}>{submitting ? "Sending…" : "Send Inquiry"} <span className="arr" /></button>
       </div>
     </form>
   );

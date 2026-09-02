@@ -141,7 +141,7 @@ function FeatureBlock({ p, open, flip }) {
 
 function Projects({ setPage, setIntent }) {
   // The record is the highest-proof surface on the site; whichever CTA a visitor
-  // takes from here seeds the enquiry form with the audience they self-selected.
+  // takes from here seeds the inquiry form with the audience they self-selected.
   const goWith = (who, id) => { if (setIntent) setIntent(who); setPage(id); };
   const [tab, setTab] = React.useState("sfr");
   const tabsRef = React.useRef(null);

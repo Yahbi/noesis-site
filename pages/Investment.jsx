@@ -19,7 +19,7 @@ const INV_PRINCIPLES = [
 ];
 
 function Investment({ go, setIntent }) {
-  const enquire = () => { if (setIntent) setIntent("investor"); go("inquiries"); };
+  const inquire = () => { if (setIntent) setIntent("investor"); go("inquiries"); };
   return (
     <main className="page-enter">
       {/* HERO */}
@@ -205,7 +205,7 @@ function Investment({ go, setIntent }) {
               no live offering implied. Nothing on this page is an offer to sell or a solicitation of an
               offer to buy any security.
             </p>
-            <button className="btn u-mt-40" onClick={enquire} data-magnetic>Request a confidential introduction <span className="arr" /></button>
+            <button className="btn u-mt-40" onClick={inquire} data-magnetic>Request a confidential introduction <span className="arr" /></button>
           </div>
         </div>
       </section>

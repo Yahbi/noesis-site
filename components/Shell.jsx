@@ -315,7 +315,7 @@ function Footer({ go }) {
                 <a href="mailto:info@noesisusa.com" className="serif" style={{ fontSize: 24, color: "var(--ink)", fontWeight: 300 }}>info@noesisusa.com</a>
                 <div style={{ marginTop: 8, color: "var(--ink-soft)", letterSpacing: ".03em" }}>T (310) 855·3634 &nbsp;·&nbsp; F (424) 282·8414</div>
               </div>
-              <button onClick={() => go("inquiries")} className="btn btn--ghost" style={{ alignSelf: "flex-start" }}>Make an Enquiry <span className="arr" /></button>
+              <button onClick={() => go("inquiries")} className="btn btn--ghost" style={{ alignSelf: "flex-start" }}>Make an Inquiry <span className="arr" /></button>
               <SocialRow size={20} />
             </div>
           </div>

@@ -77,7 +77,7 @@ function App() {
     const r = routeFromLocation();
     return r.indexOf("story:") === 0 ? r.slice(6) : null;
   });
-  const [intent, setIntent] = React.useState(null);    // "investor" | "owner" | null — seeds the enquiry form
+  const [intent, setIntent] = React.useState(null);    // "investor" | "owner" | null — seeds the inquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const returnTo = React.useRef("properties");         // where a story's Back button lands
 

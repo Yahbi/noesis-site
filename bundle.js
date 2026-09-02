@@ -1184,7 +1184,7 @@ function Footer({
     style: {
       alignSelf: "flex-start"
     }
-  }, "Make an Enquiry ", React.createElement("span", {
+  }, "Make an Inquiry ", React.createElement("span", {
     className: "arr"
   })), React.createElement(SocialRow, {
     size: 20
@@ -2312,7 +2312,7 @@ function Investment({
   go,
   setIntent
 }) {
-  const enquire = () => {
+  const inquire = () => {
     if (setIntent) setIntent("investor");
     go("inquiries");
   };
@@ -2594,7 +2594,7 @@ function Investment({
     }
   }, "When an opportunity meets our standard we bring it to that network privately. Qualified and accredited investors are welcome to request a confidential introduction \u2014 no obligation, and no live offering implied. Nothing on this page is an offer to sell or a solicitation of an offer to buy any security."), React.createElement("button", {
     className: "btn u-mt-40",
-    onClick: enquire,
+    onClick: inquire,
     "data-magnetic": true
   }, "Request a confidential introduction ", React.createElement("span", {
     className: "arr"
@@ -2885,7 +2885,7 @@ function Inquiries({
     style: {
       maxWidth: "44ch"
     }
-  }, "Whether you have capital to deploy or a project to deliver, we welcome a confidential conversation. Every enquiry is reviewed personally by our principal, who responds within one business day."), React.createElement("hr", {
+  }, "Whether you have capital to deploy or a project to deliver, we welcome a confidential conversation. Every inquiry is reviewed personally by our principal, who responds within one business day."), React.createElement("hr", {
     className: "hair",
     style: {
       margin: "clamp(32px,4vw,48px) 0 0",
@@ -3008,7 +3008,7 @@ function InquiryForm({
       }
       return;
     }
-    const subject = `Enquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
+    const subject = `Inquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
     const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
     window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent("mailto");
@@ -3027,7 +3027,7 @@ function InquiryForm({
     className: "h-2 u-mt-16"
   }, sent === "endpoint" ? "Thank you." : "One last step."), sent === "endpoint" ? React.createElement("p", {
     className: "body u-mt-16"
-  }, investor ? "Your enquiry is reviewed personally by our principal and held in confidence." : "We've received your message and will respond within one business day.") : React.createElement(React.Fragment, null, React.createElement("p", {
+  }, investor ? "Your inquiry is reviewed personally by our principal and held in confidence." : "We've received your message and will respond within one business day.") : React.createElement(React.Fragment, null, React.createElement("p", {
     className: "body u-mt-16"
   }, "We've opened a pre-filled message in your mail app \u2014 ", React.createElement("strong", null, "press send there"), " and it reaches our principal directly. Nothing has been sent yet."), React.createElement("p", {
     className: "body u-mt-16",
@@ -3062,7 +3062,7 @@ function InquiryForm({
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " ", investor ? "Confidential investor introduction" : owner ? "Confidential project enquiry" : "Send a message"), React.createElement("div", {
+  }), " ", investor ? "Confidential investor introduction" : owner ? "Confidential project inquiry" : "Send a message"), React.createElement("div", {
     "aria-hidden": "true",
     style: {
       position: "absolute",
@@ -3161,7 +3161,7 @@ function InquiryForm({
     type: "submit",
     className: "btn",
     disabled: submitting
-  }, submitting ? "Sending…" : "Send Enquiry", " ", React.createElement("span", {
+  }, submitting ? "Sending…" : "Send Inquiry", " ", React.createElement("span", {
     className: "arr"
   }))));
 }
