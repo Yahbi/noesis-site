@@ -154,7 +154,7 @@ function ScrollHero({ go, setIntent }) {
           <div className="shero__identity" ref={identityRef}>
             <div className="wrap">
               <div className="eyebrow shero__rise shero__rise--1"><span className="dot" /> Noesis — Est. 2009</div>
-              <h1 className="h-display shero__rise shero__rise--2" style={{ maxWidth: "18ch", color: "var(--bone)" }}>
+              <h1 className="h-display shero__rise shero__rise--2" style={{ maxWidth: "15ch", color: "var(--bone)" }}>
                 We build what we invest in.
               </h1>
               <p className="lede shero__rise shero__rise--3" style={{ maxWidth: "46ch" }}>

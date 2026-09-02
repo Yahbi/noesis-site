@@ -1674,3 +1674,8 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 .btn { box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--on-accent) 16%, transparent); }
 .btn:active { transform: translateY(0); background: var(--accent-deep); }
 .btn--ghost { box-shadow: none; }
+
+/* Headline orphans. "We build what we invest in." was breaking after "invest",
+   dropping "in." alone onto the second line of the first sentence on the site.
+   balance splits the lines evenly instead of filling the first to capacity. */
+.h-display, .h-1, .h-2, .h-3 { text-wrap: balance; }

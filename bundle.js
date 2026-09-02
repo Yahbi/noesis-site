@@ -1358,7 +1358,7 @@ function ScrollHero({
   }), " Noesis \u2014 Est. 2009"), React.createElement("h1", {
     className: "h-display shero__rise shero__rise--2",
     style: {
-      maxWidth: "18ch",
+      maxWidth: "15ch",
       color: "var(--bone)"
     }
   }, "We build what we invest in."), React.createElement("p", {
