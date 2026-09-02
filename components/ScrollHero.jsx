@@ -123,7 +123,6 @@ function ScrollHero({ go, setIntent }) {
   }, []);
 
   const goInvestor = (id) => { if (setIntent) setIntent("investor"); go(id); };
-  const goOwner = (id) => { if (setIntent) setIntent("owner"); go(id); };
 
   return (
     <section ref={containerRef} className="shero" id="hero">

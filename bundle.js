@@ -1314,10 +1314,6 @@ function ScrollHero({
     if (setIntent) setIntent("investor");
     go(id);
   };
-  const goOwner = id => {
-    if (setIntent) setIntent("owner");
-    go(id);
-  };
   return React.createElement("section", {
     ref: containerRef,
     className: "shero",
@@ -1462,10 +1458,17 @@ const SHOT = {
   casablanca: "casablanca"
 };
 const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2018"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Noesis development", "Small-lot subdivision", "", true]];
-const HOME_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
+const HOME_STATS = [["23", "Projects"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const HOME_PILLARS = [["01", "Development", "development", "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."], ["02", "Investment", "investment", "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."]];
+function scrubEligible() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  const conn = navigator.connection || {};
+  if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  return window.matchMedia("(min-width: 1024px) and (hover: hover)").matches;
+}
 function useScrubHero() {
-  const [ok, setOk] = React.useState(false);
+  const [ok, setOk] = React.useState(scrubEligible);
   React.useEffect(() => {
     if (!window.matchMedia) return;
     const conn = navigator.connection || {};
@@ -1781,7 +1784,7 @@ function Home({
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
-  }), " The Delivered Record"), React.createElement("div", {
+  }), " The Record"), React.createElement("div", {
     className: "statband reveal u-mt-24"
   }, HOME_STATS.map(([v, l]) => React.createElement("div", {
     key: l

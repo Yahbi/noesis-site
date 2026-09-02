@@ -10,7 +10,6 @@ const SHOT = {
   casablanca: "casablanca",
 };
 
-// Selected work — the six tiles that make the gateway feel like a portfolio.
 // Four projects, one per asset class the firm actually works in, so the homepage
 // shows the range rather than six variations of the same house. Role, asset type,
 // place and year on each; the full record lives on Portfolio.
@@ -23,7 +22,7 @@ const HOME_WORK = [
 
 // Full delivered record — 17 gallery projects + 6 record-only entries.
 const HOME_STATS = [
-  ["23", "Projects delivered"],
+  ["23", "Projects"],   // NOT "delivered": Quiet Storm is "RTIs in hand" and Neo Soul is "Permits issued / shovel-ready" per Projects.jsx — both pre-construction
   ["16", "Private residences"],
   ["5", "Apartment buildings"],
   ["2", "Small-lot subdivisions"],
@@ -42,8 +41,21 @@ const HOME_PILLARS = [
 // and scrubs on rAF. On touch devices that is both a heavy download and a jittery
 // interaction, so phones, reduced-motion and Save-Data visitors keep the original
 // film hero — which is lighter and already tuned for them.
+function scrubEligible() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  const conn = navigator.connection || {};
+  if (conn.saveData || /^(slow-)?2g$/.test(conn.effectiveType || "")) return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  return window.matchMedia("(min-width: 1024px) and (hover: hover)").matches;
+}
 function useScrubHero() {
-  const [ok, setOk] = React.useState(false);
+  // Resolved during the FIRST render, not in an effect. Seeding this false meant
+  // every desktop load committed the fallback hero first — writing a 2000px
+  // fetchpriority="high" image into the DOM and starting that fetch — then tore it
+  // down and mounted ScrollHero, whose own first plate is also fetchpriority high.
+  // Two high-priority images raced for bandwidth and the visitor saw one painted
+  // frame of the wrong hero.
+  const [ok, setOk] = React.useState(scrubEligible);
   React.useEffect(() => {
     if (!window.matchMedia) return;
     const conn = navigator.connection || {};
@@ -146,9 +158,6 @@ function Home({ go, setIntent }) {
         </div>
       </section>
 
-
-
-
       {/* 3 ── SELECTED PORTFOLIO ───────────────────────────────────── */}
       <section id="featured" className="section" data-spy="properties">
         <div className="wrap">
@@ -192,7 +201,7 @@ function Home({ go, setIntent }) {
       {/* 4 ── TRACK RECORD ────────────────────────────────────────── */}
       <section id="record" className="section" data-spy="properties" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
-          <div className="eyebrow reveal"><span className="dot" /> The Delivered Record</div>
+          <div className="eyebrow reveal"><span className="dot" /> The Record</div>
           <div className="statband reveal u-mt-24">
             {HOME_STATS.map(([v, l]) => (
               <div key={l}><div className="num">{v}</div><div className="statband__l">{l}</div></div>
