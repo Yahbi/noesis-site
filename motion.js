@@ -172,14 +172,30 @@
       if (!m) return;
       var pre = m[1], num = parseInt(m[2].replace(/,/g, ""), 10), post = m[3];
       if (isNaN(num) || num > 200) return;   // skip years like 2009
-      var obj = { v: 0 };
+      var truth = pre + num + post;
+
+      // Never destroy the figure for someone already looking at it. This used to
+      // zero every counter the moment it bound, so the band read "0 projects
+      // delivered" until a scroll-triggered tween counted it back up — and if that
+      // tween never ran (frozen rAF in a background tab, a ScrollTrigger refresh
+      // race, any error downstream) the zero was permanent. A wrong track record
+      // is worse than no animation.
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.9) return;   // on screen: leave it alone
+
+      var obj = { v: 0 }, restored = false;
+      var settle = function () { if (!restored) { restored = true; el.textContent = truth; } };
       el.textContent = pre + "0" + post;
+      // Belt: whatever happens to the tween, the real figure comes back.
+      var guard = setTimeout(settle, 6000);
       st({
         trigger: el, start: "top 90%", once: true,
         onEnter: function () {
+          clearTimeout(guard);
           gsap.to(obj, {
             v: num, duration: 1.6, ease: "power2.out",
             onUpdate: function () { el.textContent = pre + Math.round(obj.v) + post; },
+            onComplete: settle,
           });
         },
       });

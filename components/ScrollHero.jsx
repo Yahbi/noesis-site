@@ -158,13 +158,13 @@ function ScrollHero({ go, setIntent }) {
                 We build what we invest in.
               </h1>
               <p className="lede shero__rise shero__rise--3" style={{ maxWidth: "46ch" }}>
-                An international real-estate development and investment firm. We conceive, build and
-                hold the assets we believe in — and bring that same builder's discipline to a select
-                few owners.
+                A Beverly Hills–based real-estate development and investment firm. We acquire,
+                build and hold residential assets — and represent select owners from entitlement
+                through delivery.
               </p>
               <div className="u-flex u-gap-16 u-mt-40 shero__rise shero__rise--4" style={{ flexWrap: "wrap" }}>
-                <button className="btn" onClick={() => goInvestor("investment")} data-magnetic>For Investors</button>
-                <button className="btn btn--ghost" onClick={() => goOwner("owners-rep")} data-magnetic>For Owners &amp; Developers</button>
+                <button className="btn" onClick={() => go("development")} data-magnetic>Explore Development</button>
+                <button className="btn btn--ghost" onClick={() => goInvestor("investment")} data-magnetic>Investment Approach</button>
               </div>
             </div>
           </div>

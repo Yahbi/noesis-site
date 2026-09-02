@@ -8,7 +8,7 @@ const SECTIONS = [
   ["properties",  "Portfolio"],
   ["owners-rep",  "Owner's Rep"],
   ["firm",        "Firm"],
-  ["inquiries",   "Inquiries"],
+  ["inquiries",   "Contact"],      // URL stays /inquiries/ — renaming it would break the sitemap and any shared links
 ];
 
 // Routes whose visitor is an owner or developer, not capital. The global CTA

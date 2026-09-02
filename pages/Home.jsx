@@ -4,23 +4,21 @@
 // is the accessory line. Stone & linen, Jost geometric, brand bronze.
 
 const SHOT = {
-  casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
-  oneOak:   "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
-  houseG:   "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
-  aura:     "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
-  cThru:    "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
-  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
+  casaMani: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",   // same frame Portfolio uses; the old one was the purple-lit pool
   leBijou:  "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
+  yingYang: "ying_ext_tall",
+  casablanca: "casablanca",
 };
 
 // Selected work — the six tiles that make the gateway feel like a portfolio.
+// Four projects, one per asset class the firm actually works in, so the homepage
+// shows the range rather than six variations of the same house. Role, asset type,
+// place and year on each; the full record lives on Portfolio.
 const HOME_WORK = [
-  [SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Designed & built · 2018"],
-  [SHOT.oneOak, "one-oak", "One Oak", "Sunset Strip", "Designed & built · 2015"],
-  [SHOT.aura, "aura-house", "Aura House", "Tel Aviv", "Developed · sold over asking"],
-  [SHOT.cThru, "c-thru", "C Thru", "Beverly Grove", "Designed & built · 2016"],
-  [SHOT.houseG, "house-g", "House G", "Melrose", "Designed & developed · 2016"],
-  [SHOT.lolivier, "lolivier", "L'Olivier House", "Los Angeles", "Designed & built · 2015"],
+  [SHOT.casaMani,   "casa-mani",       "Casa Mani",      "Beverly Hills",  "Developed & built",  "Private residence",      "2018"],
+  [SHOT.leBijou,    "le-bijou",        "Le Bijou",       "Beverly Hills",  "Developed & built",  "Private residence",      "2015"],
+  [SHOT.yingYang,   "ying-yang-lofts", "Ying Yang Lofts","Los Angeles",    "Designed & built",   "Apartment building",     "2019"],
+  [SHOT.casablanca, "casablanca-homes","Casablanca Homes","Los Angeles",   "Developed & built",  "Small-lot subdivision",  "", true],
 ];
 
 // Full delivered record — 17 gallery projects + 6 record-only entries.
@@ -34,16 +32,11 @@ const HOME_STATS = [
 
 const HOME_PILLARS = [
   ["01", "Development", "development",
-    "We acquire and develop ground-up — luxury residences, small-lot subdivisions and apartment buildings — conceived, entitled, designed and built by our own team."],
+    "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."],
   ["02", "Investment", "investment",
-    "We invest our own capital alongside our partners', across opportunistic, value-add and stabilized strategies, where our development edge creates the value."],
+    "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."],
 ];
 
-const HOME_PROOF = [
-  ["$75M", "Construction budget managed"],
-  ["22 days", "Delivered ahead of schedule"],
-  ["12%", "Delivered under budget"],
-];
 
 // The scroll-scrub hero is desktop-only by design: it preloads ~12 MB of frames
 // and scrubs on rAF. On touch devices that is both a heavy download and a jittery
@@ -113,21 +106,23 @@ function Home({ go, setIntent }) {
           </h1>
           <div className="grid-12 u-mt-40 u-end">
             <div className="col-6">
-              <p className="lede" data-hero-fade style={{ maxWidth: "46ch" }}>
-                Noesis is an international real-estate development and investment firm. We conceive,
-                build and hold the assets we believe in — and bring that same builder's discipline to
-                a select few owners.
+              <p className="lede" data-hero-fade style={{ maxWidth: "48ch" }}>
+                A Beverly Hills–based real-estate development and investment firm. We acquire, build
+                and hold residential assets — and represent select owners from entitlement through
+                delivery.
               </p>
             </div>
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
-              <button className="btn" onClick={() => goInvestor("investment")} data-magnetic>For Investors</button>
-              <button className="btn btn--ghost" onClick={() => goOwner("owners-rep")} data-magnetic>For Owners &amp; Developers</button>
+              {/* Leads with the two primary businesses. Pairing "For Investors" with
+                  "For Owners & Developers" made the service line read as an equal. */}
+              <button className="btn" onClick={() => go("development")} data-magnetic>Explore Development</button>
+              <button className="btn btn--ghost" onClick={() => goInvestor("investment")} data-magnetic>Investment Approach</button>
             </div>
           </div>
         </div>
       </section>}
 
-      {/* 2 ── THE TWO PILLARS + accessory line ─────────────────────── */}
+      {/* 2 ── DEVELOPMENT + INVESTMENT — the two primary businesses ── */}
       <section id="pillars" className="section">
         <div className="wrap">
           <div className="reveal" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
@@ -148,15 +143,53 @@ function Home({ go, setIntent }) {
             ))}
           </div>
 
-          <button className="accessory reveal" data-spy="owners-rep" onClick={() => goOwner("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
-            <span className="accessory__lbl">Also — Owner's Representation &amp; Project Management</span>
-            <span className="accessory__d">For a select few owners, the same discipline applied to your project — one accountable advocate from entitlement to delivery.</span>
-            <span className="accessory__cta">Our capabilities <span className="arr" /></span>
-          </button>
         </div>
       </section>
 
-      {/* 3 ── PROOF BAND + THE PRINCIPAL ───────────────────────────── */}
+
+
+
+      {/* 3 ── SELECTED PORTFOLIO ───────────────────────────────────── */}
+      <section id="featured" className="section" data-spy="properties">
+        <div className="wrap">
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}>
+            <div className="col-8">
+              <div className="eyebrow"><span className="dot" /> Portfolio</div>
+              <h2 className="h-1 u-mt-16 caps">Selected work.</h2>
+            </div>
+            <div className="col-4 u-tr">
+              <button className="btn btn--ghost" onClick={() => go("properties")} data-magnetic>View the full portfolio <span className="arr" /></button>
+            </div>
+          </div>
+
+
+          <div className="collage reveal u-mt-64">
+            {HOME_WORK.map(([img, id, name, loc, role, asset, year, rendering]) => (
+              <a key={name} className="pcard" href={BASE + pathFor("story:" + id)}
+                aria-label={`${name}, ${loc} — view the project story`}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                  e.preventDefault(); go("story:" + id);
+                }}>
+                <div className="pcard__media"><img className="pcard__img" src={wix(img, { w: 1300 })} alt={name} loading="lazy" onError={imgFallback} /></div>
+                <div className="pcard__cap">
+                  <div>
+                    <h3 className="pcard__name">{name}</h3>
+                    <div className="pcard__loc">
+                      {loc}{year ? ` · ${year}` : ""}
+                      {rendering && <span className="pcard__render">Rendering</span>}
+                    </div>
+                  </div>
+                  <div className="label label--sm" style={{ color: "var(--accent-deep)", textAlign: "right", whiteSpace: "nowrap" }}>
+                    {role}<br /><span style={{ color: "var(--muted)" }}>{asset}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* 4 ── TRACK RECORD ────────────────────────────────────────── */}
       <section id="record" className="section" data-spy="firm" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> The Delivered Record</div>
@@ -166,145 +199,39 @@ function Home({ go, setIntent }) {
             ))}
           </div>
 
-          {/* The principal — his record is the firm's record, so it is attributed here. */}
-          <div className="principal reveal">
+        </div>
+      </section>
+      {/* 5 ── OWNER'S REPRESENTATION — the accessory line, kept subordinate ── */}
+      <section id="owners" className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+        <div className="wrap">
+          <button className="accessory reveal" data-spy="owners-rep" onClick={() => goOwner("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
+            <span className="accessory__lbl">Also — Owner's Representation &amp; Project Management</span>
+            <span className="accessory__d">For a select few owners, the same discipline applied to your project — one accountable advocate from entitlement to delivery.</span>
+            <span className="accessory__cta">Our capabilities <span className="arr" /></span>
+          </button>
+        </div>
+      </section>
+      {/* 6 ── FIRM + INQUIRY ───────────────────────────────────────── */}
+      <section className="section section--ink" data-spy="inquiries">
+        <div className="wrap grid-12 reveal" style={{ alignItems: "center", gap: "clamp(28px,4vw,64px)" }}>
+          <div className="col-4">
             <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">
-              <img src={wix(PHOTO.igal, { w: 1000 })}
-                srcSet={`${wix(PHOTO.igal, { w: 700 })} 700w, ${wix(PHOTO.igal, { w: 1000 })} 1000w, ${wix(PHOTO.igal, { w: 1400 })} 1400w`}
-                sizes="(max-width: 760px) 340px, clamp(340px, 30vw, 480px)"
+              <img src={wix(PHOTO.igal, { w: 900 })}
+                srcSet={`${wix(PHOTO.igal, { w: 600 })} 600w, ${wix(PHOTO.igal, { w: 900 })} 900w`}
+                sizes="(max-width: 760px) 300px, 30vw"
                 alt="Igal N. Azran, Founder & CEO" loading="lazy" onError={imgFallback} />
             </button>
-            <div className="principal__body">
-              <div className="eyebrow"><span className="dot" /> The Principal</div>
-              <div className="principal__name">Igal N. Azran</div>
-              <div className="principal__role">Founder &amp; CEO · Previously CIM Group · CBRE</div>
-              <p className="principal__bio">
-                Igal founded Noesis in 2009 and has led its development and investment work ever since.
-                Born in Morocco and raised between France, Spain and Israel, he brings a genuinely
-                international perspective — and a builder's discipline — to every venture.
-              </p>
-              <button className="link-u principal__link" onClick={() => go("firm")}>The firm &amp; founder</button>
-            </div>
-            {/* Third grid child: ≥1100px this becomes a thin-rule proof rail filling
-                the dead right rail; 761-1099px a full-width 3-up row; ≤760px stacks. */}
-            <div className="principal__stats">
-              {HOME_PROOF.map(([v, l]) => (
-                <div key={l}>
-                  <div className="principal__num">{v}</div>
-                  <div className="principal__lbl">{l}</div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-      </section>
-
-      {/* 4 ── FEATURED PROJECT ─────────────────────────────────────── */}
-      <section id="featured" className="section" data-spy="properties">
-        <div className="wrap">
-          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}>
-            <div className="col-8">
-              <div className="eyebrow"><span className="dot" /> Portfolio</div>
-              <h2 className="h-1 u-mt-16 caps">The record behind the thesis.</h2>
+          <div className="col-8">
+            <div className="eyebrow"><span className="dot" /> The Firm</div>
+            <h2 className="h-2 u-mt-16" style={{ color: "var(--bone)", maxWidth: "30ch" }}>
+              Founded by Igal N. Azran in 2009, Noesis brings development execution, investment
+              judgment and institutional experience to every engagement.
+            </h2>
+            <div className="cta-row u-mt-40" style={{ justifyContent: "flex-start" }}>
+              <button className="btn" onClick={() => goInvestor("inquiries")} data-magnetic>Start a Conversation <span className="arr" /></button>
+              <button className="btn btn--ghost" onClick={() => go("firm")} data-magnetic>Meet the Firm</button>
             </div>
-            <div className="col-4 u-tr">
-              <button className="btn btn--ghost" onClick={() => go("properties")} data-magnetic>View the full portfolio <span className="arr" /></button>
-            </div>
-          </div>
-
-          <button className="story-feature reveal" onClick={() => go("story:le-bijou")} aria-label="Featured project — Le Bijou, read the story">
-            <img className="story-feature__img img--warm" alt="Le Bijou, Beverly Hills" loading="lazy" sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
-              onError={(e) => { e.currentTarget.style.opacity = "0"; }}
-              src={wix(SHOT.leBijou, { w: 2000 })}
-              srcSet={`${wix(SHOT.leBijou, { w: 1200 })} 1200w, ${wix(SHOT.leBijou, { w: 2000 })} 2000w`} />
-            <div className="story-feature__grad" />
-            <div className="story-feature__cap">
-              <div className="eyebrow"><span className="dot" /> Featured Project</div>
-              <div className="story-feature__name">Le Bijou</div>
-              <div className="story-feature__meta">Beverly Hills — “the jewel,” where receding walls of glass make indoor-outdoor living real.</div>
-              <span className="story-feature__cta">Read the story <span className="arr" /></span>
-            </div>
-          </button>
-
-          <div className="collage reveal u-mt-64">
-            {HOME_WORK.map(([img, id, name, loc, work]) => (
-              <a key={name} className="pcard" href={BASE + pathFor("story:" + id)}
-                aria-label={`${name}, ${loc} — view the project story`}
-                onClick={(e) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-                  e.preventDefault(); go("story:" + id);
-                }}>
-                <div className="pcard__media"><img className={`pcard__img ${(name === "Casa Mani" || name === "Aura House") ? "img--warm" : ""}`} src={wix(img, { w: 1300 })} alt={name} loading="lazy" onError={imgFallback} /></div>
-                <div className="pcard__cap">
-                  <div>
-                    <h3 className="pcard__name">{name}</h3>
-                    <div className="pcard__loc">{loc}</div>
-                  </div>
-                  <div className="mono label label--sm" style={{ color: "var(--accent-deep)", whiteSpace: "nowrap" }}>{work}</div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5 ── THE FILM ─────────────────────────────────────────────── */}
-      <section className="cine cine--video" style={{ height: "min(86vh, 840px)", minHeight: 500 }}>
-        <img className="cine__img" src={wix(SHOT.oneOak, { w: 2200 })} alt="" loading="lazy" sizes="100vw"
-          srcSet={`${wix(SHOT.oneOak, { w: 800 })} 800w, ${wix(SHOT.oneOak, { w: 1400 })} 1400w, ${wix(SHOT.oneOak, { w: 2200 })} 2200w`}
-          onError={imgFallback} />
-        <video className="cine__vid" autoPlay loop muted playsInline preload="none"
-          src={film("noesis-reel", { ambient: true }) || undefined}
-          ref={(el) => {
-            if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = false;
-            const tryPlay = () => {
-              if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
-              if (el.__manual) return;   // visitor started the launch film — hands off
-              if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }
-              else if (!el.paused) { el.pause(); }
-            };
-            if ("IntersectionObserver" in window) { el.__io = new IntersectionObserver((e) => { el.__inView = e[0] && e[0].isIntersecting; tryPlay(); }, { threshold: 0.15 }); el.__io.observe(el); }
-            el.__iv = setInterval(tryPlay, 2500); document.addEventListener("visibilitychange", tryPlay);
-          }} />
-        <div className="cine__grad" />
-        <div className="cine__cap">
-          <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <div className="eyebrow"><span className="dot" /> Conceived, developed &amp; delivered by Noesis</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "18ch" }}>We have stood where our partners stand.</h2>
-            <button className="btn u-mt-24" data-magnetic
-              onClick={(e) => {
-                const sec = e.currentTarget.closest("section");
-                const v = sec && sec.querySelector("video");
-                if (!v) return;
-                // Play the full launch film with sound. Recoverable: the caption
-                // dims rather than disappearing, and a failed load restores the loop.
-                const restore = () => {
-                  v.__manual = false; v.loop = true; v.controls = false; v.muted = true;
-                  const rl = film("noesis-reel", { ambient: true }); if (rl) { v.src = rl; v.load(); }
-                  const pr = v.play(); if (pr && pr.catch) pr.catch(() => {});
-                  sec.classList.remove("is-playing");
-                };
-                v.__manual = true; v.loop = false; v.controls = true; v.muted = false;
-                v.addEventListener("error", restore, { once: true });
-                v.addEventListener("ended", restore, { once: true });
-                v.src = film("noesis-launch"); v.load();
-                const p = v.play(); if (p && p.catch) p.catch(restore);
-                sec.classList.add("is-playing");
-              }}>Watch the film · 2 min <span className="arr" /></button>
-          </div>
-        </div>
-      </section>
-
-      {/* 6 ── CLOSE ────────────────────────────────────────────────── */}
-      <section className="section section--ink" data-spy="inquiries">
-        <div className="wrap grid-12 u-end reveal">
-          <div className="col-7">
-            <div className="eyebrow"><span className="dot" /> Inquiries</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "16ch" }}>Capital to deploy, or a project to deliver.</h2>
-          </div>
-          <div className="col-5 u-tr u-flex u-gap-16" style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
-            <button className="btn" onClick={() => goInvestor("inquiries")} data-magnetic>Request an Introduction <span className="arr" /></button>
-            <button className="btn btn--ghost" onClick={() => go("firm")} data-magnetic>About the Firm</button>
           </div>
         </div>
       </section>

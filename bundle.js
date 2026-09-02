@@ -768,7 +768,7 @@ window.film = film;
 window.imgFallback = imgFallback;
 window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
-const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Inquiries"]];
+const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Contact"]];
 const OWNER_ROUTES = ["development", "owners-rep"];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
 const SOCIAL_URLS = {
@@ -1366,20 +1366,20 @@ function ScrollHero({
     style: {
       maxWidth: "46ch"
     }
-  }, "An international real-estate development and investment firm. We conceive, build and hold the assets we believe in \u2014 and bring that same builder's discipline to a select few owners."), React.createElement("div", {
+  }, "A Beverly Hills\u2013based real-estate development and investment firm. We acquire, build and hold residential assets \u2014 and represent select owners from entitlement through delivery."), React.createElement("div", {
     className: "u-flex u-gap-16 u-mt-40 shero__rise shero__rise--4",
     style: {
       flexWrap: "wrap"
     }
   }, React.createElement("button", {
     className: "btn",
+    onClick: () => go("development"),
+    "data-magnetic": true
+  }, "Explore Development"), React.createElement("button", {
+    className: "btn btn--ghost",
     onClick: () => goInvestor("investment"),
     "data-magnetic": true
-  }, "For Investors"), React.createElement("button", {
-    className: "btn btn--ghost",
-    onClick: () => goOwner("owners-rep"),
-    "data-magnetic": true
-  }, "For Owners & Developers")))), React.createElement("div", {
+  }, "Investment Approach")))), React.createElement("div", {
     className: "shero__beat shero__beat--right",
     ref: rightRef
   }, React.createElement("div", {
@@ -1456,18 +1456,14 @@ function ScrollHero({
 }
 window.ScrollHero = ScrollHero;
 const SHOT = {
-  casaMani: "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg",
-  oneOak: "5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg",
-  houseG: "5c383b_a01053afaaa447d08fc46a06820b54d3~mv2_d_5760_3840_s_4_2.jpg",
-  aura: "5c383b_23c2d9ef2cfb46768b1a436bc5c8dc7a~mv2_d_4256_2832_s_4_2.jpg",
-  cThru: "5c383b_b3d670a8b83a486498fae278402120af~mv2.jpg",
-  lolivier: "5c383b_fcb4f7079a5e443589c23a058a3a3b1b~mv2.jpg",
-  leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg"
+  casaMani: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",
+  leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
+  yingYang: "ying_ext_tall",
+  casablanca: "casablanca"
 };
-const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Designed & built · 2018"], [SHOT.oneOak, "one-oak", "One Oak", "Sunset Strip", "Designed & built · 2015"], [SHOT.aura, "aura-house", "Aura House", "Tel Aviv", "Developed · sold over asking"], [SHOT.cThru, "c-thru", "C Thru", "Beverly Grove", "Designed & built · 2016"], [SHOT.houseG, "house-g", "House G", "Melrose", "Designed & developed · 2016"], [SHOT.lolivier, "lolivier", "L'Olivier House", "Los Angeles", "Designed & built · 2015"]];
+const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2018"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Developed & built", "Small-lot subdivision", "", true]];
 const HOME_STATS = [["23", "Projects delivered"], ["16", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
-const HOME_PILLARS = [["01", "Development", "development", "We acquire and develop ground-up — luxury residences, small-lot subdivisions and apartment buildings — conceived, entitled, designed and built by our own team."], ["02", "Investment", "investment", "We invest our own capital alongside our partners', across opportunistic, value-add and stabilized strategies, where our development edge creates the value."]];
-const HOME_PROOF = [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]];
+const HOME_PILLARS = [["01", "Development", "development", "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."], ["02", "Investment", "investment", "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."]];
 function useScrubHero() {
   const [ok, setOk] = React.useState(false);
   React.useEffect(() => {
@@ -1649,9 +1645,9 @@ function Home({
     className: "lede",
     "data-hero-fade": true,
     style: {
-      maxWidth: "46ch"
+      maxWidth: "48ch"
     }
-  }, "Noesis is an international real-estate development and investment firm. We conceive, build and hold the assets we believe in \u2014 and bring that same builder's discipline to a select few owners.")), React.createElement("div", {
+  }, "A Beverly Hills\u2013based real-estate development and investment firm. We acquire, build and hold residential assets \u2014 and represent select owners from entitlement through delivery.")), React.createElement("div", {
     className: "col-6 u-flex u-gap-16",
     "data-hero-fade": true,
     style: {
@@ -1660,13 +1656,13 @@ function Home({
     }
   }, React.createElement("button", {
     className: "btn",
+    onClick: () => go("development"),
+    "data-magnetic": true
+  }, "Explore Development"), React.createElement("button", {
+    className: "btn btn--ghost",
     onClick: () => goInvestor("investment"),
     "data-magnetic": true
-  }, "For Investors"), React.createElement("button", {
-    className: "btn btn--ghost",
-    onClick: () => goOwner("owners-rep"),
-    "data-magnetic": true
-  }, "For Owners & Developers"))))), React.createElement("section", {
+  }, "Investment Approach"))))), React.createElement("section", {
     id: "pillars",
     className: "section"
   }, React.createElement("div", {
@@ -1703,20 +1699,75 @@ function Home({
     className: "gate__cta"
   }, "Explore ", t, " ", React.createElement("span", {
     className: "arr"
-  }))))), React.createElement("button", {
-    className: "accessory reveal",
-    "data-spy": "owners-rep",
-    onClick: () => goOwner("owners-rep"),
-    "aria-label": "Owner's Representation and Project Management \u2014 open the page"
+  }))))))), React.createElement("section", {
+    id: "featured",
+    className: "section",
+    "data-spy": "properties"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,36px)"
+    }
+  }, React.createElement("div", {
+    className: "col-8"
+  }, React.createElement("div", {
+    className: "eyebrow"
   }, React.createElement("span", {
-    className: "accessory__lbl"
-  }, "Also \u2014 Owner's Representation & Project Management"), React.createElement("span", {
-    className: "accessory__d"
-  }, "For a select few owners, the same discipline applied to your project \u2014 one accountable advocate from entitlement to delivery."), React.createElement("span", {
-    className: "accessory__cta"
-  }, "Our capabilities ", React.createElement("span", {
+    className: "dot"
+  }), " Portfolio"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps"
+  }, "Selected work.")), React.createElement("div", {
+    className: "col-4 u-tr"
+  }, React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => go("properties"),
+    "data-magnetic": true
+  }, "View the full portfolio ", React.createElement("span", {
     className: "arr"
-  }))))), React.createElement("section", {
+  })))), React.createElement("div", {
+    className: "collage reveal u-mt-64"
+  }, HOME_WORK.map(([img, id, name, loc, role, asset, year, rendering]) => React.createElement("a", {
+    key: name,
+    className: "pcard",
+    href: BASE + pathFor("story:" + id),
+    "aria-label": `${name}, ${loc} — view the project story`,
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      go("story:" + id);
+    }
+  }, React.createElement("div", {
+    className: "pcard__media"
+  }, React.createElement("img", {
+    className: "pcard__img",
+    src: wix(img, {
+      w: 1300
+    }),
+    alt: name,
+    loading: "lazy",
+    onError: imgFallback
+  })), React.createElement("div", {
+    className: "pcard__cap"
+  }, React.createElement("div", null, React.createElement("h3", {
+    className: "pcard__name"
+  }, name), React.createElement("div", {
+    className: "pcard__loc"
+  }, loc, year ? ` · ${year}` : "", rendering && React.createElement("span", {
+    className: "pcard__render"
+  }, "Rendering"))), React.createElement("div", {
+    className: "label label--sm",
+    style: {
+      color: "var(--accent-deep)",
+      textAlign: "right",
+      whiteSpace: "nowrap"
+    }
+  }, role, React.createElement("br", null), React.createElement("span", {
+    style: {
+      color: "var(--muted)"
+    }
+  }, asset)))))))), React.createElement("section", {
     id: "record",
     className: "section",
     "data-spy": "firm",
@@ -1738,307 +1789,84 @@ function Home({
     className: "num"
   }, v), React.createElement("div", {
     className: "statband__l"
-  }, l)))), React.createElement("div", {
-    className: "principal reveal"
+  }, l)))))), React.createElement("section", {
+    id: "owners",
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("button", {
+    className: "accessory reveal",
+    "data-spy": "owners-rep",
+    onClick: () => goOwner("owners-rep"),
+    "aria-label": "Owner's Representation and Project Management \u2014 open the page"
+  }, React.createElement("span", {
+    className: "accessory__lbl"
+  }, "Also \u2014 Owner's Representation & Project Management"), React.createElement("span", {
+    className: "accessory__d"
+  }, "For a select few owners, the same discipline applied to your project \u2014 one accountable advocate from entitlement to delivery."), React.createElement("span", {
+    className: "accessory__cta"
+  }, "Our capabilities ", React.createElement("span", {
+    className: "arr"
+  }))))), React.createElement("section", {
+    className: "section section--ink",
+    "data-spy": "inquiries"
+  }, React.createElement("div", {
+    className: "wrap grid-12 reveal",
+    style: {
+      alignItems: "center",
+      gap: "clamp(28px,4vw,64px)"
+    }
+  }, React.createElement("div", {
+    className: "col-4"
   }, React.createElement("button", {
     className: "principal__portrait",
     onClick: () => go("firm"),
     "aria-label": "Igal N. Azran \u2014 read about the firm and founder"
   }, React.createElement("img", {
     src: wix(PHOTO.igal, {
-      w: 1000
+      w: 900
     }),
     srcSet: `${wix(PHOTO.igal, {
-      w: 700
-    })} 700w, ${wix(PHOTO.igal, {
-      w: 1000
-    })} 1000w, ${wix(PHOTO.igal, {
-      w: 1400
-    })} 1400w`,
-    sizes: "(max-width: 760px) 340px, clamp(340px, 30vw, 480px)",
+      w: 600
+    })} 600w, ${wix(PHOTO.igal, {
+      w: 900
+    })} 900w`,
+    sizes: "(max-width: 760px) 300px, 30vw",
     alt: "Igal N. Azran, Founder & CEO",
     loading: "lazy",
     onError: imgFallback
-  })), React.createElement("div", {
-    className: "principal__body"
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " The Principal"), React.createElement("div", {
-    className: "principal__name"
-  }, "Igal N. Azran"), React.createElement("div", {
-    className: "principal__role"
-  }, "Founder & CEO \xB7 Previously CIM Group \xB7 CBRE"), React.createElement("p", {
-    className: "principal__bio"
-  }, "Igal founded Noesis in 2009 and has led its development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective \u2014 and a builder's discipline \u2014 to every venture."), React.createElement("button", {
-    className: "link-u principal__link",
-    onClick: () => go("firm")
-  }, "The firm & founder")), React.createElement("div", {
-    className: "principal__stats"
-  }, HOME_PROOF.map(([v, l]) => React.createElement("div", {
-    key: l
-  }, React.createElement("div", {
-    className: "principal__num"
-  }, v), React.createElement("div", {
-    className: "principal__lbl"
-  }, l))))))), React.createElement("section", {
-    id: "featured",
-    className: "section",
-    "data-spy": "properties"
-  }, React.createElement("div", {
-    className: "wrap"
-  }, React.createElement("div", {
-    className: "grid-12 u-end reveal",
-    style: {
-      marginBottom: "clamp(24px,3vw,36px)"
-    }
-  }, React.createElement("div", {
+  }))), React.createElement("div", {
     className: "col-8"
   }, React.createElement("div", {
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " Portfolio"), React.createElement("h2", {
-    className: "h-1 u-mt-16 caps"
-  }, "The record behind the thesis.")), React.createElement("div", {
-    className: "col-4 u-tr"
-  }, React.createElement("button", {
-    className: "btn btn--ghost",
-    onClick: () => go("properties"),
-    "data-magnetic": true
-  }, "View the full portfolio ", React.createElement("span", {
-    className: "arr"
-  })))), React.createElement("button", {
-    className: "story-feature reveal",
-    onClick: () => go("story:le-bijou"),
-    "aria-label": "Featured project \u2014 Le Bijou, read the story"
-  }, React.createElement("img", {
-    className: "story-feature__img img--warm",
-    alt: "Le Bijou, Beverly Hills",
-    loading: "lazy",
-    sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
-    onError: e => {
-      e.currentTarget.style.opacity = "0";
-    },
-    src: wix(SHOT.leBijou, {
-      w: 2000
-    }),
-    srcSet: `${wix(SHOT.leBijou, {
-      w: 1200
-    })} 1200w, ${wix(SHOT.leBijou, {
-      w: 2000
-    })} 2000w`
-  }), React.createElement("div", {
-    className: "story-feature__grad"
-  }), React.createElement("div", {
-    className: "story-feature__cap"
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Featured Project"), React.createElement("div", {
-    className: "story-feature__name"
-  }, "Le Bijou"), React.createElement("div", {
-    className: "story-feature__meta"
-  }, "Beverly Hills \u2014 \u201Cthe jewel,\u201D where receding walls of glass make indoor-outdoor living real."), React.createElement("span", {
-    className: "story-feature__cta"
-  }, "Read the story ", React.createElement("span", {
-    className: "arr"
-  })))), React.createElement("div", {
-    className: "collage reveal u-mt-64"
-  }, HOME_WORK.map(([img, id, name, loc, work]) => React.createElement("a", {
-    key: name,
-    className: "pcard",
-    href: BASE + pathFor("story:" + id),
-    "aria-label": `${name}, ${loc} — view the project story`,
-    onClick: e => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-      e.preventDefault();
-      go("story:" + id);
-    }
-  }, React.createElement("div", {
-    className: "pcard__media"
-  }, React.createElement("img", {
-    className: `pcard__img ${name === "Casa Mani" || name === "Aura House" ? "img--warm" : ""}`,
-    src: wix(img, {
-      w: 1300
-    }),
-    alt: name,
-    loading: "lazy",
-    onError: imgFallback
-  })), React.createElement("div", {
-    className: "pcard__cap"
-  }, React.createElement("div", null, React.createElement("h3", {
-    className: "pcard__name"
-  }, name), React.createElement("div", {
-    className: "pcard__loc"
-  }, loc)), React.createElement("div", {
-    className: "mono label label--sm",
-    style: {
-      color: "var(--accent-deep)",
-      whiteSpace: "nowrap"
-    }
-  }, work))))))), React.createElement("section", {
-    className: "cine cine--video",
-    style: {
-      height: "min(86vh, 840px)",
-      minHeight: 500
-    }
-  }, React.createElement("img", {
-    className: "cine__img",
-    src: wix(SHOT.oneOak, {
-      w: 2200
-    }),
-    alt: "",
-    loading: "lazy",
-    sizes: "100vw",
-    srcSet: `${wix(SHOT.oneOak, {
-      w: 800
-    })} 800w, ${wix(SHOT.oneOak, {
-      w: 1400
-    })} 1400w, ${wix(SHOT.oneOak, {
-      w: 2200
-    })} 2200w`,
-    onError: imgFallback
-  }), React.createElement("video", {
-    className: "cine__vid",
-    autoPlay: true,
-    loop: true,
-    muted: true,
-    playsInline: true,
-    preload: "none",
-    src: film("noesis-reel", {
-      ambient: true
-    }) || undefined,
-    ref: el => {
-      if (!el || el.__keeper) return;
-      el.__keeper = true;
-      el.muted = true;
-      el.__inView = false;
-      const tryPlay = () => {
-        if (!el.isConnected) {
-          clearInterval(el.__iv);
-          document.removeEventListener("visibilitychange", tryPlay);
-          if (el.__io) el.__io.disconnect();
-          return;
-        }
-        if (el.__manual) return;
-        if (!document.hidden && el.__inView) {
-          if (el.paused) {
-            const p = el.play();
-            if (p && p.catch) p.catch(() => {});
-          }
-        } else if (!el.paused) {
-          el.pause();
-        }
-      };
-      if ("IntersectionObserver" in window) {
-        el.__io = new IntersectionObserver(e => {
-          el.__inView = e[0] && e[0].isIntersecting;
-          tryPlay();
-        }, {
-          threshold: 0.15
-        });
-        el.__io.observe(el);
-      }
-      el.__iv = setInterval(tryPlay, 2500);
-      document.addEventListener("visibilitychange", tryPlay);
-    }
-  }), React.createElement("div", {
-    className: "cine__grad"
-  }), React.createElement("div", {
-    className: "cine__cap"
-  }, React.createElement("div", {
-    className: "wrap",
-    style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
-    }
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Conceived, developed & delivered by Noesis"), React.createElement("h2", {
-    className: "h-1 u-mt-16 caps",
+  }), " The Firm"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
     style: {
       color: "var(--bone)",
-      maxWidth: "18ch"
+      maxWidth: "30ch"
     }
-  }, "We have stood where our partners stand."), React.createElement("button", {
-    className: "btn u-mt-24",
-    "data-magnetic": true,
-    onClick: e => {
-      const sec = e.currentTarget.closest("section");
-      const v = sec && sec.querySelector("video");
-      if (!v) return;
-      const restore = () => {
-        v.__manual = false;
-        v.loop = true;
-        v.controls = false;
-        v.muted = true;
-        const rl = film("noesis-reel", {
-          ambient: true
-        });
-        if (rl) {
-          v.src = rl;
-          v.load();
-        }
-        const pr = v.play();
-        if (pr && pr.catch) pr.catch(() => {});
-        sec.classList.remove("is-playing");
-      };
-      v.__manual = true;
-      v.loop = false;
-      v.controls = true;
-      v.muted = false;
-      v.addEventListener("error", restore, {
-        once: true
-      });
-      v.addEventListener("ended", restore, {
-        once: true
-      });
-      v.src = film("noesis-launch");
-      v.load();
-      const p = v.play();
-      if (p && p.catch) p.catch(restore);
-      sec.classList.add("is-playing");
-    }
-  }, "Watch the film \xB7 2 min ", React.createElement("span", {
-    className: "arr"
-  }))))), React.createElement("section", {
-    className: "section section--ink",
-    "data-spy": "inquiries"
-  }, React.createElement("div", {
-    className: "wrap grid-12 u-end reveal"
-  }, React.createElement("div", {
-    className: "col-7"
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Inquiries"), React.createElement("h2", {
-    className: "h-1 u-mt-16 caps",
+  }, "Founded by Igal N. Azran in 2009, Noesis brings development execution, investment judgment and institutional experience to every engagement."), React.createElement("div", {
+    className: "cta-row u-mt-40",
     style: {
-      color: "var(--bone)",
-      maxWidth: "16ch"
-    }
-  }, "Capital to deploy, or a project to deliver.")), React.createElement("div", {
-    className: "col-5 u-tr u-flex u-gap-16",
-    style: {
-      justifyContent: "flex-end",
-      flexWrap: "wrap"
+      justifyContent: "flex-start"
     }
   }, React.createElement("button", {
     className: "btn",
     onClick: () => goInvestor("inquiries"),
     "data-magnetic": true
-  }, "Request an Introduction ", React.createElement("span", {
+  }, "Start a Conversation ", React.createElement("span", {
     className: "arr"
   })), React.createElement("button", {
     className: "btn btn--ghost",
     onClick: () => go("firm"),
     "data-magnetic": true
-  }, "About the Firm")))));
+  }, "Meet the Firm"))))));
 }
 window.Home = Home;
 const DEV_ASSETS = [["01", "Luxury Residences", "Ground-up custom homes across Beverly Hills, West Hollywood and the Los Angeles hills — the asset class the firm was founded on in 2009."], ["02", "Small-Lot Subdivisions", "Detached, fee-simple homes that bring new construction and the finish level of our luxury portfolio to dense, high-demand infill neighborhoods."], ["03", "Apartment Buildings", "Boutique multifamily — townhome-style residences with Italian kitchens, private outdoor space and the detailing of a single-family home."]];
