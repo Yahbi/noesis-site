@@ -638,13 +638,22 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
    ───────────────────────────────────────────────────────────────────────────── */
 
 /* Featured property */
-.pfeat { display: grid; grid-template-columns: 1.45fr 1fr; gap: clamp(28px, 3.4vw, 64px); align-items: center; }
-.pfeat__media { position: relative; overflow: hidden; aspect-ratio: 3/2; background: var(--bone-3); cursor: pointer; }
+.pfeat { display: grid; grid-template-columns: 1.72fr 1fr; gap: clamp(32px, 4vw, 76px); align-items: center; }
+/* Taller than 3:2 and bled past the content margin on the image side, so the
+   photograph reads as a plate the page is built around rather than an inset. */
+.pfeat__media { position: relative; overflow: hidden; aspect-ratio: 4/3; background: var(--bone-3); cursor: pointer;
+  margin-left: calc(-1 * var(--pad-x)); }
+.pfeat--flip .pfeat__media { margin-left: 0; margin-right: calc(-1 * var(--pad-x)); }
+@media (max-width: 860px) {
+  .pfeat__media, .pfeat--flip .pfeat__media { margin-left: calc(-1 * var(--pad-x)); margin-right: calc(-1 * var(--pad-x)); }
+}
 .pfeat__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-img); }
 .pfeat__media:hover img { transform: scale(1.045); }
 .pfeat__badge { position: absolute; top: 16px; left: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
   text-transform: uppercase; color: var(--on-accent); background: var(--accent-cta); padding: 6px 10px; border-radius: 2px; }
-.pfeat__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; margin: 26px 0; }
+.pfeat__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; margin: 28px 0 30px;
+  border-top: 1px solid var(--rule); }
+.pfeat__fact { padding: 13px 0 12px; border-bottom: 1px solid var(--rule-soft); }
 .pfeat__fact .k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .pfeat__fact .v { font-family: var(--serif); font-size: 20px; margin-top: 4px; }
 @media (max-width: 860px) { .pfeat { grid-template-columns: 1fr; } }
@@ -1658,3 +1667,10 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* A statement section earns its space by being quieter around the type, not by
    pushing everything apart. */
 .section--ink { padding: clamp(88px, 10vw, 150px) 0; }
+
+/* The primary button was a flat filled rectangle — legible, but the one element
+   on the page that looked stamped on rather than made. A hairline inset and a
+   bronze that deepens on press give it a little material. */
+.btn { box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--on-accent) 16%, transparent); }
+.btn:active { transform: translateY(0); background: var(--accent-deep); }
+.btn--ghost { box-shadow: none; }
