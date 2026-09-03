@@ -2250,6 +2250,36 @@ function Investment({
   }, React.createElement("p", {
     className: "lede"
   }, "We originate, structure and steward real estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside, creating an enhanced lifestyle in communities throughout California while generating value for our investors since 2009.")))), React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: "clamp(28px,3.5vw,48px)",
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "band reveal"
+  }, React.createElement("div", {
+    className: "band__media"
+  }, React.createElement("img", {
+    src: "assets/img/city-towers-1440.jpg",
+    srcSet: "assets/img/city-towers-700.jpg 700w, assets/img/city-towers-1024.jpg 1024w, assets/img/city-towers-1440.jpg 1440w",
+    sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
+    alt: "",
+    "aria-hidden": "true",
+    loading: "lazy",
+    onError: imgFallback
+  })), React.createElement("div", {
+    className: "band__panel"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Where capital goes"), React.createElement("p", {
+    className: "band__t"
+  }, "Real assets, in real markets."), React.createElement("p", {
+    className: "body u-mt-16"
+  }, "We acquire, develop and hold residential assets across California \u2014 and bring the same owner-operator discipline to every venture we underwrite."))))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12"

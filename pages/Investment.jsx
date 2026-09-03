@@ -103,6 +103,29 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* THESIS */}
+      {/* CITY BAND — CIM's pattern: the photograph carries scale, the statement
+          sits in its own panel beside it rather than printed across the image. */}
+      <section className="section" style={{ paddingTop: "clamp(28px,3.5vw,48px)", borderTop: 0 }}>
+        <div className="wrap">
+          <div className="band reveal">
+            <div className="band__media">
+              <img src="assets/img/city-towers-1440.jpg"
+                srcSet="assets/img/city-towers-700.jpg 700w, assets/img/city-towers-1024.jpg 1024w, assets/img/city-towers-1440.jpg 1440w"
+                sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
+                alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
+            </div>
+            <div className="band__panel">
+              <div className="eyebrow"><span className="dot" /> Where capital goes</div>
+              <p className="band__t">Real assets, in real markets.</p>
+              <p className="body u-mt-16">
+                We acquire, develop and hold residential assets across California — and bring the
+                same owner-operator discipline to every venture we underwrite.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section section--lead">
         <div className="wrap grid-12">
           <div className="col-4 reveal">
