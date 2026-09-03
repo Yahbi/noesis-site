@@ -109,8 +109,8 @@ function Investment({ go, setIntent }) {
         <div className="wrap">
           <div className="band reveal">
             <div className="band__media">
-              <img src="assets/img/city-towers-1440.jpg"
-                srcSet="assets/img/city-towers-700.jpg 700w, assets/img/city-towers-1024.jpg 1024w, assets/img/city-towers-1440.jpg 1440w, assets/img/city-towers-2880.jpg 2880w"
+              <img src="assets/img/city-dawn-1440.jpg"
+                srcSet="assets/img/city-dawn-700.jpg 700w, assets/img/city-dawn-1024.jpg 1024w, assets/img/city-dawn-1440.jpg 1440w, assets/img/city-dawn-2880.jpg 2880w"
                 sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>

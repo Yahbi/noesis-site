@@ -2258,8 +2258,8 @@ function Investment({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/city-towers-1440.jpg",
-    srcSet: "assets/img/city-towers-700.jpg 700w, assets/img/city-towers-1024.jpg 1024w, assets/img/city-towers-1440.jpg 1440w, assets/img/city-towers-2880.jpg 2880w",
+    src: "assets/img/city-dawn-1440.jpg",
+    srcSet: "assets/img/city-dawn-700.jpg 700w, assets/img/city-dawn-1024.jpg 1024w, assets/img/city-dawn-1440.jpg 1440w, assets/img/city-dawn-2880.jpg 2880w",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
@@ -3312,6 +3312,35 @@ function Approach({
   }, s.title), React.createElement("p", {
     className: "sector__desc"
   }, s.desc))))))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "band reveal"
+  }, React.createElement("div", {
+    className: "band__media"
+  }, React.createElement("img", {
+    src: "assets/img/city-coast-1440.jpg",
+    srcSet: "assets/img/city-coast-700.jpg 700w, assets/img/city-coast-1024.jpg 1024w, assets/img/city-coast-1440.jpg 1440w, assets/img/city-coast-2880.jpg 2880w",
+    sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
+    alt: "",
+    "aria-hidden": "true",
+    loading: "lazy",
+    onError: imgFallback
+  })), React.createElement("div", {
+    className: "band__panel"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Representative engagements"), React.createElement("p", {
+    className: "band__t"
+  }, "One accountable party, entitlement to delivery."), React.createElement("p", {
+    className: "body u-mt-16"
+  }, "We represent a select number of owners and institutions on projects we do not own, applying the discipline we bring to our own developments."))))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end reveal"

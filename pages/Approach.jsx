@@ -230,6 +230,29 @@ function Approach({ go, setIntent }) {
       </section>
 
       {/* CTA */}
+      {/* CITY BAND — the service line works at city scale too; statement in its
+          own panel, never printed across the photograph. */}
+      <section className="section" style={{ borderTop: 0 }}>
+        <div className="wrap">
+          <div className="band reveal">
+            <div className="band__media">
+              <img src="assets/img/city-coast-1440.jpg"
+                srcSet="assets/img/city-coast-700.jpg 700w, assets/img/city-coast-1024.jpg 1024w, assets/img/city-coast-1440.jpg 1440w, assets/img/city-coast-2880.jpg 2880w"
+                sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
+                alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
+            </div>
+            <div className="band__panel">
+              <div className="eyebrow"><span className="dot" /> Representative engagements</div>
+              <p className="band__t">One accountable party, entitlement to delivery.</p>
+              <p className="body u-mt-16">
+                We represent a select number of owners and institutions on projects we do not own,
+                applying the discipline we bring to our own developments.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
           <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
