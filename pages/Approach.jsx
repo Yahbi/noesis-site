@@ -178,15 +178,18 @@ function Approach({ go, setIntent }) {
         </div>
       </section>
 
-      {/* CINEMATIC PLATE — a delivered interior */}
-      <section className="cine" style={{ height: "min(70vh, 640px)", minHeight: 400 }}>
-        <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/or-living.jpg"
-          alt="A Noesis-delivered living space opening to the pool" onError={imgFallback} />
-        <div className="cine__grad" />
-        <div className="cine__cap">
-          <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)", maxWidth: "20ch" }}>The single party at the table accountable for the whole.</h2>
+      {/* Statement band — the photograph carries the scale, the words sit beside
+          it. Was a headline printed across the image, which is the note Igal gave. */}
+      <section className="section" style={{ borderTop: 0 }}>
+        <div className="wrap">
+          <div className="band reveal">
+            <div className="band__media">
+              <img src="assets/img/or-living.jpg" alt="A Noesis-delivered living space opening to the pool" loading="lazy" onError={imgFallback} />
+            </div>
+            <div className="band__panel">
+              <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>
+              <p className="band__t">The single party at the table accountable for the whole of it.</p>
+            </div>
           </div>
         </div>
       </section>

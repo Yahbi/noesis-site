@@ -1979,37 +1979,30 @@ function Development({
   }, "We subscribe to the notion that less is more and refrain from over-designing \u2014 we let our design and finishes speak for themselves. With a multicultural heritage \u2014 both Igal Azran, principal, and Stephanie Harroch, architect, are from Morocco \u2014 a subtle Mediterranean and Spanish influence runs through our fresh, innovative and environmentally sustainable work."), React.createElement("p", {
     className: "body-lg u-mt-24"
   }, "We continue to push the envelope and deliver finished projects that are bold, innovative, and rise above the rest in a competitive real estate landscape.")))), React.createElement("section", {
-    className: "cine",
+    className: "section",
     style: {
-      height: "min(72vh, 680px)",
-      minHeight: 420
+      borderTop: 0
     }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "band reveal"
+  }, React.createElement("div", {
+    className: "band__media"
   }, React.createElement("img", {
-    className: "cine__img img--warm",
-    "data-parallax": "0.1",
     src: "assets/img/build-pour.jpg",
     alt: "A Noesis concrete pour, Los Angeles",
+    loading: "lazy",
     onError: imgFallback
-  }), React.createElement("div", {
-    className: "cine__grad"
-  }), React.createElement("div", {
-    className: "cine__cap"
-  }, React.createElement("div", {
-    className: "wrap",
-    style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
-    }
+  })), React.createElement("div", {
+    className: "band__panel"
   }, React.createElement("div", {
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " On Site \xB7 Self-Delivered"), React.createElement("h2", {
-    className: "h-1 u-mt-16 caps",
-    style: {
-      color: "var(--ink)",
-      maxWidth: "20ch"
-    }
-  }, "We build it ourselves.")))), React.createElement("section", {
+  }), " On Site \xB7 Self-Delivered"), React.createElement("p", {
+    className: "band__t"
+  }, "We build it ourselves."))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -3239,37 +3232,30 @@ function Approach({
   }, v), React.createElement("div", {
     className: "principal__lbl"
   }, l))))))), React.createElement("section", {
-    className: "cine",
+    className: "section",
     style: {
-      height: "min(70vh, 640px)",
-      minHeight: 400
+      borderTop: 0
     }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "band reveal"
+  }, React.createElement("div", {
+    className: "band__media"
   }, React.createElement("img", {
-    className: "cine__img img--warm",
-    "data-parallax": "0.1",
     src: "assets/img/or-living.jpg",
     alt: "A Noesis-delivered living space opening to the pool",
+    loading: "lazy",
     onError: imgFallback
-  }), React.createElement("div", {
-    className: "cine__grad"
-  }), React.createElement("div", {
-    className: "cine__cap"
-  }, React.createElement("div", {
-    className: "wrap",
-    style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
-    }
+  })), React.createElement("div", {
+    className: "band__panel"
   }, React.createElement("div", {
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " Delivered by Noesis"), React.createElement("h2", {
-    className: "h-1 u-mt-16 caps",
-    style: {
-      color: "var(--ink)",
-      maxWidth: "20ch"
-    }
-  }, "The single party at the table accountable for the whole.")))), React.createElement("section", {
+  }), " Delivered by Noesis"), React.createElement("p", {
+    className: "band__t"
+  }, "The single party at the table accountable for the whole of it."))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"

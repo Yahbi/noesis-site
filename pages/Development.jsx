@@ -108,14 +108,18 @@ function Development({ go }) {
         </div>
       </section>
 
-      {/* CINEMATIC PLATE — a real Noesis pour */}
-      <section className="cine" style={{ height: "min(72vh, 680px)", minHeight: 420 }}>
-        <img className="cine__img img--warm" data-parallax="0.1" src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" onError={imgFallback} />
-        <div className="cine__grad" />
-        <div className="cine__cap">
-          <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <div className="eyebrow"><span className="dot" /> On Site · Self-Delivered</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)", maxWidth: "20ch" }}>We build it ourselves.</h2>
+      {/* Statement band — the photograph carries the scale, the words sit beside
+          it. Was a headline printed across the image, which is the note Igal gave. */}
+      <section className="section" style={{ borderTop: 0 }}>
+        <div className="wrap">
+          <div className="band reveal">
+            <div className="band__media">
+              <img src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" onError={imgFallback} />
+            </div>
+            <div className="band__panel">
+              <div className="eyebrow"><span className="dot" /> On Site · Self-Delivered</div>
+              <p className="band__t">We build it ourselves.</p>
+            </div>
           </div>
         </div>
       </section>
