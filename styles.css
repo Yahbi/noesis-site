@@ -26,26 +26,26 @@
      Token names predate the theme; used SEMANTICALLY:
        --bone = light SURFACE (linen page bg);  --ink = dark FOREGROUND (umber). */
   --bone:        #FFFFFF;
-  --paper:       #F4F4F2;
-  --paper-2:     #EDEDEA;
-  --bone-2:      #111113;
-  --bone-3:      #0A0A0C;
-  --ink:         #17171A;
-  --ink-2:       #33333A;
-  --ink-soft:    #4A4A52;   /* 5.25 on linen, 4.60 on #DBD2C2 */
+  --paper:       #F7F7F5;
+  --paper-2:     #F1F0ED;
+  --bone-2:      #F1F0ED;
+  --bone-3:      #EAE9E6;
+  --ink:         #232326;
+  --ink-2:       #3C3C43;
+  --ink-soft:    #55555C;   /* 5.25 on linen, 4.60 on #DBD2C2 */
   --bone-soft:   rgba(244,244,242,.78);
   --muted:       #63636B;   /* clears 4.6 on all four surfaces */
-  --muted-2:     #9A9AA2;
-  --rule:        rgba(23,23,26,.13);
-  --rule-soft:   rgba(23,23,26,.06);
+  --muted-2:     #9C9CA4;
+  --rule:        rgba(35,35,38,.12);
+  --rule-soft:   rgba(35,35,38,.06);
   --rule-on-dark: rgba(244,244,242,.18);
   --rule-on-dark-strong: rgba(244,244,242,.55);  /* control borders on dark */
-  --accent:      #D40000;
-  --accent-deep: #B80F14;
-  --accent-soft: rgba(212,0,0,.08);
+  --accent:      #B02F27;
+  --accent-deep: #9C2F28;
+  --accent-soft: rgba(176,47,39,.08);
   --on-accent:   #FFFFFF;
-  --accent-cta:  #C81419;   /* text-bearing bronze fills — 4.78 with --on-accent */
-  --accent-on-ink: #FF3B3B; /* small bronze text on ink plates — 5.2 on #28231B */
+  --accent-cta:  #A6322B;   /* text-bearing bronze fills — 4.78 with --on-accent */
+  --accent-on-ink: #E8756C; /* small bronze text on ink plates — 5.2 on #28231B */
   --ok:          #5E8C6E;
 
 /* Two faces, doing different jobs. Until now --serif, --sans and --mono all
@@ -118,19 +118,19 @@ img.img-in { animation: img-fade .6s ease both; }
    properties; this block is what actually rendered once the cascade settled. */
 .h-display {
   font-family: var(--serif); font-weight: 420;
-  font-size: clamp(44px, 6.8vw, 112px);
+  font-size: clamp(40px, 5.6vw, 88px);
   line-height: .99; letter-spacing: -.021em;
   font-optical-sizing: auto;
 }
 .h-1 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(34px, 4.6vw, 70px);
+  font-size: clamp(31px, 3.9vw, 56px);
   line-height: 1.0; letter-spacing: -.015em;
 }
 .h-2 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(26px, 3vw, 46px);
-  line-height: 1.05; letter-spacing: -.012em;
+  font-size: clamp(24px, 2.5vw, 38px);
+  line-height: 1.08; letter-spacing: -.012em;
 }
 .h-3 {
   font-family: var(--serif); font-weight: 400;
@@ -143,8 +143,8 @@ img.img-in { animation: img-fade .6s ease both; }
   line-height: 1.35; letter-spacing: -.005em;
   color: var(--ink-soft); text-wrap: pretty; max-width: 60ch;
 }
-.body-lg { font-size: 17px; line-height: 1.6; color: var(--ink-soft); text-wrap: pretty; }
-.body { font-size: 15px; line-height: 1.6; color: var(--ink-soft); text-wrap: pretty; }
+.body-lg { font-size: 17px; line-height: 1.66; color: var(--ink-soft); text-wrap: pretty; }
+.body { font-size: 15px; line-height: 1.68; color: var(--ink-soft); text-wrap: pretty; }
 .italic { font-style: italic; }
 
 .num {
@@ -156,10 +156,10 @@ img.img-in { animation: img-fade .6s ease both; }
 .wrap { max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad-x); padding-right: var(--pad-x); }
 .section { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
 .section--tight { padding: clamp(56px, 7vw, 96px) 0; }
-.section--ink { background: var(--bone-2); color: var(--ink); }
-.section--ink .body, .section--ink .lede { color: var(--bone-soft); }
-.section--ink .eyebrow { color: rgba(244,244,242,.60); }
-.section--ink { border-top-color: var(--rule-on-dark); }
+.section--ink { background: var(--bone-2); color: var(--ink); border-top: 1px solid var(--rule); }
+.section--ink .body, .section--ink .lede { color: var(--ink-soft); }
+
+.section--ink { border-top-color: var(--rule); }
 
 .grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
 
@@ -344,7 +344,7 @@ img.img-in { animation: img-fade .6s ease both; }
    resolve against the short nav bar and leave the drawer background unpainted). */
 .nav__drawer {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: 49;
-  background: var(--bone-2);
+  background: var(--bone);
   display: flex; flex-direction: column; justify-content: space-between;
   padding: clamp(90px, 16vh, 140px) var(--pad-x) 40px;
   opacity: 0; visibility: hidden; transform: translateY(-8px);
@@ -381,7 +381,7 @@ img.img-in { animation: img-fade .6s ease both; }
 
 
 /* Footer --------------------------------------------------------------- */
-.footer { background: var(--bone-2); color: var(--ink); padding: 90px 0 32px; border-top: 1px solid var(--rule); }
+.footer { background: var(--paper-2); color: var(--ink); padding: 90px 0 32px; border-top: 1px solid var(--rule); }
 .footer .h-display { color: var(--ink); }
 .footer a { color: var(--ink-soft); transition: color .15s; }
 .footer a:hover { color: var(--ink); }
@@ -553,7 +553,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 }
 
 /* QUOTE / pull statement ----------------------------------------------- */
-.pull { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 46px); line-height: 1.18; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
+.pull { font-family: var(--serif); font-size: clamp(24px, 2.8vw, 38px); line-height: 1.18; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
 .pull em { color: var(--accent); font-style: italic; }
 
 /* Stat band variant for inline figures --------------------------------- */
@@ -584,7 +584,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 /* The preloader is driven entirely by CSS so it ALWAYS animates and lifts away,
    even with no JS / frozen rAF / a script error — content is never gated behind it. */
 .preloader {
-  position: fixed; inset: 0; z-index: 300; background: var(--bone-2);
+  position: fixed; inset: 0; z-index: 300; background: var(--bone);
   display: flex; align-items: center; justify-content: center; overflow: hidden;
   animation: plLift .9s cubic-bezier(.76,0,.24,1) 1.65s forwards;
 }
@@ -780,16 +780,16 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 
 /* Section rhythm — more air */
 .section { border-top: 1px solid var(--rule); padding: clamp(74px, 8.5vw, 126px) 0; }
-.section--ink { background: var(--bone-2); color: var(--ink); border-top-color: var(--rule-on-dark); }
-.section--ink .lede, .section--ink .body, .section--ink .body-lg { color: var(--bone-soft); }
-.section--ink .eyebrow { color: rgba(244,241,234,.5); }
+.section--ink { background: var(--bone-2); color: var(--ink); border-top-color: var(--rule); }
+.section--ink .lede, .section--ink .body, .section--ink .body-lg { color: var(--ink-soft); }
+
 .section--ink .h-1, .section--ink .h-2, .section--ink .h-display { color: var(--ink); }
 
 /* Buttons — ink outline default, bordeaux fill, couture tracking */
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn--ghost:hover { background: var(--ink); color: var(--bone); }
-.section--ink .btn--ghost { color: var(--ink); border-color: var(--rule-on-dark-strong); }
-.section--ink .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.section--ink .btn--ghost { color: var(--ink); border-color: var(--ink); }
+.section--ink .btn--ghost:hover { background: var(--ink); color: var(--bone); }
 
 /* Nav — ivory */
 .nav { background: color-mix(in oklab, var(--bone) 78%, transparent); }
@@ -811,7 +811,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
 
 /* Footer — ivory, grounded */
-.footer { background: var(--bone-2); color: var(--ink); border-top: 1px solid var(--rule); }
+.footer { background: var(--paper-2); color: var(--ink); border-top: 1px solid var(--rule); }
 .footer .h-display { color: var(--ink); }
 .footer a { color: var(--ink-soft); }
 .footer a:hover { color: var(--ink); }
@@ -1029,7 +1029,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .pcard__cta,
 .lb__title, .lb__close, .lb__arrow { color: var(--ink); }
 
-.section--ink .btn--ghost { color: var(--ink); border-color: rgba(239,233,220,.55); }
+.section--ink .btn--ghost { color: var(--ink); border-color: var(--ink); }
 .section--ink .btn--ghost:hover { background: var(--ink); color: var(--bone); }
 
 .nav__burger span { background: var(--ink); }
@@ -1053,8 +1053,8 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 
 /* — Jost geometric display: thin, architectural — */
 .h-1 { font-weight: 460; letter-spacing: -.018em; line-height: 1.06; }
-.h-2 { font-weight: 300; letter-spacing: 0; line-height: 1.1; }
-.h-3 { font-weight: 300; letter-spacing: .005em; }
+.h-2 { font-weight: 500; letter-spacing: -.014em; line-height: 1.08; }
+.h-3 { font-weight: 520; letter-spacing: -.008em; }
 .serif { font-weight: 300; letter-spacing: 0; }
 .lede { font-weight: 300; letter-spacing: 0; color: var(--ink-2); }
 .body-lg, .body { color: var(--ink-soft); }
@@ -1077,14 +1077,14 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .cine__cap, .cine__cap .h-1, .cine__cap .h-2,
 .manifesto__t, .pcard__cta,
 .lb__title, .lb__close, .lb__arrow { color: var(--ink); }
-.section--ink .btn--ghost { color: var(--ink); border-color: var(--rule-on-dark-strong); }
-.section--ink .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.section--ink .btn--ghost { color: var(--ink); border-color: var(--ink); }
+.section--ink .btn--ghost:hover { background: var(--ink); color: var(--bone); }
 /* dark-plate component titles + dividers (component rules above force --ink) */
 .section--ink .flow__name, .section--ink .pillar__name,
 .section--ink .track__title, .section--ink .sector__title { color: var(--ink); }
-.section--ink .flow__desc, .section--ink .pillar__desc, .section--ink .row__desc { color: var(--bone-soft); }
-.section--ink .flow, .section--ink .rows { border-top-color: var(--rule-on-dark); }
-.section--ink .flow__step, .section--ink .row { border-right-color: var(--rule-on-dark); border-bottom-color: var(--rule-on-dark); }
+.section--ink .flow__desc, .section--ink .pillar__desc, .section--ink .row__desc { color: var(--ink-soft); }
+.section--ink .flow, .section--ink .rows { border-top-color: var(--rule); }
+.section--ink .flow__step, .section--ink .row { border-right-color: var(--rule); border-bottom-color: var(--rule); }
 .nav__burger span { background: var(--ink); }
 .grain { mix-blend-mode: multiply; opacity: .028; }
 
@@ -1654,13 +1654,13 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Bronze micro-labels on the ink plates. The global rule sends this group to
    --accent-deep, which is correct on linen (5.6:1) and unreadable on dark
    (2.1–2.3:1). Same inversion the focus ring needed. */
-.section--ink, .cine, .shero {
+.cine, .shero {
   --accent-label: var(--accent-on-ink);
 }
 /* .sector/.track/.pillar dropped from that group: they were dark cards under the
    old scheme and are light cards on a white ground, where the lifted on-dark red
    only reaches 3.2:1. They fall through to --accent-deep. */
-:is(.section--ink, .cine, .shero, .sector, .track, .pillar)
+:is(.cine, .shero, .sector, .track, .pillar, .section--ink)
   :is(.track__for, .sector__tag, .row__idx, .flow__num, .wwd-cap__n) {
   color: var(--accent-label, var(--accent-deep));
 }
@@ -1760,13 +1760,15 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Dark plates re-point the palette tokens rather than restating colours. A
    `color: var(--ink)` inside one of these resolves light automatically, which is
    why none of the inline styles in the JSX needed touching. */
-.section--ink, .cine, .shero, .lb, .preloader, .nav__drawer, .footer, .nav--over, .pcard__over, .band__panel {
+/* Only surfaces that sit on a PHOTOGRAPH still invert. .section--ink, .footer,
+   .band__panel and the drawer are light tints now, so their text stays dark. */
+.cine, .shero, .lb, .nav--over, .pcard__over {
   --ink:      #F4F4F2;
   --ink-2:    #C9C9CE;
   --ink-soft: #A8A8B0;
   --muted:    #8E8E96;
   --accent:   var(--accent-on-ink);
-  --rule:     var(--rule-on-dark);
+  --rule:     var(--rule);
 }
 
 
@@ -1805,7 +1807,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 .band__media { overflow: hidden; aspect-ratio: 16/9; background: var(--paper); }
 .band__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .band__panel {
-  background: var(--bone-2); color: var(--ink);
+  background: var(--bone); color: var(--ink); box-shadow: 0 1px 0 rgba(35,35,38,.06), 0 30px 60px -40px rgba(35,35,38,.28);
   padding: clamp(26px, 3vw, 44px);
   max-width: 46ch;
   border-top: 2px solid var(--accent);
