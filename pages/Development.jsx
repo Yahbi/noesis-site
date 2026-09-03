@@ -62,6 +62,8 @@ function Development({ go }) {
       {/* OPENING PLATE — a delivered Noesis residence */}
       <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
         <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/city-dusk-1440.jpg"
+          srcSet="assets/img/city-dusk-700.jpg 700w, assets/img/city-dusk-1024.jpg 1024w, assets/img/city-dusk-1440.jpg 1440w, assets/img/city-dusk-2880.jpg 2880w"
+          sizes="100vw"
           alt="" aria-hidden="true" onError={imgFallback} />
         {/* Nothing is set over this plate — it gets the edge wash, not the scrim
             built to keep a headline legible. */}

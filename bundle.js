@@ -1929,6 +1929,8 @@ function Development({
     className: "cine__img img--warm",
     "data-parallax": "0.12",
     src: "assets/img/city-dusk-1440.jpg",
+    srcSet: "assets/img/city-dusk-700.jpg 700w, assets/img/city-dusk-1024.jpg 1024w, assets/img/city-dusk-1440.jpg 1440w, assets/img/city-dusk-2880.jpg 2880w",
+    sizes: "100vw",
     alt: "",
     "aria-hidden": "true",
     onError: imgFallback
@@ -2257,7 +2259,7 @@ function Investment({
     className: "band__media"
   }, React.createElement("img", {
     src: "assets/img/city-towers-1440.jpg",
-    srcSet: "assets/img/city-towers-700.jpg 700w, assets/img/city-towers-1024.jpg 1024w, assets/img/city-towers-1440.jpg 1440w",
+    srcSet: "assets/img/city-towers-700.jpg 700w, assets/img/city-towers-1024.jpg 1024w, assets/img/city-towers-1440.jpg 1440w, assets/img/city-towers-2880.jpg 2880w",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
@@ -2837,6 +2839,8 @@ function Inquiries({
     className: "cine__img img--warm",
     "data-parallax": "0.1",
     src: "assets/img/city-water-1440.jpg",
+    srcSet: "assets/img/city-water-700.jpg 700w, assets/img/city-water-1024.jpg 1024w, assets/img/city-water-1440.jpg 1440w, assets/img/city-water-2880.jpg 2880w",
+    sizes: "100vw",
     alt: "",
     "aria-hidden": "true",
     loading: "lazy",
