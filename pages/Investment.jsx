@@ -18,6 +18,65 @@ const INV_PRINCIPLES = [
   ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."],
 ];
 
+// Three strategies shown one at a time. Stacked, they were three long rows a
+// reader scrolled past; tabbed, they are directly comparable — which is the point
+// of publishing hold periods and product types side by side.
+function StrategyTabs() {
+  const [i, setI] = React.useState(0);
+  const tabsRef = React.useRef(null);
+  const indRef = React.useRef(null);
+  React.useEffect(() => {
+    const place = () => {
+      const wrap = tabsRef.current, ind = indRef.current;
+      if (!wrap || !ind) return;
+      const btn = wrap.querySelector(`button[data-i="${i}"]`);
+      if (!btn || !btn.offsetWidth) return;
+      ind.style.opacity = "1";
+      ind.style.width = btn.offsetWidth + "px";
+      ind.style.transform = `translateX(${btn.offsetLeft}px)`;
+      ind.style.top = (btn.offsetTop + btn.offsetHeight - 1) + "px";
+    };
+    place();
+    let ro = null;
+    const wrap = tabsRef.current;
+    if (typeof ResizeObserver !== "undefined" && wrap) { ro = new ResizeObserver(place); ro.observe(wrap); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(() => {});
+    const t = setTimeout(place, 60);
+    window.addEventListener("resize", place);
+    return () => { clearTimeout(t); if (ro) ro.disconnect(); window.removeEventListener("resize", place); };
+  }, [i]);
+
+  const [, name, hold, desc, points] = INV_STRATEGIES[i];
+  return (
+    <div className="u-mt-24">
+      <div className="ptabs" ref={tabsRef} role="tablist" aria-label="Investment strategies">
+        <span className="ptabs__ind" ref={indRef} aria-hidden="true" />
+        {INV_STRATEGIES.map(([n, t], k) => (
+          <button key={n} data-i={k} role="tab" aria-selected={i === k}
+            className={`ptab ${i === k ? "is-active" : ""}`} onClick={() => setI(k)}>
+            {t}<span className="ptab__n">{n}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="strat" role="tabpanel" key={i}>
+        <div>
+          <div className="label label--accent">{hold}</div>
+          <p className="body-lg u-mt-16" style={{ maxWidth: "46ch" }}>{desc}</p>
+        </div>
+        <dl className="strat__facts">
+          {[["Product types", points[0]], ["Activity", points[1]], ["Hold", points[2]], ["Exit", points[3]]].map(([k, v]) => (
+            <div key={k}>
+              <dt className="label">{k}</dt>
+              <dd className="strat__v">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  );
+}
+
 function Investment({ go, setIntent }) {
   const inquire = () => { if (setIntent) setIntent("investor"); go("inquiries"); };
   return (
@@ -80,32 +139,11 @@ function Investment({ go, setIntent }) {
         </div>
       </section>
 
-      {/* STRATEGIES */}
+      {/* STRATEGIES — tabbed, so the three are compared rather than scrolled past */}
       <section className="section section--lead" style={{ borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Investment Strategies</div>
-          <div className="rows u-mt-24">
-            {INV_STRATEGIES.map(([n, t, hold, desc, points]) => (
-              <div key={n} className="row reveal">
-                <div className="row__idx">{n}</div>
-                <div>
-                  <div className="row__title">{t}</div>
-                  <div className="label label--accent" style={{ marginTop: 10 }}>{hold}</div>
-                </div>
-                <div>
-                  <p className="row__desc">{desc}</p>
-                  <ul style={{ listStyle: "none", padding: 0, margin: "16px 0 0", display: "grid", gap: 8 }}>
-                    {points.map((p) => (
-                      <li key={p} style={{ display: "flex", gap: 11, alignItems: "baseline", color: "var(--ink-soft)", fontSize: 13.5 }}>
-                        <span style={{ width: 5, height: 5, flex: "0 0 5px", background: "var(--accent)", borderRadius: "50%", transform: "translateY(-2px)" }} />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
+          <StrategyTabs />
         </div>
       </section>
 

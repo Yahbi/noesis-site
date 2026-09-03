@@ -1730,3 +1730,16 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   .pcard:hover .pcard__img { transform: none; }
   .pcard__cap::after { transition: none; }
 }
+
+/* Investment strategy panel. A definition list, not prose: an allocator compares
+   product type, activity, hold and exit across three strategies, and prose makes
+   that comparison hard. */
+.strat { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 72px);
+  padding-top: clamp(28px, 3.4vw, 44px); align-items: start;
+  animation: fade-up .4s ease backwards; }
+.strat__facts { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 2.4vw, 34px); margin: 0; }
+.strat__facts dt { margin: 0; }
+.strat__v { font-family: var(--serif); font-weight: 460; font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.3; color: var(--ink); margin: 6px 0 0; }
+@media (max-width: 860px) { .strat { grid-template-columns: 1fr; gap: 28px; } }
+@media (max-width: 520px) { .strat__facts { grid-template-columns: 1fr; } }

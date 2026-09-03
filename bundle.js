@@ -2139,6 +2139,80 @@ function Development({
 window.Development = Development;
 const INV_STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
 const INV_PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
+function StrategyTabs() {
+  const [i, setI] = React.useState(0);
+  const tabsRef = React.useRef(null);
+  const indRef = React.useRef(null);
+  React.useEffect(() => {
+    const place = () => {
+      const wrap = tabsRef.current,
+        ind = indRef.current;
+      if (!wrap || !ind) return;
+      const btn = wrap.querySelector(`button[data-i="${i}"]`);
+      if (!btn || !btn.offsetWidth) return;
+      ind.style.opacity = "1";
+      ind.style.width = btn.offsetWidth + "px";
+      ind.style.transform = `translateX(${btn.offsetLeft}px)`;
+      ind.style.top = btn.offsetTop + btn.offsetHeight - 1 + "px";
+    };
+    place();
+    let ro = null;
+    const wrap = tabsRef.current;
+    if (typeof ResizeObserver !== "undefined" && wrap) {
+      ro = new ResizeObserver(place);
+      ro.observe(wrap);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place).catch(() => {});
+    const t = setTimeout(place, 60);
+    window.addEventListener("resize", place);
+    return () => {
+      clearTimeout(t);
+      if (ro) ro.disconnect();
+      window.removeEventListener("resize", place);
+    };
+  }, [i]);
+  const [, name, hold, desc, points] = INV_STRATEGIES[i];
+  return React.createElement("div", {
+    className: "u-mt-24"
+  }, React.createElement("div", {
+    className: "ptabs",
+    ref: tabsRef,
+    role: "tablist",
+    "aria-label": "Investment strategies"
+  }, React.createElement("span", {
+    className: "ptabs__ind",
+    ref: indRef,
+    "aria-hidden": "true"
+  }), INV_STRATEGIES.map(([n, t], k) => React.createElement("button", {
+    key: n,
+    "data-i": k,
+    role: "tab",
+    "aria-selected": i === k,
+    className: `ptab ${i === k ? "is-active" : ""}`,
+    onClick: () => setI(k)
+  }, t, React.createElement("span", {
+    className: "ptab__n"
+  }, n)))), React.createElement("div", {
+    className: "strat",
+    role: "tabpanel",
+    key: i
+  }, React.createElement("div", null, React.createElement("div", {
+    className: "label label--accent"
+  }, hold), React.createElement("p", {
+    className: "body-lg u-mt-16",
+    style: {
+      maxWidth: "46ch"
+    }
+  }, desc)), React.createElement("dl", {
+    className: "strat__facts"
+  }, [["Product types", points[0]], ["Activity", points[1]], ["Hold", points[2]], ["Exit", points[3]]].map(([k, v]) => React.createElement("div", {
+    key: k
+  }, React.createElement("dt", {
+    className: "label"
+  }, k), React.createElement("dd", {
+    className: "strat__v"
+  }, v))))));
+}
 function Investment({
   go,
   setIntent
@@ -2232,49 +2306,7 @@ function Investment({
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
-  }), " Investment Strategies"), React.createElement("div", {
-    className: "rows u-mt-24"
-  }, INV_STRATEGIES.map(([n, t, hold, desc, points]) => React.createElement("div", {
-    key: n,
-    className: "row reveal"
-  }, React.createElement("div", {
-    className: "row__idx"
-  }, n), React.createElement("div", null, React.createElement("div", {
-    className: "row__title"
-  }, t), React.createElement("div", {
-    className: "label label--accent",
-    style: {
-      marginTop: 10
-    }
-  }, hold)), React.createElement("div", null, React.createElement("p", {
-    className: "row__desc"
-  }, desc), React.createElement("ul", {
-    style: {
-      listStyle: "none",
-      padding: 0,
-      margin: "16px 0 0",
-      display: "grid",
-      gap: 8
-    }
-  }, points.map(p => React.createElement("li", {
-    key: p,
-    style: {
-      display: "flex",
-      gap: 11,
-      alignItems: "baseline",
-      color: "var(--ink-soft)",
-      fontSize: 13.5
-    }
-  }, React.createElement("span", {
-    style: {
-      width: 5,
-      height: 5,
-      flex: "0 0 5px",
-      background: "var(--accent)",
-      borderRadius: "50%",
-      transform: "translateY(-2px)"
-    }
-  }), p))))))))), React.createElement("section", {
+  }), " Investment Strategies"), React.createElement(StrategyTabs, null))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
