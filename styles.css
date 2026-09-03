@@ -3,6 +3,14 @@
    ───────────────────────────────────────────────────────────────────────────── */
 
 :root {
+  /* ── WHITE, INSTITUTIONAL ──────────────────────────────────────────────────
+     CIM's register: white ground, grey text hierarchy, one accent used sparingly.
+     The mark is black + #FC0000; pure #FC0000 on white is only 4.09:1, so the
+     UI red is #D40000 (5.53) and the logo keeps its own colour.
+     Token NAMES are inherited and are misnomers by now — read them as roles:
+       --bone = page SURFACE (white)   --ink = FOREGROUND (near-black)
+       --bone-2 = the dark contrast plate
+     Every value solved for AA, not picked. */
   /* ── BLACK & RED ───────────────────────────────────────────────────────────
      The palette now follows the actual brand mark: LOGO/FINAL NOESIS is 94%
      #000000 and 6% #FC0000. Token NAMES are inherited from the linen scheme and
@@ -17,27 +25,27 @@
   /* STONE & LINEN — warm light earth, umber text, brand-red accent.
      Token names predate the theme; used SEMANTICALLY:
        --bone = light SURFACE (linen page bg);  --ink = dark FOREGROUND (umber). */
-  --bone:        #0B0B0D;
-  --paper:       #151519;
-  --paper-2:     #1A1A1F;
-  --bone-2:      #000000;
-  --bone-3:      #050506;
-  --ink:         #F2F2F0;
-  --ink-2:       #B8B8B4;
-  --ink-soft:    #9A9A96;   /* 5.25 on linen, 4.60 on #DBD2C2 */
-  --bone-soft:   rgba(242,242,240,.78);
-  --muted:       #8C8C88;   /* clears 4.6 on all four surfaces */
-  --muted-2:     #5E5E5B;
-  --rule:        rgba(242,242,240,.14);
-  --rule-soft:   rgba(242,242,240,.07);
-  --rule-on-dark: rgba(242,242,240,.18);
-  --rule-on-dark-strong: rgba(242,242,240,.55);  /* control borders on dark */
-  --accent:      #FC0000;
-  --accent-deep: #FF3333;
-  --accent-soft: rgba(252,0,0,.12);
-  --on-accent:   #F2F2F0;
+  --bone:        #FFFFFF;
+  --paper:       #F4F4F2;
+  --paper-2:     #EDEDEA;
+  --bone-2:      #111113;
+  --bone-3:      #0A0A0C;
+  --ink:         #17171A;
+  --ink-2:       #33333A;
+  --ink-soft:    #4A4A52;   /* 5.25 on linen, 4.60 on #DBD2C2 */
+  --bone-soft:   rgba(244,244,242,.78);
+  --muted:       #63636B;   /* clears 4.6 on all four surfaces */
+  --muted-2:     #9A9AA2;
+  --rule:        rgba(23,23,26,.13);
+  --rule-soft:   rgba(23,23,26,.06);
+  --rule-on-dark: rgba(244,244,242,.18);
+  --rule-on-dark-strong: rgba(244,244,242,.55);  /* control borders on dark */
+  --accent:      #D40000;
+  --accent-deep: #B80F14;
+  --accent-soft: rgba(212,0,0,.08);
+  --on-accent:   #FFFFFF;
   --accent-cta:  #C81419;   /* text-bearing bronze fills — 4.78 with --on-accent */
-  --accent-on-ink: #FF3333; /* small bronze text on ink plates — 5.2 on #28231B */
+  --accent-on-ink: #FF3B3B; /* small bronze text on ink plates — 5.2 on #28231B */
   --ok:          #5E8C6E;
 
 /* Two faces, doing different jobs. Until now --serif, --sans and --mono all
@@ -149,9 +157,9 @@ img.img-in { animation: img-fade .6s ease both; }
 .section { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
 .section--tight { padding: clamp(56px, 7vw, 96px) 0; }
 .section--ink { background: var(--bone-2); color: var(--ink); }
-.section--ink .body, .section--ink .lede { color: rgba(242,236,224,.78); }
-.section--ink .eyebrow { color: rgba(242,236,224,.55); }
-.section--ink { border-top-color: rgba(242,236,224,.14); }
+.section--ink .body, .section--ink .lede { color: var(--bone-soft); }
+.section--ink .eyebrow { color: rgba(244,244,242,.60); }
+.section--ink { border-top-color: var(--rule-on-dark); }
 
 .grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
 
@@ -373,7 +381,7 @@ img.img-in { animation: img-fade .6s ease both; }
 
 
 /* Footer --------------------------------------------------------------- */
-.footer { background: #050506; color: var(--ink); padding: 90px 0 32px; border-top: 1px solid var(--rule); }
+.footer { background: var(--bone-2); color: var(--ink); padding: 90px 0 32px; border-top: 1px solid var(--rule); }
 .footer .h-display { color: var(--ink); }
 .footer a { color: var(--ink-soft); transition: color .15s; }
 .footer a:hover { color: var(--ink); }
@@ -803,7 +811,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
 
 /* Footer — ivory, grounded */
-.footer { background: var(--paper-2); color: var(--ink); border-top: 1px solid var(--rule); }
+.footer { background: var(--bone-2); color: var(--ink); border-top: 1px solid var(--rule); }
 .footer .h-display { color: var(--ink); }
 .footer a { color: var(--ink-soft); }
 .footer a:hover { color: var(--ink); }
@@ -845,7 +853,10 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: color-m
 .pillar:hover, .track:hover { background: var(--paper); }
 .pillar__name, .track__title, .flow__name, .row__title, .sector__title { color: var(--ink); }
 .pillar__desc, .row__desc, .flow__desc { color: var(--ink-soft); }
- .track__for, .sector__tag, .row__idx, .flow__num, .pcard__count { color: var(--accent); }
+ .track__for, .sector__tag, .row__idx, .flow__num { color: var(--accent); }
+/* Over an arbitrary photograph no text colour is reliably legible; the count gets
+   a solid fill instead of a colour. */
+.pcard__count { color: var(--on-accent); background: var(--accent-cta); padding: 4px 8px; }
 .pcard__cta { color: var(--ink); }
 
 /* ── HOME — cinematic statement pieces ── */
@@ -1152,7 +1163,7 @@ section[id] { scroll-margin-top: 72px; }
 .sectors { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); }
 @media (max-width: 760px) { .sectors { grid-template-columns: 1fr; } }
 .sector__title { color: var(--ink); }
-.sector__desc { color: var(--bone-soft); font-size: 14px; line-height: 1.6; margin-top: 14px; max-width: 46ch; }
+.sector__desc { color: var(--ink-soft); font-size: 14px; line-height: 1.6; margin-top: 14px; max-width: 46ch; }
 
 /* A11y — small accent TEXT uses the deeper forge bronze (--accent-deep ~5:1 on linen).
    Bright --accent stays for fills, dots, large stat numbers, .track__for, .sector__tag, .row__idx, .flow__num, .pcard__count, .wwd-cap__n { color: var(--accent-deep); }
@@ -1643,11 +1654,12 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Bronze micro-labels on the ink plates. The global rule sends this group to
    --accent-deep, which is correct on linen (5.6:1) and unreadable on dark
    (2.1–2.3:1). Same inversion the focus ring needed. */
-.section--ink, .cine, .shero,
-/* and the dark cards that sit on light sections */
-.sector, .track, .pillar {
+.section--ink, .cine, .shero {
   --accent-label: var(--accent-on-ink);
 }
+/* .sector/.track/.pillar dropped from that group: they were dark cards under the
+   old scheme and are light cards on a white ground, where the lifted on-dark red
+   only reaches 3.2:1. They fall through to --accent-deep. */
 :is(.section--ink, .cine, .shero, .sector, .track, .pillar)
   :is(.track__for, .sector__tag, .row__idx, .flow__num, .wwd-cap__n) {
   color: var(--accent-label, var(--accent-deep));
@@ -1743,3 +1755,16 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   line-height: 1.3; color: var(--ink); margin: 6px 0 0; }
 @media (max-width: 860px) { .strat { grid-template-columns: 1fr; gap: 28px; } }
 @media (max-width: 520px) { .strat__facts { grid-template-columns: 1fr; } }
+
+
+/* Dark plates re-point the palette tokens rather than restating colours. A
+   `color: var(--ink)` inside one of these resolves light automatically, which is
+   why none of the inline styles in the JSX needed touching. */
+.section--ink, .cine, .shero, .lb, .preloader, .nav__drawer, .footer, .nav--over, .pcard__over {
+  --ink:      #F4F4F2;
+  --ink-2:    #C9C9CE;
+  --ink-soft: #A8A8B0;
+  --muted:    #8E8E96;
+  --accent:   var(--accent-on-ink);
+  --rule:     var(--rule-on-dark);
+}

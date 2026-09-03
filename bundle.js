@@ -4406,10 +4406,10 @@ function ProjectStory({
 }
 window.ProjectStory = ProjectStory;
 const TWEAK_DEFAULTS = {
-  "accent": "#FC0000",
+  "accent": "#D40000",
   "displayFont": "Newsreader"
 };
-const ACCENTS = ["#FC0000", "#C81419", "#FF3333", "#8E0B10", "#6F6F6C"];
+const ACCENTS = ["#D40000", "#B80F14", "#8E0B10", "#33333A", "#63636B"];
 const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
