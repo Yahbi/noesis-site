@@ -1215,7 +1215,7 @@ window.Nav = Nav;
 window.Footer = Footer;
 window.SocialRow = SocialRow;
 window.Logo = Logo;
-const HERO_PLATES = [["local:assets/img/city-towers-1440.jpg", ""], ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"], ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"], ["5c383b_410f4aecfa8c4af3884ef4a170843a94~mv2_d_3280_4928_s_4_2.jpg", "Ying Yang Lofts, Los Angeles"], ["5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg", "Le Bijou, Beverly Hills"]];
+const HERO_PLATES = [["5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg", "One Oak, Sunset Strip"], ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"], ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"], ["5c383b_410f4aecfa8c4af3884ef4a170843a94~mv2_d_3280_4928_s_4_2.jpg", "Ying Yang Lofts, Los Angeles"], ["5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg", "Le Bijou, Beverly Hills"]];
 const BEATS = {
   identity: [0.00, 0.14],
   right: [0.18, 0.50],
@@ -1928,11 +1928,9 @@ function Development({
   }, React.createElement("img", {
     className: "cine__img img--warm",
     "data-parallax": "0.12",
-    src: "assets/img/city-dusk-1440.jpg",
-    srcSet: "assets/img/city-dusk-700.jpg 700w, assets/img/city-dusk-1024.jpg 1024w, assets/img/city-dusk-1440.jpg 1440w, assets/img/city-dusk-2880.jpg 2880w",
+    src: "assets/img/dev-facade.jpg",
     sizes: "100vw",
-    alt: "",
-    "aria-hidden": "true",
+    alt: "A Noesis-developed residence, Los Angeles",
     onError: imgFallback
   }), React.createElement("div", {
     className: "cine__grad cine__grad--plate"
@@ -2020,7 +2018,7 @@ function Development({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/tex-concrete-1024.jpg",
+    src: "assets/img/dev-detail.jpg",
     alt: "A Noesis concrete pour, Los Angeles",
     loading: "lazy",
     onError: imgFallback
@@ -2258,8 +2256,7 @@ function Investment({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/city-dawn-1440.jpg",
-    srcSet: "assets/img/city-dawn-700.jpg 700w, assets/img/city-dawn-1024.jpg 1024w, assets/img/city-dawn-1440.jpg 1440w, assets/img/city-dawn-2880.jpg 2880w",
+    src: "assets/img/build-pour.jpg",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
@@ -2307,8 +2304,7 @@ function Investment({
   }, React.createElement("div", {
     className: "split__media"
   }, React.createElement("img", {
-    src: "assets/img/tex-glass-1024.jpg",
-    srcSet: "assets/img/tex-glass-700.jpg 700w, assets/img/tex-glass-1024.jpg 1024w",
+    src: "assets/img/inv-multifamily.jpg",
     sizes: "(max-width: 860px) 100vw, 46vw",
     alt: "",
     "aria-hidden": "true",
@@ -2588,9 +2584,8 @@ function Firm({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/tex-stair-1024.jpg",
-    alt: "",
-    "aria-hidden": "true",
+    src: "assets/img/firm-living.jpg",
+    alt: "A Noesis living room above Los Angeles",
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Delivered work \xB7 Los Angeles"))))), React.createElement("section", {
@@ -2838,11 +2833,10 @@ function Inquiries({
   }, React.createElement("img", {
     className: "cine__img img--warm",
     "data-parallax": "0.1",
-    src: "assets/img/city-water-1440.jpg",
-    srcSet: "assets/img/city-water-700.jpg 700w, assets/img/city-water-1024.jpg 1024w, assets/img/city-water-1440.jpg 1440w, assets/img/city-water-2880.jpg 2880w",
-    sizes: "100vw",
-    alt: "",
-    "aria-hidden": "true",
+    src: wix(PHOTO.genesee_int_1, {
+      w: 2000
+    }),
+    alt: "A Noesis-delivered living room, Beverly Grove",
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("div", {
@@ -3244,9 +3238,8 @@ function Approach({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/tex-concrete-1024.jpg",
-    alt: "",
-    "aria-hidden": "true",
+    src: "assets/img/or-living.jpg",
+    alt: "A Noesis-delivered living space",
     loading: "lazy",
     onError: imgFallback
   })), React.createElement("div", {
@@ -3323,8 +3316,7 @@ function Approach({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/city-coast-1440.jpg",
-    srcSet: "assets/img/city-coast-700.jpg 700w, assets/img/city-coast-1024.jpg 1024w, assets/img/city-coast-1440.jpg 1440w, assets/img/city-coast-2880.jpg 2880w",
+    src: "assets/img/build-pour.jpg",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",

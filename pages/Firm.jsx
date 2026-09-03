@@ -102,7 +102,7 @@ function Firm({ go }) {
               <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/tex-stair-1024.jpg" alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/firm-living.jpg" alt="A Noesis living room above Los Angeles" loading="lazy" onError={imgFallback} />
               <figcaption>Delivered work · Los Angeles</figcaption>
             </figure>
           </div>

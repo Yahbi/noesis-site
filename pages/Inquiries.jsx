@@ -56,10 +56,8 @@ function Inquiries({ intent }) {
           delivered project went with the photograph it described. */}
       <section className="cine" style={{ height: "min(44vh, 420px)", minHeight: 300 }}>
         <img className="cine__img img--warm" data-parallax="0.1"
-          src="assets/img/city-water-1440.jpg"
-          srcSet="assets/img/city-water-700.jpg 700w, assets/img/city-water-1024.jpg 1024w, assets/img/city-water-1440.jpg 1440w, assets/img/city-water-2880.jpg 2880w"
-          sizes="100vw"
-          alt="" aria-hidden="true"
+          src={wix(PHOTO.genesee_int_1, { w: 2000 })}
+          alt="A Noesis-delivered living room, Beverly Grove"
           loading="lazy" onError={imgFallback} />
         <div className="cine__grad" />
         <div className="cine__cap">

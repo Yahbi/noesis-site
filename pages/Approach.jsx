@@ -184,7 +184,7 @@ function Approach({ go, setIntent }) {
         <div className="wrap">
           <div className="band reveal">
             <div className="band__media">
-              <img src="assets/img/tex-concrete-1024.jpg" alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/or-living.jpg" alt="A Noesis-delivered living space" loading="lazy" onError={imgFallback} />
             </div>
             <div className="band__panel">
               <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>
@@ -236,8 +236,7 @@ function Approach({ go, setIntent }) {
         <div className="wrap">
           <div className="band reveal">
             <div className="band__media">
-              <img src="assets/img/city-coast-1440.jpg"
-                srcSet="assets/img/city-coast-700.jpg 700w, assets/img/city-coast-1024.jpg 1024w, assets/img/city-coast-1440.jpg 1440w, assets/img/city-coast-2880.jpg 2880w"
+              <img src="assets/img/build-pour.jpg"
                 sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>

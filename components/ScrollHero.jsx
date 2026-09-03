@@ -16,10 +16,12 @@
 // Five plates, and deliberately NOT one house. This was seven frames of Casa Mani
 // — approach, street, rear, living room, family room, kitchen, pool — so the first
 // four screens of an investment firm were a room-by-room tour of one Beverly Hills
-// residence. It now runs market -> we build it -> two delivered assets of
-// different types. No interiors: a kitchen is the contractor register.
+// residence. It now runs an establishing shot -> we build it -> delivered assets
+// of three different types. No interiors: a kitchen is the contractor register.
+// The opener was a generated cityscape; it carried 0.7 bits/px against 1.8 for the
+// firm's own photography, and it looked it.
 const HERO_PLATES = [
-  ["local:assets/img/city-towers-1440.jpg", ""],
+  ["5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg", "One Oak, Sunset Strip"],
   ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"],
   ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"],
   ["5c383b_410f4aecfa8c4af3884ef4a170843a94~mv2_d_3280_4928_s_4_2.jpg", "Ying Yang Lofts, Los Angeles"],
