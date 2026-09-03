@@ -2269,33 +2269,37 @@ function Investment({
   }, "The best returns in real estate come from building the ", React.createElement("em", null, "right thing well"), ". We invest where our development edge creates the value."), React.createElement("p", {
     className: "body-lg u-mt-24"
   }, "Back in 2009 our founder focused on single-family residences, striving to provide a distinctly unique product that would enhance the lives of those it touched while benefiting the communities around it. Today Noesis has grown that mission into various real asset types \u2014 small-lot subdivisions, apartment buildings, and other residential and commercial developments \u2014 always building a strong, resourceful and knowledgeable foundation before entering a new asset class.")))), React.createElement("section", {
-    className: "cine",
+    className: "section",
     style: {
-      height: "min(78vh, 760px)",
-      minHeight: 420
+      borderTop: 0,
+      paddingTop: 0
     }
-  }, React.createElement("img", {
-    className: "cine__img img--warm",
-    "data-parallax": "0.12",
-    src: "assets/img/inv-sunset.jpg",
-    alt: "A Noesis residence above Los Angeles at dusk",
-    onError: imgFallback
-  }), React.createElement("div", {
-    className: "cine__grad"
-  }), React.createElement("div", {
-    className: "cine__cap"
   }, React.createElement("div", {
-    className: "wrap",
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "split reveal"
+  }, React.createElement("div", {
+    className: "split__media"
+  }, React.createElement("img", {
+    src: "assets/img/tex-glass-1024.jpg",
+    srcSet: "assets/img/tex-glass-700.jpg 700w, assets/img/tex-glass-1024.jpg 1024w",
+    sizes: "(max-width: 860px) 100vw, 46vw",
+    alt: "",
+    "aria-hidden": "true",
+    loading: "lazy",
+    onError: imgFallback
+  })), React.createElement("div", {
+    className: "split__body"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Thesis"), React.createElement("p", {
+    className: "pull u-mt-16",
     style: {
-      paddingBottom: "clamp(36px,6vw,72px)"
+      maxWidth: "22ch"
     }
-  }, React.createElement("p", {
-    className: "pull",
-    style: {
-      color: "var(--ink)",
-      maxWidth: "24ch"
-    }
-  }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value.")))), React.createElement("section", {
+  }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value."))))), React.createElement("section", {
     className: "section section--lead",
     style: {
       borderTop: 0

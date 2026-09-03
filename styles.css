@@ -1787,3 +1787,13 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 @media (max-width: 700px) {
   .shero__beat { max-width: none; left: 16px; right: 16px; }
 }
+
+/* Two-column statement block. CIM's pattern: the photograph sits beside the type,
+   never under it. Also the only honest way to use a 1024px source — at ~46vw it
+   is sharp, where a full-bleed plate would have shown every soft edge. */
+.split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: clamp(28px, 4vw, 72px); align-items: center; }
+.split__media { position: relative; overflow: hidden; aspect-ratio: 16/9; background: var(--paper); }
+.split__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.split__body { min-width: 0; }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 24px; } }

@@ -126,15 +126,23 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* CINEMATIC PLATE — the asset the thesis produces */}
-      <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
-        <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/inv-sunset.jpg"
-          alt="A Noesis residence above Los Angeles at dusk" onError={imgFallback} />
-        <div className="cine__grad" />
-        <div className="cine__cap">
-          <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <p className="pull" style={{ color: "var(--ink)", maxWidth: "24ch" }}>
-              We invest where our <em>development edge</em> creates the value.
-            </p>
+      {/* THESIS PLATE — a two-column block, not type floating on a photograph.
+          The statement earns a panel of its own; the image sits beside it. */}
+      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="split reveal">
+            <div className="split__media">
+              <img src="assets/img/tex-glass-1024.jpg"
+                srcSet="assets/img/tex-glass-700.jpg 700w, assets/img/tex-glass-1024.jpg 1024w"
+                sizes="(max-width: 860px) 100vw, 46vw"
+                alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
+            </div>
+            <div className="split__body">
+              <div className="eyebrow"><span className="dot" /> The Thesis</div>
+              <p className="pull u-mt-16" style={{ maxWidth: "22ch" }}>
+                We invest where our <em>development edge</em> creates the value.
+              </p>
+            </div>
           </div>
         </div>
       </section>
