@@ -112,7 +112,7 @@ function Home({ go, setIntent }) {
         </div>
 
         <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%" }}>
-          <h1 className="h-display lx-h" style={{ maxWidth: "18ch", color: "var(--bone)" }}>
+          <h1 className="h-display lx-h" style={{ maxWidth: "18ch", color: "var(--ink)" }}>
             <span className="ln"><span>We build what</span></span>{" "}
             <span className="ln"><span>we invest in.</span></span>
           </h1>
@@ -233,7 +233,7 @@ function Home({ go, setIntent }) {
           </div>
           <div className="col-8">
             <div className="eyebrow"><span className="dot" /> The Firm</div>
-            <h2 className="h-2 u-mt-16" style={{ color: "var(--bone)", maxWidth: "30ch" }}>
+            <h2 className="h-2 u-mt-16" style={{ color: "var(--ink)", maxWidth: "30ch" }}>
               Founded by Igal N. Azran in 2009, Noesis brings development execution, investment
               judgment and institutional experience to every engagement.
             </h2>

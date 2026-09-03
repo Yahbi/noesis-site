@@ -73,7 +73,7 @@ function Investment({ go, setIntent }) {
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
-            <p className="pull" style={{ color: "var(--bone)", maxWidth: "24ch" }}>
+            <p className="pull" style={{ color: "var(--ink)", maxWidth: "24ch" }}>
               We invest where our <em>development edge</em> creates the value.
             </p>
           </div>
@@ -145,7 +145,7 @@ function Investment({ go, setIntent }) {
         <div className="wrap grid-12 u-end reveal">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Why the Record Matters</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "18ch" }}>The operator is the edge.</h2>
+            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)", maxWidth: "18ch" }}>The operator is the edge.</h2>
           </div>
           <div className="col-5">
             <p className="body-lg">

@@ -123,7 +123,7 @@ function Approach({ go, setIntent }) {
           <div className="grid-12 u-end reveal">
             <div className="col-7">
               <div className="eyebrow"><span className="dot" /> The Process</div>
-              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)" }}>From entitlement to delivery.</h2>
+              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)" }}>From entitlement to delivery.</h2>
             </div>
             <div className="col-5">
               <p className="body-lg">
@@ -186,7 +186,7 @@ function Approach({ go, setIntent }) {
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
             <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "20ch" }}>The single party at the table accountable for the whole.</h2>
+            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)", maxWidth: "20ch" }}>The single party at the table accountable for the whole.</h2>
           </div>
         </div>
       </section>
@@ -229,7 +229,7 @@ function Approach({ go, setIntent }) {
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
           <div className="col-4 u-tr"><button className="btn" onClick={() => { if (setIntent) setIntent("owner"); go("inquiries"); }} data-magnetic>Discuss Your Project <span className="arr" /></button></div>
         </div>
       </section>

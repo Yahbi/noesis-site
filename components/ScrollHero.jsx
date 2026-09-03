@@ -153,7 +153,7 @@ function ScrollHero({ go, setIntent }) {
           <div className="shero__identity" ref={identityRef}>
             <div className="wrap">
               <div className="eyebrow shero__rise shero__rise--1"><span className="dot" /> Noesis — Est. 2009</div>
-              <h1 className="h-display shero__rise shero__rise--2" style={{ maxWidth: "15ch", color: "var(--bone)" }}>
+              <h1 className="h-display shero__rise shero__rise--2" style={{ maxWidth: "15ch", color: "var(--ink)" }}>
                 We build what we invest in.
               </h1>
               <p className="lede shero__rise shero__rise--3" style={{ maxWidth: "46ch" }}>
@@ -170,7 +170,7 @@ function ScrollHero({ go, setIntent }) {
 
           <div className="shero__beat shero__beat--right" ref={rightRef}>
             <div className="eyebrow"><span className="dot" /> Development</div>
-            <p className="pull u-mt-16" style={{ color: "var(--bone)", maxWidth: "16ch" }}>
+            <p className="pull u-mt-16" style={{ color: "var(--ink)", maxWidth: "16ch" }}>
               Conceived, entitled, designed and <em>built by our own team.</em>
             </p>
             <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
@@ -181,7 +181,7 @@ function ScrollHero({ go, setIntent }) {
 
           <div className="shero__beat shero__beat--left" ref={leftRef}>
             <div className="eyebrow"><span className="dot" /> Investment</div>
-            <p className="pull u-mt-16" style={{ color: "var(--bone)", maxWidth: "16ch" }}>
+            <p className="pull u-mt-16" style={{ color: "var(--ink)", maxWidth: "16ch" }}>
               The operator <em>invests alongside you.</em>
             </p>
             <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
@@ -193,7 +193,7 @@ function ScrollHero({ go, setIntent }) {
           <div className="shero__closeback" ref={closeBackRef} aria-hidden="true" />
           <div className="shero__close" ref={closeRef}>
             <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Beverly Hills · International</div>
-            <h2 className="h-display u-mt-16" style={{ color: "var(--bone)", maxWidth: "18ch", marginInline: "auto" }}>
+            <h2 className="h-display u-mt-16" style={{ color: "var(--ink)", maxWidth: "18ch", marginInline: "auto" }}>
               Development execution. Investment judgment.
             </h2>
             <div className="u-flex u-gap-16 u-mt-40" style={{ justifyContent: "center", flexWrap: "wrap" }}>

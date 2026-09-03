@@ -175,7 +175,7 @@ function Firm({ go }) {
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
           <div className="col-4 u-tr"><button className="btn" onClick={() => go("inquiries")} data-magnetic>Start a Conversation <span className="arr" /></button></div>
         </div>
       </section>

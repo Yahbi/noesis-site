@@ -10,11 +10,11 @@
 //   #/inquiries            Inquiries
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "#9A6A3E",
+  "accent": "#FC0000",
   "displayFont": "Newsreader"
 }/*EDITMODE-END*/;
 
-const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
+const ACCENTS = ["#FC0000", "#C81419", "#FF3333", "#8E0B10", "#6F6F6C"];
 const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 // Every routable page view (order = nav order).
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
@@ -131,7 +131,11 @@ function App() {
 
   // Theme tokens (accent + display font) live as CSS custom properties.
   React.useEffect(() => {
-    document.documentElement.style.setProperty("--accent", t.accent);
+    // Defer to the stylesheet while the panel is on the brand default. Setting
+    // this unconditionally made styles.css's --accent dead code — whatever it
+    // said, the inline value on <html> won. Same trap --serif was in.
+    if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent");
+    else document.documentElement.style.setProperty("--accent", t.accent);
     // Only derive --accent-deep when the designer is experimenting with a non-brand
     // accent; for the brand bronze, let styles.css own the AA-checked #7A5236 so the
     // stylesheet is not lying about what actually renders.

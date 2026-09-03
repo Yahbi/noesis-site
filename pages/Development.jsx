@@ -115,7 +115,7 @@ function Development({ go }) {
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(36px,6vw,72px)" }}>
             <div className="eyebrow"><span className="dot" /> On Site · Self-Delivered</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)", maxWidth: "20ch" }}>We build it ourselves.</h2>
+            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)", maxWidth: "20ch" }}>We build it ourselves.</h2>
           </div>
         </div>
       </section>
@@ -152,7 +152,7 @@ function Development({ go }) {
           <div className="grid-12 u-end reveal">
             <div className="col-7">
               <div className="eyebrow"><span className="dot" /> The Delivery Model</div>
-              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--bone)" }}>Five gates, one accountable team.</h2>
+              <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)" }}>Five gates, one accountable team.</h2>
             </div>
             <div className="col-5">
               <p className="body-lg">
@@ -202,7 +202,7 @@ function Development({ go }) {
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>See what we have <em className="accent">delivered.</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>See what we have <em className="accent">delivered.</em></h2></div>
           <div className="col-4 u-tr u-flex u-gap-16" style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
             <button className="btn" onClick={() => go("properties")} data-magnetic>The Portfolio <span className="arr" /></button>
             <button className="btn btn--ghost" onClick={() => go("inquiries")} data-magnetic>Bring us a site</button>

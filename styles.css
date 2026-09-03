@@ -3,30 +3,41 @@
    ───────────────────────────────────────────────────────────────────────────── */
 
 :root {
+  /* ── BLACK & RED ───────────────────────────────────────────────────────────
+     The palette now follows the actual brand mark: LOGO/FINAL NOESIS is 94%
+     #000000 and 6% #FC0000. Token NAMES are inherited from the linen scheme and
+     are now misnomers kept deliberately — renaming --bone across 67 rules and
+     --ink across 53 would be churn with no visual result. Read them as roles:
+       --bone   = page SURFACE  (now near-black)
+       --ink    = FOREGROUND    (now near-white)
+       --bone-2 = the contrast plate (now the logo's pure black, a deeper step)
+     One genuine inversion: --accent-deep meant "darkened for AA on a light
+     ground". On black the problem flips, so it is now the LIFTED red. Every
+     value below was solved for AA, not picked. */
   /* STONE & LINEN — warm light earth, umber text, brand-red accent.
      Token names predate the theme; used SEMANTICALLY:
        --bone = light SURFACE (linen page bg);  --ink = dark FOREGROUND (umber). */
-  --bone:        #E7E0D2;
-  --paper:       #DED6C6;
-  --paper-2:     #DBD2C2;
-  --bone-2:      #28231B;
-  --bone-3:      #201C15;
-  --ink:         #2E2A22;
-  --ink-2:       #4A4234;
-  --ink-soft:    #61594A;   /* 5.25 on linen, 4.60 on #DBD2C2 */
-  --bone-soft:   rgba(236,230,216,.78);
-  --muted:       #605949;   /* 5.27 on linen, 4.62 on #DBD2C2 */
-  --muted-2:     #B0A892;
-  --rule:        rgba(46,42,34,.16);
-  --rule-soft:   rgba(46,42,34,.08);
-  --rule-on-dark: rgba(236,230,216,.18);
-  --rule-on-dark-strong: rgba(236,230,216,.55);  /* control borders on dark */
-  --accent:      #9A6A3E;
-  --accent-deep: #7A5236;
-  --accent-soft: rgba(154,106,62,.10);
-  --on-accent:   #F2ECDE;
-  --accent-cta:  #895E37;   /* text-bearing bronze fills — 4.78 with --on-accent */
-  --accent-on-ink: #C08A55; /* small bronze text on ink plates — 5.2 on #28231B */
+  --bone:        #0B0B0D;
+  --paper:       #151519;
+  --paper-2:     #1A1A1F;
+  --bone-2:      #000000;
+  --bone-3:      #050506;
+  --ink:         #F2F2F0;
+  --ink-2:       #B8B8B4;
+  --ink-soft:    #9A9A96;   /* 5.25 on linen, 4.60 on #DBD2C2 */
+  --bone-soft:   rgba(242,242,240,.78);
+  --muted:       #8C8C88;   /* clears 4.6 on all four surfaces */
+  --muted-2:     #5E5E5B;
+  --rule:        rgba(242,242,240,.14);
+  --rule-soft:   rgba(242,242,240,.07);
+  --rule-on-dark: rgba(242,242,240,.18);
+  --rule-on-dark-strong: rgba(242,242,240,.55);  /* control borders on dark */
+  --accent:      #FC0000;
+  --accent-deep: #FF3333;
+  --accent-soft: rgba(252,0,0,.12);
+  --on-accent:   #F2F2F0;
+  --accent-cta:  #C81419;   /* text-bearing bronze fills — 4.78 with --on-accent */
+  --accent-on-ink: #FF3333; /* small bronze text on ink plates — 5.2 on #28231B */
   --ok:          #5E8C6E;
 
 /* Two faces, doing different jobs. Until now --serif, --sans and --mono all
@@ -137,7 +148,7 @@ img.img-in { animation: img-fade .6s ease both; }
 .wrap { max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad-x); padding-right: var(--pad-x); }
 .section { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
 .section--tight { padding: clamp(56px, 7vw, 96px) 0; }
-.section--ink { background: var(--bone-2); color: var(--bone); }
+.section--ink { background: var(--bone-2); color: var(--ink); }
 .section--ink .body, .section--ink .lede { color: rgba(242,236,224,.78); }
 .section--ink .eyebrow { color: rgba(242,236,224,.55); }
 .section--ink { border-top-color: rgba(242,236,224,.14); }
@@ -160,7 +171,7 @@ img.img-in { animation: img-fade .6s ease both; }
 }
 .btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--on-accent); transform: translateY(-1px); }
 .btn--ghost {
-  background: transparent; color: var(--bone); border-color: var(--bone);
+  background: transparent; color: var(--ink); border-color: var(--bone);
 }
 .btn--ghost:hover { background: var(--bone); color: var(--ink); }
 .arr {
@@ -233,7 +244,7 @@ img.img-in { animation: img-fade .6s ease both; }
 .field input, .field textarea, .field select {
   appearance: none; border: 0; background: transparent;
   border-bottom: 1px solid var(--rule);
-  padding: 10px 0; color: var(--bone);
+  padding: 10px 0; color: var(--ink);
   font-family: var(--sans); font-size: 16px;
   transition: border-color .2s;
 }
@@ -275,7 +286,7 @@ img.img-in { animation: img-fade .6s ease both; }
   position: relative; z-index: 50;
 }
 .nav__brand-btn {
-  background: transparent; border: 0; padding: 0; color: var(--bone);
+  background: transparent; border: 0; padding: 0; color: var(--ink);
   display: flex; align-items: center; gap: 12px; cursor: pointer;
 }
 .nav__brand-sub {
@@ -284,7 +295,7 @@ img.img-in { animation: img-fade .6s ease both; }
 }
 .nav__logo {
   font-family: var(--serif); font-size: 26px; line-height: 1;
-  letter-spacing: .22em; text-transform: uppercase; color: var(--bone);
+  letter-spacing: .22em; text-transform: uppercase; color: var(--ink);
   padding-left: 2px;
 }
 .nav__logo-dot {
@@ -296,7 +307,7 @@ img.img-in { animation: img-fade .6s ease both; }
   font-size: 13px; letter-spacing: .02em;
 }
 .nav__links button {
-  background: transparent; border: 0; color: var(--bone); padding: 4px 0;
+  background: transparent; border: 0; color: var(--ink); padding: 4px 0;
   font-size: 13px; letter-spacing: .02em;
   border-bottom: 1px solid transparent; cursor: pointer;
   font-family: inherit; transition: color .15s, border-color .15s;
@@ -325,7 +336,7 @@ img.img-in { animation: img-fade .6s ease both; }
    resolve against the short nav bar and leave the drawer background unpainted). */
 .nav__drawer {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: 49;
-  background: var(--ink);
+  background: var(--bone-2);
   display: flex; flex-direction: column; justify-content: space-between;
   padding: clamp(90px, 16vh, 140px) var(--pad-x) 40px;
   opacity: 0; visibility: hidden; transform: translateY(-8px);
@@ -338,7 +349,7 @@ img.img-in { animation: img-fade .6s ease both; }
   background: transparent; border: 0; border-bottom: 1px solid var(--rule);
   text-align: left; padding: 22px 0; cursor: pointer;
   font-family: var(--sans); font-size: clamp(34px, 9vw, 52px);
-  letter-spacing: -.015em; color: var(--bone);
+  letter-spacing: -.015em; color: var(--ink);
   display: flex; align-items: baseline; gap: 18px;
   opacity: 0; transform: translateX(-12px);
   transition: opacity .4s, transform .4s, color .2s;
@@ -362,10 +373,10 @@ img.img-in { animation: img-fade .6s ease both; }
 
 
 /* Footer --------------------------------------------------------------- */
-.footer { background: #050506; color: var(--bone); padding: 90px 0 32px; border-top: 1px solid var(--rule); }
-.footer .h-display { color: var(--bone); }
+.footer { background: #050506; color: var(--ink); padding: 90px 0 32px; border-top: 1px solid var(--rule); }
+.footer .h-display { color: var(--ink); }
 .footer a { color: var(--ink-soft); transition: color .15s; }
-.footer a:hover { color: var(--bone); }
+.footer a:hover { color: var(--ink); }
 .footer__lbl { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .social {
   display: grid; place-items: center; width: 38px; height: 38px;
@@ -389,7 +400,7 @@ img.img-in { animation: img-fade .6s ease both; }
   letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
 }
 .tbl td .num-sm {
-  font-family: var(--mono); font-size: 14px; color: var(--bone);
+  font-family: var(--mono); font-size: 14px; color: var(--ink);
 }
 
 /* Anim ----------------------------------------------------------------- */
@@ -502,28 +513,28 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 .flow__step::before { content: ""; position: absolute; top: -1px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width .8s ease; }
 .flow__step.is-in::before { width: 64px; }
 .flow__num { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; color: var(--accent); }
-.flow__name { font-family: var(--serif); font-size: 23px; letter-spacing: -.01em; margin-top: 16px; color: var(--bone); }
+.flow__name { font-family: var(--serif); font-size: 23px; letter-spacing: -.01em; margin-top: 16px; color: var(--ink); }
 .flow__desc { color: var(--ink-soft); font-size: 13.5px; line-height: 1.55; margin-top: 10px; }
 @media (max-width: 1000px) { .flow { grid-template-columns: 1fr 1fr; } .flow__step { border-right: 0; border-bottom: 1px solid var(--rule-soft); padding-right: 20px; } }
 @media (max-width: 560px) { .flow { grid-template-columns: 1fr; } }
 
 
 /* SECTORS — residential / commercial split ----------------------------- */
-.sector { position: relative; overflow: hidden; border: 1px solid var(--rule); background: var(--ink); }
+.sector { position: relative; overflow: hidden; border: 1px solid var(--rule); background: var(--paper); }
 .sector__img { aspect-ratio: 16/10; overflow: hidden; position: relative; }
 .sector__img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-img) var(--ease-img); filter: brightness(.82); }
 .sector:hover .sector__img img { transform: scale(1.05); }
 .sector__grad { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,16,11,0) 30%, rgba(20,16,11,.72) 100%); }
 .sector__body { padding: clamp(24px, 3vw, 38px); }
 .sector__tag { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
-.sector__title { font-family: var(--serif); font-size: clamp(26px, 2.6vw, 36px); letter-spacing: -.012em; margin-top: 12px; color: var(--bone); }
+.sector__title { font-family: var(--serif); font-size: clamp(26px, 2.6vw, 36px); letter-spacing: -.012em; margin-top: 12px; color: var(--ink); }
 
 /* APPROACH ROWS — numbered manifesto list ------------------------------ */
 .rows { border-top: 1px solid var(--rule); }
 .row { display: grid; grid-template-columns: 80px 1fr 2fr; gap: 24px; align-items: start; padding: 34px 0; border-bottom: 1px solid var(--rule); transition: padding-left .3s var(--ease-glide); }
 .row:hover { padding-left: 8px; }
 .row__idx { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; color: var(--accent); padding-top: 4px; }
-.row__title { font-family: var(--serif); font-size: clamp(22px, 2.2vw, 30px); letter-spacing: -.01em; color: var(--bone); }
+.row__title { font-family: var(--serif); font-size: clamp(22px, 2.2vw, 30px); letter-spacing: -.01em; color: var(--ink); }
 .row__desc { color: var(--ink-soft); font-size: 15px; line-height: 1.62; max-width: 60ch; }
 /* Heading-role strings take heading leading, not the body's 1.6. */
 .row__title, .flow__name, .sector__title { line-height: 1.18; }
@@ -534,7 +545,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 }
 
 /* QUOTE / pull statement ----------------------------------------------- */
-.pull { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 46px); line-height: 1.18; letter-spacing: -.012em; color: var(--bone); text-wrap: balance; }
+.pull { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 46px); line-height: 1.18; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
 .pull em { color: var(--accent); font-style: italic; }
 
 /* Stat band variant for inline figures --------------------------------- */
@@ -565,7 +576,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 /* The preloader is driven entirely by CSS so it ALWAYS animates and lifts away,
    even with no JS / frozen rAF / a script error — content is never gated behind it. */
 .preloader {
-  position: fixed; inset: 0; z-index: 300; background: var(--ink);
+  position: fixed; inset: 0; z-index: 300; background: var(--bone-2);
   display: flex; align-items: center; justify-content: center; overflow: hidden;
   animation: plLift .9s cubic-bezier(.76,0,.24,1) 1.65s forwards;
 }
@@ -575,7 +586,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 .preloader__brand {
   position: relative; display: inline-block;
   font-family: var(--sans); font-size: clamp(32px, 6vw, 58px);
-  letter-spacing: -.05em; text-transform: uppercase; color: var(--bone);
+  letter-spacing: -.05em; text-transform: uppercase; color: var(--ink);
   opacity: 0; animation: plFade .9s ease .15s forwards;
 }
 @keyframes plFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
@@ -680,7 +691,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .pcard__count { align-self: flex-start; font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
   text-transform: uppercase; color: var(--ink); background: var(--bone); padding: 5px 8px; border-radius: 2px; }
 .pcard__cta { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--bone); display: inline-flex; align-items: center; gap: 10px; }
+  color: var(--ink); display: inline-flex; align-items: center; gap: 10px; }
 .pcard__cta .arr { width: 16px; }
 .pcard__cap { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 14px; }
 /* An <h3> now (the cards contribute to the page outline), so weight and margin are
@@ -698,12 +709,12 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .lb.is-open { opacity: 1; visibility: visible; }
 .lb__head { display: flex; justify-content: space-between; align-items: flex-start;
   padding: clamp(16px,2vw,28px) clamp(20px,4vw,52px); gap: 20px; }
-.lb__title { font-family: var(--serif); font-size: clamp(22px,2.4vw,32px); color: var(--bone); line-height: 1.05; }
+.lb__title { font-family: var(--serif); font-size: clamp(22px,2.4vw,32px); color: var(--ink); line-height: 1.05; }
 .lb__sub { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
 .lb__headR { display: flex; align-items: center; gap: 22px; }
 .lb__count { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; color: var(--ink-soft); }
 .lb__count b { color: var(--accent); font-weight: 400; }
-.lb__close { background: transparent; border: 1px solid var(--rule); color: var(--bone);
+.lb__close { background: transparent; border: 1px solid var(--rule); color: var(--ink);
   width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
   transition: background .2s, color .2s, border-color .2s, transform .2s; }
 .lb__close:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); transform: rotate(90deg); }
@@ -714,7 +725,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 /* Scale-only entrance — no opacity, so a throttled/frozen tab never hides the photo. */
 @keyframes lbIn { from { transform: scale(.985); } to { transform: none; } }
 .lb__arrow { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: 0;
-  color: var(--bone); width: 56px; height: 72px; display: grid; place-items: center; opacity: .55;
+  color: var(--ink); width: 56px; height: 72px; display: grid; place-items: center; opacity: .55;
   transition: opacity .2s; }
 .lb__arrow:hover { opacity: 1; }
 .lb__arrow--prev { left: clamp(4px,1.5vw,22px); }
@@ -761,15 +772,15 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 
 /* Section rhythm — more air */
 .section { border-top: 1px solid var(--rule); padding: clamp(74px, 8.5vw, 126px) 0; }
-.section--ink { background: var(--bone-2); color: var(--bone); border-top-color: var(--rule-on-dark); }
+.section--ink { background: var(--bone-2); color: var(--ink); border-top-color: var(--rule-on-dark); }
 .section--ink .lede, .section--ink .body, .section--ink .body-lg { color: var(--bone-soft); }
 .section--ink .eyebrow { color: rgba(244,241,234,.5); }
-.section--ink .h-1, .section--ink .h-2, .section--ink .h-display { color: var(--bone); }
+.section--ink .h-1, .section--ink .h-2, .section--ink .h-display { color: var(--ink); }
 
 /* Buttons — ink outline default, bordeaux fill, couture tracking */
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn--ghost:hover { background: var(--ink); color: var(--bone); }
-.section--ink .btn--ghost { color: var(--bone); border-color: var(--bone); }
+.section--ink .btn--ghost { color: var(--ink); border-color: var(--rule-on-dark-strong); }
 .section--ink .btn--ghost:hover { background: var(--bone); color: var(--ink); }
 
 /* Nav — ivory */
@@ -835,7 +846,7 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: color-m
 .pillar__name, .track__title, .flow__name, .row__title, .sector__title { color: var(--ink); }
 .pillar__desc, .row__desc, .flow__desc { color: var(--ink-soft); }
  .track__for, .sector__tag, .row__idx, .flow__num, .pcard__count { color: var(--accent); }
-.pcard__cta { color: var(--bone); }
+.pcard__cta { color: var(--ink); }
 
 /* ── HOME — cinematic statement pieces ── */
 .lx-line { font-family: var(--serif); display: block; }
@@ -858,7 +869,7 @@ html.cursor-hot .cursor__ring { border-color: var(--accent); background: color-m
   background:
     linear-gradient(100deg, rgba(20,16,11,.62) 0%, rgba(20,16,11,.34) 38%, rgba(20,16,11,.06) 68%, rgba(20,16,11,0) 88%),
     linear-gradient(180deg, rgba(20,16,11,.46) 0%, rgba(20,16,11,.28) 40%, rgba(20,16,11,.80) 100%); }
-.cine__cap { position: absolute; left: 0; right: 0; bottom: 0; color: var(--bone); }
+.cine__cap { position: absolute; left: 0; right: 0; bottom: 0; color: var(--ink); }
 /* A plate with no type on it needs no scrim — it was being dimmed by a curve
    built to protect a headline that isn't there. Just enough at the edges to seat
    the photograph against the sections above and below. */
@@ -918,7 +929,7 @@ html.motion-ready.hero-in .lx-h .ln > span { transform: translateY(0); }
 .member__img { filter: saturate(.92) sepia(.04) contrast(1.02); }
 
 /* Text selection in the house style */
-::selection { background: var(--ink); color: var(--bone); }
+::selection { background: var(--accent); color: var(--on-accent); }
 
 /* Scroll progress hairline — pure CSS, progressive enhancement only */
 .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px;
@@ -942,7 +953,7 @@ html.motion-ready.hero-in .lx-h .ln > span { transform: translateY(0); }
   min-height: 100vh; display: flex; align-items: center; }
 .manifesto__t { font-family: var(--serif); font-weight: 360;
   font-size: clamp(30px, 4vw, 58px); line-height: 1.2; letter-spacing: -.02em;
-  color: var(--bone); max-width: 22ch; text-wrap: pretty; }
+  color: var(--ink); max-width: 22ch; text-wrap: pretty; }
 .manifesto .w { opacity: 1; transition: none; }
 html.motion-ready .manifesto .w { opacity: .14; }   /* dimmed only when scrub will run */
 .manifesto .w--accent { color: var(--accent-soft); }
@@ -1054,12 +1065,12 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .section--ink .row__title, .section--ink .pull,
 .cine__cap, .cine__cap .h-1, .cine__cap .h-2,
 .manifesto__t, .pcard__cta,
-.lb__title, .lb__close, .lb__arrow { color: var(--bone); }
-.section--ink .btn--ghost { color: var(--bone); border-color: var(--rule-on-dark-strong); }
+.lb__title, .lb__close, .lb__arrow { color: var(--ink); }
+.section--ink .btn--ghost { color: var(--ink); border-color: var(--rule-on-dark-strong); }
 .section--ink .btn--ghost:hover { background: var(--bone); color: var(--ink); }
 /* dark-plate component titles + dividers (component rules above force --ink) */
 .section--ink .flow__name, .section--ink .pillar__name,
-.section--ink .track__title, .section--ink .sector__title { color: var(--bone); }
+.section--ink .track__title, .section--ink .sector__title { color: var(--ink); }
 .section--ink .flow__desc, .section--ink .pillar__desc, .section--ink .row__desc { color: var(--bone-soft); }
 .section--ink .flow, .section--ink .rows { border-top-color: var(--rule-on-dark); }
 .section--ink .flow__step, .section--ink .row { border-right-color: var(--rule-on-dark); border-bottom-color: var(--rule-on-dark); }
@@ -1074,7 +1085,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
    thick enough to cover it, so the dark stroke disappears (matches the original mark). */
 .logo__bar { position: absolute; left: 27%; width: 28%; top: 50%; height: .08em; background: var(--accent);
   border-radius: 0; font-size: 22px; transform: translateY(calc(-50% - .05em)); pointer-events: none; }
-.nav--over .logo__word { color: var(--bone); }
+.nav--over .logo__word { color: var(--ink); }
 
 /* — Nav: clean header, uppercase tracked links, scroll-spy underline — */
 .nav { background: color-mix(in oklab, var(--bone) 86%, transparent); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s; }
@@ -1090,7 +1101,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .nav__links button:hover { color: var(--accent-deep); }
 .nav__links button.is-active { color: var(--accent-deep); border-bottom-color: var(--accent-deep); }
 .nav--over .nav__links button { color: var(--bone-soft); }
-.nav--over .nav__links button:hover, .nav--over .nav__links button.is-active { color: var(--bone); border-bottom-color: var(--accent); }
+.nav--over .nav__links button:hover, .nav--over .nav__links button.is-active { color: var(--ink); border-bottom-color: var(--accent); }
 .nav__cta { font-size: 14px !important; font-weight: 500; letter-spacing: .07em; padding: 13px 22px; }
 /* Mid-width step-down so the larger links never crowd the wordmark before the burger takes over. */
 @media (max-width: 1120px) {
@@ -1140,7 +1151,7 @@ section[id] { scroll-margin-top: 72px; }
 /* Approach sub-view — sectors (dark cinematic cards on a light section) */
 .sectors { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); }
 @media (max-width: 760px) { .sectors { grid-template-columns: 1fr; } }
-.sector__title { color: var(--bone); }
+.sector__title { color: var(--ink); }
 .sector__desc { color: var(--bone-soft); font-size: 14px; line-height: 1.6; margin-top: 14px; max-width: 46ch; }
 
 /* A11y — small accent TEXT uses the deeper forge bronze (--accent-deep ~5:1 on linen).
@@ -1211,11 +1222,11 @@ section[id] { scroll-margin-top: 72px; }
 .story__next .cine__img { transition: transform .9s var(--ease-img); }
 .story__next:hover .cine__img { transform: scale(1.04); }
 .story__next-hit { display: inline-block; background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; }
-.story__next-name { display: block; color: var(--bone); max-width: 15ch; transition: opacity .3s; }
+.story__next-name { display: block; color: var(--ink); max-width: 15ch; transition: opacity .3s; }
 .story__next-hit:hover .story__next-name { opacity: .84; }
 .story__endnav { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: clamp(26px, 3vw, 44px); }
 .story__navlink { background: transparent; border: 0; padding: 0 0 3px; border-bottom: 1px solid var(--rule-on-dark-strong);
-  color: var(--bone); font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink); font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   cursor: pointer; transition: border-color .3s; }
 .story__navlink:hover { border-color: var(--accent); }
 
@@ -1236,12 +1247,12 @@ section[id] { scroll-margin-top: 72px; }
 .story-feature__cap .story-feature__meta,
 .story-feature__cap .eyebrow,
 .story-feature__cap .story-feature__cta { text-shadow: 0 1px 30px rgba(14,11,8,.5), 0 1px 3px rgba(14,11,8,.26); }
-.story-feature__cap { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 4vw, 54px); color: var(--bone); }
+.story-feature__cap { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 4vw, 54px); color: var(--ink); }
 .story-feature__name { font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 5vw, 72px);
-  line-height: 1; letter-spacing: -.02em; margin-top: 12px; color: var(--bone); }
+  line-height: 1; letter-spacing: -.02em; margin-top: 12px; color: var(--ink); }
 .story-feature__meta { font-size: clamp(14px, 1.4vw, 18px); color: var(--bone-soft); margin-top: 12px; max-width: 42ch; }
 .story-feature__cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone); }
+  font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
 .story-feature:hover .story-feature__cta .arr { transform: translateX(4px); }
 @media (max-width: 640px) { .story-feature { aspect-ratio: 4 / 5; } }
 
@@ -1366,7 +1377,7 @@ section[id] { scroll-margin-top: 72px; }
 .cine .lede, .cine .body, .cine .body-lg, .cine .pull,
 .shero .lede, .shero .body, .shero .body-lg, .shero .pull { color: var(--bone-soft); }
 .cine .pull em, .shero .pull em { color: var(--accent); }
-.cine .btn--ghost, .shero .btn--ghost { color: var(--bone); border-color: var(--rule-on-dark-strong); }
+.cine .btn--ghost, .shero .btn--ghost { color: var(--ink); border-color: var(--rule-on-dark-strong); }
 .cine .btn--ghost:hover, .shero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
 
 /* Measure: kills six inline maxWidth:"64ch" patches. */
@@ -1489,7 +1500,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
     text-transform: uppercase; color: var(--ink); cursor: pointer;
   }
   .nav__cta-mini span { border-bottom: 1px solid var(--accent); padding-bottom: 3px; }
-  .nav--over .nav__cta-mini { color: var(--bone); }
+  .nav--over .nav__cta-mini { color: var(--ink); }
 }
 
 /* ── Scroll-scrub cinematic hero ─────────────────────────────────────────────
@@ -1595,7 +1606,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
    the photo count, differentiated by tone so the distinction is unmissable. */
 .pfeat__badge--render {
   background: color-mix(in oklab, var(--ink) 78%, transparent);
-  color: var(--bone); letter-spacing: .1em;
+  color: var(--ink); letter-spacing: .1em;
 }
 .pfeat__badge--render { top: auto; bottom: 14px; }
 
@@ -1612,7 +1623,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Focus ring on dark plates. --accent-deep earns its contrast on linen but goes
    near-invisible on the ink sections, so the ring flips to bone there. */
 .section--ink :focus-visible, .cine :focus-visible, .shero :focus-visible,
-.nav--over :focus-visible, .lb :focus-visible { outline-color: var(--bone); }
+.nav--over :focus-visible, .lb :focus-visible { outline-color: var(--ink); }
 
 /* Paired CTAs — wraps to a column before the two buttons collide. */
 .cta-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }

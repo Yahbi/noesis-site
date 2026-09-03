@@ -75,7 +75,7 @@ function ProjectStory({ project, go }) {
           <div className="eyebrow" data-hero-fade>
             <span className="dot" /> {p.category}{p.year ? ` · ${p.year}` : ""}
           </div>
-          <h1 className="h-display u-mt-16" style={{ color: "var(--bone)", maxWidth: "15ch" }}>{p.name}</h1>
+          <h1 className="h-display u-mt-16" style={{ color: "var(--ink)", maxWidth: "15ch" }}>{p.name}</h1>
           <div className="lede u-mt-16" data-hero-fade style={{ maxWidth: "40ch" }}>{p.loc}</div>
         </div>
         <div className="story__cue" data-hero-fade aria-hidden="true"><span /></div>
@@ -164,7 +164,7 @@ function ProjectStory({ project, go }) {
             <div className="eyebrow reveal" style={{ display: "inline-flex", alignItems: "center", gap: 8, justifyContent: "center" }}>
               <span className="dot" /> Outcome
             </div>
-            <h2 className="h-1 caps reveal" style={{ color: "var(--bone)", maxWidth: "22ch", margin: "18px auto 0" }}>{outcome}</h2>
+            <h2 className="h-1 caps reveal" style={{ color: "var(--ink)", maxWidth: "22ch", margin: "18px auto 0" }}>{outcome}</h2>
           </div>
         </section>
       )}

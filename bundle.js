@@ -1355,7 +1355,7 @@ function ScrollHero({
     className: "h-display shero__rise shero__rise--2",
     style: {
       maxWidth: "15ch",
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "We build what we invest in."), React.createElement("p", {
     className: "lede shero__rise shero__rise--3",
@@ -1385,7 +1385,7 @@ function ScrollHero({
   }), " Development"), React.createElement("p", {
     className: "pull u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "16ch"
     }
   }, "Conceived, entitled, designed and ", React.createElement("em", null, "built by our own team.")), React.createElement("p", {
@@ -1403,7 +1403,7 @@ function ScrollHero({
   }), " Investment"), React.createElement("p", {
     className: "pull u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "16ch"
     }
   }, "The operator ", React.createElement("em", null, "invests alongside you.")), React.createElement("p", {
@@ -1428,7 +1428,7 @@ function ScrollHero({
   }), " Beverly Hills \xB7 International"), React.createElement("h2", {
     className: "h-display u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "18ch",
       marginInline: "auto"
     }
@@ -1634,7 +1634,7 @@ function Home({
     className: "h-display lx-h",
     style: {
       maxWidth: "18ch",
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, React.createElement("span", {
     className: "ln"
@@ -1851,7 +1851,7 @@ function Home({
   }), " The Firm"), React.createElement("h2", {
     className: "h-2 u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "30ch"
     }
   }, "Founded by Igal N. Azran in 2009, Noesis brings development execution, investment judgment and institutional experience to every engagement."), React.createElement("div", {
@@ -2006,7 +2006,7 @@ function Development({
   }), " On Site \xB7 Self-Delivered"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "20ch"
     }
   }, "We build it ourselves.")))), React.createElement("section", {
@@ -2058,7 +2058,7 @@ function Development({
   }), " The Delivery Model"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Five gates, one accountable team.")), React.createElement("div", {
     className: "col-5"
@@ -2114,7 +2114,7 @@ function Development({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "See what we have ", React.createElement("em", {
     className: "accent"
@@ -2218,7 +2218,7 @@ function Investment({
   }, React.createElement("p", {
     className: "pull",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "24ch"
     }
   }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value.")))), React.createElement("section", {
@@ -2340,7 +2340,7 @@ function Investment({
   }), " Why the Record Matters"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "18ch"
     }
   }, "The operator is the edge.")), React.createElement("div", {
@@ -2666,7 +2666,7 @@ function Firm({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Let's build something ", React.createElement("em", {
     className: "accent"
@@ -3110,7 +3110,7 @@ function Approach({
   }), " The Process"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "From entitlement to delivery.")), React.createElement("div", {
     className: "col-5"
@@ -3200,7 +3200,7 @@ function Approach({
   }), " Delivered by Noesis"), React.createElement("h2", {
     className: "h-1 u-mt-16 caps",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "20ch"
     }
   }, "The single party at the table accountable for the whole.")))), React.createElement("section", {
@@ -3266,7 +3266,7 @@ function Approach({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "Let's build something ", React.createElement("em", {
     className: "accent"
@@ -3770,7 +3770,7 @@ function Projects({
   }, React.createElement("h2", {
     className: "h-1 caps",
     style: {
-      color: "var(--bone)"
+      color: "var(--ink)"
     }
   }, "This standard, on ", React.createElement("em", {
     className: "accent"
@@ -4067,7 +4067,7 @@ function ProjectStory({
   }), " ", p.category, p.year ? ` · ${p.year}` : ""), React.createElement("h1", {
     className: "h-display u-mt-16",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "15ch"
     }
   }, p.name), React.createElement("div", {
@@ -4238,7 +4238,7 @@ function ProjectStory({
   }), " Outcome"), React.createElement("h2", {
     className: "h-1 caps reveal",
     style: {
-      color: "var(--bone)",
+      color: "var(--ink)",
       maxWidth: "22ch",
       margin: "18px auto 0"
     }
@@ -4374,10 +4374,10 @@ function ProjectStory({
 }
 window.ProjectStory = ProjectStory;
 const TWEAK_DEFAULTS = {
-  "accent": "#9A6A3E",
+  "accent": "#FC0000",
   "displayFont": "Newsreader"
 };
-const ACCENTS = ["#9A6A3E", "#7A5236", "#B04A28", "#6E5C3E", "#8A8270"];
+const ACCENTS = ["#FC0000", "#C81419", "#FF3333", "#8E0B10", "#6F6F6C"];
 const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
@@ -4491,7 +4491,7 @@ function App() {
     }
   }, []);
   React.useEffect(() => {
-    document.documentElement.style.setProperty("--accent", t.accent);
+    if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent");else document.documentElement.style.setProperty("--accent", t.accent);
     if (t.accent === TWEAK_DEFAULTS.accent) document.documentElement.style.removeProperty("--accent-deep");else document.documentElement.style.setProperty("--accent-deep", shade(t.accent, -0.18));
     if (t.displayFont === TWEAK_DEFAULTS.displayFont) {
       document.documentElement.style.removeProperty("--serif");

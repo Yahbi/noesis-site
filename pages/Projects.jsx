@@ -309,7 +309,7 @@ function Projects({ setPage, setIntent }) {
 
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--bone)" }}>This standard, on <em className="accent">your project.</em></h2></div>
+          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>This standard, on <em className="accent">your project.</em></h2></div>
           <div className="col-4 u-tr cta-row">
             <button className="btn" onClick={() => goWith("investor", "inquiries")} data-magnetic>
               Request an Introduction <span className="arr" />
