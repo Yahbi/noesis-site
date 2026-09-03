@@ -1887,7 +1887,7 @@ function Development({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 hero-grid"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -1928,8 +1928,9 @@ function Development({
   }, React.createElement("img", {
     className: "cine__img img--warm",
     "data-parallax": "0.12",
-    src: "assets/img/dev-facade.jpg",
-    alt: "A Noesis-developed residence, Los Angeles",
+    src: "assets/img/city-dusk-1440.jpg",
+    alt: "",
+    "aria-hidden": "true",
     onError: imgFallback
   }), React.createElement("div", {
     className: "cine__grad cine__grad--plate"
@@ -2017,7 +2018,7 @@ function Development({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/build-pour.jpg",
+    src: "assets/img/tex-concrete-1024.jpg",
     alt: "A Noesis concrete pour, Los Angeles",
     loading: "lazy",
     onError: imgFallback
@@ -2222,7 +2223,7 @@ function Investment({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 hero-grid"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -2512,7 +2513,7 @@ function Firm({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 hero-grid"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -2585,8 +2586,9 @@ function Firm({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/firm-living.jpg",
-    alt: "A Noesis living room above Los Angeles",
+    src: "assets/img/tex-stair-1024.jpg",
+    alt: "",
+    "aria-hidden": "true",
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Delivered work \xB7 Los Angeles"))))), React.createElement("section", {
@@ -2834,10 +2836,9 @@ function Inquiries({
   }, React.createElement("img", {
     className: "cine__img img--warm",
     "data-parallax": "0.1",
-    src: wix(PHOTO.genesee_int_1, {
-      w: 2000
-    }),
-    alt: "My Genesee living room, Beverly Grove",
+    src: "assets/img/city-water-1440.jpg",
+    alt: "",
+    "aria-hidden": "true",
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("div", {
@@ -2849,11 +2850,7 @@ function Inquiries({
     style: {
       paddingBottom: "clamp(28px,4vw,44px)"
     }
-  }, React.createElement("div", {
-    className: "eyebrow"
-  }, React.createElement("span", {
-    className: "dot"
-  }), " Delivered by Noesis")))));
+  }))));
 }
 function InquiryForm({
   intent
@@ -3081,7 +3078,7 @@ function Approach({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 hero-grid"
   }, React.createElement("div", {
     className: "col-7"
   }, React.createElement("div", {
@@ -3243,8 +3240,9 @@ function Approach({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/or-living.jpg",
-    alt: "A Noesis-delivered living space opening to the pool",
+    src: "assets/img/tex-concrete-1024.jpg",
+    alt: "",
+    "aria-hidden": "true",
     loading: "lazy",
     onError: imgFallback
   })), React.createElement("div", {
@@ -3647,7 +3645,7 @@ function Projects({
       paddingBottom: "clamp(28px, 4vw, 48px)"
     }
   }, React.createElement("div", {
-    className: "wrap grid-12 u-end"
+    className: "wrap grid-12 hero-grid"
   }, React.createElement("div", {
     className: "col-8"
   }, React.createElement("div", {

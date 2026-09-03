@@ -56,7 +56,7 @@ function Approach({ go, setIntent }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 hero-grid">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Owner's Representation · Project Management</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "13ch" }}>
@@ -184,7 +184,7 @@ function Approach({ go, setIntent }) {
         <div className="wrap">
           <div className="band reveal">
             <div className="band__media">
-              <img src="assets/img/or-living.jpg" alt="A Noesis-delivered living space opening to the pool" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/tex-concrete-1024.jpg" alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>
             <div className="band__panel">
               <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>

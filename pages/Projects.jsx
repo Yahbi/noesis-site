@@ -196,7 +196,7 @@ function Projects({ setPage, setIntent }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 hero-grid">
           <div className="col-8">
             <div className="eyebrow"><span className="dot" /> Portfolio · 2009 — Present</div>
             <h1 className="h-display lx-h u-mt-24"><span className="ln"><span>The Record</span></span></h1>

@@ -52,16 +52,17 @@ function Inquiries({ intent }) {
         </div>
       </section>
 
-      {/* CLOSING PLATE — delivered work behind the inquiry */}
+      {/* CLOSING PLATE — atmosphere, not evidence: the caption that named a
+          delivered project went with the photograph it described. */}
       <section className="cine" style={{ height: "min(44vh, 420px)", minHeight: 300 }}>
         <img className="cine__img img--warm" data-parallax="0.1"
-          src={wix(PHOTO.genesee_int_1, { w: 2000 })}
-          alt="My Genesee living room, Beverly Grove"
+          src="assets/img/city-water-1440.jpg"
+          alt="" aria-hidden="true"
           loading="lazy" onError={imgFallback} />
         <div className="cine__grad" />
         <div className="cine__cap">
           <div className="wrap" style={{ paddingBottom: "clamp(28px,4vw,44px)" }}>
-            <div className="eyebrow"><span className="dot" /> Delivered by Noesis</div>
+            
           </div>
         </div>
       </section>

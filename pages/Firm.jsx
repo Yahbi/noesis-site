@@ -40,7 +40,7 @@ function Firm({ go }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 hero-grid">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> The Firm · Est. 2009</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "12ch" }}>
@@ -102,7 +102,7 @@ function Firm({ go }) {
               <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/firm-living.jpg" alt="A Noesis living room above Los Angeles" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/tex-stair-1024.jpg" alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
               <figcaption>Delivered work · Los Angeles</figcaption>
             </figure>
           </div>

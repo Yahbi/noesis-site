@@ -33,7 +33,7 @@ function Development({ go }) {
     <main className="page-enter">
       {/* HERO */}
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
-        <div className="wrap grid-12 u-end">
+        <div className="wrap grid-12 hero-grid">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Development · Primary Practice</div>
             <h1 className="h-display lx-h u-mt-24" style={{ maxWidth: "13ch" }}>
@@ -61,8 +61,8 @@ function Development({ go }) {
 
       {/* OPENING PLATE — a delivered Noesis residence */}
       <section className="cine" style={{ height: "min(78vh, 760px)", minHeight: 420 }}>
-        <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/dev-facade.jpg"
-          alt="A Noesis-developed residence, Los Angeles" onError={imgFallback} />
+        <img className="cine__img img--warm" data-parallax="0.12" src="assets/img/city-dusk-1440.jpg"
+          alt="" aria-hidden="true" onError={imgFallback} />
         {/* Nothing is set over this plate — it gets the edge wash, not the scrim
             built to keep a headline legible. */}
         <div className="cine__grad cine__grad--plate" />
@@ -133,7 +133,7 @@ function Development({ go }) {
               <figcaption>Interior detailing — materials sourced worldwide</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/tex-concrete-1024.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" onError={imgFallback} />
               <figcaption>Self-delivered — on site, Los Angeles</figcaption>
             </figure>
           </div>

@@ -1818,3 +1818,10 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   .band__panel { position: absolute; left: 0; bottom: 0; transform: translateY(18%); }
   .band { padding-bottom: clamp(40px, 5vw, 80px); }
 }
+
+/* Page heroes align to the top. They were bottom-aligned, which dropped the
+   display heading to the foot of its cell and left a void of 150-350px above it
+   while the body column started at the top — the largest single gap on the site.
+   u-end stays correct elsewhere, where it baselines a section header with the
+   CTA sitting beside it. */
+.hero-grid { align-items: start; }
