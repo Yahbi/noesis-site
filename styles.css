@@ -1518,7 +1518,10 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
    A tall container with a sticky canvas: scroll drives the film's frame index.
    Desktop only — phones and reduced-motion visitors keep the still hero rather
    than downloading 12 MB of frames for a scrub that would stutter on touch. */
-.shero { position: relative; height: 420vh; background: var(--bone); }
+/* 420vh was four-plus screens of scrolling before the page began. Five plates
+   instead of seven, and a shorter run — the hero introduces the firm, it is not
+   the site. */
+.shero { position: relative; height: 300vh; background: var(--bone); }
 .shero__sticky {
   position: sticky; top: 0; height: 100vh; width: 100%;
   overflow: hidden; background: var(--bone);

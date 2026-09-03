@@ -13,16 +13,18 @@
 // approach at dusk -> architecture -> the reveal -> living -> craft -> dusk.
 // Deliberately omitted from the ten available: the LED-lit cinema and the two
 // bathrooms — utilitarian rooms undercut a landing sequence.
+// Five plates, and deliberately NOT one house. This was seven frames of Casa Mani
+// — approach, street, rear, living room, family room, kitchen, pool — so the first
+// four screens of an investment firm were a room-by-room tour of one Beverly Hills
+// residence. It now runs market -> we build it -> two delivered assets of
+// different types. No interiors: a kitchen is the contractor register.
 const HERO_PLATES = [
-  ["5c383b_d1c071eaa5c74ac69dbd755f2808c63c~mv2_d_5199_3466_s_4_2.jpg", "Casa Mani — the approach at dusk"],
-  ["5c383b_0f02013ca50d40cea1580a1a7686f991~mv2_d_6365_4243_s_4_2.jpg", "Casa Mani — street elevation"],
-  ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the rear elevation and pool"],
-  ["5c383b_f0a8d5cb5ea2484eb0f1e204f4c3aba4~mv2_d_6231_4154_s_4_2.jpg", "Casa Mani — living, open to the garden"],
-  ["5c383b_6361166f13c445e28e73c9d4337dbccc~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the family room"],
-  ["5c383b_0e99a86ffe9847d5a712e0428605e4b0~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — the kitchen"],
-  ["5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani — dusk over the pool"],
+  ["local:assets/img/city-towers-1440.jpg", ""],
+  ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"],
+  ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"],
+  ["5c383b_410f4aecfa8c4af3884ef4a170843a94~mv2_d_3280_4928_s_4_2.jpg", "Ying Yang Lofts, Los Angeles"],
+  ["5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg", "Le Bijou, Beverly Hills"],
 ];
-
 const BEATS = {
   identity: [0.00, 0.14],
   right:    [0.18, 0.50],
@@ -174,8 +176,8 @@ function ScrollHero({ go, setIntent }) {
               Conceived, entitled, designed and <em>built by our own team.</em>
             </p>
             <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
-              Casa Mani, Beverly Hills — six bedrooms, eight baths, a zero-edge saltwater pool.
-              Taken from a parcel of land to a finished landmark.
+              Land taken through entitlement, design and construction by one team —
+              across single-family, small-lot and apartment assets.
             </p>
           </div>
 
@@ -185,7 +187,7 @@ function ScrollHero({ go, setIntent }) {
               The operator <em>invests alongside you.</em>
             </p>
             <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
-              Twenty-three delivered projects underwrite every basis, programme and schedule we
+              Twenty-three projects underwrite every basis, programme and schedule we
               commit to. The development practice is what de-risks the thesis.
             </p>
           </div>
