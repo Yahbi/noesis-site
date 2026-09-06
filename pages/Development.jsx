@@ -134,8 +134,11 @@ function Development({ go }) {
               <figcaption>Interior detailing — materials sourced worldwide</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/dev-detail.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" onError={imgFallback} />
-              <figcaption>Self-delivered — on site, Los Angeles</figcaption>
+              <img src="assets/img/city-dtla.jpg"
+                srcSet="assets/img/city-dtla-w800.jpg 800w, assets/img/city-dtla-w1400.jpg 1400w, assets/img/city-dtla.jpg 2600w"
+                sizes="(max-width: 860px) 100vw, 40vw"
+                alt="Downtown Los Angeles" loading="lazy" onError={imgFallback} />
+              <figcaption>The market — Los Angeles</figcaption>
             </figure>
           </div>
           <div className="eyebrow reveal"><span className="dot" /> The Craft</div>

@@ -9,23 +9,24 @@
 // srcSet candidate itself, nothing is resampled through a 2D context, and the
 // "frame 0 never painted" race disappears entirely.
 //
-// The sequence is Casa Mani (Beverly Hills, 2018) as an arrival narrative:
-// approach at dusk -> architecture -> the reveal -> living -> craft -> dusk.
-// Deliberately omitted from the ten available: the LED-lit cinema and the two
-// bathrooms — utilitarian rooms undercut a landing sequence.
-// Five plates, and deliberately NOT one house. This was seven frames of Casa Mani
-// — approach, street, rear, living room, family room, kitchen, pool — so the first
-// four screens of an investment firm were a room-by-room tour of one Beverly Hills
-// residence. It now runs an establishing shot -> we build it -> delivered assets
-// of three different types. No interiors: a kitchen is the contractor register.
-// The opener was a generated cityscape; it carried 0.7 bits/px against 1.8 for the
-// firm's own photography, and it looked it.
+// Five plates, and deliberately NOT one house. An earlier cut was seven frames of
+// Casa Mani — approach, street, rear, living room, family room, kitchen, pool — so
+// the first four screens of an investment firm were a room-by-room tour of one
+// Beverly Hills residence. It now runs in the CIM register: the city from above
+// -> we build it (a Noesis pour) -> downtown -> one delivered residence -> the
+// basin at dusk. No interiors: a kitchen is the contractor register.
+//
+// Plates 1, 3 and 5 are Seedream 4.5 renders at 5–6K, baked by
+// tools/bake-images.py with the site grade applied and cropped to 16:9. They
+// measure 1.7–2.3 bits/px at the 2600 rung against 1.5–1.8 for the firm's own
+// photography; the 1024px generations they replace sat at 0.7 and were pulled.
+// Their alt text names a place, never a Noesis project — they are not our work.
 const HERO_PLATES = [
-  ["5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg", "One Oak, Sunset Strip"],
+  ["city-west", "Los Angeles from above the Westside"],
   ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"],
+  ["city-dtla", "Downtown Los Angeles"],
   ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"],
-  ["5c383b_410f4aecfa8c4af3884ef4a170843a94~mv2_d_3280_4928_s_4_2.jpg", "Ying Yang Lofts, Los Angeles"],
-  ["5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg", "Le Bijou, Beverly Hills"],
+  ["city-basin", "The Los Angeles basin at dusk"],
 ];
 const BEATS = {
   identity: [0.00, 0.14],

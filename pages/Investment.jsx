@@ -109,7 +109,8 @@ function Investment({ go, setIntent }) {
         <div className="wrap">
           <div className="band reveal">
             <div className="band__media">
-              <img src="assets/img/build-pour.jpg"
+              <img src="assets/img/city-midrise.jpg"
+                srcSet="assets/img/city-midrise-w800.jpg 800w, assets/img/city-midrise-w1400.jpg 1400w, assets/img/city-midrise.jpg 2600w"
                 sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>
@@ -154,7 +155,8 @@ function Investment({ go, setIntent }) {
         <div className="wrap">
           <div className="split reveal">
             <div className="split__media">
-              <img src="assets/img/inv-multifamily.jpg"
+              <img src="assets/img/city-mixeduse.jpg"
+                srcSet="assets/img/city-mixeduse-w800.jpg 800w, assets/img/city-mixeduse-w1400.jpg 1400w, assets/img/city-mixeduse.jpg 2600w"
                 sizes="(max-width: 860px) 100vw, 46vw"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>

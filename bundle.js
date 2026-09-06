@@ -1215,7 +1215,7 @@ window.Nav = Nav;
 window.Footer = Footer;
 window.SocialRow = SocialRow;
 window.Logo = Logo;
-const HERO_PLATES = [["5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg", "One Oak, Sunset Strip"], ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"], ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"], ["5c383b_410f4aecfa8c4af3884ef4a170843a94~mv2_d_3280_4928_s_4_2.jpg", "Ying Yang Lofts, Los Angeles"], ["5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg", "Le Bijou, Beverly Hills"]];
+const HERO_PLATES = [["city-west", "Los Angeles from above the Westside"], ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"], ["city-dtla", "Downtown Los Angeles"], ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"], ["city-basin", "The Los Angeles basin at dusk"]];
 const BEATS = {
   identity: [0.00, 0.14],
   right: [0.18, 0.50],
@@ -2018,11 +2018,13 @@ function Development({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/dev-detail.jpg",
-    alt: "A Noesis concrete pour, Los Angeles",
+    src: "assets/img/city-dtla.jpg",
+    srcSet: "assets/img/city-dtla-w800.jpg 800w, assets/img/city-dtla-w1400.jpg 1400w, assets/img/city-dtla.jpg 2600w",
+    sizes: "(max-width: 860px) 100vw, 40vw",
+    alt: "Downtown Los Angeles",
     loading: "lazy",
     onError: imgFallback
-  }), React.createElement("figcaption", null, "Self-delivered \u2014 on site, Los Angeles"))), React.createElement("div", {
+  }), React.createElement("figcaption", null, "The market \u2014 Los Angeles"))), React.createElement("div", {
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
@@ -2256,7 +2258,8 @@ function Investment({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/build-pour.jpg",
+    src: "assets/img/city-midrise.jpg",
+    srcSet: "assets/img/city-midrise-w800.jpg 800w, assets/img/city-midrise-w1400.jpg 1400w, assets/img/city-midrise.jpg 2600w",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
@@ -2304,7 +2307,8 @@ function Investment({
   }, React.createElement("div", {
     className: "split__media"
   }, React.createElement("img", {
-    src: "assets/img/inv-multifamily.jpg",
+    src: "assets/img/city-mixeduse.jpg",
+    srcSet: "assets/img/city-mixeduse-w800.jpg 800w, assets/img/city-mixeduse-w1400.jpg 1400w, assets/img/city-mixeduse.jpg 2600w",
     sizes: "(max-width: 860px) 100vw, 46vw",
     alt: "",
     "aria-hidden": "true",
@@ -2833,10 +2837,10 @@ function Inquiries({
   }, React.createElement("img", {
     className: "cine__img img--warm",
     "data-parallax": "0.1",
-    src: wix(PHOTO.genesee_int_1, {
-      w: 2000
-    }),
-    alt: "A Noesis-delivered living room, Beverly Grove",
+    src: "assets/img/city-basin.jpg",
+    srcSet: "assets/img/city-basin-w800.jpg 800w, assets/img/city-basin-w1400.jpg 1400w, assets/img/city-basin.jpg 2600w",
+    sizes: "100vw",
+    alt: "The Los Angeles basin at dusk",
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("div", {
@@ -3316,7 +3320,8 @@ function Approach({
   }, React.createElement("div", {
     className: "band__media"
   }, React.createElement("img", {
-    src: "assets/img/build-pour.jpg",
+    src: "assets/img/city-west.jpg",
+    srcSet: "assets/img/city-west-w800.jpg 800w, assets/img/city-west-w1400.jpg 1400w, assets/img/city-west.jpg 2600w",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
