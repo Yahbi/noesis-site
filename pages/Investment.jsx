@@ -218,7 +218,7 @@ function Investment({ go, setIntent }) {
           </div>
           <div className="col-5">
             <p className="body-lg">
-              We do not underwrite from a spreadsheet alone. Twenty-three delivered projects — designed,
+              We do not underwrite from a spreadsheet alone. Twenty-one delivered projects — designed,
               built and sold by this team — inform every basis, every programme and every schedule we
               commit to. The development practice is what de-risks the investment thesis.
             </p>

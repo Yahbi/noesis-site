@@ -49,7 +49,19 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://yahbi.github.io/noesis-site/portfolio/villa-casbah/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://yahbi.github.io/noesis-site/portfolio/casa-mani/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yahbi.github.io/noesis-site/portfolio/villa-marbella/</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -128,6 +140,24 @@
   </url>
   <url>
     <loc>https://yahbi.github.io/noesis-site/portfolio/my-genesee/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yahbi.github.io/noesis-site/portfolio/eclipse/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yahbi.github.io/noesis-site/portfolio/neo-whisper/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yahbi.github.io/noesis-site/portfolio/casa-noa/</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

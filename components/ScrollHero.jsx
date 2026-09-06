@@ -190,7 +190,7 @@ function ScrollHero({ go, setIntent }) {
               The operator <em>invests alongside you.</em>
             </p>
             <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
-              Twenty-three projects underwrite every basis, programme and schedule we
+              Twenty-one delivered projects underwrite every basis, programme and schedule we
               commit to. The development practice is what de-risks the thesis.
             </p>
           </div>

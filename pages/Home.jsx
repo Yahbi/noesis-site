@@ -20,10 +20,10 @@ const HOME_WORK = [
   [SHOT.casablanca, "casablanca-homes","Casablanca Homes","Los Angeles",   "Noesis development",  "Small-lot subdivision",  "", true],
 ];
 
-// Full delivered record — 17 gallery projects + 6 record-only entries.
+// Full record — 22 gallery projects + 6 record-only entries.
 const HOME_STATS = [
-  ["23", "Projects"],   // NOT "delivered": Quiet Storm is "RTIs in hand" and Neo Soul is "Permits issued / shovel-ready" per Projects.jsx — both pre-construction
-  ["16", "Private residences"],
+  ["28", "Projects"],   // NOT "delivered": 21 of the 28 are delivered; the other 7 (Quiet Storm, Neo Soul, Eclipse, Neo Whisper, Casa Noa, Casablanca, Alexandria) are pre-construction
+  ["21", "Private residences"],
   ["5", "Apartment buildings"],
   ["2", "Small-lot subdivisions"],
   ["2009", "Founded"],
