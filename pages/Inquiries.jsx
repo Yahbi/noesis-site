@@ -108,7 +108,9 @@ function InquiryForm({ intent }) {
   };
 
   if (sent) return (
-    <div className="inq-panel">
+    <div className="inq-panel" role="status" aria-live="polite"
+      ref={(el) => { if (el && !el.__focused) { el.__focused = true; el.focus(); } }}
+      tabIndex={-1} style={{ outline: "none" }}>
       <div className="eyebrow"><span className="dot" /> {sent === "endpoint" ? "Received" : "Almost there"}</div>
       <h2 className="h-2 u-mt-16">{sent === "endpoint" ? "Thank you." : "One last step."}</h2>
       {sent === "endpoint" ? (
@@ -141,12 +143,13 @@ function InquiryForm({ intent }) {
         <label htmlFor="f-company-website">Do not fill this in</label>
         <input id="f-company-website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+      <p className="form-note">Fields marked <span className="req" aria-hidden="true">*</span> are required.</p>
       <div className="form-grid">
-        <div className="field"><label htmlFor="f-name">Name</label><input id="f-name" name="name" type="text" placeholder="Your name" required /></div>
-        <div className="field"><label htmlFor="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@email.com" required /></div>
+        <div className="field"><label htmlFor="f-name">Name <span className="req" aria-hidden="true">*</span></label><input id="f-name" name="name" type="text" placeholder="Your name" required /></div>
+        <div className="field"><label htmlFor="f-email">Email <span className="req" aria-hidden="true">*</span></label><input id="f-email" name="email" type="email" placeholder="you@email.com" required /></div>
         <div className="field"><label htmlFor="f-loc">Location</label><input id="f-loc" name="location" type="text" placeholder="City / country" /></div>
         <div className="field">
-          <label htmlFor="f-role">I'm reaching out as</label>
+          <label htmlFor="f-role">I'm reaching out as <span className="req" aria-hidden="true">*</span></label>
           <select id="f-role" name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
             <option value="" disabled>Select one</option>
             <option>Investor — capital partnership</option>
@@ -155,7 +158,7 @@ function InquiryForm({ intent }) {
             <option>Other</option>
           </select>
         </div>
-        <div className="field" style={{ gridColumn: "1 / -1" }}><label htmlFor="f-msg">Message</label><textarea id="f-msg" name="message" rows="5" placeholder="Tell us about your interest in investing, or your project." required></textarea></div>
+        <div className="field" style={{ gridColumn: "1 / -1" }}><label htmlFor="f-msg">Message <span className="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" rows="5" placeholder="Tell us about your interest in investing, or your project." required></textarea></div>
       </div>
       <div role="status" aria-live="polite">
         {error && <p className="body u-mt-24" style={{ color: "var(--accent-deep)" }}>{error}</p>}

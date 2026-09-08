@@ -107,29 +107,33 @@ NOSCRIPT_NAV = [
     ("inquiries/",   "Inquiries"),
 ]
 
+# Breadcrumbs want the destination's name, not its headline. Story pages already
+# pass the project name as their heading and fall through to it.
+CRUMB = {p: n for p, n in NOSCRIPT_NAV if p}
+
 ROUTES = [
     ("",             "home",        f"{FIRM} — Real Estate Development & Investment | Owner's Representation",
-     "Noesis is an international real-estate development and investment firm based in Beverly Hills. We build what we invest in — luxury residences, small-lot subdivisions and apartment buildings — and offer owner's representation to a select few owners.",
+     "An international real-estate development and investment firm in Beverly Hills. We build what we invest in, and represent owners from entitlement to delivery.",
      "We build what we invest in.",
      "An international real-estate development and investment firm — Beverly Hills, est. 2009."),
     ("development/", "development", f"Development — From Land to Landmark | {FIRM}",
-     "Noesis conceives, entitles, designs and builds its own real estate: luxury residences, small-lot subdivisions and apartment buildings — with architecture, interior design and general contracting in house.",
+     "Noesis conceives, entitles, designs and builds its own real estate — residences, small-lot subdivisions and apartment buildings, with contracting in house.",
      "From land to landmark.",
      "What we develop, the design philosophy, the craft — architecture, interior design and general contracting — and the five-gate delivery model."),
     ("investment/",  "investment",  f"Investment — Capital, Aligned | {FIRM}",
-     "Noesis originates, structures and stewards real-estate investments for an aligned network of private capital, with the operator invested alongside. Opportunistic, value-add and hybrid stabilized strategies.",
+     "Noesis originates and stewards real-estate investments for an aligned network of private capital, with the operator invested alongside. Three strategies.",
      "Capital, aligned.",
      "Three strategies — Opportunistic (2–3 years), Value-Add (7–10 years) and Hybrid Stabilized (long term) — and the principles behind them. No offer or solicitation."),
     ("portfolio/",   "properties",  f"Portfolio · The Record | {FIRM}",
-     "Twenty-eight projects by the Noesis team since 2009 — twenty-one delivered, seven in development — across luxury residences, apartment buildings and small-lot subdivisions in Los Angeles, Beverly Hills, Tel Aviv, Joshua Tree and Miami Beach.",
+     "Twenty-eight projects since 2009, twenty-one of them delivered — residences, apartment buildings and subdivisions in Los Angeles, Tel Aviv and Miami Beach.",
      "The delivered record.",
      "Twenty-eight projects: 21 private residences, 5 apartment buildings and 2 small-lot subdivisions — twenty-one of them delivered."),
     ("owners-rep/",  "owners-rep",  f"Owner's Representation & Project Management | {FIRM}",
-     "Noesis Group handles every aspect of your construction project — one point of contact from site preparation through building completion, with all zoning, permitting, approvals and entitlements managed.",
+     "One point of contact from site preparation through building completion, with zoning, permitting, approvals and entitlements managed on your behalf.",
      "Our discipline, your project.",
      "Project management and owner's representation, architecture and design, interior design, general contracting, feasibility and entitlement, and consulting."),
     ("firm/",        "firm",        f"The Firm & Founder | {FIRM}",
-     "Noesis is the Greek word for understanding. A real-estate development and investment firm founded in 2009, based in Beverly Hills and working internationally. Founded by Igal N. Azran.",
+     "Noesis is the Greek word for understanding. A real-estate development and investment firm founded in Beverly Hills in 2009 by Igal N. Azran.",
      "Perception by intellect.",
      "Founded 2009 in Beverly Hills by Igal N. Azran — previously CIM Group and CBRE, MSc Real Estate."),
     ("inquiries/",   "inquiries",   f"Inquiries — Request an Introduction | {FIRM}",
@@ -137,12 +141,31 @@ ROUTES = [
      "Let's begin.",
      "8383 Wilshire Blvd, Suite 740, Beverly Hills, CA 90211 · T (310) 855-3634 · info@noesisusa.com"),
 ]
+# Every project shared one sentence with the name swapped — 22 near-duplicate
+# descriptions. The copy already written for each project is a better first
+# sentence, so use it and fall back only when a project has none.
+proj_text = dict(re.findall(r'\{\s*id:\s*"([^"]+)"[\s\S]{0,900}?text:\s*"((?:[^"\\]|\\.)*)"', proj_src))
+
+def project_desc(p, where, limit=158):
+    raw = proj_text.get(p["id"], "")
+    raw = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), raw)
+    raw = raw.replace("\\n", " ").replace('\\"', '"').replace("\\'", "'")
+    raw = re.sub(r"\s+", " ", raw).strip()
+    lead = f"{p['name']} — {where}."
+    if not raw:
+        return f"{lead} Conceived, developed and delivered by Noesis Group."
+    out = lead + " " + raw
+    if len(out) <= limit:
+        return out
+    cut = out[:limit].rsplit(" ", 1)[0].rstrip(" ,;:—-")
+    return cut + "\u2026"
+
 for p in projects:
     where = ", ".join(x for x in [p["loc"], p["year"]] if x)
     ROUTES.append((
         f"portfolio/{p['id']}/", f"story:{p['id']}",
         f"{p['name']} · Portfolio | {FIRM}",
-        f"{p['name']} — {where}. Conceived, developed and delivered by Noesis Group.",
+        project_desc(p, where),
         p["name"], where,
     ))
 
@@ -151,6 +174,10 @@ for p in projects:
 # with that project's own cover. CDN covers use fill (exact 1200x630 crop);
 # pillar pages use their local hero assets.
 gal_first = dict(re.findall(r'"([a-z0-9-]+)":\s*\["(5c383b_[^"]+)"', proj_src))       # GAL key -> first wix id
+# Galleries baked from the firm's own archive carry slugs, not wix ids. Without
+# this the sf-* projects previewed with the site default — the bug the comment
+# above claimed to have fixed, reintroduced when the portfolio was rebuilt.
+gal_first_local = dict(re.findall(r'"([a-z0-9-]+)":\s*\["(sf-[a-z]+-\d{2})"', proj_src))   # GAL key -> first local frame
 apt_first = dict(re.findall(r'(\w+):\s+\["(\w+)"', proj_src))                          # APT key -> first PHOTO key
 placeholder_src = open("components/Placeholder.jsx", encoding="utf-8").read()
 photo_map = dict(re.findall(r'(\w+):\s+"(5c383b_[^"]+)"', placeholder_src))
@@ -161,7 +188,7 @@ locally_served = set(re.findall(r'"(5c383b_[^"]+)"\s*:\s*"assets/img/', placehol
 def cdn_card(wix_id):
     return f"https://static.wixstatic.com/media/{wix_id}/v1/fill/w_1200,h_630,al_c,q_85/og.jpg"
 
-story_wid = {}
+story_wid, story_local = {}, {}
 for m in re.finditer(r'\{\s*id:\s*"([^"]+)"[^}]*?gallery:\s*(GAL\["([a-z0-9-]+)"\]|APT\.(\w+))[^}]*?(?:cover:\s*"(\w+)")?', proj_src):
     pid, _, galkey, aptkey, cover = m.group(1), m.group(2), m.group(3), m.group(4), m.group(5)
     wid = None
@@ -169,7 +196,17 @@ for m in re.finditer(r'\{\s*id:\s*"([^"]+)"[^}]*?gallery:\s*(GAL\["([a-z0-9-]+)"
     elif galkey and galkey in gal_first: wid = gal_first[galkey]
     elif aptkey and aptkey in apt_first: wid = photo_map.get(apt_first[aptkey])
     if wid: story_wid[pid] = wid
+    elif galkey and galkey in gal_first_local:
+        story_local[pid] = SITE_URL + "assets/img/" + gal_first_local[galkey] + ".jpg"
 story_cover = {pid: cdn_card(wid) for pid, wid in story_wid.items()}
+story_cover.update(story_local)
+# Small-lot entries carry an inline gallery of PHOTO keys rather than a GAL
+# reference, so neither map above reached them and they fell back to the site
+# default card.
+gal_inline = dict(re.findall(r'id:\s*"([a-z0-9-]+)"[^}]{0,500}?gallery:\s*\["(\w+)"\]', proj_src))
+for pid, key in gal_inline.items():
+    if pid not in story_cover and key in photo_map:
+        story_cover[pid] = cdn_card(photo_map[key])
 
 OG_IMAGES = {
     "development/": SITE_URL + "assets/img/dev-facade.jpg",
@@ -181,6 +218,11 @@ OG_IMAGES = {
 for pid, url in story_cover.items():
     OG_IMAGES[f"portfolio/{pid}/"] = url
 
+def _lit(text):
+    """A re.sub replacement taken literally — no backslash or \\g interpretation."""
+    return lambda _m: text
+
+
 def page(path, route, title, desc, heading, blurb):
     h = shell
     canonical = SITE_URL + path
@@ -188,15 +230,17 @@ def page(path, route, title, desc, heading, blurb):
     og = OG_IMAGES.get(path)
     if og:
         h = re.sub(r'<meta property="og:image" content=".*?">',
-                   '<meta property="og:image" content="' + html.escape(og, quote=True) + '">', h, count=1)
+                   _lit('<meta property="og:image" content="' + html.escape(og, quote=True) + '">'), h, count=1)
         h = re.sub(r'<meta name="twitter:image" content=".*?">',
-                   '<meta name="twitter:image" content="' + html.escape(og, quote=True) + '">', h, count=1)
+                   _lit('<meta name="twitter:image" content="' + html.escape(og, quote=True) + '">'), h, count=1)
+        # ...and the structured-data image, which the og rewrite had left behind.
+        h = re.sub(r'("image":\s*)"[^"]*"', lambda m: m.group(1) + json.dumps(og), h, count=1)
     # Breadcrumb trail for crawlers on every sub-page.
     if path:
         segs = [("Home", SITE_URL)]
         if path.startswith("portfolio/") and path != "portfolio/":
             segs.append(("Portfolio", SITE_URL + "portfolio/"))
-        segs.append((heading, canonical))
+        segs.append((CRUMB.get(path, heading), canonical))
         crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
                   "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u}
                                        for i, (n, u) in enumerate(segs)]}
@@ -213,17 +257,17 @@ def page(path, route, title, desc, heading, blurb):
     if hero:
         srcset = ", ".join(f"https://static.wixstatic.com/media/{hero}/v1/fit/w_{w},h_{w},al_c,q_88,enc_avif,quality_auto/{hero} {w}w" for w in (1200, 2000, 2600, 3400))
         h = h.replace("</head>", f'  <link rel="preload" as="image" imagesrcset="{srcset}" imagesizes="100vw" fetchpriority="high">\n</head>', 1)
-    h = re.sub(r"<title>.*?</title>", "<title>" + html.escape(title) + "</title>", h, count=1, flags=re.S)
+    h = re.sub(r"<title>.*?</title>", _lit("<title>" + html.escape(title) + "</title>"), h, count=1, flags=re.S)
     h = re.sub(r'<meta name="description" content=".*?">',
-               '<meta name="description" content="' + html.escape(desc, quote=True) + '">', h, count=1, flags=re.S)
+               _lit('<meta name="description" content="' + html.escape(desc, quote=True) + '">'), h, count=1, flags=re.S)
     h = re.sub(r'<meta property="og:title" content=".*?">',
-               '<meta property="og:title" content="' + html.escape(title, quote=True) + '">', h, count=1, flags=re.S)
+               _lit('<meta property="og:title" content="' + html.escape(title, quote=True) + '">'), h, count=1, flags=re.S)
     h = re.sub(r'<meta name="twitter:title" content=".*?">',
-               '<meta name="twitter:title" content="' + html.escape(title, quote=True) + '">', h, count=1, flags=re.S)
+               _lit('<meta name="twitter:title" content="' + html.escape(title, quote=True) + '">'), h, count=1, flags=re.S)
     h = re.sub(r'<meta property="og:description" content=".*?">',
-               '<meta property="og:description" content="' + html.escape(desc, quote=True) + '">', h, count=1, flags=re.S)
+               _lit('<meta property="og:description" content="' + html.escape(desc, quote=True) + '">'), h, count=1, flags=re.S)
     h = re.sub(r'<meta name="twitter:description" content=".*?">',
-               '<meta name="twitter:description" content="' + html.escape(desc, quote=True) + '">', h, count=1, flags=re.S)
+               _lit('<meta name="twitter:description" content="' + html.escape(desc, quote=True) + '">'), h, count=1, flags=re.S)
     h = h.replace('<meta property="og:url" content="' + SITE_URL + '">',
                   '<meta property="og:url" content="' + canonical + '">', 1)
     h = h.replace('<link rel="canonical" href="' + SITE_URL + '">',

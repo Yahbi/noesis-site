@@ -240,10 +240,10 @@ function Projects({ setPage, setIntent }) {
         <div className="wrap u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
           {/* Editorial tabs with a sliding bronze indicator — the same marker
               language as the nav, instead of filled pills. */}
-          <div className="ptabs" ref={tabsRef} role="tablist" aria-label="Project categories">
+          <div className="ptabs" ref={tabsRef} role="group" aria-label="Filter the record by category">
             <span className="ptabs__ind" ref={indRef} aria-hidden="true" />
             {CATEGORIES.map(c => (
-              <button key={c.key} data-k={c.key} role="tab" aria-selected={tab === c.key}
+              <button key={c.key} data-k={c.key} aria-pressed={tab === c.key}
                 onClick={() => setTab(c.key)}
                 className={`ptab ${tab === c.key ? "is-active" : ""}`}>
                 {c.label}<span className="ptab__n">{c.items.length}</span>

@@ -196,7 +196,8 @@ function Nav({ active, go, setIntent }) {
     const place = () => {
       const wrap = linksRef.current, ind = indRef.current;
       if (!wrap || !ind) return;
-      const btn = marker ? wrap.querySelector(`button[data-k="${marker}"]`) : null;
+      // The nav items are anchors now, not buttons — match on the data hook alone.
+      const btn = marker ? wrap.querySelector(`[data-k="${marker}"]`) : null;
       if (!btn || !btn.offsetWidth) { ind.style.opacity = "0"; return; }
       ind.style.opacity = "1";
       ind.style.width = btn.offsetWidth + "px";
@@ -234,8 +235,9 @@ function Nav({ active, go, setIntent }) {
               aria-current stays bound to the real route — the glide is visual. */}
           <span className="nav__ind" ref={indRef} aria-hidden="true" />
           {SECTIONS.map(([k, label]) => (
-            <button key={k} data-k={k} className={marker === k ? "is-active" : ""}
-              aria-current={active === k ? "page" : undefined} onClick={() => tap(k)}>{label}</button>
+            <a key={k} data-k={k} href={BASE + pathFor(k)} className={marker === k ? "is-active" : ""}
+              aria-current={active === k ? "page" : undefined}
+              onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; e.preventDefault(); tap(k); }}>{label}</a>
           ))}
           <button onClick={() => tapIntro("inquiries")} className="btn nav__cta">Request an Introduction</button>
         </nav>
@@ -256,10 +258,11 @@ function Nav({ active, go, setIntent }) {
       <div id="nav-drawer" className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <nav className="nav__drawer-links" aria-label="Mobile">
           {SECTIONS.map(([k, label], i) => (
-            <button key={k} className={active === k ? "is-active" : ""} aria-current={active === k ? "page" : undefined}
-              style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s" }} onClick={() => tap(k)}>
+            <a key={k} href={BASE + pathFor(k)} className={active === k ? "is-active" : ""} aria-current={active === k ? "page" : undefined}
+              style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s" }}
+              onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; e.preventDefault(); tap(k); }}>
               <span className="nav__drawer-idx">0{i + 1}</span>{label}
-            </button>
+            </a>
           ))}
         </nav>
         <div className="nav__drawer-foot">
@@ -304,7 +307,8 @@ function Footer({ go }) {
             </h2>
             <div className="u-flex u-gap-24 u-mt-40" style={{ flexWrap: "wrap" }}>
               {SECTIONS.map(([k, l]) => (
-                <button key={k} onClick={() => go(k)} className="link-u" style={{ background: "transparent", border: 0, borderBottom: "1px solid var(--rule)", color: "var(--ink-soft)", fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", padding: "0 0 3px" }}>{l}</button>
+                <a key={k} href={BASE + pathFor(k)} className="link-u" style={{ borderBottom: "1px solid var(--rule)", color: "var(--ink-soft)", fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", padding: "0 0 3px" }}
+                  onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; e.preventDefault(); go(k); }}>{l}</a>
               ))}
             </div>
           </div>

@@ -57,17 +57,31 @@ function StrategyTabs() {
   const [, name, hold, desc, points] = INV_STRATEGIES[i];
   return (
     <div className="u-mt-24">
-      <div className="ptabs" ref={tabsRef} role="tablist" aria-label="Investment strategies">
+      <div className="ptabs" ref={tabsRef} role="tablist" aria-label="Investment strategies"
+        onKeyDown={(e) => {
+          const last = INV_STRATEGIES.length - 1;
+          let next = null;
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") next = i === last ? 0 : i + 1;
+          else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = i === 0 ? last : i - 1;
+          else if (e.key === "Home") next = 0;
+          else if (e.key === "End") next = last;
+          if (next === null) return;
+          e.preventDefault(); setI(next);
+          const btn = e.currentTarget.querySelector(`[data-i="${next}"]`);
+          if (btn) btn.focus();
+        }}>
         <span className="ptabs__ind" ref={indRef} aria-hidden="true" />
         {INV_STRATEGIES.map(([n, t], k) => (
           <button key={n} data-i={k} role="tab" aria-selected={i === k}
+            id={`strat-tab-${k}`} aria-controls="strat-panel" tabIndex={i === k ? 0 : -1}
             className={`ptab ${i === k ? "is-active" : ""}`} onClick={() => setI(k)}>
             {t}<span className="ptab__n">{n}</span>
           </button>
         ))}
       </div>
 
-      <div className="strat" role="tabpanel" key={i}>
+      <div className="strat" role="tabpanel" key={i} id="strat-panel"
+        aria-labelledby={`strat-tab-${i}`} tabIndex={0}>
         <div>
           <div className="label label--accent">{hold}</div>
           <p className="body-lg u-mt-16" style={{ maxWidth: "46ch" }}>{desc}</p>

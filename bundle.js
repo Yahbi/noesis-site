@@ -1030,7 +1030,7 @@ function Nav({
       const wrap = linksRef.current,
         ind = indRef.current;
       if (!wrap || !ind) return;
-      const btn = marker ? wrap.querySelector(`button[data-k="${marker}"]`) : null;
+      const btn = marker ? wrap.querySelector(`[data-k="${marker}"]`) : null;
       if (!btn || !btn.offsetWidth) {
         ind.style.opacity = "0";
         return;
@@ -1067,12 +1067,17 @@ function Nav({
     className: "nav__ind",
     ref: indRef,
     "aria-hidden": "true"
-  }), SECTIONS.map(([k, label]) => React.createElement("button", {
+  }), SECTIONS.map(([k, label]) => React.createElement("a", {
     key: k,
     "data-k": k,
+    href: BASE + pathFor(k),
     className: marker === k ? "is-active" : "",
     "aria-current": active === k ? "page" : undefined,
-    onClick: () => tap(k)
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      tap(k);
+    }
   }, label)), React.createElement("button", {
     onClick: () => tapIntro("inquiries"),
     className: "btn nav__cta"
@@ -1093,14 +1098,19 @@ function Nav({
   }, React.createElement("nav", {
     className: "nav__drawer-links",
     "aria-label": "Mobile"
-  }, SECTIONS.map(([k, label], i) => React.createElement("button", {
+  }, SECTIONS.map(([k, label], i) => React.createElement("a", {
     key: k,
+    href: BASE + pathFor(k),
     className: active === k ? "is-active" : "",
     "aria-current": active === k ? "page" : undefined,
     style: {
       transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s"
     },
-    onClick: () => tap(k)
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      tap(k);
+    }
   }, React.createElement("span", {
     className: "nav__drawer-idx"
   }, "0", i + 1), label))), React.createElement("div", {
@@ -1182,19 +1192,22 @@ function Footer({
     style: {
       flexWrap: "wrap"
     }
-  }, SECTIONS.map(([k, l]) => React.createElement("button", {
+  }, SECTIONS.map(([k, l]) => React.createElement("a", {
     key: k,
-    onClick: () => go(k),
+    href: BASE + pathFor(k),
     className: "link-u",
     style: {
-      background: "transparent",
-      border: 0,
       borderBottom: "1px solid var(--rule)",
       color: "var(--ink-soft)",
       fontSize: 11,
       letterSpacing: ".14em",
       textTransform: "uppercase",
       padding: "0 0 3px"
+    },
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      go(k);
     }
   }, l)))), React.createElement("div", {
     className: "col-5"
@@ -2253,7 +2266,17 @@ function StrategyTabs() {
     className: "ptabs",
     ref: tabsRef,
     role: "tablist",
-    "aria-label": "Investment strategies"
+    "aria-label": "Investment strategies",
+    onKeyDown: e => {
+      const last = INV_STRATEGIES.length - 1;
+      let next = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next = i === last ? 0 : i + 1;else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = i === 0 ? last : i - 1;else if (e.key === "Home") next = 0;else if (e.key === "End") next = last;
+      if (next === null) return;
+      e.preventDefault();
+      setI(next);
+      const btn = e.currentTarget.querySelector(`[data-i="${next}"]`);
+      if (btn) btn.focus();
+    }
   }, React.createElement("span", {
     className: "ptabs__ind",
     ref: indRef,
@@ -2263,6 +2286,9 @@ function StrategyTabs() {
     "data-i": k,
     role: "tab",
     "aria-selected": i === k,
+    id: `strat-tab-${k}`,
+    "aria-controls": "strat-panel",
+    tabIndex: i === k ? 0 : -1,
     className: `ptab ${i === k ? "is-active" : ""}`,
     onClick: () => setI(k)
   }, t, React.createElement("span", {
@@ -2270,7 +2296,10 @@ function StrategyTabs() {
   }, n)))), React.createElement("div", {
     className: "strat",
     role: "tabpanel",
-    key: i
+    key: i,
+    id: "strat-panel",
+    "aria-labelledby": `strat-tab-${i}`,
+    tabIndex: 0
   }, React.createElement("div", null, React.createElement("div", {
     className: "label label--accent"
   }, hold), React.createElement("p", {
@@ -3062,7 +3091,19 @@ function InquiryForm({
     setSent("mailto");
   };
   if (sent) return React.createElement("div", {
-    className: "inq-panel"
+    className: "inq-panel",
+    role: "status",
+    "aria-live": "polite",
+    ref: el => {
+      if (el && !el.__focused) {
+        el.__focused = true;
+        el.focus();
+      }
+    },
+    tabIndex: -1,
+    style: {
+      outline: "none"
+    }
   }, React.createElement("div", {
     className: "eyebrow"
   }, React.createElement("span", {
@@ -3119,13 +3160,21 @@ function InquiryForm({
     type: "text",
     tabIndex: -1,
     autoComplete: "off"
-  })), React.createElement("div", {
+  })), React.createElement("p", {
+    className: "form-note"
+  }, "Fields marked ", React.createElement("span", {
+    className: "req",
+    "aria-hidden": "true"
+  }, "*"), " are required."), React.createElement("div", {
     className: "form-grid"
   }, React.createElement("div", {
     className: "field"
   }, React.createElement("label", {
     htmlFor: "f-name"
-  }, "Name"), React.createElement("input", {
+  }, "Name ", React.createElement("span", {
+    className: "req",
+    "aria-hidden": "true"
+  }, "*")), React.createElement("input", {
     id: "f-name",
     name: "name",
     type: "text",
@@ -3135,7 +3184,10 @@ function InquiryForm({
     className: "field"
   }, React.createElement("label", {
     htmlFor: "f-email"
-  }, "Email"), React.createElement("input", {
+  }, "Email ", React.createElement("span", {
+    className: "req",
+    "aria-hidden": "true"
+  }, "*")), React.createElement("input", {
     id: "f-email",
     name: "email",
     type: "email",
@@ -3154,7 +3206,10 @@ function InquiryForm({
     className: "field"
   }, React.createElement("label", {
     htmlFor: "f-role"
-  }, "I'm reaching out as"), React.createElement("select", {
+  }, "I'm reaching out as ", React.createElement("span", {
+    className: "req",
+    "aria-hidden": "true"
+  }, "*")), React.createElement("select", {
     id: "f-role",
     name: "role",
     value: role,
@@ -3170,7 +3225,10 @@ function InquiryForm({
     }
   }, React.createElement("label", {
     htmlFor: "f-msg"
-  }, "Message"), React.createElement("textarea", {
+  }, "Message ", React.createElement("span", {
+    className: "req",
+    "aria-hidden": "true"
+  }, "*")), React.createElement("textarea", {
     id: "f-msg",
     name: "message",
     rows: "5",
@@ -3933,8 +3991,8 @@ function Projects({
   }, React.createElement("div", {
     className: "ptabs",
     ref: tabsRef,
-    role: "tablist",
-    "aria-label": "Project categories"
+    role: "group",
+    "aria-label": "Filter the record by category"
   }, React.createElement("span", {
     className: "ptabs__ind",
     ref: indRef,
@@ -3942,8 +4000,7 @@ function Projects({
   }), CATEGORIES.map(c => React.createElement("button", {
     key: c.key,
     "data-k": c.key,
-    role: "tab",
-    "aria-selected": tab === c.key,
+    "aria-pressed": tab === c.key,
     onClick: () => setTab(c.key),
     className: `ptab ${tab === c.key ? "is-active" : ""}`
   }, c.label, React.createElement("span", {
