@@ -21,7 +21,7 @@ const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "fi
 const NAV_OFFSET = 72;
 
 const ROUTE_TITLES = {
-  home: "Noesis Group — Real Estate Development & Investment | Owner's Representation",
+  home: "Noesis Group — Real Estate Investment & Development | Owner's Representation",
   development: "Development — From Land to Landmark | Noesis Group",
   investment: "Investment — Capital, Aligned | Noesis Group",
   properties: "Portfolio · The Record | Noesis Group",

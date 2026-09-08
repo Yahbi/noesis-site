@@ -133,7 +133,7 @@ ROUTES = [
      "Our discipline, your project.",
      "Project management and owner's representation, architecture and design, interior design, general contracting, feasibility and entitlement, and consulting."),
     ("firm/",        "firm",        f"The Firm & Founder | {FIRM}",
-     "Noesis is the Greek word for understanding. A real-estate development and investment firm founded in Beverly Hills in 2009 by Igal N. Azran.",
+     "Noesis is the Greek word for understanding. A real-estate investment and development firm founded in Beverly Hills in 2009 by Igal N. Azran.",
      "Perception by intellect.",
      "Founded 2009 in Beverly Hills by Igal N. Azran — previously CIM Group and CBRE, MSc Real Estate."),
     ("inquiries/",   "inquiries",   f"Inquiries — Request an Introduction | {FIRM}",

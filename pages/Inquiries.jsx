@@ -103,6 +103,7 @@ function InquiryForm({ intent }) {
     }
     const subject = `Inquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
     const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
+    setDraft(body);
     window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent("mailto");
   };
@@ -126,10 +127,25 @@ function InquiryForm({ intent }) {
             principal directly. Nothing has been sent yet.
           </p>
           <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
-            If no mail app opened, write to{" "}
-            <a href="mailto:info@noesisusa.com" style={{ color: "var(--accent-deep)" }}>info@noesisusa.com</a>{" "}
+            If no mail app opened, copy your message below and send it to{" "}
+            <a href="mailto:info@noesisusa.com" style={{ color: "var(--accent-deep)" }}>info@noesisusa.com</a>,{" "}
             or call <a href="tel:+13108553634" style={{ color: "var(--accent-deep)" }}>(310) 855·3634</a>.
           </p>
+          <button type="button" className="btn btn--ghost u-mt-16"
+            onClick={() => {
+              const done = () => { setCopied(true); setTimeout(() => setCopied(false), 2400); };
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(draft).then(done, () => setCopied(false));
+              } else {
+                const t = document.createElement("textarea");
+                t.value = draft; t.style.position = "fixed"; t.style.opacity = "0";
+                document.body.appendChild(t); t.select();
+                try { document.execCommand("copy"); done(); } catch (err) { /* clipboard unavailable */ }
+                document.body.removeChild(t);
+              }
+            }}>
+            {copied ? "Copied to clipboard" : "Copy my message"}
+          </button>
         </>
       )}
       <button className="btn btn--ghost u-mt-40" onClick={() => setSent(false)}>Write another</button>

@@ -329,9 +329,9 @@ function Footer({ go }) {
 
         <div className="u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16, fontSize: 12, color: "var(--muted)" }}>
           <CityClocks />
-          <div className="label label--sm">© 2026 Noesis Group · All rights reserved</div>
+          <div className="label label--sm">© {new Date().getFullYear()} Noesis Group · All rights reserved</div>
           <div className="u-flex u-gap-24 label label--sm" >
-            <span title="Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.">No offer or solicitation</span>
+            <span>Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.</span>
           </div>
         </div>
       </div>

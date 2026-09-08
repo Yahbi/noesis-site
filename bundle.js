@@ -756,7 +756,7 @@ window.film = film;
 window.imgFallback = imgFallback;
 window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
-const PRACTICES = [["investment", "Investment", "Co-invested capital across opportunistic, value-add and stabilised residential strategies."], ["development", "Development", "Land taken through entitlement, design and construction by a single accountable team."], ["owners-rep", "Owner's Representation", "The same discipline applied to a project we do not own, from entitlement to handover."]];
+const PRACTICES = [["investment", "Investment", "Co-invested capital across opportunistic, value-add and stabilized residential strategies."], ["development", "Development", "Land taken through entitlement, design and construction by a single accountable team."], ["owners-rep", "Owner's Representation", "The same discipline applied to a project we do not own, from entitlement to handover."]];
 function PracticeSwitch({
   go,
   current
@@ -1256,11 +1256,9 @@ function Footer({
     }
   }, React.createElement(CityClocks, null), React.createElement("div", {
     className: "label label--sm"
-  }, "\xA9 2026 Noesis Group \xB7 All rights reserved"), React.createElement("div", {
+  }, "\xA9 ", new Date().getFullYear(), " Noesis Group \xB7 All rights reserved"), React.createElement("div", {
     className: "u-flex u-gap-24 label label--sm"
-  }, React.createElement("span", {
-    title: "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security."
-  }, "No offer or solicitation")))));
+  }, React.createElement("span", null, "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.")))));
 }
 window.Nav = Nav;
 window.Footer = Footer;
@@ -1491,7 +1489,7 @@ function ScrollHero({
     style: {
       maxWidth: "40ch"
     }
-  }, "Twenty-one delivered projects underwrite every basis, programme and schedule we commit to. The development practice is what de-risks the thesis.")), React.createElement("div", {
+  }, "Twenty-one delivered projects underwrite every basis, program and schedule we commit to. The development practice is what de-risks the thesis.")), React.createElement("div", {
     className: "shero__closeback",
     ref: closeBackRef,
     "aria-hidden": "true"
@@ -2062,7 +2060,7 @@ function Development({
     }
   }, "Contemporary in nature, with minimalist elements that provide a ", React.createElement("em", null, "warm, earthy and organic"), " sensibility."), React.createElement("p", {
     className: "body-lg u-mt-24"
-  }, "We subscribe to the notion that less is more and refrain from over-designing \u2014 we let our design and finishes speak for themselves. With a multicultural heritage \u2014 both Igal Azran, principal, and Stephanie Harroch, architect, are from Morocco \u2014 a subtle Mediterranean and Spanish influence runs through our fresh, innovative and environmentally sustainable work."), React.createElement("p", {
+  }, "We subscribe to the notion that less is more and refrain from over-designing \u2014 we let our design and finishes speak for themselves. Our principal Igal Azran and our architect Stephanie Harroch are both from Morocco, and that heritage runs through the work as a subtle Mediterranean and Spanish influence."), React.createElement("p", {
     className: "body-lg u-mt-24"
   }, "We continue to push the envelope and deliver finished projects that are bold, innovative, and rise above the rest in a competitive real estate landscape.")))), React.createElement("section", {
     className: "section",
@@ -2148,7 +2146,7 @@ function Development({
     className: "col-5"
   }, React.createElement("p", {
     className: "body-lg"
-  }, "The same disciplined path we run on our own developments \u2014 and the reason a project arrives on programme, on budget and at the standard we set for ourselves."))), React.createElement("div", {
+  }, "The same disciplined path we run on our own developments \u2014 and the reason we can hold a project to a program, a budget and a standard set before it starts."))), React.createElement("div", {
     className: "flow u-mt-64"
   }, DEV_PROCESS.map(([n, t, d]) => React.createElement("div", {
     key: n,
@@ -2177,7 +2175,7 @@ function Development({
     style: {
       maxWidth: "12ch"
     }
-  }, "Delivered, not theorised.")), React.createElement("div", {
+  }, "Delivered, not theorized.")), React.createElement("div", {
     className: "col-7 reveal"
   }, React.createElement("p", {
     className: "body-lg"
@@ -2353,7 +2351,7 @@ function Investment({
     className: "col-5"
   }, React.createElement("p", {
     className: "lede"
-  }, "We originate, structure and steward real estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside, creating an enhanced lifestyle in communities throughout California while generating value for our investors since 2009.")))), React.createElement("section", {
+  }, "Since 2009 we have originated, structured and stewarded real-estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside in every one.")))), React.createElement("section", {
     className: "section",
     style: {
       paddingTop: "clamp(28px,3.5vw,48px)",
@@ -2383,7 +2381,7 @@ function Investment({
     className: "band__t"
   }, "Real assets, in real markets."), React.createElement("p", {
     className: "body u-mt-16"
-  }, "We acquire, develop and hold residential assets across California \u2014 and bring the same owner-operator discipline to every venture we underwrite."))))), React.createElement("section", {
+  }, "We acquire, develop and hold residential assets in Los Angeles and beyond \u2014 and bring the same owner-operator discipline to every venture we underwrite."))))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12"
@@ -2438,7 +2436,7 @@ function Investment({
     style: {
       maxWidth: "42ch"
     }
-  }, "Underwriting a basis, a programme and a schedule is a different exercise when the same team will be the one to hit them."))))), React.createElement("section", {
+  }, "Underwriting a basis, a program and a schedule is a different exercise when the same team will be the one to hit them."))))), React.createElement("section", {
     className: "section section--lead",
     style: {
       borderTop: 0
@@ -2577,7 +2575,7 @@ function Investment({
     className: "col-5"
   }, React.createElement("p", {
     className: "body-lg"
-  }, "We do not underwrite from a spreadsheet alone. Twenty-one delivered projects \u2014 designed, built and sold by this team \u2014 inform every basis, every programme and every schedule we commit to. The development practice is what de-risks the investment thesis."), React.createElement("button", {
+  }, "We do not underwrite from a spreadsheet alone. Twenty-one delivered projects \u2014 designed, built and sold by this team \u2014 inform every basis, every program and every schedule we commit to. The development practice is what de-risks the investment thesis."), React.createElement("button", {
     className: "btn btn--ghost u-mt-24",
     onClick: () => go("properties"),
     "data-magnetic": true
@@ -2680,7 +2678,7 @@ const FIRM_FOUNDER = {
   prev: "Previously · CIM Group · CBRE · STMC",
   edu: "MSc · Real Estate",
   stats: [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]],
-  bio: ["Igal N. Azran founded Noesis in 2009 and has led its development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every venture.", "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Earlier, as a project manager for CBRE in Morocco, he delivered a 24-unit luxury condominium 22 days ahead of schedule and 12% under budget; in Los Angeles, he managed a $75 million construction budget for the L.A. Fashion Center, coordinating trades, architects and engineers through to completion.", "Today he originates and leads the firm's developments and investments, maintaining the relationships with domestic and international capital partners behind every venture — and personally directs its owner's-representation mandates. He holds a Master's degree in Real Estate."]
+  bio: ["Igal N. Azran founded Noesis in 2009 and has led its investment and development work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every venture.", "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Earlier, as a project manager for CBRE in Morocco, he delivered a 24-unit luxury condominium 22 days ahead of schedule and 12% under budget; in Los Angeles, he managed a $75 million construction budget for the L.A. Fashion Center, coordinating trades, architects and engineers through to completion.", "Today he originates and leads the firm's developments and investments, maintaining the relationships with domestic and international capital partners behind every venture — and personally directs its owner's-representation mandates. He holds a Master's degree in Real Estate."]
 };
 function Firm({
   go
@@ -2713,7 +2711,7 @@ function Firm({
     className: "col-5"
   }, React.createElement("p", {
     className: "lede"
-  }, "Noesis is the Greek word for understanding. We are a real-estate development and investment firm \u2014 founded in 2009, based in Beverly Hills, working internationally.")))), React.createElement("section", {
+  }, "Noesis is the Greek word for understanding. We are a real-estate investment and development firm \u2014 founded in 2009, based in Beverly Hills, working internationally.")))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12"
@@ -2907,7 +2905,7 @@ function Firm({
     }
   }, React.createElement("div", {
     className: "label"
-  }, "California BRE # 02001795 \xA0\xB7\xA0 General Contractor # 1046562")))), React.createElement("section", {
+  }, "California DRE # 02001795 \xA0\xB7\xA0 General Contractor # 1046562")))), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end reveal"
@@ -3087,6 +3085,7 @@ function InquiryForm({
     }
     const subject = `Inquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
     const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
+    setDraft(body);
     window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent("mailto");
   };
@@ -3119,17 +3118,41 @@ function InquiryForm({
     style: {
       color: "var(--muted)"
     }
-  }, "If no mail app opened, write to", " ", React.createElement("a", {
+  }, "If no mail app opened, copy your message below and send it to", " ", React.createElement("a", {
     href: "mailto:info@noesisusa.com",
     style: {
       color: "var(--accent-deep)"
     }
-  }, "info@noesisusa.com"), " ", "or call ", React.createElement("a", {
+  }, "info@noesisusa.com"), ",", " ", "or call ", React.createElement("a", {
     href: "tel:+13108553634",
     style: {
       color: "var(--accent-deep)"
     }
-  }, "(310) 855\xB73634"), ".")), React.createElement("button", {
+  }, "(310) 855\xB73634"), "."), React.createElement("button", {
+    type: "button",
+    className: "btn btn--ghost u-mt-16",
+    onClick: () => {
+      const done = () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(draft).then(done, () => setCopied(false));
+      } else {
+        const t = document.createElement("textarea");
+        t.value = draft;
+        t.style.position = "fixed";
+        t.style.opacity = "0";
+        document.body.appendChild(t);
+        t.select();
+        try {
+          document.execCommand("copy");
+          done();
+        } catch (err) {}
+        document.body.removeChild(t);
+      }
+    }
+  }, copied ? "Copied to clipboard" : "Copy my message")), React.createElement("button", {
     className: "btn btn--ghost u-mt-40",
     onClick: () => setSent(false)
   }, "Write another"));
@@ -3264,7 +3287,7 @@ function InquiryForm({
   }))));
 }
 window.Inquiries = Inquiries;
-const CAPABILITIES = [["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled and transparent, open communication throughout."], ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."], ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Every detail is planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."], ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."], ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."], ["07", "Asset & Property Management · Sales & Acquisitions", "Stewardship does not end at handover. For the buildings we deliver and hold we carry the management forward — leasing, capital improvements and property management — with sales and acquisitions when the strategy calls for it."]];
+const CAPABILITIES = [["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled, and open communication throughout."], ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."], ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Every detail is planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."], ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."], ["05", "Feasibility & Entitlement", "Site and market analysis, highest-and-best-use studies, financial modeling, and the planning, zoning and permitting strategy that determines whether — and how — a project can be built."], ["06", "Consulting", "As-needed advisory for design and construction projects — permit approvals, construction management, site visits and design questions. Consider us your advocate, with our experience and market knowledge put to work for you."], ["07", "Asset & Property Management · Sales & Acquisitions", "Stewardship does not end at handover. For the buildings we deliver and hold we carry the management forward — leasing, capital improvements and property management — with sales and acquisitions when the strategy calls for it."]];
 const OR_VALUES = [["Honesty", "We represent you, and only you. Transparent and open communication runs through the entire design and build — during site visits, contractor hiring and progress reporting."], ["Open Book", "On a daily basis we supervise the work — handling all communication, direction and supervision — and you see what we see. The details can be overwhelming; countless years of experience prepare us for whatever challenge may arise."], ["A Trustworthy Partner", "People are our best asset. Our expansive network of construction professionals and tradespeople is reputable and trustworthy — relationships earned across our own developments, put to work on yours."]];
 const OR_ENGAGE = [["01", "The Full Mandate", "One accountable representative from site preparation through building completion. We collaborate with engineers, subcontractors and construction personnel, handle all zoning, permitting, approvals, entitlements and planning issues, and supervise the build daily — communication, direction and supervision — to the owner's standard."], ["02", "As-Needed Counsel", "Not every project wants a full mandate. We guide owners through the process as questions arise — permit approvals, construction management, a site visit, a construction issue, a design decision — the same experience and market knowledge, engaged on your terms."]];
 const OR_PROOF = [["$75M", "Construction budget managed"], ["22 days", "Delivered ahead of schedule"], ["12%", "Delivered under budget"]];
@@ -3329,7 +3352,7 @@ function Approach({
       color: "var(--muted)",
       maxWidth: "52ch"
     }
-  }, "We are engaged by private owners, family offices and developers building landmark residential and commercial projects \u2014 people for whom the cost of getting it right is repaid many times over.")))), React.createElement("section", {
+  }, "We are engaged by private owners, family offices and developers building landmark residential and commercial projects \u2014 people for whom getting it right the first time is the whole point.")))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap"
@@ -3445,7 +3468,7 @@ function Approach({
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " The Record, Applied"), React.createElement("div", {
+  }), " The Principal's Record"), React.createElement("div", {
     className: "u-mt-24",
     style: {
       display: "grid",
@@ -3459,7 +3482,14 @@ function Approach({
     className: "principal__num"
   }, v), React.createElement("div", {
     className: "principal__lbl"
-  }, l))))))), React.createElement("section", {
+  }, l)))), React.createElement("p", {
+    className: "body u-mt-24",
+    style: {
+      color: "var(--muted)",
+      fontSize: 13.5,
+      maxWidth: "34ch"
+    }
+  }, "Earned by our principal before Noesis \u2014 at CBRE in Morocco and on the L.A. Fashion Center.")))), React.createElement("section", {
     className: "section",
     style: {
       borderTop: 0
@@ -3658,7 +3688,7 @@ const CATEGORIES = [{
     loc: "Beverly Grove, Los Angeles",
     year: "2022",
     gallery: GAL["villa-marbella"],
-    text: "Villa Marbella is organised around its outdoor rooms. A dark steel pergola runs the length of the rear elevation, shading a covered terrace that steps down to the pool and lawn, so the back of the house reads as one continuous living space rather than a wall with doors in it.\n\nInside, the main floor is a single open volume \u2014 kitchen, dining and living behind full-height glass. Above it a roof deck carries a fire feature and a spa, with an open view west across the neighbourhood at dusk.",
+    text: "Villa Marbella is organized around its outdoor rooms. A dark steel pergola runs the length of the rear elevation, shading a covered terrace that steps down to the pool and lawn, so the back of the house reads as one continuous living space rather than a wall with doors in it.\n\nInside, the main floor is a single open volume \u2014 kitchen, dining and living behind full-height glass. Above it a roof deck carries a fire feature and a spa, with an open view west across the neighborhood at dusk.",
     facts: [["Address", "6245 Drexel Avenue"], ["Structure", "Steel pergola + full-height glass"], ["Outdoor", "Pool, roof deck + spa"], ["Delivered", "2022"]]
   }, {
     id: "aura-house",
@@ -3688,13 +3718,13 @@ const CATEGORIES = [{
   }, {
     id: "quiet-storm",
     name: "Quiet Storm",
-    loc: "Outpost Estates, Beverly Hills",
+    loc: "Outpost Estates, Los Angeles",
     year: "2018",
     gallery: GAL["quiet-storm"],
     cover: "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg",
     rendering: true,
     text: "Once the estate of a music legend, this near-acre-and-a-half in coveted Outpost Estates was reimagined by Noesis as a two-parcel development — 2745 Outpost (33,567 sf) and 2755 Outpost (29,301 sf).\n\nTwo distinct contemporary residences, fully designed, with plans approved by the Mulholland Scenic Parkway Design Review Board and every building department — ready-to-issue permits in hand. Entitlement and delivery, de-risked.",
-    facts: [["Area", "Outpost Estates"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]]
+    facts: [["Area", "Outpost Estates, Los Angeles"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]]
   }, {
     id: "le-bijou",
     name: "Le Bijou",
@@ -3725,13 +3755,13 @@ const CATEGORIES = [{
   }, {
     id: "neo-soul",
     name: "Neo Soul Home",
-    loc: "Outpost Estates, Beverly Hills",
+    loc: "Outpost Estates, Los Angeles",
     year: "2018",
     gallery: GAL["neo-soul"],
     cover: "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg",
     rendering: true,
     text: "A shovel-ready opportunity in celebrity-studded Outpost Estates: issued permits for a new two-story, nearly 6,000-square-foot architectural residence conceived by Noesis.\n\nThe existing single-story ranch — four bedrooms across roughly 3,400 square feet — has been remodeled to immaculate condition, leaving a rare, build-ready canvas in one of Los Angeles' most coveted enclaves.",
-    facts: [["Area", "Outpost Estates"], ["Planned", "~6,000 sf"], ["Status", "Permits issued"], ["Year", "2018"]]
+    facts: [["Area", "Outpost Estates, Los Angeles"], ["Planned", "~6,000 sf"], ["Status", "Permits issued"], ["Year", "2018"]]
   }, {
     id: "29-degrees",
     name: "29 Degrees",
@@ -3756,7 +3786,7 @@ const CATEGORIES = [{
     loc: "Miami Beach, Florida",
     gallery: GAL["eclipse"],
     rendering: true,
-    text: "Eclipse is the firm\u2019s first ground-up residence on the East Coast \u2014 a new two-storey house on Biscayne Point, Miami Beach, replacing the existing residence on the lot.\n\nRoughly 3,000 square feet of enclosed area on a 60-by-150-foot waterfront parcel, with the pool, dock and seawall inside the scope of work. Construction documents are in progress.",
+    text: "Eclipse is the firm\u2019s first ground-up residence on the East Coast \u2014 a new two-story house on Biscayne Point, Miami Beach, replacing the existing residence on the lot.\n\nRoughly 3,000 square feet of enclosed area on a 60-by-150-foot waterfront parcel, with the pool, dock and seawall inside the scope of work. Construction documents are in progress.",
     facts: [["Address", "1510 Cleveland Road, Miami Beach"], ["Enclosed area", "3,017 sf"], ["Lot", "60 \u00d7 150 ft"], ["Status", "Construction documents"]]
   }, {
     id: "neo-whisper",
@@ -3772,8 +3802,8 @@ const CATEGORIES = [{
     loc: "Joshua Tree, California",
     gallery: GAL["casa-noa"],
     rendering: true,
-    text: "Casa Noa is a desert house at Joshua Tree \u2014 a single-storey courtyard plan in earth-toned masonry, held deliberately low against the landscape so the mountain line stays the horizon from every room.\n\nThe images here are design-stage studies. Revised elevations were issued in December 2025.",
-    facts: [["Address", "60633 Mountain View Trail"], ["Form", "Single-storey courtyard plan"], ["Drawings", "Revised elevations, 2025"], ["Status", "In design"]]
+    text: "Casa Noa is a desert house at Joshua Tree \u2014 a single-story courtyard plan in earth-toned masonry, held deliberately low against the landscape so the mountain line stays the horizon from every room.\n\nThe images here are design-stage studies. Revised elevations were issued in December 2025.",
+    facts: [["Address", "60633 Mountain View Trail"], ["Form", "Single-story courtyard plan"], ["Drawings", "Revised elevations, 2025"], ["Status", "In design"]]
   }]
 }, {
   key: "apt",
@@ -4100,7 +4130,7 @@ function Projects({
         className: "pcard__loc"
       }, p.loc, p.rendering && React.createElement("span", {
         className: "pcard__render"
-      }, "Rendering"))), p.year && React.createElement("div", {
+      }, "Rendering"))), p.year && !p.rendering && React.createElement("div", {
         className: "pcard__yr"
       }, p.year)))
     );
@@ -4347,6 +4377,7 @@ function outcomeFor(p) {
   };
   const sold = find("sold");
   if (sold) return sold;
+  if (p.rendering) return null;
   const status = find("status");
   if (status) return status;
   const t = (p.text || "").toLowerCase();
@@ -4466,7 +4497,9 @@ function ProjectStory({
     className: "dot"
   }), " The Project"), React.createElement("div", {
     className: "story__role u-mt-24"
-  }, "Designed, developed & delivered by Noesis")), React.createElement("div", {
+  }, p.rendering ? "Designed and developed by Noesis · in progress" : "Designed, developed & delivered by Noesis"), p.rendering && React.createElement("p", {
+    className: "story__note u-mt-16"
+  }, "The images on this page are architectural renderings. This project is not built.")), React.createElement("div", {
     className: "col-8 reveal"
   }, paras[0] && React.createElement("p", {
     className: "lede"
@@ -4753,7 +4786,7 @@ const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
 const NAV_OFFSET = 72;
 const ROUTE_TITLES = {
-  home: "Noesis Group — Real Estate Development & Investment | Owner's Representation",
+  home: "Noesis Group — Real Estate Investment & Development | Owner's Representation",
   development: "Development — From Land to Landmark | Noesis Group",
   investment: "Investment — Capital, Aligned | Noesis Group",
   properties: "Portfolio · The Record | Noesis Group",

@@ -97,9 +97,9 @@ function Development({ go }) {
             </p>
             <p className="body-lg u-mt-24">
               We subscribe to the notion that less is more and refrain from over-designing — we let our
-              design and finishes speak for themselves. With a multicultural heritage — both Igal Azran,
-              principal, and Stephanie Harroch, architect, are from Morocco — a subtle Mediterranean and
-              Spanish influence runs through our fresh, innovative and environmentally sustainable work.
+              design and finishes speak for themselves. Our principal Igal Azran and our architect Stephanie
+              Harroch are both from Morocco, and that heritage runs through the work as a subtle
+              Mediterranean and Spanish influence.
             </p>
             <p className="body-lg u-mt-24">
               We continue to push the envelope and deliver finished projects that are bold, innovative,
@@ -167,8 +167,8 @@ function Development({ go }) {
             </div>
             <div className="col-5">
               <p className="body-lg">
-                The same disciplined path we run on our own developments — and the reason a project
-                arrives on programme, on budget and at the standard we set for ourselves.
+                The same disciplined path we run on our own developments — and the reason we can hold
+                a project to a program, a budget and a standard set before it starts.
               </p>
             </div>
           </div>
@@ -189,7 +189,7 @@ function Development({ go }) {
         <div className="wrap grid-12" style={{ alignItems: "start" }}>
           <div className="col-5 reveal">
             <div className="eyebrow"><span className="dot" /> A Builder's Record</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "12ch" }}>Delivered, not theorised.</h2>
+            <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "12ch" }}>Delivered, not theorized.</h2>
           </div>
           <div className="col-7 reveal">
             <p className="body-lg">

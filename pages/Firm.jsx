@@ -29,7 +29,7 @@ const FIRM_FOUNDER = {
     ["12%", "Delivered under budget"],
   ],
   bio: [
-    "Igal N. Azran founded Noesis in 2009 and has led its development and investment work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every venture.",
+    "Igal N. Azran founded Noesis in 2009 and has led its investment and development work ever since. Born in Morocco and raised between France, Spain and Israel, he brings a genuinely international perspective — and a builder's discipline — to every venture.",
     "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Earlier, as a project manager for CBRE in Morocco, he delivered a 24-unit luxury condominium 22 days ahead of schedule and 12% under budget; in Los Angeles, he managed a $75 million construction budget for the L.A. Fashion Center, coordinating trades, architects and engineers through to completion.",
     "Today he originates and leads the firm's developments and investments, maintaining the relationships with domestic and international capital partners behind every venture — and personally directs its owner's-representation mandates. He holds a Master's degree in Real Estate.",
   ],
@@ -50,7 +50,7 @@ function Firm({ go }) {
           </div>
           <div className="col-5">
             <p className="lede">
-              Noesis is the Greek word for understanding. We are a real-estate development and investment
+              Noesis is the Greek word for understanding. We are a real-estate investment and development
               firm — founded in 2009, based in Beverly Hills, working internationally.
             </p>
           </div>
@@ -172,7 +172,7 @@ function Firm({ go }) {
           </div>
           <div className="reveal" style={{ marginTop: "clamp(28px,3.5vw,44px)", borderTop: "1px solid var(--rule)", paddingTop: 20 }}>
             <div className="label">
-              California BRE # 02001795 &nbsp;·&nbsp; General Contractor # 1046562
+              California DRE # 02001795 &nbsp;·&nbsp; General Contractor # 1046562
             </div>
           </div>
         </div>

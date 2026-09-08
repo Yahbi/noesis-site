@@ -1952,3 +1952,8 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
    as its own band rather than more of the same page. */
 .section--tint { background: var(--paper); }
 .section--tint + .section { border-top: 0; }
+
+/* Said plainly on the page a rendering-led project opens, not only on its card. */
+.story__note { font-family: var(--sans); font-size: 13.5px; line-height: 1.6;
+  color: var(--muted); max-width: 40ch; padding-left: 14px;
+  border-left: 2px solid var(--accent); }

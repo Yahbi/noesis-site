@@ -3,7 +3,7 @@
 // client's own service docs (ARCHIVES 03-DESIGN / 04-BUILD).
 
 const CAPABILITIES = [
-  ["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled and transparent, open communication throughout."],
+  ["01", "Project Management · Owner's Representation", "One point of contact from site preparation through building completion. We represent the owner and investor — suggesting the best use of land, analyzing financial decisions, and orchestrating everything from architecture to engineering, with all zoning, permitting, approvals and entitlements handled, and open communication throughout."],
   ["02", "Architecture & Design", "Innovative designs where quality, craftsmanship and functionality reign supreme. From inception we scrutinize every detail: complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies — delivered as meticulously planned blueprints our contractors delight in making real."],
   ["03", "Interior Design", "Comprehensive interior design and planning with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Every detail is planned, from interior elevations and fireplace planning to custom cabinetry and ceiling lighting, brought to life through vision boards."],
   ["04", "General Contracting", "We bring blueprints to life through a reputable, trustworthy network of construction professionals — supervising every trade daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, plaster, drywall, millwork and insulation."],
@@ -78,8 +78,8 @@ function Approach({ go, setIntent }) {
             </p>
             <p className="body u-mt-16" style={{ color: "var(--muted)", maxWidth: "52ch" }}>
               We are engaged by private owners, family offices and developers building landmark
-              residential and commercial projects — people for whom the cost of getting it right is
-              repaid many times over.
+              residential and commercial projects — people for whom getting it right the first time
+              is the whole point.
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ function Approach({ go, setIntent }) {
             </p>
           </div>
           <div className="col-4 reveal">
-            <div className="eyebrow"><span className="dot" /> The Record, Applied</div>
+            <div className="eyebrow"><span className="dot" /> The Principal's Record</div>
             <div className="u-mt-24" style={{ display: "grid", gap: 24, borderLeft: "1px solid var(--rule)", paddingLeft: "clamp(20px,2vw,32px)" }}>
               {OR_PROOF.map(([v, l]) => (
                 <div key={l}>
@@ -183,6 +183,11 @@ function Approach({ go, setIntent }) {
                 </div>
               ))}
             </div>
+            {/* Development and the Firm page both disclose that these predate
+                Noesis. This page presented them as the firm's own. */}
+            <p className="body u-mt-24" style={{ color: "var(--muted)", fontSize: 13.5, maxWidth: "34ch" }}>
+              Earned by our principal before Noesis — at CBRE in Morocco and on the L.A. Fashion Center.
+            </p>
           </div>
         </div>
       </section>

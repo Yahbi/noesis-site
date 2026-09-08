@@ -235,7 +235,7 @@ window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v
 // the same way.
 const PRACTICES = [
   ["investment", "Investment",
-   "Co-invested capital across opportunistic, value-add and stabilised residential strategies."],
+   "Co-invested capital across opportunistic, value-add and stabilized residential strategies."],
   ["development", "Development",
    "Land taken through entitlement, design and construction by a single accountable team."],
   ["owners-rep", "Owner's Representation",

@@ -115,10 +115,9 @@ function Investment({ go, setIntent }) {
           </div>
           <div className="col-5">
             <p className="lede">
-              We originate, structure and steward real estate investments for an aligned network of
-              private capital — family offices, principals and institutions — with the operator invested
-              alongside, creating an enhanced lifestyle in communities throughout California while
-              generating value for our investors since 2009.
+              Since 2009 we have originated, structured and stewarded real-estate investments for an
+              aligned network of private capital — family offices, principals and institutions — with the
+              operator invested alongside in every one.
             </p>
           </div>
         </div>
@@ -140,7 +139,7 @@ function Investment({ go, setIntent }) {
               <div className="eyebrow"><span className="dot" /> Where capital goes</div>
               <p className="band__t">Real assets, in real markets.</p>
               <p className="body u-mt-16">
-                We acquire, develop and hold residential assets across California — and bring the
+                We acquire, develop and hold residential assets in Los Angeles and beyond — and bring the
                 same owner-operator discipline to every venture we underwrite.
               </p>
             </div>
@@ -187,7 +186,7 @@ function Investment({ go, setIntent }) {
                 We invest where our <em>development edge</em> creates the value.
               </p>
               <p className="body u-mt-16" style={{ maxWidth: "42ch" }}>
-                Underwriting a basis, a programme and a schedule is a different exercise when the
+                Underwriting a basis, a program and a schedule is a different exercise when the
                 same team will be the one to hit them.
               </p>
             </div>
@@ -283,7 +282,7 @@ function Investment({ go, setIntent }) {
           <div className="col-5">
             <p className="body-lg">
               We do not underwrite from a spreadsheet alone. Twenty-one delivered projects — designed,
-              built and sold by this team — inform every basis, every programme and every schedule we
+              built and sold by this team — inform every basis, every program and every schedule we
               commit to. The development practice is what de-risks the investment thesis.
             </p>
             <button className="btn btn--ghost u-mt-24" onClick={() => go("properties")} data-magnetic>See the delivered record <span className="arr" /></button>

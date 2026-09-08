@@ -14,6 +14,10 @@ function outcomeFor(p) {
   const find = (k) => { const hit = facts.find(([kk]) => kk.toLowerCase() === k); return hit ? hit[1] : null; };
   const sold = find("sold");
   if (sold) return sold;
+  // A status is not an outcome. "Outcome — In design" read as a result on a
+  // project that has not broken ground; the status belongs in the fact list,
+  // where it already appears.
+  if (p.rendering) return null;
   const status = find("status");
   if (status) return status;
   const t = (p.text || "").toLowerCase();
@@ -86,7 +90,14 @@ function ProjectStory({ project, go }) {
         <div className="wrap grid-12" style={{ alignItems: "start" }}>
           <div className="col-4 reveal">
             <div className="eyebrow"><span className="dot" /> The Project</div>
-            <div className="story__role u-mt-24">Designed, developed &amp; delivered by Noesis</div>
+            <div className="story__role u-mt-24">
+              {p.rendering ? "Designed and developed by Noesis · in progress" : "Designed, developed & delivered by Noesis"}
+            </div>
+            {p.rendering && (
+              <p className="story__note u-mt-16">
+                The images on this page are architectural renderings. This project is not built.
+              </p>
+            )}
           </div>
           <div className="col-8 reveal">
             {paras[0] && <p className="lede">{paras[0]}</p>}
