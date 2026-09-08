@@ -792,6 +792,20 @@ function PracticeSwitch({
   })))))));
 }
 window.PracticeSwitch = PracticeSwitch;
+function wixSet(id, widths) {
+  var seen = {};
+  return (widths || [800, 1400, 2000]).map(function (w) {
+    return wix(id, {
+      w: w
+    }) + " " + w + "w";
+  }).filter(function (c) {
+    var url = c.split(" ")[0];
+    if (seen[url]) return false;
+    seen[url] = 1;
+    return true;
+  }).join(", ");
+}
+window.wixSet = wixSet;
 const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Contact"]];
 const OWNER_ROUTES = ["development", "owners-rep"];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
@@ -1338,6 +1352,36 @@ function ScrollHero({
     if (setIntent) setIntent("investor");
     go(id);
   };
+  const [allPlates, setAllPlates] = React.useState(false);
+  React.useEffect(() => {
+    if (allPlates) return;
+    let done = false,
+      backstop = 0;
+    const attach = () => {
+      if (!done) {
+        done = true;
+        setAllPlates(true);
+        cleanup();
+      }
+    };
+    const onScroll = () => {
+      if (window.scrollY > 40) attach();
+    };
+    const arm = () => {
+      backstop = setTimeout(attach, 1200);
+    };
+    function cleanup() {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("load", arm);
+      clearTimeout(backstop);
+    }
+    window.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    if (document.readyState === "complete") arm();else window.addEventListener("load", arm);
+    onScroll();
+    return cleanup;
+  }, [allPlates]);
   return React.createElement("section", {
     ref: containerRef,
     className: "shero",
@@ -1355,11 +1399,10 @@ function ScrollHero({
     className: "shero__plate",
     alt: alt,
     fetchpriority: i === 0 ? "high" : undefined,
-    loading: i < 2 ? undefined : "lazy",
     decoding: "async",
     sizes: "100vw",
-    src: `assets/img/hero-${i + 1}-2000.jpg`,
-    srcSet: `assets/img/hero-${i + 1}-1400.jpg 1400w, assets/img/hero-${i + 1}-2000.jpg 2000w, assets/img/hero-${i + 1}-2600.jpg 2600w`,
+    src: i < 2 || allPlates ? `assets/img/hero-${i + 1}-2000.jpg` : undefined,
+    srcSet: i < 2 || allPlates ? `assets/img/hero-${i + 1}-1400.jpg 1400w, assets/img/hero-${i + 1}-2000.jpg 2000w, assets/img/hero-${i + 1}-2600.jpg 2600w` : undefined,
     onError: imgFallback
   }))), React.createElement("div", {
     className: "shero__grad",
@@ -1770,10 +1813,13 @@ function Home({
   }, React.createElement("img", {
     className: "pcard__img",
     src: wix(img, {
-      w: 1300
+      w: 1400
     }),
+    srcSet: wixSet(img),
+    sizes: "(max-width: 600px) 92vw, (max-width: 1100px) 45vw, 23vw",
     alt: name,
     loading: "lazy",
+    decoding: "async",
     onError: imgFallback
   })), React.createElement("div", {
     className: "pcard__cap"
@@ -2039,9 +2085,12 @@ function Development({
       marginBottom: "clamp(36px,4.5vw,64px)"
     }
   }, React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/dev-detail.jpg",
+    src: "assets/img/dev-detail-w800.jpg",
+    srcSet: "assets/img/dev-detail-w800.jpg 800w, assets/img/dev-detail-w1400.jpg 1400w, assets/img/dev-detail.jpg 2200w",
+    sizes: "(max-width: 860px) 92vw, 52vw",
     alt: "Interior detailing \u2014 patterned tile and custom vanity",
     loading: "lazy",
+    decoding: "async",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
     src: "assets/img/city-dtla.jpg",
@@ -2441,9 +2490,12 @@ function Investment({
       overflow: "hidden"
     }
   }, React.createElement("img", {
-    src: "assets/img/inv-multifamily.jpg",
+    src: "assets/img/inv-multifamily-w1400.jpg",
+    srcSet: "assets/img/inv-multifamily-w800.jpg 800w, assets/img/inv-multifamily-w1400.jpg 1400w, assets/img/inv-multifamily.jpg 2200w",
+    sizes: "(max-width: 900px) 92vw, 55vw",
     alt: "A Noesis multifamily building, Los Angeles",
     loading: "lazy",
+    decoding: "async",
     className: "img--warm",
     style: {
       width: "100%",
@@ -2519,10 +2571,17 @@ function Investment({
     "aria-label": "Igal N. Azran \u2014 read about the firm and founder"
   }, React.createElement("img", {
     src: wix(PHOTO.igal, {
-      w: 800
+      w: 500
     }),
+    srcSet: `${wix(PHOTO.igal, {
+      w: 500
+    })} 500w, ${wix(PHOTO.igal, {
+      w: 800
+    })} 800w`,
+    sizes: "(max-width: 860px) 60vw, 24vw",
     alt: "Igal N. Azran, Founder & CEO",
     loading: "lazy",
+    decoding: "async",
     onError: imgFallback
   })), React.createElement("div", {
     className: "principal__body"
@@ -2678,9 +2737,12 @@ function Firm({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/firm-living.jpg",
+    src: "assets/img/firm-living-w800.jpg",
+    srcSet: "assets/img/firm-living-w800.jpg 800w, assets/img/firm-living-w1400.jpg 1400w, assets/img/firm-living.jpg 2200w",
+    sizes: "(max-width: 860px) 92vw, 38vw",
     alt: "A Noesis living room above Los Angeles",
     loading: "lazy",
+    decoding: "async",
     onError: imgFallback
   }), React.createElement("figcaption", null, "Delivered work \xB7 Los Angeles"))))), React.createElement("section", {
     className: "section"
@@ -2788,10 +2850,17 @@ function Firm({
     className: "member__img"
   }, key ? React.createElement("img", {
     src: wix(PHOTO[key], {
-      w: 700
+      w: 400
     }),
+    srcSet: `${wix(PHOTO[key], {
+      w: 400
+    })} 400w, ${wix(PHOTO[key], {
+      w: 700
+    })} 700w`,
+    sizes: "(max-width: 700px) 45vw, 17vw",
     alt: name,
     loading: "lazy",
+    decoding: "async",
     onError: imgFallback
   }) : React.createElement("span", {
     className: "member__mark",
@@ -3395,10 +3464,13 @@ function Approach({
     className: "sector__img"
   }, React.createElement("img", {
     src: wix(PHOTO[s.img], {
-      w: 1500
+      w: 800
     }),
+    srcSet: wixSet(PHOTO[s.img], [800, 1400]),
+    sizes: "(max-width: 860px) 92vw, 30vw",
     alt: s.title,
     loading: "lazy",
+    decoding: "async",
     onError: imgFallback
   }), React.createElement("div", {
     className: "sector__grad"
@@ -3720,9 +3792,12 @@ function FeatureBlock({
     }
   }, React.createElement("img", {
     src: wix(p.cover || p.gallery[0], {
-      w: 1900
+      w: 1400
     }),
+    srcSet: wixSet(p.cover || p.gallery[0]),
+    sizes: "(max-width: 860px) 100vw, 60vw",
     alt: p.name,
+    decoding: "async",
     onError: imgFallback
   }), p.gallery.length > 1 && React.createElement("div", {
     className: "pfeat__badge"
@@ -3934,10 +4009,13 @@ function Projects({
       }, React.createElement("img", {
         className: "pcard__img",
         src: wix(cover, {
-          w: 1300
+          w: 1400
         }),
+        srcSet: wixSet(cover),
+        sizes: "(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw",
         alt: p.name,
         loading: "lazy",
+        decoding: "async",
         onError: imgFallback
       }), React.createElement("div", {
         className: "pcard__over"

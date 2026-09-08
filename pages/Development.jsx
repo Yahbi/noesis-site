@@ -130,7 +130,10 @@ function Development({ go }) {
         <div className="wrap">
           <div className="pair reveal" style={{ marginBottom: "clamp(36px,4.5vw,64px)" }}>
             <figure>
-              <img src="assets/img/dev-detail.jpg" alt="Interior detailing — patterned tile and custom vanity" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/dev-detail-w800.jpg"
+                srcSet="assets/img/dev-detail-w800.jpg 800w, assets/img/dev-detail-w1400.jpg 1400w, assets/img/dev-detail.jpg 2200w"
+                sizes="(max-width: 860px) 92vw, 52vw"
+                alt="Interior detailing — patterned tile and custom vanity" loading="lazy" decoding="async" onError={imgFallback} />
               <figcaption>Interior detailing — materials sourced worldwide</figcaption>
             </figure>
             <figure>

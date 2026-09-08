@@ -140,7 +140,10 @@ function FeatureBlock({ p, open, flip }) {
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
           e.preventDefault(); open(p);
         }}>
-        <img src={wix(p.cover || p.gallery[0], { w: 1900 })} alt={p.name} onError={imgFallback} />
+        <img src={wix(p.cover || p.gallery[0], { w: 1400 })}
+          srcSet={wixSet(p.cover || p.gallery[0])}
+          sizes="(max-width: 860px) 100vw, 60vw"
+          alt={p.name} decoding="async" onError={imgFallback} />
         {p.gallery.length > 1 && <div className="pfeat__badge">{p.gallery.length} Photos</div>}
         {p.rendering && <div className="pfeat__badge pfeat__badge--render">Architectural rendering</div>}
       </a>
@@ -286,7 +289,10 @@ function Projects({ setPage, setIntent }) {
                     e.preventDefault(); openStory(p);
                   }}>
                   <div className="pcard__media">
-                    <img className="pcard__img" src={wix(cover, { w: 1300 })} alt={p.name} loading="lazy" onError={imgFallback} />
+                    <img className="pcard__img" src={wix(cover, { w: 1400 })}
+                      srcSet={wixSet(cover)}
+                      sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw"
+                      alt={p.name} loading="lazy" decoding="async" onError={imgFallback} />
                     <div className="pcard__over">
                       {count > 1 && <span className="pcard__count">{count} Photos</span>}
                       <span className="pcard__cta">View Project <span className="arr" /></span>

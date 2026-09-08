@@ -226,7 +226,10 @@ function Approach({ go, setIntent }) {
           <div className="sectors sectors--3 reveal">
             {SECTORS.map((s) => (
               <article key={s.tag} className="sector">
-                <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 1500 })} alt={s.title} loading="lazy" onError={imgFallback} /><div className="sector__grad" /></div>
+                <div className="sector__img"><img src={wix(PHOTO[s.img], { w: 800 })}
+                  srcSet={wixSet(PHOTO[s.img], [800, 1400])}
+                  sizes="(max-width: 860px) 92vw, 30vw"
+                  alt={s.title} loading="lazy" decoding="async" onError={imgFallback} /><div className="sector__grad" /></div>
                 <div className="sector__body">
                   <div className="sector__tag">{s.tag}</div>
                   <div className="sector__title">{s.title}</div>

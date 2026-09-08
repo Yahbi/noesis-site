@@ -102,7 +102,10 @@ function Firm({ go }) {
               <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/firm-living.jpg" alt="A Noesis living room above Los Angeles" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/firm-living-w800.jpg"
+                srcSet="assets/img/firm-living-w800.jpg 800w, assets/img/firm-living-w1400.jpg 1400w, assets/img/firm-living.jpg 2200w"
+                sizes="(max-width: 860px) 92vw, 38vw"
+                alt="A Noesis living room above Los Angeles" loading="lazy" decoding="async" onError={imgFallback} />
               <figcaption>Delivered work · Los Angeles</figcaption>
             </figure>
           </div>
@@ -156,7 +159,10 @@ function Firm({ go }) {
               <article key={name} className="member">
                 <div className="member__img">
                   {key
-                    ? <img src={wix(PHOTO[key], { w: 700 })} alt={name} loading="lazy" onError={imgFallback} />
+                    ? <img src={wix(PHOTO[key], { w: 400 })}
+                        srcSet={`${wix(PHOTO[key], { w: 400 })} 400w, ${wix(PHOTO[key], { w: 700 })} 700w`}
+                        sizes="(max-width: 700px) 45vw, 17vw"
+                        alt={name} loading="lazy" decoding="async" onError={imgFallback} />
                     : <span className="member__mark" aria-hidden="true">{name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</span>}
                 </div>
                 <div className="member__name">{name}</div>

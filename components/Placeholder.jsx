@@ -264,3 +264,23 @@ function PracticeSwitch({ go, current }) {
 }
 
 window.PracticeSwitch = PracticeSwitch;
+
+// ── RESPONSIVE CANDIDATES ─────────────────────────────────────────────────
+// Card images carried a single src chosen at 1300px, so a 416px portfolio slot
+// downloaded a 1400px file — nine times the pixels it could show, and 4.07 MB of
+// images on one page. wix() already resolves a width to the right rung or CDN
+// derivative, so a candidate set is just that call repeated. Widths are chosen
+// to land on distinct files: the local sf-* rungs are 800 / 1400 / 2000, and the
+// ENHANCED derivatives 800 / 1400 / master.
+function wixSet(id, widths) {
+  var seen = {};
+  return (widths || [800, 1400, 2000]).map(function (w) {
+    return wix(id, { w: w }) + " " + w + "w";
+  }).filter(function (c) {
+    var url = c.split(" ")[0];
+    if (seen[url]) return false;      // two widths resolved to one file
+    seen[url] = 1; return true;
+  }).join(", ");
+}
+
+window.wixSet = wixSet;

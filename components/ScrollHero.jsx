@@ -129,6 +129,32 @@ function ScrollHero({ go, setIntent }) {
 
   const goInvestor = (id) => { if (setIntent) setIntent("investor"); go(id); };
 
+  // Plates 3-5 are not attached at first paint. All five live in the sticky
+  // stage, so all five are technically "in viewport" and loading="lazy" deferred
+  // nothing: the homepage opened with five 2000px photographs on the wire, about
+  // 3.1 MB. The scrub shows two at a time, so the rest can arrive during the
+  // first scroll. Attached on the earliest of a real scroll, idle time, or a
+  // 2.5s backstop, so a visitor who never scrolls still ends up with the full
+  // sequence ready and nothing depends on a scroll that may never come.
+  const [allPlates, setAllPlates] = React.useState(false);
+  React.useEffect(() => {
+    if (allPlates) return;
+    let done = false, backstop = 0;
+    const attach = () => { if (!done) { done = true; setAllPlates(true); cleanup(); } };
+    const onScroll = () => { if (window.scrollY > 40) attach(); };
+    const arm = () => { backstop = setTimeout(attach, 1200); };
+    function cleanup() {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("load", arm);
+      clearTimeout(backstop);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm);
+    onScroll();
+    return cleanup;
+  }, [allPlates]);
+
   return (
     <section ref={containerRef} className="shero" id="hero">
       <div className="shero__sticky">
@@ -140,11 +166,12 @@ function ScrollHero({ go, setIntent }) {
               className="shero__plate"
               alt={alt}
               fetchpriority={i === 0 ? "high" : undefined}
-              loading={i < 2 ? undefined : "lazy"}
               decoding="async"
               sizes="100vw"
-              src={`assets/img/hero-${i + 1}-2000.jpg`}
-              srcSet={`assets/img/hero-${i + 1}-1400.jpg 1400w, assets/img/hero-${i + 1}-2000.jpg 2000w, assets/img/hero-${i + 1}-2600.jpg 2600w`}
+              src={(i < 2 || allPlates) ? `assets/img/hero-${i + 1}-2000.jpg` : undefined}
+              srcSet={(i < 2 || allPlates)
+                ? `assets/img/hero-${i + 1}-1400.jpg 1400w, assets/img/hero-${i + 1}-2000.jpg 2000w, assets/img/hero-${i + 1}-2600.jpg 2600w`
+                : undefined}
               onError={imgFallback}
             />
           ))}

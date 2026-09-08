@@ -180,7 +180,10 @@ function Home({ go, setIntent }) {
                   if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
                   e.preventDefault(); go("story:" + id);
                 }}>
-                <div className="pcard__media"><img className="pcard__img" src={wix(img, { w: 1300 })} alt={name} loading="lazy" onError={imgFallback} /></div>
+                <div className="pcard__media"><img className="pcard__img" src={wix(img, { w: 1400 })}
+                  srcSet={wixSet(img)}
+                  sizes="(max-width: 600px) 92vw, (max-width: 1100px) 45vw, 23vw"
+                  alt={name} loading="lazy" decoding="async" onError={imgFallback} /></div>
                 <div className="pcard__cap">
                   <div>
                     <h3 className="pcard__name">{name}</h3>

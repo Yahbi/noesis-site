@@ -231,7 +231,10 @@ function Investment({ go, setIntent }) {
           <div className="grid-12 reveal" style={{ alignItems: "center", marginBottom: "clamp(40px,5vw,72px)" }}>
             <div className="col-7">
               <div className="thumb thumb--wide" style={{ overflow: "hidden" }}>
-                <img src="assets/img/inv-multifamily.jpg" alt="A Noesis multifamily building, Los Angeles" loading="lazy"
+                <img src="assets/img/inv-multifamily-w1400.jpg"
+                  srcSet="assets/img/inv-multifamily-w800.jpg 800w, assets/img/inv-multifamily-w1400.jpg 1400w, assets/img/inv-multifamily.jpg 2200w"
+                  sizes="(max-width: 900px) 92vw, 55vw"
+                  alt="A Noesis multifamily building, Los Angeles" loading="lazy" decoding="async"
                   className="img--warm" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={imgFallback} />
               </div>
             </div>
@@ -280,7 +283,10 @@ function Investment({ go, setIntent }) {
         <div className="wrap">
           <div className="principal principal--duo reveal" style={{ borderTop: 0, marginTop: 0, paddingTop: 0 }}>
             <button className="principal__portrait" onClick={() => go("firm")} aria-label="Igal N. Azran — read about the firm and founder">
-              <img src={wix(PHOTO.igal, { w: 800 })} alt="Igal N. Azran, Founder &amp; CEO" loading="lazy" onError={imgFallback} />
+              <img src={wix(PHOTO.igal, { w: 500 })}
+                srcSet={`${wix(PHOTO.igal, { w: 500 })} 500w, ${wix(PHOTO.igal, { w: 800 })} 800w`}
+                sizes="(max-width: 860px) 60vw, 24vw"
+                alt="Igal N. Azran, Founder &amp; CEO" loading="lazy" decoding="async" onError={imgFallback} />
             </button>
             <div className="principal__body">
               <div className="eyebrow"><span className="dot" /> The Operator</div>
