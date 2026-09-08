@@ -1847,3 +1847,80 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   padding-top: clamp(18px, 2vw, 24px);
   border-top: 1px solid var(--rule);
 }
+
+/* ── PRACTICE SWITCH ─────────────────────────────────────────────────────
+   CIM closes every platform page with "Explore Additional Platforms", so the
+   three read as one firm rather than three brochures. Ours did not cross-link
+   at all: a visitor who landed on Development had no route to Investment except
+   the nav. Two cards, always the other two practices. */
+.pswitch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
+.pswitch__card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+  text-align: left; cursor: pointer; width: 100%;
+  background: var(--paper); border: 1px solid var(--rule); border-top: 2px solid var(--accent);
+  padding: clamp(24px, 2.6vw, 38px);
+  transition: background .3s var(--ease-glide), transform .3s var(--ease-glide);
+}
+.pswitch__card:hover { background: var(--bone); transform: translateY(-2px); }
+.pswitch__t { font-family: var(--serif); font-size: clamp(22px, 2.1vw, 29px); line-height: 1.16;
+  letter-spacing: -.012em; color: var(--ink); }
+.pswitch__d { font-family: var(--sans); font-size: 15.5px; line-height: 1.62; color: var(--ink-soft); max-width: 44ch; }
+.pswitch__cta { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent-cta); margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; }
+@media (max-width: 760px) { .pswitch { grid-template-columns: 1fr; } }
+
+/* ── ACCORDION ───────────────────────────────────────────────────────────
+   Seven capabilities as seven stacked paragraphs was a long scroll for a reader
+   who wants two of them. Built on <details>, so keyboard operation, screen
+   reader semantics and find-in-page all work without a line of JavaScript. */
+.acc { border-top: 1px solid var(--rule); }
+.acc__item { border-bottom: 1px solid var(--rule); }
+.acc__head {
+  display: grid; grid-template-columns: 80px 1fr 28px; gap: 24px; align-items: baseline;
+  padding: 26px 0; cursor: pointer; list-style: none;
+  transition: padding-left .3s var(--ease-glide);
+}
+.acc__head::-webkit-details-marker { display: none; }
+.acc__item:hover .acc__head { padding-left: 8px; }
+.acc__idx { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; color: var(--accent); }
+.acc__t { font-family: var(--serif); font-size: clamp(21px, 2.05vw, 28px); line-height: 1.18;
+  letter-spacing: -.01em; color: var(--ink); }
+.acc__mk { position: relative; width: 14px; height: 14px; justify-self: end; align-self: center; }
+.acc__mk::before, .acc__mk::after {
+  content: ""; position: absolute; left: 0; top: 50%; width: 14px; height: 1px;
+  background: var(--ink-2); transition: transform .3s var(--ease-glide), opacity .3s ease;
+}
+.acc__mk::after { transform: rotate(90deg); }
+.acc__item[open] .acc__mk::after { transform: rotate(0deg); opacity: 0; }
+.acc__body { padding: 0 0 30px calc(80px + 24px); }
+.acc__body p { color: var(--ink-soft); font-size: 16px; line-height: 1.66; max-width: 62ch; }
+@media (max-width: 760px) {
+  .acc__head { grid-template-columns: 52px 1fr 20px; gap: 14px; }
+  .acc__body { padding-left: calc(52px + 14px); }
+}
+/* Height animation where the engine supports it; an instant open elsewhere. */
+@media (prefers-reduced-motion: no-preference) {
+  .acc__item::details-content { transition: block-size .34s var(--ease-glide), content-visibility .34s allow-discrete; block-size: 0; overflow: hidden; }
+  .acc__item[open]::details-content { block-size: auto; }
+}
+
+/* ── ASSET MIX ───────────────────────────────────────────────────────────
+   CIM publishes capital deployed split by product type. We cannot publish
+   returns — counsel's line — but the shape of the book is a fact the record
+   already contains, and it answers "what do you actually invest in". */
+.mix__bar { display: flex; height: 10px; overflow: hidden; border-radius: 1px; }
+.mix__seg { height: 100%; }
+.mix__seg:nth-child(1) { background: var(--accent); }
+.mix__seg:nth-child(2) { background: var(--accent-deep); opacity: .62; }
+.mix__seg:nth-child(3) { background: var(--ink-2); opacity: .42; }
+.mix__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.4vw, 34px);
+  margin-top: clamp(22px, 2.4vw, 32px); }
+.mix__pc { font-family: var(--serif); font-size: clamp(28px, 3vw, 40px); line-height: 1; color: var(--ink);
+  font-weight: 440; letter-spacing: -.02em; }
+.mix__t { font-family: var(--sans); font-size: 15px; color: var(--ink-2); margin-top: 10px; line-height: 1.4; }
+.mix__n { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-top: 6px; }
+@media (max-width: 700px) { .mix__list { grid-template-columns: 1fr; gap: 20px; } }
+
+/* Row copy tracks the body size raised to 16px in the audit pass. */
+.row__desc { font-size: 16px; }

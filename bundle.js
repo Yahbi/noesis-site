@@ -756,6 +756,42 @@ window.film = film;
 window.imgFallback = imgFallback;
 window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
+const PRACTICES = [["investment", "Investment", "Co-invested capital across opportunistic, value-add and stabilised residential strategies."], ["development", "Development", "Land taken through entitlement, design and construction by a single accountable team."], ["owners-rep", "Owner's Representation", "The same discipline applied to a project we do not own, from entitlement to handover."]];
+function PracticeSwitch({
+  go,
+  current
+}) {
+  const others = PRACTICES.filter(p => p[0] !== current);
+  return React.createElement("section", {
+    className: "section",
+    style: {
+      paddingTop: 0,
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "eyebrow reveal"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The rest of the firm"), React.createElement("div", {
+    className: "pswitch reveal u-mt-24"
+  }, others.map(([id, title, desc]) => React.createElement("button", {
+    key: id,
+    className: "pswitch__card",
+    onClick: () => go(id),
+    "aria-label": `${title} — open the page`
+  }, React.createElement("span", {
+    className: "pswitch__t"
+  }, title), React.createElement("span", {
+    className: "pswitch__d"
+  }, desc), React.createElement("span", {
+    className: "pswitch__cta"
+  }, "Explore ", React.createElement("span", {
+    className: "arr"
+  })))))));
+}
+window.PracticeSwitch = PracticeSwitch;
 const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Contact"]];
 const OWNER_ROUTES = ["development", "owners-rep"];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
@@ -2091,7 +2127,10 @@ function Development({
     className: "principal__num"
   }, v), React.createElement("div", {
     className: "principal__lbl"
-  }, l))))))), React.createElement("section", {
+  }, l))))))), React.createElement(PracticeSwitch, {
+    go: go,
+    current: "development"
+  }), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end reveal"
@@ -2123,6 +2162,7 @@ function Development({
   }, "Bring us a site")))));
 }
 window.Development = Development;
+const ASSET_MIX = [["Private residences", 21, "75%"], ["Apartment buildings", 5, "18%"], ["Small-lot subdivisions", 2, "7%"]];
 const INV_STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
 const INV_PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
 function StrategyTabs() {
@@ -2332,6 +2372,58 @@ function Investment({
   }, React.createElement("span", {
     className: "dot"
   }), " Investment Strategies"), React.createElement(StrategyTabs, null))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0,
+      paddingTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12",
+    style: {
+      alignItems: "start"
+    }
+  }, React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Book"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
+    style: {
+      maxWidth: "16ch"
+    }
+  }, "What the strategies have produced.")), React.createElement("div", {
+    className: "col-8 reveal"
+  }, React.createElement("div", {
+    className: "mix__bar",
+    role: "img",
+    "aria-label": "Asset mix by count: private residences 75 percent, apartment buildings 18 percent, small-lot subdivisions 7 percent."
+  }, ASSET_MIX.map(([t, n, pc]) => React.createElement("div", {
+    key: t,
+    className: "mix__seg",
+    style: {
+      width: pc
+    }
+  }))), React.createElement("div", {
+    className: "mix__list"
+  }, ASSET_MIX.map(([t, n, pc]) => React.createElement("div", {
+    key: t
+  }, React.createElement("div", {
+    className: "mix__pc"
+  }, pc), React.createElement("div", {
+    className: "mix__t"
+  }, t), React.createElement("div", {
+    className: "mix__n"
+  }, n, " of 28 projects")))), React.createElement("p", {
+    className: "body u-mt-24",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "64ch"
+    }
+  }, "Counted by project, not by capital. Twenty-one of the twenty-eight are delivered; the balance is in construction, permitting or design."))))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -2452,7 +2544,10 @@ function Investment({
   }, "Before Noesis, Igal was an associate at CIM Group, the Los Angeles real-estate private-equity and development firm, working on institutional investment and development transactions. Today he originates and leads the firm's developments and investments, maintaining the relationships with domestic and international capital partners behind every venture."), React.createElement("button", {
     className: "link-u principal__link",
     onClick: () => go("firm")
-  }, "The firm & founder"))))), React.createElement("section", {
+  }, "The firm & founder"))))), React.createElement(PracticeSwitch, {
+    go: go,
+    current: "investment"
+  }), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap grid-12",
@@ -3115,18 +3210,30 @@ function Approach({
     className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
-  }), " The Capabilities"), React.createElement("div", {
-    className: "rows u-mt-24"
-  }, CAPABILITIES.map(([n, t, d]) => React.createElement("div", {
+  }), " The Capabilities"), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      maxWidth: "58ch",
+      color: "var(--muted)"
+    }
+  }, "Seven disciplines, engaged as a full mandate or singly. Open the ones that apply to you."), React.createElement("div", {
+    className: "acc u-mt-24 reveal"
+  }, CAPABILITIES.map(([n, t, d], i) => React.createElement("details", {
     key: n,
-    className: "row reveal"
-  }, React.createElement("div", {
-    className: "row__idx"
-  }, n), React.createElement("div", {
-    className: "row__title"
-  }, t), React.createElement("p", {
-    className: "row__desc"
-  }, d)))))), React.createElement("section", {
+    className: "acc__item",
+    open: i === 0
+  }, React.createElement("summary", {
+    className: "acc__head"
+  }, React.createElement("span", {
+    className: "acc__idx"
+  }, n), React.createElement("span", {
+    className: "acc__t"
+  }, t), React.createElement("span", {
+    className: "acc__mk",
+    "aria-hidden": "true"
+  })), React.createElement("div", {
+    className: "acc__body"
+  }, React.createElement("p", null, d))))))), React.createElement("section", {
     className: "section",
     style: {
       paddingTop: 0,
@@ -3332,7 +3439,10 @@ function Approach({
     className: "band__t"
   }, "One accountable party, entitlement to delivery."), React.createElement("p", {
     className: "body u-mt-16"
-  }, "We represent a select number of owners and institutions on projects we do not own, applying the discipline we bring to our own developments."))))), React.createElement("section", {
+  }, "We represent a select number of owners and institutions on projects we do not own, applying the discipline we bring to our own developments."))))), React.createElement(PracticeSwitch, {
+    go: go,
+    current: "owners-rep"
+  }), React.createElement("section", {
     className: "section section--ink"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end reveal"

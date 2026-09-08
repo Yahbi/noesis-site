@@ -207,6 +207,8 @@ function Development({ go }) {
         </div>
       </section>
 
+      <PracticeSwitch go={go} current="development" />
+
       {/* CTA */}
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">

@@ -2,6 +2,14 @@
 // "Noesis - Investment Text.docx"; network language from "05 - MANAGEMENT/INVEST.docx".
 // Regulatory-safe: philosophy and approach only, no returns, no live offering implied.
 
+// Shares of the record by project count — 21 + 5 + 2 of 28. Kept beside the
+// strategies because "what do you invest in" is the question the tabs raise.
+const ASSET_MIX = [
+  ["Private residences", 21, "75%"],
+  ["Apartment buildings", 5, "18%"],
+  ["Small-lot subdivisions", 2, "7%"],
+];
+
 const INV_STRATEGIES = [
   ["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.",
     ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]],
@@ -181,6 +189,42 @@ function Investment({ go, setIntent }) {
         </div>
       </section>
 
+      {/* THE BOOK — what the strategies have actually produced.
+          CIM publishes capital deployed split by product type. We cannot publish
+          returns, so this states the one quantitative thing the record does
+          support: the shape of the book, counted from the portfolio itself. */}
+      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="grid-12" style={{ alignItems: "start" }}>
+            <div className="col-4 reveal">
+              <div className="eyebrow"><span className="dot" /> The Book</div>
+              <h2 className="h-2 u-mt-16" style={{ maxWidth: "16ch" }}>What the strategies have produced.</h2>
+            </div>
+            <div className="col-8 reveal">
+              <div className="mix__bar" role="img"
+                aria-label="Asset mix by count: private residences 75 percent, apartment buildings 18 percent, small-lot subdivisions 7 percent.">
+                {ASSET_MIX.map(([t, n, pc]) => (
+                  <div key={t} className="mix__seg" style={{ width: pc }} />
+                ))}
+              </div>
+              <div className="mix__list">
+                {ASSET_MIX.map(([t, n, pc]) => (
+                  <div key={t}>
+                    <div className="mix__pc">{pc}</div>
+                    <div className="mix__t">{t}</div>
+                    <div className="mix__n">{n} of 28 projects</div>
+                  </div>
+                ))}
+              </div>
+              <p className="body u-mt-24" style={{ color: "var(--muted)", maxWidth: "64ch" }}>
+                Counted by project, not by capital. Twenty-one of the twenty-eight are delivered; the
+                balance is in construction, permitting or design.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PRINCIPLES */}
       <section className="section">
         <div className="wrap">
@@ -255,6 +299,8 @@ function Investment({ go, setIntent }) {
           </div>
         </div>
       </section>
+
+      <PracticeSwitch go={go} current="investment" />
 
       {/* PARTNERS + REGULATORY */}
       <section className="section">

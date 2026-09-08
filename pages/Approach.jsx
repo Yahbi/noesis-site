@@ -89,13 +89,22 @@ function Approach({ go, setIntent }) {
       <section className="section section--lead">
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> The Capabilities</div>
-          <div className="rows u-mt-24">
-            {CAPABILITIES.map(([n, t, d]) => (
-              <div key={n} className="row reveal">
-                <div className="row__idx">{n}</div>
-                <div className="row__title">{t}</div>
-                <p className="row__desc">{d}</p>
-              </div>
+          <p className="body u-mt-16" style={{ maxWidth: "58ch", color: "var(--muted)" }}>
+            Seven disciplines, engaged as a full mandate or singly. Open the ones that apply to you.
+          </p>
+          {/* Seven capabilities as seven stacked paragraphs made a long scroll for
+              a reader who wants two of them. The first is open so the pattern is
+              legible; the rest are one click. */}
+          <div className="acc u-mt-24 reveal">
+            {CAPABILITIES.map(([n, t, d], i) => (
+              <details key={n} className="acc__item" open={i === 0}>
+                <summary className="acc__head">
+                  <span className="acc__idx">{n}</span>
+                  <span className="acc__t">{t}</span>
+                  <span className="acc__mk" aria-hidden="true" />
+                </summary>
+                <div className="acc__body"><p>{d}</p></div>
+              </details>
             ))}
           </div>
         </div>
@@ -252,6 +261,8 @@ function Approach({ go, setIntent }) {
           </div>
         </div>
       </section>
+
+      <PracticeSwitch go={go} current="owners-rep" />
 
       <section className="section section--ink">
         <div className="wrap grid-12 u-end reveal">

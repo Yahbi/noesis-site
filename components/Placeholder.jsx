@@ -226,3 +226,41 @@ window.PHOTO = PHOTO;
 window.__MEDIA2KEY = Object.fromEntries(Object.entries(PHOTO).map(([k, v]) => [v, k]));
 
 // (SVG architectural Placeholder component removed — it was unused; wix() + PHOTO remain.)
+
+// ── PRACTICE SWITCH ───────────────────────────────────────────────────────
+// Every CIM platform page ends with "Explore Additional Platforms". Ours ended
+// with a CTA and nothing else, so a visitor who arrived on Development from a
+// search result had no route into Investment but the nav bar. Shared here rather
+// than repeated three times so the three practices always describe each other
+// the same way.
+const PRACTICES = [
+  ["investment", "Investment",
+   "Co-invested capital across opportunistic, value-add and stabilised residential strategies."],
+  ["development", "Development",
+   "Land taken through entitlement, design and construction by a single accountable team."],
+  ["owners-rep", "Owner's Representation",
+   "The same discipline applied to a project we do not own, from entitlement to handover."],
+];
+
+function PracticeSwitch({ go, current }) {
+  const others = PRACTICES.filter((p) => p[0] !== current);
+  return (
+    <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      <div className="wrap">
+        <div className="eyebrow reveal"><span className="dot" /> The rest of the firm</div>
+        <div className="pswitch reveal u-mt-24">
+          {others.map(([id, title, desc]) => (
+            <button key={id} className="pswitch__card" onClick={() => go(id)}
+              aria-label={`${title} — open the page`}>
+              <span className="pswitch__t">{title}</span>
+              <span className="pswitch__d">{desc}</span>
+              <span className="pswitch__cta">Explore <span className="arr" /></span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+window.PracticeSwitch = PracticeSwitch;
