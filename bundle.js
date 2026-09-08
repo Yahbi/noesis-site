@@ -1445,7 +1445,7 @@ const SHOT = {
   yingYang: "ying_ext_tall",
   casablanca: "casablanca"
 };
-const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2018"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Noesis development", "Small-lot subdivision", "", true]];
+const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2017"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Noesis development", "Small-lot subdivision", "", true]];
 const HOME_STATS = [["28", "Projects"], ["21", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const HOME_PILLARS = [["01", "Development", "development", "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."], ["02", "Investment", "investment", "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."]];
 function scrubEligible() {
@@ -1780,7 +1780,9 @@ function Home({
     className: "num"
   }, v), React.createElement("div", {
     className: "statband__l"
-  }, l)))))), React.createElement("section", {
+  }, l)))), React.createElement("p", {
+    className: "statband__note reveal"
+  }, "The record counts every project Noesis has taken from land through entitlement, design and construction since 2009, together with those it holds in development today. Twenty-one are delivered. Seven are in construction, permitting or design, and are shown throughout as renderings."))), React.createElement("section", {
     id: "owners",
     className: "section",
     style: {
@@ -2280,7 +2282,7 @@ function Investment({
     style: {
       maxWidth: "26ch"
     }
-  }, "The best returns in real estate come from building the ", React.createElement("em", null, "right thing well"), ". We invest where our development edge creates the value."), React.createElement("p", {
+  }, "The best returns in real estate come from building the ", React.createElement("em", null, "right thing well"), "."), React.createElement("p", {
     className: "body-lg u-mt-24"
   }, "Back in 2009 our founder focused on single-family residences, striving to provide a distinctly unique product that would enhance the lives of those it touched while benefiting the communities around it. Today Noesis has grown that mission into various real asset types \u2014 small-lot subdivisions, apartment buildings, and other residential and commercial developments \u2014 always building a strong, resourceful and knowledgeable foundation before entering a new asset class.")))), React.createElement("section", {
     className: "section",
@@ -2308,12 +2310,17 @@ function Investment({
     className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " The Thesis"), React.createElement("p", {
+  }), " The Edge"), React.createElement("p", {
     className: "pull u-mt-16",
     style: {
       maxWidth: "22ch"
     }
-  }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value."))))), React.createElement("section", {
+  }, "We invest where our ", React.createElement("em", null, "development edge"), " creates the value."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      maxWidth: "42ch"
+    }
+  }, "Underwriting a basis, a programme and a schedule is a different exercise when the same team will be the one to hit them."))))), React.createElement("section", {
     className: "section section--lead",
     style: {
       borderTop: 0

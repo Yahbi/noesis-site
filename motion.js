@@ -165,42 +165,14 @@
   }
 
   // ── Counters ─────────────────────────────────────────────────────────────
-  function bindCounters() {
-    document.querySelectorAll(".statband .num").forEach(function (el) {
-      var raw = el.textContent.trim();
-      var m = raw.match(/^(\D*)(\d[\d,]*)(.*)$/);
-      if (!m) return;
-      var pre = m[1], num = parseInt(m[2].replace(/,/g, ""), 10), post = m[3];
-      if (isNaN(num) || num > 200) return;   // skip years like 2009
-      var truth = pre + num + post;
-
-      // Never destroy the figure for someone already looking at it. This used to
-      // zero every counter the moment it bound, so the band read "0 projects
-      // delivered" until a scroll-triggered tween counted it back up — and if that
-      // tween never ran (frozen rAF in a background tab, a ScrollTrigger refresh
-      // race, any error downstream) the zero was permanent. A wrong track record
-      // is worse than no animation.
-      var r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.9) return;   // on screen: leave it alone
-
-      var obj = { v: 0 }, restored = false;
-      var settle = function () { if (!restored) { restored = true; el.textContent = truth; } };
-      el.textContent = pre + "0" + post;
-      // Belt: whatever happens to the tween, the real figure comes back.
-      var guard = setTimeout(settle, 6000);
-      st({
-        trigger: el, start: "top 90%", once: true,
-        onEnter: function () {
-          clearTimeout(guard);
-          gsap.to(obj, {
-            v: num, duration: 1.6, ease: "power2.out",
-            onUpdate: function () { el.textContent = pre + Math.round(obj.v) + post; },
-            onComplete: settle,
-          });
-        },
-      });
-    });
-  }
+  // The record used to count up from zero on scroll. Two reasons it does not any
+  // more. First, the figure is the single most load-bearing claim on the page and
+  // the animation could only ever make it wrong — it zeroed the number on bind and
+  // depended on a tween to put it back, so a frozen rAF (background tab, preview
+  // pane, reduced-motion path) left "0 Projects" standing. Second, institutional
+  // managers publish these as plain type; CIM's own figures are static text. The
+  // numbers now render from the markup and never change.
+  function bindCounters() { /* intentionally inert — see note above */ }
 
   // ── Parallax on imagery (scale headroom prevents edge gaps) ───────────────
   function bindParallax() {
@@ -395,11 +367,31 @@
     buildScene();
   }
 
+  // Anything the motion system hid, and then never revealed, is forced back after
+  // a few seconds. The existing guards cover the cases we can name — GSAP absent,
+  // reduced motion, a backgrounded tab. This covers the ones we cannot: a
+  // ScrollTrigger refresh race, a throttled rAF, a tween that threw. Content is
+  // hidden by CSS and un-hidden by JavaScript, so any silent failure of the JS is
+  // a blank page section; the track record going blank is the worst version of
+  // that. Cheap to run once, and it only ever makes things visible.
+  function sweepStuckContent() {
+    var stuck = 0;
+    document.querySelectorAll(REVEAL_SEL).forEach(function (el) {
+      if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+        stuck++;
+      }
+    });
+    if (stuck) document.documentElement.classList.remove("motion-ready");
+  }
+
   function boot() {
     if (document.hidden) { showEverything(); killPreloader(true); }
     // Hard safety net regardless of motion state.
     setTimeout(function () { killPreloader(true); }, 6000);
     setTimeout(function () { if (document.hidden) showEverything(); }, 1200);
+    setTimeout(sweepStuckContent, 5000);
   }
 
   // Never leave content hidden when a tab is backgrounded mid-intro; re-engage

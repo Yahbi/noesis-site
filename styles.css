@@ -118,19 +118,19 @@ img.img-in { animation: img-fade .6s ease both; }
    properties; this block is what actually rendered once the cascade settled. */
 .h-display {
   font-family: var(--serif); font-weight: 420;
-  font-size: clamp(40px, 5.6vw, 88px);
-  line-height: .99; letter-spacing: -.021em;
+  font-size: clamp(38px, 4.8vw, 72px);
+  line-height: 1.0; letter-spacing: -.019em;
   font-optical-sizing: auto;
 }
 .h-1 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(31px, 3.9vw, 56px);
-  line-height: 1.0; letter-spacing: -.015em;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.04; letter-spacing: -.014em;
 }
 .h-2 {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(24px, 2.5vw, 38px);
-  line-height: 1.08; letter-spacing: -.012em;
+  font-size: clamp(23px, 2.3vw, 34px);
+  line-height: 1.1; letter-spacing: -.011em;
 }
 .h-3 {
   font-family: var(--serif); font-weight: 400;
@@ -139,12 +139,12 @@ img.img-in { animation: img-fade .6s ease both; }
 }
 .lede {
   font-family: var(--sans); font-weight: 400;
-  font-size: clamp(19px, 1.9vw, 26px);
-  line-height: 1.35; letter-spacing: -.005em;
+  font-size: clamp(18px, 1.7vw, 23px);
+  line-height: 1.4; letter-spacing: -.005em;
   color: var(--ink-soft); text-wrap: pretty; max-width: 60ch;
 }
-.body-lg { font-size: 17px; line-height: 1.66; color: var(--ink-soft); text-wrap: pretty; }
-.body { font-size: 15px; line-height: 1.68; color: var(--ink-soft); text-wrap: pretty; }
+.body-lg { font-size: 18px; line-height: 1.62; color: var(--ink-soft); text-wrap: pretty; }
+.body { font-size: 16px; line-height: 1.66; color: var(--ink-soft); text-wrap: pretty; }
 .italic { font-style: italic; }
 
 .num {
@@ -553,7 +553,7 @@ html.motion-ready .cap-grid > .cap { opacity: 0; }
 }
 
 /* QUOTE / pull statement ----------------------------------------------- */
-.pull { font-family: var(--serif); font-size: clamp(24px, 2.8vw, 38px); line-height: 1.18; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
+.pull { font-family: var(--serif); font-size: clamp(23px, 2.5vw, 34px); line-height: 1.2; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
 .pull em { color: var(--accent); font-style: italic; }
 
 /* Stat band variant for inline figures --------------------------------- */
@@ -779,7 +779,7 @@ html.cursor-down .cursor__ring { width: 24px; height: 24px; }
 .accent { color: var(--accent); }
 
 /* Section rhythm — more air */
-.section { border-top: 1px solid var(--rule); padding: clamp(74px, 8.5vw, 126px) 0; }
+.section { border-top: 1px solid var(--rule); padding: clamp(66px, 7vw, 104px) 0; }
 .section--ink { background: var(--bone-2); color: var(--ink); border-top-color: var(--rule); }
 .section--ink .lede, .section--ink .body, .section--ink .body-lg { color: var(--ink-soft); }
 
@@ -1521,7 +1521,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* 420vh was four-plus screens of scrolling before the page began. Five plates
    instead of seven, and a shorter run — the hero introduces the firm, it is not
    the site. */
-.shero { position: relative; height: 300vh; background: var(--bone); }
+.shero { position: relative; height: 200vh; background: var(--bone); }
 .shero__sticky {
   position: sticky; top: 0; height: 100vh; width: 100%;
   overflow: hidden; background: var(--bone);
@@ -1615,6 +1615,15 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 }
 @media (prefers-reduced-motion: reduce) { .ptabs__ind { transition: opacity .2s ease; } }
 @media (max-width: 560px) { .ptab { font-size: 12px; letter-spacing: .1em; } .ptabs { gap: 18px; } }
+/* Below ~720px the three categories no longer fit one line. Wrapping broke the
+   sliding indicator, which is positioned on the x axis only and stayed under the
+   first row. One scrolling row keeps it accurate and every tab reachable. */
+@media (max-width: 720px) {
+  .ptabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+           -webkit-overflow-scrolling: touch; padding-right: 28px; }
+  .ptabs::-webkit-scrollbar { display: none; }
+  .ptab { white-space: nowrap; flex: 0 0 auto; }
+}
 
 /* Renderings must never read as delivered photography. Same badge geometry as
    the photo count, differentiated by tone so the distinction is unmissable. */
@@ -1815,8 +1824,8 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   max-width: 46ch;
   border-top: 2px solid var(--accent);
 }
-.band__t { font-family: var(--serif); font-weight: 460; line-height: 1.12;
-  font-size: clamp(24px, 2.6vw, 36px); letter-spacing: -.014em; margin-top: 14px; }
+.band__t { font-family: var(--serif); font-weight: 460; line-height: 1.14;
+  font-size: clamp(23px, 2.3vw, 32px); letter-spacing: -.013em; margin-top: 14px; }
 @media (min-width: 901px) {
   .band__panel { position: absolute; left: 0; bottom: 0; transform: translateY(18%); }
   .band { padding-bottom: clamp(40px, 5vw, 80px); }
@@ -1828,3 +1837,13 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
    u-end stays correct elsewhere, where it baselines a section header with the
    CTA sitting beside it. */
 .hero-grid { align-items: start; }
+
+/* The basis line under the record. Institutional managers footnote their headline
+   figures; without it "28 Projects" reads as twenty-eight delivered buildings. */
+.statband__note {
+  font-family: var(--sans); font-size: 13.5px; line-height: 1.62;
+  color: var(--muted); max-width: 78ch;
+  margin-top: clamp(22px, 2.6vw, 34px);
+  padding-top: clamp(18px, 2vw, 24px);
+  border-top: 1px solid var(--rule);
+}

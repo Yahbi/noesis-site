@@ -133,8 +133,7 @@ function Investment({ go, setIntent }) {
           </div>
           <div className="col-8 reveal">
             <p className="pull" style={{ maxWidth: "26ch" }}>
-              The best returns in real estate come from building the <em>right thing well</em>. We invest
-              where our development edge creates the value.
+              The best returns in real estate come from building the <em>right thing well</em>.
             </p>
             <p className="body-lg u-mt-24">
               Back in 2009 our founder focused on single-family residences, striving to provide a
@@ -161,9 +160,13 @@ function Investment({ go, setIntent }) {
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>
             <div className="split__body">
-              <div className="eyebrow"><span className="dot" /> The Thesis</div>
+              <div className="eyebrow"><span className="dot" /> The Edge</div>
               <p className="pull u-mt-16" style={{ maxWidth: "22ch" }}>
                 We invest where our <em>development edge</em> creates the value.
+              </p>
+              <p className="body u-mt-16" style={{ maxWidth: "42ch" }}>
+                Underwriting a basis, a programme and a schedule is a different exercise when the
+                same team will be the one to hit them.
               </p>
             </div>
           </div>

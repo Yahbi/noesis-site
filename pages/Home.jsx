@@ -14,7 +14,7 @@ const SHOT = {
 // shows the range rather than six variations of the same house. Role, asset type,
 // place and year on each; the full record lives on Portfolio.
 const HOME_WORK = [
-  [SHOT.casaMani,   "casa-mani",       "Casa Mani",      "Beverly Hills",  "Developed & built",  "Private residence",      "2018"],
+  [SHOT.casaMani,   "casa-mani",       "Casa Mani",      "Beverly Hills",  "Developed & built",  "Private residence",      "2017"],
   [SHOT.leBijou,    "le-bijou",        "Le Bijou",       "Beverly Hills",  "Developed & built",  "Private residence",      "2015"],
   [SHOT.yingYang,   "ying-yang-lofts", "Ying Yang Lofts","Los Angeles",    "Designed & built",   "Apartment building",     "2019"],
   [SHOT.casablanca, "casablanca-homes","Casablanca Homes","Los Angeles",   "Noesis development",  "Small-lot subdivision",  "", true],
@@ -207,6 +207,16 @@ function Home({ go, setIntent }) {
               <div key={l}><div className="num">{v}</div><div className="statband__l">{l}</div></div>
             ))}
           </div>
+
+          {/* Every institutional manager states the basis of its headline figures.
+              Without this line "28 Projects" invites the reader to assume all
+              twenty-eight are standing, and seven are not. */}
+          <p className="statband__note reveal">
+            The record counts every project Noesis has taken from land through entitlement, design
+            and construction since 2009, together with those it holds in development today.
+            Twenty-one are delivered. Seven are in construction, permitting or design, and are shown
+            throughout as renderings.
+          </p>
 
         </div>
       </section>
