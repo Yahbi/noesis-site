@@ -99,8 +99,8 @@ FIRM = "Noesis Group"
 # The seven top-level destinations, linked from every page's <noscript> fallback.
 NOSCRIPT_NAV = [
     ("",             "Home"),
-    ("development/", "Development"),
     ("investment/",  "Investment"),
+    ("development/", "Development"),
     ("portfolio/",   "Portfolio"),
     ("owners-rep/",  "Owner's Representation"),
     ("firm/",        "The Firm"),
@@ -112,18 +112,18 @@ NOSCRIPT_NAV = [
 CRUMB = {p: n for p, n in NOSCRIPT_NAV if p}
 
 ROUTES = [
-    ("",             "home",        f"{FIRM} — Real Estate Development & Investment | Owner's Representation",
-     "An international real-estate development and investment firm in Beverly Hills. We build what we invest in, and represent owners from entitlement to delivery.",
+    ("",             "home",        f"{FIRM} — Real Estate Investment & Development | Owner's Representation",
+     "An international real-estate investment and development firm in Beverly Hills. We build what we invest in, and represent owners from entitlement to delivery.",
      "We build what we invest in.",
-     "An international real-estate development and investment firm — Beverly Hills, est. 2009."),
-    ("development/", "development", f"Development — From Land to Landmark | {FIRM}",
-     "Noesis conceives, entitles, designs and builds its own real estate — residences, small-lot subdivisions and apartment buildings, with contracting in house.",
-     "From land to landmark.",
-     "What we develop, the design philosophy, the craft — architecture, interior design and general contracting — and the five-gate delivery model."),
+     "An international real-estate investment and development firm — Beverly Hills, est. 2009."),
     ("investment/",  "investment",  f"Investment — Capital, Aligned | {FIRM}",
      "Noesis originates and stewards real-estate investments for an aligned network of private capital, with the operator invested alongside. Three strategies.",
      "Capital, aligned.",
      "Three strategies — Opportunistic (2–3 years), Value-Add (7–10 years) and Hybrid Stabilized (long term) — and the principles behind them. No offer or solicitation."),
+    ("development/", "development", f"Development — From Land to Landmark | {FIRM}",
+     "Noesis conceives, entitles, designs and builds its own real estate — residences, small-lot subdivisions and apartment buildings, with contracting in house.",
+     "From land to landmark.",
+     "What we develop, the design philosophy, the craft — architecture, interior design and general contracting — and the five-gate delivery model."),
     ("portfolio/",   "properties",  f"Portfolio · The Record | {FIRM}",
      "Twenty-eight projects since 2009, twenty-one of them delivered — residences, apartment buildings and subdivisions in Los Angeles, Tel Aviv and Miami Beach.",
      "The delivered record.",
@@ -300,7 +300,12 @@ for path, route, title, desc, heading, blurb in ROUTES:
         open(path + "index.html", "w", encoding="utf-8").write(out)
     else:
         open("index.html", "w", encoding="utf-8").write(out)
-        open("404.html", "w", encoding="utf-8").write(out)   # unknown paths still boot the app
+        # The 404 boots the same app, but it must not invite indexing: it
+        # carried robots "index, follow" and a canonical pointing at the home
+        # page, which is the classic soft-404 signal.
+        out404 = out.replace('<meta name="robots" content="index, follow">',
+                             '<meta name="robots" content="noindex, follow">')
+        open("404.html", "w", encoding="utf-8").write(out404)
     written.append(path or "/")
 print("pages written: %d (%s)" % (len(written), ", ".join(written[:8]) + (" …" if len(written) > 8 else "")))
 

@@ -30,10 +30,10 @@ const HOME_STATS = [
 ];
 
 const HOME_PILLARS = [
-  ["01", "Development", "development",
-    "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."],
-  ["02", "Investment", "investment",
-    "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."],
+  ["01", "Investment", "investment",
+    "We originate and steward residential investments for an aligned network of private capital, with the operator invested alongside."],
+  ["02", "Development", "development",
+    "We conceive, entitle, design and build the assets we underwrite — one integrated team from land to handover."],
 ];
 
 
@@ -119,7 +119,7 @@ function Home({ go, setIntent }) {
           <div className="grid-12 u-mt-40 u-end">
             <div className="col-6">
               <p className="lede" data-hero-fade style={{ maxWidth: "48ch" }}>
-                A Beverly Hills–based real-estate development and investment firm. We acquire, build
+                A Beverly Hills–based real-estate investment and development firm. We acquire, build
                 and hold residential assets — and represent select owners from entitlement through
                 delivery.
               </p>
@@ -127,8 +127,8 @@ function Home({ go, setIntent }) {
             <div className="col-6 u-flex u-gap-16" data-hero-fade style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
               {/* Leads with the two primary businesses. Pairing "For Investors" with
                   "For Owners & Developers" made the service line read as an equal. */}
-              <button className="btn" onClick={() => go("development")} data-magnetic>Explore Development</button>
-              <button className="btn btn--ghost" onClick={() => goInvestor("investment")} data-magnetic>Investment Approach</button>
+              <button className="btn" onClick={() => goInvestor("investment")} data-magnetic>Investment Approach</button>
+              <button className="btn btn--ghost" onClick={() => go("development")} data-magnetic>Explore Development</button>
             </div>
           </div>
         </div>
@@ -140,7 +140,7 @@ function Home({ go, setIntent }) {
           <div className="reveal" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
             <div className="eyebrow"><span className="dot" /> What We Do</div>
             <p className="wwd__lead u-mt-24" style={{ maxWidth: "22ch" }}>
-              We develop real estate — and <em>invest in what we develop.</em>
+              We invest in real estate — and <em>build what we invest in.</em>
             </p>
           </div>
 

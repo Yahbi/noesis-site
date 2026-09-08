@@ -806,7 +806,7 @@ function wixSet(id, widths) {
   }).join(", ");
 }
 window.wixSet = wixSet;
-const SECTIONS = [["development", "Development"], ["investment", "Investment"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Contact"]];
+const SECTIONS = [["investment", "Investment"], ["development", "Development"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Contact"]];
 const OWNER_ROUTES = ["development", "owners-rep"];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
 const SOCIAL_URLS = {
@@ -1442,20 +1442,20 @@ function ScrollHero({
     style: {
       maxWidth: "46ch"
     }
-  }, "A Beverly Hills\u2013based real-estate development and investment firm. We acquire, build and hold residential assets \u2014 and represent select owners from entitlement through delivery."), React.createElement("div", {
+  }, "A Beverly Hills\u2013based real-estate investment and development firm. We acquire, build and hold residential assets \u2014 and represent select owners from entitlement through delivery."), React.createElement("div", {
     className: "u-flex u-gap-16 u-mt-40 shero__rise shero__rise--4",
     style: {
       flexWrap: "wrap"
     }
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => go("development"),
-    "data-magnetic": true
-  }, "Explore Development"), React.createElement("button", {
-    className: "btn btn--ghost",
     onClick: () => goInvestor("investment"),
     "data-magnetic": true
-  }, "Investment Approach")))), React.createElement("div", {
+  }, "Investment Approach"), React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => go("development"),
+    "data-magnetic": true
+  }, "Explore Development")))), React.createElement("div", {
     className: "shero__beat shero__beat--right",
     ref: rightRef
   }, React.createElement("div", {
@@ -1539,7 +1539,7 @@ const SHOT = {
 };
 const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2017"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Noesis development", "Small-lot subdivision", "", true]];
 const HOME_STATS = [["28", "Projects"], ["21", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
-const HOME_PILLARS = [["01", "Development", "development", "We conceive, entitle, design and deliver ground-up residential projects through one integrated team."], ["02", "Investment", "investment", "We invest alongside our partners across opportunistic, value-add and stabilized residential strategies."]];
+const HOME_PILLARS = [["01", "Investment", "investment", "We originate and steward residential investments for an aligned network of private capital, with the operator invested alongside."], ["02", "Development", "development", "We conceive, entitle, design and build the assets we underwrite — one integrated team from land to handover."]];
 function scrubEligible() {
   if (typeof window === "undefined" || !window.matchMedia) return false;
   const conn = navigator.connection || {};
@@ -1730,7 +1730,7 @@ function Home({
     style: {
       maxWidth: "48ch"
     }
-  }, "A Beverly Hills\u2013based real-estate development and investment firm. We acquire, build and hold residential assets \u2014 and represent select owners from entitlement through delivery.")), React.createElement("div", {
+  }, "A Beverly Hills\u2013based real-estate investment and development firm. We acquire, build and hold residential assets \u2014 and represent select owners from entitlement through delivery.")), React.createElement("div", {
     className: "col-6 u-flex u-gap-16",
     "data-hero-fade": true,
     style: {
@@ -1739,13 +1739,13 @@ function Home({
     }
   }, React.createElement("button", {
     className: "btn",
-    onClick: () => go("development"),
-    "data-magnetic": true
-  }, "Explore Development"), React.createElement("button", {
-    className: "btn btn--ghost",
     onClick: () => goInvestor("investment"),
     "data-magnetic": true
-  }, "Investment Approach"))))), React.createElement("section", {
+  }, "Investment Approach"), React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => go("development"),
+    "data-magnetic": true
+  }, "Explore Development"))))), React.createElement("section", {
     id: "pillars",
     className: "section"
   }, React.createElement("div", {
@@ -1764,7 +1764,7 @@ function Home({
     style: {
       maxWidth: "22ch"
     }
-  }, "We develop real estate \u2014 and ", React.createElement("em", null, "invest in what we develop."))), React.createElement("div", {
+  }, "We invest in real estate \u2014 and ", React.createElement("em", null, "build what we invest in."))), React.createElement("div", {
     className: "gateway reveal",
     "data-spy": "development,investment"
   }, HOME_PILLARS.map(([n, t, route, d]) => React.createElement("button", {

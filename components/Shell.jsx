@@ -3,8 +3,8 @@
 // Multi-page: each entry is a routed view. Development + Investment lead;
 // Owner's Rep is the accessory line.
 const SECTIONS = [
-  ["development", "Development"],
   ["investment",  "Investment"],
+  ["development", "Development"],
   ["properties",  "Portfolio"],
   ["owners-rep",  "Owner's Rep"],
   ["firm",        "Firm"],
