@@ -26,10 +26,10 @@
      Token names predate the theme; used SEMANTICALLY:
        --bone = light SURFACE (linen page bg);  --ink = dark FOREGROUND (umber). */
   --bone:        #FFFFFF;
-  --paper:       #F7F7F5;
-  --paper-2:     #F1F0ED;
-  --bone-2:      #F1F0ED;
-  --bone-3:      #EAE9E6;
+  --paper:       #F4F3EF;
+  --paper-2:     #ECEBE6;
+  --bone-2:      #ECEBE6;
+  --bone-3:      #E3E2DC;
   --ink:         #232326;
   --ink-2:       #3C3C43;
   --ink-soft:    #55555C;   /* 5.25 on linen, 4.60 on #DBD2C2 */
@@ -1009,7 +1009,7 @@ html.motion-ready .manifesto .w--accent { color: inherit; }
 .pair figure { margin: 0; }
 .pair img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
   filter: var(--grade); }
-.pair figure:nth-child(2) { margin-top: clamp(36px, 7vw, 110px); }
+.pair figure:nth-child(2) { margin-top: clamp(24px, 3.6vw, 58px); }
 .pair figure:nth-child(2) img { aspect-ratio: 4/5; }
 .pair figcaption { font-family: var(--sans); font-weight: 500; font-size: 10.5px;
   letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 14px; }
@@ -1307,8 +1307,9 @@ section[id] { scroll-margin-top: 72px; }
   display: grid; place-items: center; }
 .member__img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.02); transition: filter .5s; }
 .member:hover .member__img img { filter: grayscale(0); }
-.member__mark { font-family: var(--sans); font-weight: 300; font-size: clamp(26px, 3vw, 38px);
-  letter-spacing: .04em; color: var(--accent); }
+.member__img:has(.member__mark) { background: var(--bone-3); box-shadow: inset 0 2px 0 var(--accent); }
+.member__mark { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3.4vw, 44px);
+  letter-spacing: .06em; color: var(--ink-2); opacity: .55; }
 .member__name { font-family: var(--serif); font-weight: 300; font-size: clamp(16px, 1.4vw, 19px);
   line-height: 1.2; color: var(--ink); margin-top: 14px; }
 .member__role { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
@@ -1930,3 +1931,24 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 .req { color: var(--accent-cta); font-weight: 500; }
 .form-note { font-family: var(--sans); font-size: 13px; color: var(--muted);
   margin-bottom: clamp(14px, 1.6vw, 20px); }
+
+/* ── RECORD GROUPING ─────────────────────────────────────────────────────
+   Seventeen cards in a three-column grid left two empty cells in the last row
+   and, worse, gave equal billing to a delivered house and one still in design.
+   The record now breaks in two, with the standing work first. */
+.pgroup { display: flex; align-items: baseline; gap: 16px; margin: clamp(46px, 5vw, 78px) 0 clamp(22px, 2.4vw, 32px); }
+.pgroup:first-child { margin-top: 0; }
+.pgroup__t { font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+.pgroup__n { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--accent-deep); }
+.pgroup__rule { flex: 1 1 auto; height: 1px; background: var(--rule); }
+
+/* Card captions were three competing greys at one size. Give the name the room. */
+.pcard__name { font-size: clamp(17px, 1.5vw, 20px); }
+.pcard__cap { padding-top: 16px; }
+
+/* A quiet ground used to break the longest unbroken white runs. Not a dark
+   plate — the page stays light — just enough tonal change that a section reads
+   as its own band rather than more of the same page. */
+.section--tint { background: var(--paper); }
+.section--tint + .section { border-top: 0; }

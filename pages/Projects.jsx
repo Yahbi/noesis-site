@@ -90,7 +90,7 @@ const CATEGORIES = [
     ],
   },
   {
-    key: "apt", label: "Apartment Buildings",
+    key: "apt", label: "Multi-Family",
     blurb: "Small, boutique buildings of brand-new townhouse apartments, built to the same specification as the houses — Miton Italian kitchens, Caesarstone, and private outdoor space for every unit.",
     items: [
       { id: "ying-yang-lofts", name: "Ying Yang Lofts", loc: "Los Angeles", year: "2019", gallery: APT.ying, cover: "ying_ext_tall",
@@ -274,8 +274,17 @@ function Projects({ setPage, setIntent }) {
       {/* GALLERY GRID */}
       {rest.length > 0 && <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
+          {[["Delivered", rest.filter((p) => !p.rendering)],
+            ["In development", rest.filter((p) => p.rendering)]].map(([groupLabel, group]) => (
+            group.length === 0 ? null : (
+            <React.Fragment key={groupLabel}>
+          <div className="pgroup reveal">
+            <span className="pgroup__t">{groupLabel}</span>
+            <span className="pgroup__n">{String(group.length).padStart(2, "0")}</span>
+            <span className="pgroup__rule" />
+          </div>
           <div className={`pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`}>
-            {rest.map((p) => {
+            {group.map((p) => {
               const cover = p.cover || p.gallery[0];
               const count = p.gallery.length;
               return (
@@ -312,12 +321,15 @@ function Projects({ setPage, setIntent }) {
               );
             })}
           </div>
+            </React.Fragment>
+            )
+          ))}
         </div>
       </section>}
 
       {/* Further delivered work — record-only entries from the firm's project docs
           (no photography digitized yet; facts verbatim from the completed-projects record). */}
-      {record.length > 0 && <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      {record.length > 0 && <section className="section section--tint" style={{ borderTop: 0, marginTop: "clamp(56px, 6vw, 92px)" }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Further Delivered Work · 2011 — 2017</div>
           <div className="rows u-mt-24">

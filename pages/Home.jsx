@@ -159,7 +159,7 @@ function Home({ go, setIntent }) {
       </section>
 
       {/* 3 ── SELECTED PORTFOLIO ───────────────────────────────────── */}
-      <section id="featured" className="section" data-spy="properties">
+      <section id="featured" className="section section--tint" data-spy="properties">
         <div className="wrap">
           <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,36px)" }}>
             <div className="col-8">

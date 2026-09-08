@@ -1784,7 +1784,7 @@ function Home({
     className: "arr"
   }))))))), React.createElement("section", {
     id: "featured",
-    className: "section",
+    className: "section section--tint",
     "data-spy": "properties"
   }, React.createElement("div", {
     className: "wrap"
@@ -3777,7 +3777,7 @@ const CATEGORIES = [{
   }]
 }, {
   key: "apt",
-  label: "Apartment Buildings",
+  label: "Multi-Family",
   blurb: "Small, boutique buildings of brand-new townhouse apartments, built to the same specification as the houses — Miton Italian kitchens, Caesarstone, and private outdoor space for every unit.",
   items: [{
     id: "ying-yang-lofts",
@@ -4046,9 +4046,19 @@ function Projects({
     }
   }, React.createElement("div", {
     className: "wrap"
+  }, [["Delivered", rest.filter(p => !p.rendering)], ["In development", rest.filter(p => p.rendering)]].map(([groupLabel, group]) => group.length === 0 ? null : React.createElement(React.Fragment, {
+    key: groupLabel
   }, React.createElement("div", {
+    className: "pgroup reveal"
+  }, React.createElement("span", {
+    className: "pgroup__t"
+  }, groupLabel), React.createElement("span", {
+    className: "pgroup__n"
+  }, String(group.length).padStart(2, "0")), React.createElement("span", {
+    className: "pgroup__rule"
+  })), React.createElement("div", {
     className: `pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`
-  }, rest.map(p => {
+  }, group.map(p => {
     const cover = p.cover || p.gallery[0];
     const count = p.gallery.length;
     return (React.createElement("a", {
@@ -4094,11 +4104,11 @@ function Projects({
         className: "pcard__yr"
       }, p.year)))
     );
-  })))), record.length > 0 && React.createElement("section", {
-    className: "section",
+  })))))), record.length > 0 && React.createElement("section", {
+    className: "section section--tint",
     style: {
-      paddingTop: 0,
-      borderTop: 0
+      borderTop: 0,
+      marginTop: "clamp(56px, 6vw, 92px)"
     }
   }, React.createElement("div", {
     className: "wrap"
