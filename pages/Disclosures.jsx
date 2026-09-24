@@ -56,6 +56,13 @@ const DISCLOSURES = [
     "the firm does not own, are not counted in it. Figures are stated as of " + DISCLOSURE_AS_OF +
     ", are unaudited, and are drawn from the firm's own project records."],
 
+  ["Licensing",
+    "General contracting is performed by Noesis Builders, Inc. under California State License Board " +
+    "license number 1046562, Class B, General Building. Noesis Group, LLC is a California limited " +
+    "liability company registered in 2009. Where a project requires a license Noesis Group does not " +
+    "itself hold, that work is performed by the appropriately licensed entity or by a licensed third " +
+    "party engaged for it."],
+
   ["No advice",
     "Nothing on this site is legal, tax, accounting or investment advice, and it does not take " +
     "account of any particular person's circumstances. Prospective investors should consult their " +

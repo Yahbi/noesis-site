@@ -1983,3 +1983,9 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   width: 5px; height: 1px; background: var(--accent); }
 @media (max-width: 900px) { .crit { grid-template-columns: repeat(2, 1fr); row-gap: 26px; } }
 @media (max-width: 520px) { .crit { grid-template-columns: 1fr; } }
+
+/* Three bare numbers under a founder's name read as the firm's record. These
+   were earned at other firms before Noesis existed, and the page now says so
+   where the numbers are, not only in the paragraph beside them. */
+.principal__prior { font-family: var(--sans); font-size: 12.5px; line-height: 1.5;
+  color: var(--muted); margin-top: 16px; max-width: 30ch; }

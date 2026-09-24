@@ -139,6 +139,7 @@ function Firm({ go }) {
                   </div>
                 ))}
               </div>
+              <p className="principal__prior">Earned before Noesis — at CBRE in Morocco and on the L.A. Fashion Center.</p>
             </div>
             <div className="col-7">
               <p className="lede">{FIRM_FOUNDER.bio[0]}</p>
@@ -172,7 +173,7 @@ function Firm({ go }) {
           </div>
           <div className="reveal" style={{ marginTop: "clamp(28px,3.5vw,44px)", borderTop: "1px solid var(--rule)", paddingTop: 20 }}>
             <div className="label">
-              California DRE # 02001795 &nbsp;·&nbsp; General Contractor # 1046562
+              General contracting by Noesis Builders, Inc. &nbsp;·&nbsp; California license # 1046562 (Class B)
             </div>
           </div>
         </div>
