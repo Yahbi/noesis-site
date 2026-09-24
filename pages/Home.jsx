@@ -233,6 +233,12 @@ function Home({ go, setIntent }) {
             <span className="accessory__d">For a select few owners, the same discipline applied to your project — one accountable advocate from entitlement to delivery.</span>
             <span className="accessory__cta">Our capabilities <span className="arr" /></span>
           </button>
+          <button className="accessory reveal u-mt-16" onClick={() => go("investment")}
+            aria-label="What we buy — see the acquisition criteria on the Investment page">
+            <span className="accessory__lbl">Brokers &amp; sellers — what we buy</span>
+            <span className="accessory__d">Product, activity, hold and markets, stated plainly. If a site or a building fits, we would rather hear about it early.</span>
+            <span className="accessory__cta">See the criteria <span className="arr" /></span>
+          </button>
         </div>
       </section>
       {/* 6 ── FIRM + INQUIRY ───────────────────────────────────────── */}

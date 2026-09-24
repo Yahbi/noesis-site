@@ -23,6 +23,15 @@ const INV_STRATEGIES = [
 // types and holds from the three strategies above, markets from the record.
 // Deliberately silent on cheque size and deal structure — those are Igal's to
 // state, and inventing them would be worse than omitting them.
+// Markets, with a plate each. Los Angeles reuses the Westside aerial already on
+// the site; the other two are new. All three are context, not Noesis work — the
+// captions name a place, never a project.
+const INV_GEO = [
+  ["geo-la", "city-west", "Los Angeles", "Beverly Hills, West Hollywood, the Westside — where the record was built."],
+  ["geo-desert", "geo-desert", "The California desert", "Joshua Tree and Hidden Hills, where the current pipeline sits."],
+  ["geo-miami", "geo-miami", "Miami Beach", "Biscayne Point, and the firm's first ground-up house on the East Coast."],
+];
+
 const INV_CRITERIA = [
   ["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]],
   ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]],
@@ -210,6 +219,31 @@ function Investment({ go, setIntent }) {
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Investment Strategies</div>
           <StrategyTabs />
+        </div>
+      </section>
+
+      {/* WHERE WE WORK — the geography, which had grown well past Los Angeles
+          without the site ever saying so. */}
+      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="eyebrow reveal"><span className="dot" /> Where We Work</div>
+          <h2 className="h-2 u-mt-16 reveal" style={{ maxWidth: "24ch" }}>
+            The record started in Los Angeles. It no longer ends there.
+          </h2>
+          <div className="geo reveal u-mt-40">
+            {INV_GEO.map(([key, img, place, note]) => (
+              <figure key={key} className="geo__item">
+                <img src={`assets/img/${img}-w1400.jpg`}
+                  srcSet={`assets/img/${img}-w800.jpg 800w, assets/img/${img}-w1400.jpg 1400w, assets/img/${img}.jpg 2600w`}
+                  sizes="(max-width: 860px) 92vw, 30vw"
+                  alt={place} loading="lazy" decoding="async" onError={imgFallback} />
+                <figcaption>
+                  <span className="geo__place">{place}</span>
+                  <span className="geo__note">{note}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 

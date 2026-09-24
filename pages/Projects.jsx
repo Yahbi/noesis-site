@@ -31,6 +31,18 @@ const APT = {
   genesee: ["genesee_ext_tall", "genesee_wide", "genesee_int_1", "genesee_int_2", "genesee_int_3", "genesee_int_4", "genesee_int_5", "genesee_int_6", "genesee_int_7"],
 };
 
+// The market a project files under. loc is "<neighbourhood>, <city>" for Los
+// Angeles work and "<city>, <state>" elsewhere, so a trailing state name means
+// the city sits in front of it. Keeps every row in the list a place a reader
+// recognises rather than a mix of cities and states.
+const STATES = ["California", "Florida", "Nevada", "Arizona", "Texas", "New York"];
+function marketOf(loc) {
+  const parts = String(loc || "").split(",").map(x => x.trim()).filter(Boolean);
+  if (!parts.length) return "";
+  const last = parts[parts.length - 1];
+  return STATES.indexOf(last) !== -1 ? parts[0] : last;
+}
+
 const CATEGORIES = [
   {
     key: "sfr", label: "Single Family Residences",
@@ -215,6 +227,22 @@ function Projects({ setPage, setIntent }) {
   const duo = cat.items.length <= 2;
   const rest = duo ? [] : cat.items.slice(1);
   const record = FURTHER_RECORD.filter(r => r[4] === cat.key);
+
+  // Markets, counted off the record itself. The last token of loc is the city or
+  // state; "Los Angeles" absorbs its neighbourhoods, which is how a reader
+  // thinks about them.
+  const markets = React.useMemo(() => {
+    const tally = {};
+    CATEGORIES.forEach(c => c.items.forEach(p => {
+      const key = marketOf(p.loc);
+      if (key) tally[key] = (tally[key] || 0) + 1;
+    }));
+    FURTHER_RECORD.forEach(r => {
+      const key = marketOf(r[1]);
+      if (key) tally[key] = (tally[key] || 0) + 1;
+    });
+    return Object.entries(tally).sort((a, b) => b[1] - a[1]);
+  }, []);
   const openStory = (p) => setPage("story:" + p.id);   // each card opens the immersive story
 
   return (
@@ -231,6 +259,14 @@ function Projects({ setPage, setIntent }) {
               Luxury residences and buildings conceived, developed and delivered by the Noesis
               team — the delivered proof behind what we build, what we hold, and how we manage.
             </p>
+            <div className="mkt u-mt-24">
+              <div className="label">Markets</div>
+              <ul className="mkt__list">
+                {markets.map(([name, n]) => (
+                  <li key={name}><span className="mkt__n">{name}</span><span className="mkt__c">{n}</span></li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

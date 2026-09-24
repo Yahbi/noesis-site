@@ -1989,3 +1989,25 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
    where the numbers are, not only in the paragraph beside them. */
 .principal__prior { font-family: var(--sans); font-size: 12.5px; line-height: 1.5;
   color: var(--muted); margin-top: 16px; max-width: 30ch; }
+
+/* Markets, counted off the record. The repositioning is geographic as much as
+   anything, and nothing on the portfolio said the work had left Los Angeles. */
+.mkt__list { list-style: none; margin: 12px 0 0; padding: 0;
+  border-top: 1px solid var(--rule); }
+.mkt__list li { display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--rule); }
+.mkt__n { font-family: var(--sans); font-size: 14px; color: var(--ink-2); }
+.mkt__c { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--accent-deep); }
+
+/* Where the work is. Three plates of place, not of Noesis projects — the
+   captions name a city, and the alt text does too. */
+.geo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 30px); }
+.geo__item { margin: 0; }
+.geo__item img { width: 100%; aspect-ratio: 5/3; object-fit: cover; display: block;
+  filter: var(--grade); }
+.geo__item figcaption { display: block; padding-top: 14px; border-top: 1px solid var(--rule); margin-top: 14px; }
+.geo__place { display: block; font-family: var(--serif); font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.2; color: var(--ink); }
+.geo__note { display: block; font-family: var(--sans); font-size: 13.5px; line-height: 1.55;
+  color: var(--ink-soft); margin-top: 7px; max-width: 34ch; }
+@media (max-width: 860px) { .geo { grid-template-columns: 1fr; } }

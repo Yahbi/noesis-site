@@ -1911,6 +1911,18 @@ function Home({
     className: "accessory__cta"
   }, "Our capabilities ", React.createElement("span", {
     className: "arr"
+  }))), React.createElement("button", {
+    className: "accessory reveal u-mt-16",
+    onClick: () => go("investment"),
+    "aria-label": "What we buy \u2014 see the acquisition criteria on the Investment page"
+  }, React.createElement("span", {
+    className: "accessory__lbl"
+  }, "Brokers & sellers \u2014 what we buy"), React.createElement("span", {
+    className: "accessory__d"
+  }, "Product, activity, hold and markets, stated plainly. If a site or a building fits, we would rather hear about it early."), React.createElement("span", {
+    className: "accessory__cta"
+  }, "See the criteria ", React.createElement("span", {
+    className: "arr"
   }))))), React.createElement("section", {
     className: "section section--ink",
     "data-spy": "firm"
@@ -2238,6 +2250,7 @@ function Development({
 window.Development = Development;
 const ASSET_MIX = [["Private residences", 21, "75%"], ["Apartment buildings", 5, "18%"], ["Small-lot subdivisions", 2, "7%"]];
 const INV_STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
+const INV_GEO = [["geo-la", "city-west", "Los Angeles", "Beverly Hills, West Hollywood, the Westside — where the record was built."], ["geo-desert", "geo-desert", "The California desert", "Joshua Tree and Hidden Hills, where the current pipeline sits."], ["geo-miami", "geo-miami", "Miami Beach", "Biscayne Point, and the firm's first ground-up house on the East Coast."]];
 const INV_CRITERIA = [["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]], ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]], ["Hold", ["2–3 years, for-sale exit", "7–10 years, value-add", "Long-term, stabilized"]], ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Tel Aviv"]]];
 const INV_PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
 function StrategyTabs() {
@@ -2463,6 +2476,40 @@ function Investment({
   }, React.createElement("span", {
     className: "dot"
   }), " Investment Strategies"), React.createElement(StrategyTabs, null))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0,
+      paddingTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "eyebrow reveal"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Where We Work"), React.createElement("h2", {
+    className: "h-2 u-mt-16 reveal",
+    style: {
+      maxWidth: "24ch"
+    }
+  }, "The record started in Los Angeles. It no longer ends there."), React.createElement("div", {
+    className: "geo reveal u-mt-40"
+  }, INV_GEO.map(([key, img, place, note]) => React.createElement("figure", {
+    key: key,
+    className: "geo__item"
+  }, React.createElement("img", {
+    src: `assets/img/${img}-w1400.jpg`,
+    srcSet: `assets/img/${img}-w800.jpg 800w, assets/img/${img}-w1400.jpg 1400w, assets/img/${img}.jpg 2600w`,
+    sizes: "(max-width: 860px) 92vw, 30vw",
+    alt: place,
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  }), React.createElement("figcaption", null, React.createElement("span", {
+    className: "geo__place"
+  }, place), React.createElement("span", {
+    className: "geo__note"
+  }, note))))))), React.createElement("section", {
     className: "section",
     style: {
       borderTop: 0,
@@ -3826,6 +3873,13 @@ const APT = {
   stanley: ["stanley_ext_1", "stanley_ext_2", "stanley_wide", "stanley_wide_2", "stanley_int_1", "stanley_int_2", "stanley_int_3", "stanley_int_4", "stanley_int_5"],
   genesee: ["genesee_ext_tall", "genesee_wide", "genesee_int_1", "genesee_int_2", "genesee_int_3", "genesee_int_4", "genesee_int_5", "genesee_int_6", "genesee_int_7"]
 };
+const STATES = ["California", "Florida", "Nevada", "Arizona", "Texas", "New York"];
+function marketOf(loc) {
+  const parts = String(loc || "").split(",").map(x => x.trim()).filter(Boolean);
+  if (!parts.length) return "";
+  const last = parts[parts.length - 1];
+  return STATES.indexOf(last) !== -1 ? parts[0] : last;
+}
 const CATEGORIES = [{
   key: "sfr",
   label: "Single Family Residences",
@@ -4153,6 +4207,18 @@ function Projects({
   const duo = cat.items.length <= 2;
   const rest = duo ? [] : cat.items.slice(1);
   const record = FURTHER_RECORD.filter(r => r[4] === cat.key);
+  const markets = React.useMemo(() => {
+    const tally = {};
+    CATEGORIES.forEach(c => c.items.forEach(p => {
+      const key = marketOf(p.loc);
+      if (key) tally[key] = (tally[key] || 0) + 1;
+    }));
+    FURTHER_RECORD.forEach(r => {
+      const key = marketOf(r[1]);
+      if (key) tally[key] = (tally[key] || 0) + 1;
+    });
+    return Object.entries(tally).sort((a, b) => b[1] - a[1]);
+  }, []);
   const openStory = p => setPage("story:" + p.id);
   return React.createElement("main", {
     className: "page-enter"
@@ -4177,7 +4243,19 @@ function Projects({
     className: "col-4"
   }, React.createElement("p", {
     className: "lede"
-  }, "Luxury residences and buildings conceived, developed and delivered by the Noesis team \u2014 the delivered proof behind what we build, what we hold, and how we manage.")))), React.createElement("section", {
+  }, "Luxury residences and buildings conceived, developed and delivered by the Noesis team \u2014 the delivered proof behind what we build, what we hold, and how we manage."), React.createElement("div", {
+    className: "mkt u-mt-24"
+  }, React.createElement("div", {
+    className: "label"
+  }, "Markets"), React.createElement("ul", {
+    className: "mkt__list"
+  }, markets.map(([name, n]) => React.createElement("li", {
+    key: name
+  }, React.createElement("span", {
+    className: "mkt__n"
+  }, name), React.createElement("span", {
+    className: "mkt__c"
+  }, n)))))))), React.createElement("section", {
     className: "section--tight",
     style: {
       borderTop: "1px solid var(--rule)",
