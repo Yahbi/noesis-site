@@ -96,6 +96,20 @@ for p in projects:
         seen.add(p["id"]); uniq.append(p)
 projects = uniq
 
+# The two regexes above match fields positionally, so adding a key between
+# id: and name: silently drops a project — and with it that project's page,
+# its sitemap entry and its social card. It happened once. Any drop below the
+# number of ids actually declared in the file is a parse failure, not a content
+# change, and the build must stop rather than publish a shorter portfolio.
+declared = len(set(re.findall(r'\{\s*id:\s*"([a-z0-9-]+)"', proj_src)))
+if len(projects) < declared:
+    missed = sorted(set(re.findall(r'\{\s*id:\s*"([a-z0-9-]+)"', proj_src)) - seen)
+    raise SystemExit(
+        f"build.sh: parsed {len(projects)} projects but {declared} are declared in "
+        f"pages/Projects.jsx. Unparsed: {', '.join(missed)}. The project regex matches "
+        f"id/name/loc positionally — a new key between them breaks it.")
+print(f"projects parsed: {len(projects)} of {declared} declared")
+
 FIRM = "Noesis Group"
 # The seven top-level destinations, linked from every page's <noscript> fallback.
 NOSCRIPT_NAV = [

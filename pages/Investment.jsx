@@ -19,6 +19,17 @@ const INV_STRATEGIES = [
     ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]],
 ];
 
+// What the firm buys, assembled only from what the site already states: product
+// types and holds from the three strategies above, markets from the record.
+// Deliberately silent on cheque size and deal structure — those are Igal's to
+// state, and inventing them would be worse than omitting them.
+const INV_CRITERIA = [
+  ["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]],
+  ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]],
+  ["Hold", ["2–3 years, for-sale exit", "7–10 years, value-add", "Long-term, stabilized"]],
+  ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Tel Aviv"]],
+];
+
 const INV_PRINCIPLES = [
   ["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."],
   ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."],
@@ -199,6 +210,36 @@ function Investment({ go, setIntent }) {
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Investment Strategies</div>
           <StrategyTabs />
+        </div>
+      </section>
+
+      {/* WHAT WE BUY — the criteria a broker or seller needs to self-qualify. */}
+      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="grid-12" style={{ alignItems: "start" }}>
+            <div className="col-4 reveal">
+              <div className="eyebrow"><span className="dot" /> What We Buy</div>
+              <h2 className="h-2 u-mt-16" style={{ maxWidth: "15ch" }}>The brief, stated plainly.</h2>
+              <p className="body u-mt-16" style={{ color: "var(--muted)", maxWidth: "34ch" }}>
+                If a site or a building fits this, we would rather hear about it early.
+              </p>
+              <button className="btn btn--ghost u-mt-24" onClick={inquire} data-magnetic>
+                Bring us a deal <span className="arr" />
+              </button>
+            </div>
+            <div className="col-8 reveal">
+              <div className="crit">
+                {INV_CRITERIA.map(([k, vals]) => (
+                  <div key={k} className="crit__col">
+                    <div className="label">{k}</div>
+                    <ul className="crit__list">
+                      {vals.map((v) => <li key={v}>{v}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

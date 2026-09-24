@@ -57,7 +57,7 @@ const CATEGORIES = [
       { id: "lolivier", name: "L'Olivier House", loc: "Los Angeles", year: "2015", gallery: GAL["lolivier"], cover: "5c383b_0d870af7326f4875976ceb413368be2f~mv2.jpg",
         text: "The majestic 120-year-old olive tree situated in front of the two-story L'Olivier house served as the sole inspiration for this home from start to finish.\n\nBuilt in 2015, the nearly 5,000-square-foot home features four bedrooms, 4.5 baths and an office, and maximizes natural light while keeping a luxurious, sophisticated ambiance throughout. The glamorous master is expansive, with a sitting area and oversized bath whose meticulous tilework accentuates a worldly feel, overlooking the pool and outdoor space — a testament to Noesis Group's commitment to design and detail.",
         facts: [["Size", "~5,000 sf"], ["Bedrooms", "4"], ["Baths", "4.5"], ["Built", "2015"]] },
-      { id: "quiet-storm", name: "Quiet Storm", loc: "Outpost Estates, Los Angeles", year: "2018", gallery: GAL["quiet-storm"], cover: "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg", rendering: true,
+      { id: "quiet-storm", name: "Quiet Storm", loc: "Outpost Estates, Los Angeles", year: "2018", gallery: GAL["quiet-storm"], cover: "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg", rendering: true, stage: "Permits ready",
         text: "Once the estate of a music legend, this near-acre-and-a-half in coveted Outpost Estates was reimagined by Noesis as a two-parcel development — 2745 Outpost (33,567 sf) and 2755 Outpost (29,301 sf).\n\nTwo distinct contemporary residences, fully designed, with plans approved by the Mulholland Scenic Parkway Design Review Board and every building department — ready-to-issue permits in hand. Entitlement and delivery, de-risked.",
         facts: [["Area", "Outpost Estates, Los Angeles"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]] },
       { id: "le-bijou", name: "Le Bijou", loc: "Beverly Hills", year: "2015", gallery: GAL["le-bijou"], cover: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
@@ -69,7 +69,7 @@ const CATEGORIES = [
       { id: "casa-h", name: "Casa H", loc: "West Hollywood", year: "2013", gallery: GAL["casa-h"], cover: "5c383b_6e48b6f978af4a6c852306e82defb5a2~mv2.jpg",
         text: "On the market for just three days and sold well over the asking price, Casa H broke real estate records. This approximately 4,500-square-foot, five-bedroom, 5.5-bath home stretches across an oversized 7,500-square-foot lot overlooking the Hollywood Hills.\n\nDesigned to maximize space, Casa H uses innovative cut-outs throughout for privacy and serenity, melding outdoor landscape with indoor living. The focal point is the exterior entertaining space — pool and cabana, a covered outdoor living area with double-sided fireplace, and a passageway to the lush garden and lawn.",
         facts: [["Sold", "In 3 days, over ask"], ["Size", "~4,500 sf"], ["Bedrooms", "5"], ["Baths", "5.5"]] },
-      { id: "neo-soul", name: "Neo Soul Home", loc: "Outpost Estates, Los Angeles", year: "2018", gallery: GAL["neo-soul"], cover: "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg", rendering: true,
+      { id: "neo-soul", name: "Neo Soul Home", loc: "Outpost Estates, Los Angeles", year: "2018", gallery: GAL["neo-soul"], cover: "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg", rendering: true, stage: "Permits issued",
         text: "A shovel-ready opportunity in celebrity-studded Outpost Estates: issued permits for a new two-story, nearly 6,000-square-foot architectural residence conceived by Noesis.\n\nThe existing single-story ranch — four bedrooms across roughly 3,400 square feet — has been remodeled to immaculate condition, leaving a rare, build-ready canvas in one of Los Angeles' most coveted enclaves.",
         facts: [["Area", "Outpost Estates, Los Angeles"], ["Planned", "~6,000 sf"], ["Status", "Permits issued"], ["Year", "2018"]] },
       { id: "29-degrees", name: "29 Degrees", loc: "Los Angeles", year: "2016", gallery: GAL["29degrees"], cover: "5c383b_ee09bf9ac7d344dda676920c3bd36462~mv2_d_1800_1200_s_2.jpg",
@@ -78,13 +78,13 @@ const CATEGORIES = [
       { id: "en-suite", name: "En-Suite", loc: "Los Angeles", year: "2014", gallery: GAL["en-suite"], cover: "5c383b_e660755345994c8abf6b93a1bc2b6df9~mv2.jpg",
         text: "The most alluring feature of En-Suite is the flawless organic flow of the nearly 4,000-square-foot home. Two spacious master suites with oversized, luxurious private baths balance the four-bedroom, six-bath plan, while ample natural light and outdoor living spaces marry interior and exterior.\n\nThe finest finishes and craftsmanship run throughout — clean lines, modern textures and impeccably designed built-in furniture. En-Suite is an entertainer's dream, from the artfully designed waterfall at the entrance to the pool-side patio and various terraces.",
         facts: [["Size", "~4,000 sf"], ["Bedrooms", "4"], ["Baths", "6"], ["Built", "2014"]] },
-      { id: "eclipse", name: "Eclipse", loc: "Miami Beach, Florida", gallery: GAL["eclipse"], rendering: true,
+      { id: "eclipse", name: "Eclipse", loc: "Miami Beach, Florida", gallery: GAL["eclipse"], rendering: true, stage: "Construction documents",
         text: "Eclipse is the firm\u2019s first ground-up residence on the East Coast \u2014 a new two-story house on Biscayne Point, Miami Beach, replacing the existing residence on the lot.\n\nRoughly 3,000 square feet of enclosed area on a 60-by-150-foot waterfront parcel, with the pool, dock and seawall inside the scope of work. Construction documents are in progress.",
         facts: [["Address", "1510 Cleveland Road, Miami Beach"], ["Enclosed area", "3,017 sf"], ["Lot", "60 \u00d7 150 ft"], ["Status", "Construction documents"]] },
-      { id: "neo-whisper", name: "Neo Whisper", loc: "Hidden Hills, California", gallery: GAL["neo-whisper"], rendering: true,
+      { id: "neo-whisper", name: "Neo Whisper", loc: "Hidden Hills, California", gallery: GAL["neo-whisper"], rendering: true, stage: "Issued for construction",
         text: "Neo Whisper is a low, horizontal estate house set into a meadow in Hidden Hills \u2014 pitched volumes in stone and glass that step with the grade rather than sitting on top of it, approached across the open field.\n\nThe architectural set was issued for construction in September 2025, and the Hidden Hills Community Association has approved the site, hardscape, landscape and lighting plans.",
         facts: [["Address", "5481 Round Meadow Road"], ["Form", "Low horizontal, set into grade"], ["Drawings", "Issued for construction, 2025"], ["Status", "HOA approved"]] },
-      { id: "casa-noa", name: "Casa Noa", loc: "Joshua Tree, California", gallery: GAL["casa-noa"], rendering: true,
+      { id: "casa-noa", name: "Casa Noa", loc: "Joshua Tree, California", gallery: GAL["casa-noa"], rendering: true, stage: "In design",
         text: "Casa Noa is a desert house at Joshua Tree \u2014 a single-story courtyard plan in earth-toned masonry, held deliberately low against the landscape so the mountain line stays the horizon from every room.\n\nThe images here are design-stage studies. Revised elevations were issued in December 2025.",
         facts: [["Address", "60633 Mountain View Trail"], ["Form", "Single-story courtyard plan"], ["Drawings", "Revised elevations, 2025"], ["Status", "In design"]] },
     ],
@@ -316,6 +316,7 @@ function Projects({ setPage, setIntent }) {
                       </div>
                     </div>
                     {p.year && !p.rendering && <div className="pcard__yr">{p.year}</div>}
+                    {p.rendering && p.stage && <div className="pcard__yr pcard__stage">{p.stage}</div>}
                   </div>
                 </a>
               );

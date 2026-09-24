@@ -2238,6 +2238,7 @@ function Development({
 window.Development = Development;
 const ASSET_MIX = [["Private residences", 21, "75%"], ["Apartment buildings", 5, "18%"], ["Small-lot subdivisions", 2, "7%"]];
 const INV_STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
+const INV_CRITERIA = [["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]], ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]], ["Hold", ["2–3 years, for-sale exit", "7–10 years, value-add", "Long-term, stabilized"]], ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Tel Aviv"]]];
 const INV_PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
 function StrategyTabs() {
   const [i, setI] = React.useState(0);
@@ -2462,6 +2463,55 @@ function Investment({
   }, React.createElement("span", {
     className: "dot"
   }), " Investment Strategies"), React.createElement(StrategyTabs, null))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0,
+      paddingTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12",
+    style: {
+      alignItems: "start"
+    }
+  }, React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " What We Buy"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
+    style: {
+      maxWidth: "15ch"
+    }
+  }, "The brief, stated plainly."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "34ch"
+    }
+  }, "If a site or a building fits this, we would rather hear about it early."), React.createElement("button", {
+    className: "btn btn--ghost u-mt-24",
+    onClick: inquire,
+    "data-magnetic": true
+  }, "Bring us a deal ", React.createElement("span", {
+    className: "arr"
+  }))), React.createElement("div", {
+    className: "col-8 reveal"
+  }, React.createElement("div", {
+    className: "crit"
+  }, INV_CRITERIA.map(([k, vals]) => React.createElement("div", {
+    key: k,
+    className: "crit__col"
+  }, React.createElement("div", {
+    className: "label"
+  }, k), React.createElement("ul", {
+    className: "crit__list"
+  }, vals.map(v => React.createElement("li", {
+    key: v
+  }, v)))))))))), React.createElement("section", {
     className: "section",
     style: {
       borderTop: 0,
@@ -3844,6 +3894,7 @@ const CATEGORIES = [{
     gallery: GAL["quiet-storm"],
     cover: "5c383b_37553457927949b9b353ffd1e3210bb7~mv2_d_2560_1440_s_2.jpg",
     rendering: true,
+    stage: "Permits ready",
     text: "Once the estate of a music legend, this near-acre-and-a-half in coveted Outpost Estates was reimagined by Noesis as a two-parcel development — 2745 Outpost (33,567 sf) and 2755 Outpost (29,301 sf).\n\nTwo distinct contemporary residences, fully designed, with plans approved by the Mulholland Scenic Parkway Design Review Board and every building department — ready-to-issue permits in hand. Entitlement and delivery, de-risked.",
     facts: [["Area", "Outpost Estates, Los Angeles"], ["Parcels", "Two · 33,567 + 29,301 sf"], ["Status", "RTIs in hand"], ["Year", "2018"]]
   }, {
@@ -3881,6 +3932,7 @@ const CATEGORIES = [{
     gallery: GAL["neo-soul"],
     cover: "5c383b_0be22247dc024cbe9b736c08b85f597b~mv2_d_2560_1440_s_2.jpg",
     rendering: true,
+    stage: "Permits issued",
     text: "A shovel-ready opportunity in celebrity-studded Outpost Estates: issued permits for a new two-story, nearly 6,000-square-foot architectural residence conceived by Noesis.\n\nThe existing single-story ranch — four bedrooms across roughly 3,400 square feet — has been remodeled to immaculate condition, leaving a rare, build-ready canvas in one of Los Angeles' most coveted enclaves.",
     facts: [["Area", "Outpost Estates, Los Angeles"], ["Planned", "~6,000 sf"], ["Status", "Permits issued"], ["Year", "2018"]]
   }, {
@@ -3907,6 +3959,7 @@ const CATEGORIES = [{
     loc: "Miami Beach, Florida",
     gallery: GAL["eclipse"],
     rendering: true,
+    stage: "Construction documents",
     text: "Eclipse is the firm\u2019s first ground-up residence on the East Coast \u2014 a new two-story house on Biscayne Point, Miami Beach, replacing the existing residence on the lot.\n\nRoughly 3,000 square feet of enclosed area on a 60-by-150-foot waterfront parcel, with the pool, dock and seawall inside the scope of work. Construction documents are in progress.",
     facts: [["Address", "1510 Cleveland Road, Miami Beach"], ["Enclosed area", "3,017 sf"], ["Lot", "60 \u00d7 150 ft"], ["Status", "Construction documents"]]
   }, {
@@ -3915,6 +3968,7 @@ const CATEGORIES = [{
     loc: "Hidden Hills, California",
     gallery: GAL["neo-whisper"],
     rendering: true,
+    stage: "Issued for construction",
     text: "Neo Whisper is a low, horizontal estate house set into a meadow in Hidden Hills \u2014 pitched volumes in stone and glass that step with the grade rather than sitting on top of it, approached across the open field.\n\nThe architectural set was issued for construction in September 2025, and the Hidden Hills Community Association has approved the site, hardscape, landscape and lighting plans.",
     facts: [["Address", "5481 Round Meadow Road"], ["Form", "Low horizontal, set into grade"], ["Drawings", "Issued for construction, 2025"], ["Status", "HOA approved"]]
   }, {
@@ -3923,6 +3977,7 @@ const CATEGORIES = [{
     loc: "Joshua Tree, California",
     gallery: GAL["casa-noa"],
     rendering: true,
+    stage: "In design",
     text: "Casa Noa is a desert house at Joshua Tree \u2014 a single-story courtyard plan in earth-toned masonry, held deliberately low against the landscape so the mountain line stays the horizon from every room.\n\nThe images here are design-stage studies. Revised elevations were issued in December 2025.",
     facts: [["Address", "60633 Mountain View Trail"], ["Form", "Single-story courtyard plan"], ["Drawings", "Revised elevations, 2025"], ["Status", "In design"]]
   }]
@@ -4253,7 +4308,9 @@ function Projects({
         className: "pcard__render"
       }, "Rendering"))), p.year && !p.rendering && React.createElement("div", {
         className: "pcard__yr"
-      }, p.year)))
+      }, p.year), p.rendering && p.stage && React.createElement("div", {
+        className: "pcard__yr pcard__stage"
+      }, p.stage)))
     );
   })))))), record.length > 0 && React.createElement("section", {
     className: "section section--tint",
