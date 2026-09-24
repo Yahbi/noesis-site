@@ -320,14 +320,14 @@ function Projects({ setPage, setIntent }) {
             <span className="pgroup__rule" />
           </div>
           <div className={`pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`}>
-            {group.map((p) => {
+            {group.map((p, i) => {
               const cover = p.cover || p.gallery[0];
               const count = p.gallery.length;
               return (
                 // A real href, not role="button": every project has its own static
                 // page, and a faked button left all 17 of them unreachable by a
                 // crawler and unopenable in a new tab. Modifier-clicks fall through.
-                <a key={p.id} className="pcard" href={BASE + pathFor("story:" + p.id)}
+                <a key={p.id} className={`pcard ${cat.key === "sfr" && i === 0 ? "pcard--wide" : ""}`} href={BASE + pathFor("story:" + p.id)}
                   aria-label={`Open the ${p.name} story`}
                   onClick={(e) => {
                     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;

@@ -83,6 +83,9 @@ function Approach({ go, setIntent }) {
             </p>
           </div>
         </div>
+          <div className="wrap">
+            <HeroRail items={[["7", "Capabilities"], ["5", "Delivery gates"], ["One", "Point of contact"], ["2009", "Since"]]} />
+          </div>
       </section>
 
       {/* CAPABILITIES */}

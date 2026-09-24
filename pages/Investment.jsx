@@ -141,6 +141,9 @@ function Investment({ go, setIntent }) {
             </p>
           </div>
         </div>
+          <div className="wrap">
+            <HeroRail items={[["2009", "Founded"], ["28", "Projects"], ["3", "Strategies"], ["7", "Markets"]]} />
+          </div>
       </section>
 
       {/* THESIS */}

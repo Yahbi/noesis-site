@@ -284,3 +284,25 @@ function wixSet(id, widths) {
 }
 
 window.wixSet = wixSet;
+
+// ── HERO RAIL ─────────────────────────────────────────────────────────────
+// Every interior page opened with a headline and then a quarter-screen of dead
+// white before the first section. Restoring editorial scale to the display type
+// made the headline land but did not fill that gap. This does, and it fills it
+// with the thing an institutional reader is looking for on the first screen:
+// a few facts they can check. Every value here is already stated elsewhere on
+// the site — nothing new is claimed.
+function HeroRail({ items }) {
+  return (
+    <div className="hrail reveal">
+      {items.map(([v, l]) => (
+        <div key={l} className="hrail__item">
+          <div className="hrail__v">{v}</div>
+          <div className="hrail__l">{l}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+window.HeroRail = HeroRail;

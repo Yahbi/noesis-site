@@ -55,6 +55,9 @@ function Firm({ go }) {
             </p>
           </div>
         </div>
+          <div className="wrap">
+            <HeroRail items={[["2009", "Founded"], ["Beverly Hills", "Base"], ["International", "Reach"], ["28", "Projects"]]} />
+          </div>
       </section>
 
       {/* ORIGIN */}

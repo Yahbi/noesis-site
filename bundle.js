@@ -806,6 +806,21 @@ function wixSet(id, widths) {
   }).join(", ");
 }
 window.wixSet = wixSet;
+function HeroRail({
+  items
+}) {
+  return React.createElement("div", {
+    className: "hrail reveal"
+  }, items.map(([v, l]) => React.createElement("div", {
+    key: l,
+    className: "hrail__item"
+  }, React.createElement("div", {
+    className: "hrail__v"
+  }, v), React.createElement("div", {
+    className: "hrail__l"
+  }, l))));
+}
+window.HeroRail = HeroRail;
 const SECTIONS = [["investment", "Investment"], ["development", "Development"], ["properties", "Portfolio"], ["owners-rep", "Owner's Rep"], ["firm", "Firm"], ["inquiries", "Contact"]];
 const OWNER_ROUTES = ["development", "owners-rep"];
 const SOCIALS = [["Facebook", "M13 10h3l.5-3H13V5.2c0-.9.2-1.5 1.5-1.5H16V1.1C15.7 1 14.8 1 13.8 1 11.6 1 10 2.3 10 4.9V7H7.5v3H10v8h3z"], ["Instagram", "M9.5 2h5A4.5 4.5 0 0 1 19 6.5v5A4.5 4.5 0 0 1 14.5 16h-5A4.5 4.5 0 0 1 5 11.5v-5A4.5 4.5 0 0 1 9.5 2Zm0 1.6A2.9 2.9 0 0 0 6.6 6.5v5A2.9 2.9 0 0 0 9.5 14.4h5a2.9 2.9 0 0 0 2.9-2.9v-5a2.9 2.9 0 0 0-2.9-2.9h-5ZM12 6.6A3.4 3.4 0 1 1 8.6 10 3.4 3.4 0 0 1 12 6.6Zm0 1.6A1.8 1.8 0 1 0 13.8 10 1.8 1.8 0 0 0 12 8.2Zm3.6-2.1a.8.8 0 1 1-.8.8.8.8 0 0 1 .8-.8Z"], ["LinkedIn", "M4.5 3A1.5 1.5 0 1 0 4.5 6 1.5 1.5 0 0 0 4.5 3ZM3.3 7.4h2.4V18H3.3V7.4ZM8 7.4h2.3v1.4h.1A2.5 2.5 0 0 1 12.7 7.2c2.5 0 3 1.6 3 3.8V18h-2.4v-3.5c0-.8 0-1.9-1.2-1.9s-1.3 1-1.3 1.9V18H8V7.4Z"], ["YouTube", "M19.6 7.2a2 2 0 0 0-1.4-1.4C16.9 5.5 12 5.5 12 5.5s-4.9 0-6.2.3A2 2 0 0 0 4.4 7.2 21 21 0 0 0 4.1 11a21 21 0 0 0 .3 3.8 2 2 0 0 0 1.4 1.4c1.3.3 6.2.3 6.2.3s4.9 0 6.2-.3a2 2 0 0 0 1.4-1.4 21 21 0 0 0 .3-3.8 21 21 0 0 0-.3-3.8ZM10.4 13.3V8.7l4 2.3-4 2.3Z"]];
@@ -2028,7 +2043,11 @@ function Development({
       color: "var(--muted)",
       maxWidth: "52ch"
     }
-  }, "Our approach has always been to build a strong, resourceful and knowledgeable foundation before undertaking new ventures in each asset class.")))), React.createElement("section", {
+  }, "Our approach has always been to build a strong, resourceful and knowledgeable foundation before undertaking new ventures in each asset class."))), React.createElement("div", {
+    className: "wrap"
+  }, React.createElement(HeroRail, {
+    items: [["2009", "Founded"], ["21", "Delivered"], ["3", "Asset types"], ["In house", "Contracting"]]
+  }))), React.createElement("section", {
     className: "cine",
     style: {
       height: "min(78vh, 760px)",
@@ -2379,7 +2398,11 @@ function Investment({
     className: "col-5"
   }, React.createElement("p", {
     className: "lede"
-  }, "Since 2009 we have originated, structured and stewarded real-estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside in every one.")))), React.createElement("section", {
+  }, "Since 2009 we have originated, structured and stewarded real-estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside in every one."))), React.createElement("div", {
+    className: "wrap"
+  }, React.createElement(HeroRail, {
+    items: [["2009", "Founded"], ["28", "Projects"], ["3", "Strategies"], ["7", "Markets"]]
+  }))), React.createElement("section", {
     className: "section",
     style: {
       paddingTop: "clamp(28px,3.5vw,48px)",
@@ -2822,7 +2845,11 @@ function Firm({
     className: "col-5"
   }, React.createElement("p", {
     className: "lede"
-  }, "Noesis is the Greek word for understanding. We are a real-estate investment and development firm \u2014 founded in 2009, based in Beverly Hills, working internationally.")))), React.createElement("section", {
+  }, "Noesis is the Greek word for understanding. We are a real-estate investment and development firm \u2014 founded in 2009, based in Beverly Hills, working internationally."))), React.createElement("div", {
+    className: "wrap"
+  }, React.createElement(HeroRail, {
+    items: [["2009", "Founded"], ["Beverly Hills", "Base"], ["International", "Reach"], ["28", "Projects"]]
+  }))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12"
@@ -3481,7 +3508,11 @@ function Approach({
       color: "var(--muted)",
       maxWidth: "52ch"
     }
-  }, "We are engaged by private owners, family offices and developers building landmark residential and commercial projects \u2014 people for whom getting it right the first time is the whole point.")))), React.createElement("section", {
+  }, "We are engaged by private owners, family offices and developers building landmark residential and commercial projects \u2014 people for whom getting it right the first time is the whole point."))), React.createElement("div", {
+    className: "wrap"
+  }, React.createElement(HeroRail, {
+    items: [["7", "Capabilities"], ["5", "Delivery gates"], ["One", "Point of contact"], ["2009", "Since"]]
+  }))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap"
@@ -4344,12 +4375,12 @@ function Projects({
     className: "pgroup__rule"
   })), React.createElement("div", {
     className: `pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`
-  }, group.map(p => {
+  }, group.map((p, i) => {
     const cover = p.cover || p.gallery[0];
     const count = p.gallery.length;
     return (React.createElement("a", {
         key: p.id,
-        className: "pcard",
+        className: `pcard ${cat.key === "sfr" && i === 0 ? "pcard--wide" : ""}`,
         href: BASE + pathFor("story:" + p.id),
         "aria-label": `Open the ${p.name} story`,
         onClick: e => {

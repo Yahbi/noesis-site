@@ -57,6 +57,9 @@ function Development({ go }) {
             </p>
           </div>
         </div>
+          <div className="wrap">
+            <HeroRail items={[["2009", "Founded"], ["21", "Delivered"], ["3", "Asset types"], ["In house", "Contracting"]]} />
+          </div>
       </section>
 
       {/* OPENING PLATE — a delivered Noesis residence */}
