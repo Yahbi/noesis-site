@@ -39,6 +39,7 @@ fi
   pages/Firm.jsx \
   pages/Inquiries.jsx \
   pages/Approach.jsx \
+  pages/Disclosures.jsx \
   pages/Projects.jsx \
   pages/ProjectStory.jsx \
   app.jsx \
@@ -136,6 +137,10 @@ ROUTES = [
      "Noesis is the Greek word for understanding. A real-estate investment and development firm founded in Beverly Hills in 2009 by Igal N. Azran.",
      "Perception by intellect.",
      "Founded 2009 in Beverly Hills by Igal N. Azran — previously CIM Group and CBRE, MSc Real Estate."),
+    ("disclosures/", "disclosures", f"Disclosures | {FIRM}",
+     "How to read this site: no offer or solicitation, who the investment material addresses, past performance, forward-looking statements, renderings, and how the record is counted.",
+     "What this site is, and is not.",
+     "No offer or solicitation · accredited investors · past performance · renderings · how the record is counted."),
     ("inquiries/",   "inquiries",   f"Inquiries — Request an Introduction | {FIRM}",
      "Whether you have capital to deploy or a project to deliver, Noesis welcomes a confidential conversation. 8383 Wilshire Blvd, Suite 740, Beverly Hills, CA 90211.",
      "Let's begin.",

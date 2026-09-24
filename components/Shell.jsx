@@ -332,6 +332,8 @@ function Footer({ go }) {
           <div className="label label--sm">© {new Date().getFullYear()} Noesis Group · All rights reserved</div>
           <div className="u-flex u-gap-24 label label--sm" >
             <span>Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.</span>
+            <a href={BASE + pathFor("disclosures")} className="link-u" style={{ color: "var(--muted)" }}
+              onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; e.preventDefault(); go("disclosures"); }}>Disclosures</a>
           </div>
         </div>
       </div>

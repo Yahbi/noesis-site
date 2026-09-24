@@ -218,7 +218,9 @@ function Home({ go, setIntent }) {
             The record counts every project Noesis has taken from land through entitlement, design
             and construction since 2009, together with those it holds in development today.
             Twenty-one are delivered. Seven are in construction, permitting or design, and are shown
-            throughout as renderings.
+            throughout as renderings. Figures as of September 2026, unaudited, and drawn from the firm's
+            own project records. Past results are not indicative of future results.{" "}
+            <button className="statband__more" onClick={() => go("disclosures")}>Full disclosures</button>
           </p>
 
         </div>

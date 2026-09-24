@@ -175,6 +175,21 @@ function InquiryForm({ intent }) {
           </select>
         </div>
         <div className="field" style={{ gridColumn: "1 / -1" }}><label htmlFor="f-msg">Message <span className="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" rows="5" placeholder="Tell us about your interest in investing, or your project." required></textarea></div>
+        {/* Every firm that raises privately states the audience limitation in the
+            form itself, not only in the footer. Self-certification here; real
+            verification belongs at the offering, not on a website. */}
+        {investor && (
+          <div className="field field--check" style={{ gridColumn: "1 / -1" }}>
+            <label htmlFor="f-accredited" className="check">
+              <input id="f-accredited" name="accredited" type="checkbox" required />
+              <span>
+                I confirm I am an accredited investor. I understand this inquiry is not an offer, that
+                no offering is implied, and that any offering would be made only through its own
+                documents. <span className="req" aria-hidden="true">*</span>
+              </span>
+            </label>
+          </div>
+        )}
       </div>
       <div role="status" aria-live="polite">
         {error && <p className="body u-mt-24" style={{ color: "var(--accent-deep)" }}>{error}</p>}

@@ -17,7 +17,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 const ACCENTS = ["#B02F27", "#9C2F28", "#3C3C43", "#55555C", "#63636B"];
 const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
 // Every routable page view (order = nav order).
-const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
+const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries", "disclosures"];
 const NAV_OFFSET = 72;
 
 const ROUTE_TITLES = {
@@ -28,6 +28,7 @@ const ROUTE_TITLES = {
   "owners-rep": "Owner's Representation & Project Management | Noesis Group",
   firm: "The Firm & Founder | Noesis Group",
   inquiries: "Inquiries — Request an Introduction | Noesis Group",
+  disclosures: "Disclosures | Noesis Group",
 };
 
 // Clean-URL routing. Each route is a REAL static page emitted by build.sh
@@ -37,6 +38,7 @@ const ROUTE_TITLES = {
 const ROUTE_PATHS = {
   home: "", development: "development/", investment: "investment/",
   properties: "portfolio/", "owners-rep": "owners-rep/", firm: "firm/", inquiries: "inquiries/",
+  disclosures: "disclosures/",
 };
 
 // Site root: from <base href> on generated sub-pages, else this document's directory.
@@ -183,6 +185,7 @@ function App() {
         : view === "owners-rep" ? <Approach go={go} setIntent={setIntent} />
         : view === "firm" ? <Firm go={go} />
         : view === "inquiries" ? <Inquiries intent={intent} />
+        : view === "disclosures" ? <Disclosures go={go} />
         : view === "story" ? (
           <>
             <button className="back-home" onClick={() => go(returnTo.current === "home" ? "home" : "properties")}

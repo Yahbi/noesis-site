@@ -1258,7 +1258,18 @@ function Footer({
     className: "label label--sm"
   }, "\xA9 ", new Date().getFullYear(), " Noesis Group \xB7 All rights reserved"), React.createElement("div", {
     className: "u-flex u-gap-24 label label--sm"
-  }, React.createElement("span", null, "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security.")))));
+  }, React.createElement("span", null, "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security."), React.createElement("a", {
+    href: BASE + pathFor("disclosures"),
+    className: "link-u",
+    style: {
+      color: "var(--muted)"
+    },
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      go("disclosures");
+    }
+  }, "Disclosures")))));
 }
 window.Nav = Nav;
 window.Footer = Footer;
@@ -1875,7 +1886,10 @@ function Home({
     className: "statband__l"
   }, l)))), React.createElement("p", {
     className: "statband__note reveal"
-  }, "The record counts every project Noesis has taken from land through entitlement, design and construction since 2009, together with those it holds in development today. Twenty-one are delivered. Seven are in construction, permitting or design, and are shown throughout as renderings."))), React.createElement("section", {
+  }, "The record counts every project Noesis has taken from land through entitlement, design and construction since 2009, together with those it holds in development today. Twenty-one are delivered. Seven are in construction, permitting or design, and are shown throughout as renderings. Figures as of September 2026, unaudited, and drawn from the firm's own project records. Past results are not indicative of future results.", " ", React.createElement("button", {
+    className: "statband__more",
+    onClick: () => go("disclosures")
+  }, "Full disclosures")))), React.createElement("section", {
     id: "owners",
     className: "section",
     style: {
@@ -3257,7 +3271,23 @@ function InquiryForm({
     rows: "5",
     placeholder: "Tell us about your interest in investing, or your project.",
     required: true
-  }))), React.createElement("div", {
+  })), investor && React.createElement("div", {
+    className: "field field--check",
+    style: {
+      gridColumn: "1 / -1"
+    }
+  }, React.createElement("label", {
+    htmlFor: "f-accredited",
+    className: "check"
+  }, React.createElement("input", {
+    id: "f-accredited",
+    name: "accredited",
+    type: "checkbox",
+    required: true
+  }), React.createElement("span", null, "I confirm I am an accredited investor. I understand this inquiry is not an offer, that no offering is implied, and that any offering would be made only through its own documents. ", React.createElement("span", {
+    className: "req",
+    "aria-hidden": "true"
+  }, "*"))))), React.createElement("div", {
     role: "status",
     "aria-live": "polite"
   }, error && React.createElement("p", {
@@ -3629,6 +3659,97 @@ function Approach({
   }))))));
 }
 window.Approach = Approach;
+const DISCLOSURE_AS_OF = "September 2026";
+const DISCLOSURES = [["No offer or solicitation", "This website is neither an offer to sell nor a solicitation of an offer to buy any security, " + "and nothing on it should be read as one. It is published for information purposes only. Any " + "offering of an interest in a Noesis Group vehicle is made solely through that vehicle's own " + "offering documents, only to those eligible to receive them, and only in jurisdictions where " + "the offering is permitted by law. Where anything on this site differs from those documents, " + "the offering documents govern."], ["Who this site addresses", "The investment material on this site is directed to accredited investors — family offices, " + "principals, institutions and qualified individuals. It is not directed to the general public " + "and is not an invitation to the public to invest. An inquiry made through this site creates no " + "obligation on either side, and implies no current or pending offering."], ["Past performance", "The completed record shown on this site describes what has been built and delivered. It is not " + "a prediction and not a promise. Past results are not indicative of future results, and no " + "prospective investor should assume that any future project will perform comparably to any " + "project described here. Real estate investment involves risk, including the risk of losing the " + "entire amount invested."], ["Forward-looking statements", "Descriptions of projects in predevelopment, permitting, design or construction reflect the " + "firm's current plans and expectations. Programmes, budgets, approvals, timelines and scopes " + "change, and projects that are planned are not always built. Nothing described as intended or " + "in progress should be read as committed or complete."], ["Renderings and imagery", "Projects that are not yet built are illustrated with architectural renderings, and are labelled " + "as such wherever they appear — on portfolio cards, on their own pages and in the record. " + "Renderings are design intent, not a photograph of a building, and the finished work may differ. " + "Every other photograph on this site is of a completed Noesis project."], ["The record and how it is counted", "The record counts every project Noesis has taken from land through entitlement, design and " + "construction since 2009, together with those it holds in development today. It covers the " + "firm's own developments; owner's representation engagements, which are performed on projects " + "the firm does not own, are not counted in it. Figures are stated as of " + DISCLOSURE_AS_OF + ", are unaudited, and are drawn from the firm's own project records."], ["No advice", "Nothing on this site is legal, tax, accounting or investment advice, and it does not take " + "account of any particular person's circumstances. Prospective investors should consult their " + "own legal, tax and financial advisers before making any investment decision."], ["Third-party names and marks", "Names of firms, institutions, architects and consultants appear on this site only to describe " + "work history and professional background accurately. They are the marks of their respective " + "owners, and their use implies no endorsement of Noesis Group by them, or by Noesis Group of them."]];
+function Disclosures({
+  go
+}) {
+  return React.createElement("main", {
+    className: "page-enter"
+  }, React.createElement("section", {
+    style: {
+      paddingTop: "clamp(120px, 12vh, 150px)",
+      paddingBottom: "clamp(28px, 4vw, 48px)"
+    }
+  }, React.createElement("div", {
+    className: "wrap grid-12 hero-grid"
+  }, React.createElement("div", {
+    className: "col-7 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Legal \xB7 Disclosures"), React.createElement("h1", {
+    className: "h-display lx-h u-mt-24",
+    style: {
+      maxWidth: "13ch"
+    }
+  }, "What this site is, and is not.")), React.createElement("div", {
+    className: "col-5 reveal"
+  }, React.createElement("p", {
+    className: "body-lg",
+    style: {
+      maxWidth: "46ch"
+    }
+  }, "Noesis Group develops and invests in real estate, and represents a small number of owners on projects it does not own. This page sets out the basis on which the rest of the site should be read."), React.createElement("p", {
+    className: "body u-mt-16",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "46ch"
+    }
+  }, "Last updated ", DISCLOSURE_AS_OF, ".")))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "acc"
+  }, DISCLOSURES.map(([title, body], i) => React.createElement("details", {
+    key: title,
+    className: "acc__item",
+    open: i === 0
+  }, React.createElement("summary", {
+    className: "acc__head"
+  }, React.createElement("span", {
+    className: "acc__idx"
+  }, String(i + 1).padStart(2, "0")), React.createElement("span", {
+    className: "acc__t"
+  }, title), React.createElement("span", {
+    className: "acc__mk",
+    "aria-hidden": "true"
+  })), React.createElement("div", {
+    className: "acc__body"
+  }, React.createElement("p", null, body))))))), React.createElement("section", {
+    className: "section section--tint",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap grid-12 u-end reveal"
+  }, React.createElement("div", {
+    className: "col-8"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Questions"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
+    style: {
+      maxWidth: "26ch"
+    }
+  }, "Anything here that needs clarifying, we would rather you asked.")), React.createElement("div", {
+    className: "col-4 u-tr"
+  }, React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => go("inquiries"),
+    "data-magnetic": true
+  }, "Contact the firm ", React.createElement("span", {
+    className: "arr"
+  }))))));
+}
+window.Disclosures = Disclosures;
 const GAL = {
   "one-oak": ["sf-oneoak-01", "sf-oneoak-02", "sf-oneoak-03", "sf-oneoak-04", "sf-oneoak-05", "sf-oneoak-06", "sf-oneoak-07", "sf-oneoak-08", "sf-oneoak-09", "sf-oneoak-10"],
   "casa-mani": ["sf-mani-01", "sf-mani-02", "sf-mani-03", "sf-mani-04", "sf-mani-05", "sf-mani-06", "sf-mani-07", "sf-mani-08", "sf-mani-09", "sf-mani-10"],
@@ -4783,7 +4904,7 @@ const TWEAK_DEFAULTS = {
 };
 const ACCENTS = ["#B02F27", "#9C2F28", "#3C3C43", "#55555C", "#63636B"];
 const DISPLAY_FONTS = ["Newsreader", "Jost", "Helvetica Neue"];
-const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries"];
+const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "firm", "inquiries", "disclosures"];
 const NAV_OFFSET = 72;
 const ROUTE_TITLES = {
   home: "Noesis Group — Real Estate Investment & Development | Owner's Representation",
@@ -4792,7 +4913,8 @@ const ROUTE_TITLES = {
   properties: "Portfolio · The Record | Noesis Group",
   "owners-rep": "Owner's Representation & Project Management | Noesis Group",
   firm: "The Firm & Founder | Noesis Group",
-  inquiries: "Inquiries — Request an Introduction | Noesis Group"
+  inquiries: "Inquiries — Request an Introduction | Noesis Group",
+  disclosures: "Disclosures | Noesis Group"
 };
 const ROUTE_PATHS = {
   home: "",
@@ -4801,7 +4923,8 @@ const ROUTE_PATHS = {
   properties: "portfolio/",
   "owners-rep": "owners-rep/",
   firm: "firm/",
-  inquiries: "inquiries/"
+  inquiries: "inquiries/",
+  disclosures: "disclosures/"
 };
 const BASE = function () {
   const b = document.querySelector("base");
@@ -4935,6 +5058,8 @@ function App() {
     go: go
   }) : view === "inquiries" ? React.createElement(Inquiries, {
     intent: intent
+  }) : view === "disclosures" ? React.createElement(Disclosures, {
+    go: go
   }) : view === "story" ? React.createElement(React.Fragment, null, React.createElement("button", {
     className: "back-home",
     onClick: () => go(returnTo.current === "home" ? "home" : "properties"),

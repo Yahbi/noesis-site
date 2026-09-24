@@ -1957,3 +1957,13 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 .story__note { font-family: var(--sans); font-size: 13.5px; line-height: 1.6;
   color: var(--muted); max-width: 40ch; padding-left: 14px;
   border-left: 2px solid var(--accent); }
+
+/* Inline link out of the record's basis line to the page that carries the rest. */
+.statband__more { background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; color: var(--accent-cta); border-bottom: 1px solid currentColor; }
+
+/* Self-certification checkbox on the investor path. */
+.field--check { margin-top: 4px; }
+.check { display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+  font-family: var(--sans); font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); }
+.check input { width: 17px; height: 17px; flex: 0 0 auto; margin-top: 2px; accent-color: var(--accent-cta); }
