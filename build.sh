@@ -46,7 +46,14 @@ fi
   pages/ProjectStory.jsx \
   app.jsx \
   --presets=@babel/preset-react --no-comments -o bundle.js
-echo "bundle.js: $(wc -c < bundle.js) bytes"
+# Minify. The Babel output keeps every space and newline of the sources; terser
+# (pinned, deterministic) roughly halves it, and the phone pays for every byte
+# twice — download and parse — before the first render. Local scopes only: the
+# concatenated files share top-level names, which are left untouched.
+./node_modules/.bin/terser bundle.js --compress --mangle --comments false -o bundle.min.tmp
+mv bundle.min.tmp bundle.js
+./node_modules/.bin/terser motion.js --compress --mangle --comments false -o motion.min.js
+echo "bundle.js: $(wc -c < bundle.js) bytes · motion.min.js: $(wc -c < motion.min.js) bytes"
 
 # 2) Generate the production shell + one static page per route.
 python3 - "$V" "$SITE_URL" "$BASE_PATH" <<'PY'
@@ -61,7 +68,7 @@ src = src.replace("https://yahbi.github.io/noesis-site/", SITE_URL)
 prod_scripts = f'''  <!-- Production: precompiled bundle, no in-browser compilation -->
   <script defer src="assets/vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
   <script defer src="assets/vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
-  <script defer src="motion.js?v={v}"></script>
+  <script defer src="motion.min.js?v={v}"></script>
   <script defer src="bundle.js?v={v}"></script>
 
 </body>'''
@@ -141,7 +148,7 @@ NOSCRIPT_NAV = [
 CRUMB = {p: n for p, n in NOSCRIPT_NAV if p}
 
 ROUTES = [
-    ("",             "home",        f"{FIRM} — Real Estate Investment & Development | Owner's Representation",
+    ("",             "home",        f"{FIRM} — Real Estate Investment & Development",
      "An international real-estate investment and development firm in Beverly Hills. We build what we invest in, and represent owners from entitlement to delivery.",
      "We build what we invest in.",
      "An international real-estate investment and development firm — Beverly Hills, est. 2009."),
@@ -166,7 +173,7 @@ ROUTES = [
      "Perception by intellect.",
      "Founded 2009 in Beverly Hills by Igal N. Azran — previously CIM Group and CBRE, MSc Real Estate."),
     ("disclosures/", "disclosures", f"Disclosures | {FIRM}",
-     "How to read this site: no offer or solicitation, who the investment material addresses, past performance, forward-looking statements, renderings, and how the record is counted.",
+     "How to read this site: no offer or solicitation, who the investment material is for, past performance, forward-looking statements and how the record is counted.",
      "What this site is, and is not.",
      "No offer or solicitation · accredited investors · past performance · renderings · how the record is counted."),
     ("inquiries/",   "inquiries",   f"Inquiries — Request an Introduction | {FIRM}",
