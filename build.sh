@@ -137,8 +137,8 @@ NOSCRIPT_NAV = [
     ("",             "Home"),
     ("investment/",  "Investment"),
     ("development/", "Development"),
+    ("management/",  "Management"),
     ("portfolio/",   "Portfolio"),
-    ("owners-rep/",  "Owner's Representation"),
     ("firm/",        "The Firm"),
     ("inquiries/",   "Inquiries"),
 ]
@@ -148,28 +148,28 @@ NOSCRIPT_NAV = [
 CRUMB = {p: n for p, n in NOSCRIPT_NAV if p}
 
 ROUTES = [
-    ("",             "home",        f"{FIRM} — Real Estate Investment & Development",
-     "An international real-estate investment and development firm in Beverly Hills. We build what we invest in, and represent owners from entitlement to delivery.",
-     "We build what we invest in.",
-     "An international real-estate investment and development firm — Beverly Hills, est. 2009."),
+    ("",             "home",        f"{FIRM} — Real Estate Investment & Management",
+     "A Beverly Hills real-estate investment and management firm — owner, developer and manager of residential assets in Los Angeles, Miami, Marbella and Tel Aviv.",
+     "We manage what we invest in.",
+     "A real-estate investment and management firm — Beverly Hills, est. 2009."),
     ("investment/",  "investment",  f"Investment — Capital, Aligned | {FIRM}",
      "Noesis originates and stewards real-estate investments for an aligned network of private capital, with the operator invested alongside. Three strategies.",
      "Capital, aligned.",
      "Three strategies — Opportunistic (2–3 years), Value-Add (7–10 years) and Hybrid Stabilized (long term) — and the principles behind them. No offer or solicitation."),
     ("development/", "development", f"Development — From Land to Landmark | {FIRM}",
-     "Noesis conceives, entitles, designs and builds its own real estate — residences, small-lot subdivisions and apartment buildings, with contracting in house.",
+     "Noesis sources, entitles, designs and delivers its own real estate — residences, small-lot subdivisions and apartments, built by licensed GCs it manages.",
      "From land to landmark.",
-     "What we develop, the design philosophy, the craft — architecture, interior design and general contracting — and the five-gate delivery model."),
+     "What we develop, the design philosophy, the craft — architecture, interior design and construction management — and the five-gate delivery model."),
     ("portfolio/",   "properties",  f"Portfolio · The Record | {FIRM}",
      "Twenty-eight projects since 2009, twenty-one of them delivered — residences, apartment buildings and subdivisions in Los Angeles, Tel Aviv and Miami Beach.",
      "The delivered record.",
      "Twenty-eight projects: 21 private residences, 5 apartment buildings and 2 small-lot subdivisions — twenty-one of them delivered."),
-    ("owners-rep/",  "owners-rep",  f"Owner's Representation & Project Management | {FIRM}",
-     "One point of contact from site preparation through building completion, with zoning, permitting, approvals and entitlements managed on your behalf.",
-     "Our discipline, your project.",
-     "Project management and owner's representation, architecture and design, interior design, general contracting, feasibility and entitlement, and consulting."),
+    ("management/",  "owners-rep",  f"Management — Development, Assets & Owners | {FIRM}",
+     "Development management, owner's representation and asset management from Noesis — one point of contact, with construction by licensed contractors we manage.",
+     "Managed like we own it.",
+     "Three mandates — development management, owner's representation, asset & property management — and seven capabilities, from feasibility to the last lease."),
     ("firm/",        "firm",        f"The Firm & Founder | {FIRM}",
-     "Noesis is the Greek word for understanding. A real-estate investment and development firm founded in Beverly Hills in 2009 by Igal N. Azran.",
+     "Noesis is the Greek word for understanding. A real-estate investment and management firm founded in Beverly Hills in 2009 by Igal N. Azran.",
      "Perception by intellect.",
      "Founded 2009 in Beverly Hills by Igal N. Azran — previously CIM Group and CBRE, MSc Real Estate."),
     ("disclosures/", "disclosures", f"Disclosures | {FIRM}",
@@ -356,6 +356,22 @@ for path, route, title, desc, heading, blurb in ROUTES:
         open("404.html", "w", encoding="utf-8").write(out404)
     written.append(path or "/")
 print("pages written: %d (%s)" % (len(written), ", ".join(written[:8]) + (" …" if len(written) > 8 else "")))
+
+# Moved addresses keep working: a tiny noindex page that sends the visitor on
+# (and tells crawlers where the page lives now). GitHub Pages cannot send a 301.
+MOVED = {"owners-rep/": "management/"}
+for old, new in MOVED.items():
+    os.makedirs(old, exist_ok=True)
+    dest = SITE_URL + new
+    open(old + "index.html", "w", encoding="utf-8").write(
+        '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">\n'
+        '<title>Moved | Noesis Group</title>\n'
+        '<meta name="robots" content="noindex, follow">\n'
+        f'<link rel="canonical" href="{dest}">\n'
+        f'<meta http-equiv="refresh" content="0; url={dest}">\n'
+        f'<script>location.replace("{dest}" + location.hash);</script>\n'
+        f'</head><body><p>This page has moved to <a href="{dest}">{dest}</a>.</p></body></html>\n')
+print("redirects written: " + ", ".join(f"{a} -> {b}" for a, b in MOVED.items()))
 
 # 3) SEO files — robots.txt + a sitemap listing every real route
 open("robots.txt", "w", encoding="utf-8").write(

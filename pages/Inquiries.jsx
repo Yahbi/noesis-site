@@ -19,9 +19,9 @@ const INQ_ENDPOINT = "";
 const INQ_ROUTES = [
   ["Investors & family offices", "investment", "city-night",
     "Capital alongside the operator. Read the strategies, the criteria and the record, then ask for a confidential introduction."],
-  ["Owners & developers", "owners-rep", "sf-site-03",
-    "A project you own, and one accountable advocate for it — from entitlement and design through construction to handover."],
-  ["Brokers & sellers", "investment", "geo-beverly",
+  ["Owners & developers", "owners-rep#mandates", "sf-site-03",
+    "Development management from site to completion, representation on a project you own, or management of a building once it is delivered."],
+  ["Brokers & sellers", "investment#criteria", "geo-beverly",
     "A site or a building that fits the brief. Product, activity, hold and markets are stated plainly; we would rather hear early."],
 ];
 
@@ -161,11 +161,11 @@ function Inquiries({ intent, go }) {
           <div className="grid-12 u-end reveal">
             <div className="col-7">
               <div className="eyebrow"><span className="dot" /> Where We Are</div>
-              <h2 className="h-1 u-mt-16 night__title">Run from Beverly Hills. <em>Built on three continents.</em></h2>
+              <h2 className="h-1 u-mt-16 night__title">Run from Beverly Hills. <em>Invested on three continents.</em></h2>
             </div>
             <div className="col-5">
               <p className="body-lg" style={{ maxWidth: "42ch" }}>
-                The firm is run from Beverly Hills and builds from Los Angeles and Joshua Tree to
+                The firm is run from Beverly Hills and invests from Los Angeles and Joshua Tree to
                 Miami Beach, Marbella and Tel Aviv — four time zones, one team.
               </p>
             </div>
@@ -203,7 +203,7 @@ function InquiryForm({ intent }) {
   const [error, setError] = React.useState("");
   const [role, setRole] = React.useState("");
   React.useEffect(() => { if (investor) setRole("Investor — capital partnership"); }, [investor]);
-  React.useEffect(() => { if (owner) setRole("Owner / Principal — a project to deliver"); }, [owner]);
+  React.useEffect(() => { if (owner) setRole("Owner — development or asset management"); }, [owner]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -292,8 +292,9 @@ function InquiryForm({ intent }) {
           <select id="f-role" name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
             <option value="" disabled>Select one</option>
             <option>Investor — capital partnership</option>
-            <option>Owner / Principal — a project to deliver</option>
-            <option>Developer — owner's rep / project management</option>
+            <option>Owner — development or asset management</option>
+            <option>Developer — owner's representation</option>
+            <option>Broker / seller — a site or a building</option>
             <option>Other</option>
           </select>
         </div>

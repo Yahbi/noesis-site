@@ -237,9 +237,9 @@ const PRACTICES = [
   ["investment", "Investment",
    "Co-invested capital across opportunistic, value-add and stabilized residential strategies."],
   ["development", "Development",
-   "Land taken through entitlement, design and construction by a single accountable team."],
-  ["owners-rep", "Owner's Representation",
-   "The same discipline applied to a project we do not own, from entitlement to handover."],
+   "Land taken through entitlement, design and construction under one accountable team's management."],
+  ["owners-rep", "Management",
+   "Development management, owner's representation and asset management, for a select few owners."],
 ];
 
 function PracticeSwitch({ go, current }) {

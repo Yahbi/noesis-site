@@ -5,7 +5,8 @@
 //   #/investment           Investment pillar
 //   #/portfolio            Portfolio index
 //   #/portfolio/<id>       immersive project story
-//   #/owners-rep           Owner's Representation (accessory)
+//   /management/           Management (owner's rep, development & asset management;
+//                          internal view key stays "owners-rep"; /owners-rep/ redirects)
 //   #/firm                 The Firm + founder
 //   #/inquiries            Inquiries
 
@@ -21,11 +22,11 @@ const PAGE_VIEWS = ["development", "investment", "properties", "owners-rep", "fi
 const NAV_OFFSET = 72;
 
 const ROUTE_TITLES = {
-  home: "Noesis Group — Real Estate Investment & Development",
+  home: "Noesis Group — Real Estate Investment & Management",
   development: "Development — From Land to Landmark | Noesis Group",
   investment: "Investment — Capital, Aligned | Noesis Group",
   properties: "Portfolio · The Record | Noesis Group",
-  "owners-rep": "Owner's Representation & Project Management | Noesis Group",
+  "owners-rep": "Management — Development, Assets & Owners | Noesis Group",
   firm: "The Firm & Founder | Noesis Group",
   inquiries: "Inquiries — Request an Introduction | Noesis Group",
   disclosures: "Disclosures | Noesis Group",
@@ -37,7 +38,7 @@ const ROUTE_TITLES = {
 // and crawlable per-page metadata; in-app navigation then uses pushState.
 const ROUTE_PATHS = {
   home: "", development: "development/", investment: "investment/",
-  properties: "portfolio/", "owners-rep": "owners-rep/", firm: "firm/", inquiries: "inquiries/",
+  properties: "portfolio/", "owners-rep": "management/", firm: "firm/", inquiries: "inquiries/",
   disclosures: "disclosures/",
 };
 
@@ -49,10 +50,19 @@ const BASE = (function () {
   return window.location.pathname.replace(/[^/]*$/, "");
 })();
 
+// A target may carry a section anchor: "investment#criteria" -> investment/#criteria.
 function pathFor(id) {
+  if (typeof id === "string" && id.indexOf("#") > 0) {
+    const [view, anchor] = id.split("#");
+    return pathFor(view) + "#" + anchor;
+  }
   if (typeof id === "string" && id.indexOf("story:") === 0) return "portfolio/" + id.slice(6) + "/";
   return ROUTE_PATHS[id] != null ? ROUTE_PATHS[id] : "";
 }
+
+// URL segments that name a view other than by its key: the Management practice
+// is served at /management/, and its old /owners-rep/ address still resolves.
+const SEGMENT_VIEWS = { management: "owners-rep", "owners-rep": "owners-rep" };
 
 // Parse a location into a view id ("development", "story:casa-mani", "home").
 function routeFromLocation() {
@@ -67,6 +77,7 @@ function routeFromLocation() {
   const seg = src[0], sub = src[1];
   if (!seg) return "home";
   if (seg === "portfolio") return sub ? "story:" + sub : "properties";
+  if (SEGMENT_VIEWS[seg]) return SEGMENT_VIEWS[seg];
   return ROUTE_PATHS[seg] != null ? seg : "home";
 }
 
@@ -97,9 +108,28 @@ function App() {
 
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
   // `silent` applies a route without pushing history (popstate / initial load).
-  const goNow = React.useCallback((id, silent) => {
+  // Bring a section into view once the destination has rendered and the motion
+  // layer has rebound (it refreshes 60 ms after a view change).
+  const scrollToAnchor = (anchor, delay) => {
+    setTimeout(() => {
+      const el = document.getElementById(anchor);
+      if (!el) return;
+      const l = lenis();
+      if (l && l.scrollTo) l.scrollTo(el, { offset: -NAV_OFFSET - 36 });
+      else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET - 36, behavior: "smooth" });
+    }, delay);
+  };
+
+  const goNow = React.useCallback((rawId, silent) => {
+    // "investment#criteria": the view, then a section within it.
+    let id = rawId, anchor = null;
+    if (typeof rawId === "string" && rawId.indexOf("#") > 0) [id, anchor] = rawId.split("#");
     const target = (id === "top" || id === "hero") ? "home" : id;
-    if (!silent) { try { history.pushState(null, "", BASE + pathFor(target)); } catch (e) {} }
+    if (!silent) { try { history.pushState(null, "", BASE + pathFor(target) + (anchor ? "#" + anchor : "")); } catch (e) {} }
+    const settle = (sameView) => {
+      if (anchor) { if (!sameView) scrollTop(); scrollToAnchor(anchor, sameView ? 0 : 320); }
+      else scrollTop();
+    };
 
     if (typeof id === "string" && id.indexOf("story:") === 0) {
       if (view !== "story") returnTo.current = (view === "home" ? "home" : "properties");
@@ -108,8 +138,8 @@ function App() {
       scrollTop();
       return;
     }
-    if (id === "top" || id === "hero" || id === "home") { setView("home"); scrollTop(); return; }
-    if (PAGE_VIEWS.indexOf(id) !== -1) { setView(id); scrollTop(); return; }
+    if (id === "top" || id === "hero" || id === "home") { const same = view === "home"; setView("home"); settle(same); return; }
+    if (PAGE_VIEWS.indexOf(id) !== -1) { const same = view === id; setView(id); settle(same); return; }
     // Unknown target (legacy in-page anchor) — fall back to the gateway.
     setView("home"); scrollTop();
   }, [view]);
@@ -124,7 +154,9 @@ function App() {
   const go = React.useCallback((id, silent) => {
     const el = curtainRef.current;
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (silent || !el || document.hidden || reduced) { goNow(id, silent); return; }
+    // A section on the page already open is a scroll, not a page change: no curtain.
+    const sameView = typeof id === "string" && id.indexOf("#") > 0 && id.split("#")[0] === view;
+    if (silent || !el || document.hidden || reduced || sameView) { goNow(id, silent); return; }
     if (curtainBusy.current) return;
     curtainBusy.current = true;
     el.classList.remove("is-out");
@@ -135,7 +167,14 @@ function App() {
       el.classList.add("is-out");
       setTimeout(() => { el.classList.remove("is-out"); curtainBusy.current = false; }, CURTAIN_OUT_MS);
     }, CURTAIN_IN_MS);
-  }, [goNow]);
+  }, [goNow, view]);
+
+  // Arriving on a URL with a section anchor (#criteria, #record…) — the static
+  // page loads at the top, so take the visitor to the section once rendered.
+  React.useEffect(() => {
+    const h = window.location.hash || "";
+    if (/^#[a-z][\w-]*$/i.test(h)) scrollToAnchor(h.slice(1), 900);
+  }, []);
 
   // Back / forward.
   const applyRoute = React.useCallback(() => {

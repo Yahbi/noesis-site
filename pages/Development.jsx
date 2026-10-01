@@ -1,6 +1,8 @@
-// Development — primary pillar page. Copy sourced from the client's own docs
-// (ARCHIVES/03 - DESIGN: Design landing, Architecture, Interior Design;
-//  ARCHIVES/04 - BUILD: General Contracting). Stone & linen, same components.
+// Development — the firm's own development program, sponsor-led and managed by
+// Noesis. As of October 2026 the firm does not act as general contractor:
+// construction is performed by licensed general contractors it selects and
+// manages. Copy sourced from the client's own docs (ARCHIVES/03 - DESIGN), with
+// the contracting text rewritten as construction management.
 
 const DEV_ASSETS = [
   ["01", "Luxury Residences", "Ground-up custom homes across Beverly Hills, West Hollywood and the Los Angeles hills — the asset class the firm was founded on in 2009."],
@@ -11,7 +13,7 @@ const DEV_ASSETS = [
 const DEV_CRAFT = [
   ["Architecture", "We scrutinize every detail from inception — complete site analyses, a theme that drives the design, and the latest green, audio-visual and smart-home technologies. Our architects, designers, engineers and administrators work hand-in-hand with the city, planning department and contractors to deliver meticulously planned blueprints that are a delight for contractors to make a reality."],
   ["Interior Design", "Comprehensive interior design and planning, with an emphasis on modern, thoughtful minimalism — livable and tranquil, yet open to bold statements. Elements are curated and sourced from around the world: Moroccan doors, handmade glass tiles created by Israeli artists. Every detail is planned — interior elevations, fireplace planning, custom cabinetry, ceiling lighting, even power outlets — and material selections come to life through vision boards."],
-  ["General Contracting", "We bring the blueprints to life through an expansive network of reputable construction professionals and tradespeople, supervising the build daily: foundation, framing, plumbing, electrical, HVAC, smart-home automation, A/V, custom cabinetry, roofing and waterproofing, lath, plaster and stucco, drywall, millwork and insulation."],
+  ["Construction Management", "Construction is performed by licensed general contractors, selected through competitive bids and held to the plan by Noesis. We negotiate the contract, set the schedule and the budget, run the site meetings and inspect the work at every milestone — foundation, framing, mechanical, finishes — through to closeout."],
 ];
 
 const DEV_PROCESS = [
@@ -46,7 +48,8 @@ function Development({ go }) {
               We take a project from a <em>parcel of land</em> to a finished landmark — and own the outcome.
             </p>
             <p className="lede">
-              Noesis conceives, entitles, designs and builds its own real estate. Since 2009 we have
+              Noesis sources, entitles, designs and delivers its own real estate, directing the
+              architects, engineers and licensed general contractors who build it. Since 2009 we have
               developed distinctly unique product — beginning with single-family residences and growing
               into small-lot subdivisions, apartment buildings and other residential and commercial
               developments.
@@ -58,7 +61,7 @@ function Development({ go }) {
           </div>
         </div>
           <div className="wrap">
-            <HeroRail items={[["2009", "Founded"], ["21", "Delivered"], ["3", "Asset types"], ["In house", "Contracting"]]} />
+            <HeroRail items={[["2009", "Founded"], ["21", "Delivered"], ["7", "In development"], ["5", "Delivery gates"]]} />
           </div>
       </section>
 
@@ -118,17 +121,17 @@ function Development({ go }) {
         <div className="wrap">
           <div className="band reveal">
             <div className="band__media">
-              <img src="assets/img/build-pour.jpg" alt="A Noesis concrete pour, Los Angeles" loading="lazy" onError={imgFallback} />
+              <img src="assets/img/build-pour.jpg" alt="A concrete pour on a Noesis project, Los Angeles" loading="lazy" onError={imgFallback} />
             </div>
             <div className="band__panel">
-              <div className="eyebrow"><span className="dot" /> On Site · Self-Delivered</div>
-              <p className="band__t">We build it ourselves.</p>
+              <div className="eyebrow"><span className="dot" /> On Site · Managed by Noesis</div>
+              <p className="band__t">We manage it on site.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* THE CRAFT — architecture / interiors / contracting */}
+      {/* THE CRAFT — architecture / interiors / construction management */}
       <section className="section">
         <div className="wrap">
           <div className="pair reveal" style={{ marginBottom: "clamp(36px,4.5vw,64px)" }}>
@@ -188,19 +191,19 @@ function Development({ go }) {
       </section>
 
       {/* ON SITE — the firm's own construction photography */}
-      <SiteStrip title="Built by our own hands."
-        note="Noesis Builders, Inc. holds the general contractor's license, so the team that underwrites a project also builds it, from the first pour to the last finish. Frames from the firm's Los Angeles sites." />
+      <SiteStrip title="Managed on site."
+        note="Every Noesis project is built by a licensed general contractor and managed on site by the Noesis team — at the pour, the inspection and the punch walk. Frames from the firm's Los Angeles projects." />
 
-      {/* BUILDER'S PROOF */}
+      {/* THE MANAGER'S RECORD */}
       <section className="section">
         <div className="wrap grid-12" style={{ alignItems: "start" }}>
           <div className="col-5 reveal">
-            <div className="eyebrow"><span className="dot" /> A Builder's Record</div>
+            <div className="eyebrow"><span className="dot" /> A Manager's Record</div>
             <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "12ch" }}>Delivered, not theorized.</h2>
           </div>
           <div className="col-7 reveal">
             <p className="body-lg">
-              Our principal's construction record predates the firm: a 24-unit luxury condominium
+              Our principal's project-management record predates the firm: a 24-unit luxury condominium
               delivered 22 days ahead of schedule and 12% under budget, and a $75 million construction
               budget managed for the L.A. Fashion Center — coordinating trades, architects and engineers
               through to completion.
@@ -218,7 +221,7 @@ function Development({ go }) {
       </section>
 
       {/* THE PIPELINE */}
-      <section className="section">
+      <section id="pipeline" className="section">
         <div className="wrap">
           <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,40px)" }}>
             <div className="col-7">

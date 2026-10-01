@@ -46,7 +46,7 @@ function marketOf(loc) {
 const CATEGORIES = [
   {
     key: "sfr", label: "Single Family Residences",
-    blurb: "Ground-up houses — land taken through entitlement, design and construction by one team. The firm's founding discipline and the deepest part of the record, now running from Los Angeles to Tel Aviv, Joshua Tree and Miami Beach.",
+    blurb: "Ground-up houses — land taken through entitlement, design and construction under one team's management. The firm's founding discipline and the deepest part of the record, now running from Los Angeles to Tel Aviv, Joshua Tree and Miami Beach.",
     items: [
       { id: "one-oak", name: "One Oak", loc: "Sunset Strip, Los Angeles", year: "2015", gallery: GAL["one-oak"], video: "oneoak-film",
         text: "One Oak is truly a one-of-a-kind masterpiece designed to astound. Located atop a serene enclave on a private street, the two-story residence boasts jetliner views of the city and coastline, with a sleek, open-air concept that freely ebbs and flows to maximize the view.\n\nNoesis Group carefully crafted this four-bedroom, five-bath smart home with 12-foot ceilings, a 500-bottle wine cellar, a gourmet kitchen and top-of-the-line cabinetry and appliances. The expansive terrace opens to a true infinity-edge pool with jacuzzi, multi-colored lighting and outdoor living.",
@@ -106,13 +106,13 @@ const CATEGORIES = [
     blurb: "Small, boutique buildings of brand-new townhouse apartments, built to the same specification as the houses — Miton Italian kitchens, Caesarstone, and private outdoor space for every unit.",
     items: [
       { id: "ying-yang-lofts", name: "Ying Yang Lofts", loc: "Los Angeles", year: "2019", gallery: APT.ying, cover: "ying_ext_tall",
-        text: "Brand-new townhouse apartments designed and built by Noesis for the trendsetters, tastemakers and families who want to live and play in the heart of Los Angeles — culture, dining, entertainment and nightlife all within walking distance.\n\nEach two-bedroom, 2.5-bath unit with flex space carries Porcelanosa fixtures, Caesarstone counters and custom Miton Italian kitchens. Indoor-outdoor California living runs throughout — private grassed yards and rooftop decks with unobstructed city views — fully equipped with LG stainless appliances, full-size laundry and a two-car garage.",
+        text: "Brand-new townhouse apartments designed and developed by Noesis for the trendsetters, tastemakers and families who want to live and play in the heart of Los Angeles — culture, dining, entertainment and nightlife all within walking distance.\n\nEach two-bedroom, 2.5-bath unit with flex space carries Porcelanosa fixtures, Caesarstone counters and custom Miton Italian kitchens. Indoor-outdoor California living runs throughout — private grassed yards and rooftop decks with unobstructed city views — fully equipped with LG stainless appliances, full-size laundry and a two-car garage.",
         facts: [["Layout", "2 BD · 2.5 BA + flex"], ["Outdoor", "Yards + roof decks"], ["Parking", "2-car garage"], ["Built", "2019"]] },
       { id: "stanley-lofts", name: "Stanley Lofts", loc: "West Hollywood, Los Angeles", year: "2018", gallery: APT.stanley, cover: "stanley_ext_1",
         text: "Built and designed by Noesis Group, these brand-new townhouse apartments offer a glamorous lifestyle for trendsetters, tastemakers and families who want to live and play in the heart of Los Angeles — Stanley Lofts is walking distance from all the culture West Hollywood has to offer.\n\nFour boutique luxurious townhomes, each three bedrooms and 2.5 baths, finished with Porcelanosa and Graff tile and fixtures, Caesarstone countertops and custom Miton Italian kitchens. Every unit comes fully equipped with LG stainless appliances, full-size laundry and two covered parking spots, plus large partially grassed private rooftops with unobstructed Hollywood Hills views.",
         facts: [["Units", "4 townhomes"], ["Layout", "3 BD · 2.5 BA"], ["Kitchens", "Miton Italian"], ["Built", "2018"]] },
       { id: "my-genesee", name: "My Genesee", loc: "Beverly Grove, Los Angeles", year: "2019", gallery: APT.genesee, cover: "genesee_ext_tall",
-        text: "Discover luxury living at these brand-new three-bedroom units in the heart of one of Los Angeles's hottest neighborhoods, Beverly Grove. Designed and built by Noesis Group, these one-of-a-kind, three-bedroom, 2.5-bath condo-style apartments offer state-of-the-art Italian kitchens with Caesarstone countertops, new LG appliances, in-unit laundry and large custom walk-in closets.\n\nMy Genesee is a four-unit, fully secured building with reserved parking in a fully equipped garage. Each unit spans over 2,200 square feet of impeccable living space, with views of the city, downtown and the Hollywood Hills from a large private terrace.",
+        text: "Discover luxury living at these brand-new three-bedroom units in the heart of one of Los Angeles's hottest neighborhoods, Beverly Grove. Designed and developed by Noesis Group, these one-of-a-kind, three-bedroom, 2.5-bath condo-style apartments offer state-of-the-art Italian kitchens with Caesarstone countertops, new LG appliances, in-unit laundry and large custom walk-in closets.\n\nMy Genesee is a four-unit, fully secured building with reserved parking in a fully equipped garage. Each unit spans over 2,200 square feet of impeccable living space, with views of the city, downtown and the Hollywood Hills from a large private terrace.",
         facts: [["Units", "4-unit building"], ["Layout", "3 BD · 2.5 BA"], ["Size", ">2,200 sf/unit"], ["Built", "2019"]] },
     ],
   },
@@ -124,7 +124,7 @@ const CATEGORIES = [
         text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.\n\nCasablanca Homes is one half of the firm's Sycamore collection on North Sycamore Avenue — sixteen three-level homes across two sites, each with a two-car garage and a private rooftop terrace. Its massing is a stack of offset volumes, picked out in colour at the upper floors.",
         facts: [["Type", "Small-lot subdivision"], ["Street", "North Sycamore Avenue"], ["Homes", "Three levels · rooftop terrace"], ["Imagery", "Architectural rendering"]] },
       { id: "alexandria-homes", name: "Alexandria Homes", loc: "Los Angeles", gallery: ["alexandria", "sf-alexandria-01"], cover: "alexandria", rendering: true,
-        text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.\n\nAlexandria Homes is the second half of the Sycamore collection on North Sycamore Avenue — three-level homes with two-car garages and private rooftop terraces, clad in vertical timber with perforated metal screens at the balconies.",
+        text: "Detached small-lot homes developed by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.\n\nAlexandria Homes is the second half of the Sycamore collection on North Sycamore Avenue — three-level homes with two-car garages and private rooftop terraces, clad in vertical timber with perforated metal screens at the balconies.",
         facts: [["Type", "Small-lot subdivision"], ["Street", "North Sycamore Avenue"], ["Homes", "Three levels · rooftop terrace"], ["Imagery", "Architectural rendering"]] },
     ],
   },
@@ -310,7 +310,7 @@ function Projects({ setPage, setIntent }) {
           <div className="col-4">
             <p className="lede">
               Luxury residences and buildings conceived, developed and delivered by the Noesis
-              team — the delivered proof behind what we build, what we hold, and how we manage.
+              team — the delivered proof behind what we invest in, what we develop, and how we manage.
             </p>
             <div className="mkt u-mt-24" role="group" aria-label="Filter the record by market">
               <div className="label">Markets · filter the record</div>
@@ -329,6 +329,10 @@ function Projects({ setPage, setIntent }) {
         </div>
       </section>
 
+      {/* The category tabs are sticky only while their own content scrolls: the
+          wrapper is their containing block, so they release before the full
+          record, which they do not filter. */}
+      <div className="pcats">
       {/* TABS */}
       <section className="section--tight" style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)", position: "sticky", top: 72, zIndex: 20, background: "color-mix(in oklab, var(--bone) 88%, transparent)", backdropFilter: "blur(12px)", paddingTop: 22, paddingBottom: 22 }}>
         <div className="wrap u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
@@ -443,6 +447,26 @@ function Projects({ setPage, setIntent }) {
           </div>
         </div>
       </section>}
+      </div>
+
+      {/* THE FULL RECORD — every project, sortable */}
+      <section id="record" className="section">
+        <div className="wrap">
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> Every Project · 2011 — Today</div>
+              <h2 className="h-1 u-mt-16" style={{ maxWidth: "14ch" }}>The full record.</h2>
+            </div>
+            <div className="col-5">
+              <p className="body" style={{ color: "var(--muted)", maxWidth: "46ch" }}>
+                All twenty-eight projects in one table — sort by market, type, year, status or size.
+                Each name with a page opens its story.
+              </p>
+            </div>
+          </div>
+          <RecordTable go={setPage} />
+        </div>
+      </section>
 
       <NightCta img="sf-mani-01" alt="Casa Mani, Beverly Hills — delivered by Noesis in 2017"
         title={<>This standard, on <em>your project.</em></>}

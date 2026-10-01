@@ -30,7 +30,7 @@ const INV_GEO = [
   ["geo-la", "city-west", "Los Angeles", "Beverly Hills, West Hollywood, the Westside — where the record was built."],
   ["geo-desert", "geo-desert", "The California desert", "Joshua Tree and Hidden Hills, where the current pipeline sits."],
   ["geo-miami", "geo-miami", "Miami Beach", "Biscayne Point, and the firm's first ground-up house on the East Coast."],
-  ["geo-marbella", "geo-marbella", "Marbella", "The Costa del Sol — where the firm now builds in Europe."],
+  ["geo-marbella", "geo-marbella", "Marbella", "The Costa del Sol — where the firm now invests in Europe."],
   ["geo-telaviv", "geo-telaviv", "Tel Aviv", "The Mediterranean coast, and the firm's first house delivered abroad."],
 ];
 
@@ -45,7 +45,7 @@ const INV_PRINCIPLES = [
   ["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."],
   ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."],
   ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."],
-  ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."],
+  ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with an operator's rigor."],
 ];
 
 // Three strategies shown one at a time. Stacked, they were three long rows a
@@ -220,7 +220,7 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* STRATEGIES — tabbed, so the three are compared rather than scrolled past */}
-      <section className="section section--lead" style={{ borderTop: 0 }}>
+      <section id="strategies" className="section section--lead" style={{ borderTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Investment Strategies</div>
           <StrategyTabs />
@@ -229,7 +229,7 @@ function Investment({ go, setIntent }) {
 
       {/* WHERE WE WORK — the geography, which had grown well past Los Angeles
           without the site ever saying so. */}
-      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+      <section id="markets" className="section" style={{ borderTop: 0, paddingTop: 0 }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Where We Work</div>
           <h2 className="h-2 u-mt-16 reveal" style={{ maxWidth: "24ch" }}>
@@ -254,7 +254,7 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* WHAT WE BUY — the criteria a broker or seller needs to self-qualify. */}
-      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+      <section id="criteria" className="section" style={{ borderTop: 0, paddingTop: 0 }}>
         <div className="wrap">
           <div className="grid-12" style={{ alignItems: "start" }}>
             <div className="col-4 reveal">
@@ -320,7 +320,7 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* THE PIPELINE — what is in development now, on the stage it has reached */}
-      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+      <section id="pipeline" className="section" style={{ borderTop: 0, paddingTop: 0 }}>
         <div className="wrap">
           <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,40px)" }}>
             <div className="col-7">
@@ -382,10 +382,10 @@ function Investment({ go, setIntent }) {
           <div className="col-5">
             <p className="body-lg">
               We do not underwrite from a spreadsheet alone. Twenty-one delivered projects — designed,
-              built and sold by this team — inform every basis, every program and every schedule we
+              delivered and sold under this team's management — inform every basis, every program and every schedule we
               commit to. The development practice is what de-risks the investment thesis.
             </p>
-            <button className="btn btn--ghost u-mt-24" onClick={() => go("properties")} data-magnetic>See the delivered record <span className="arr" /></button>
+            <button className="btn btn--ghost u-mt-24" onClick={() => go("properties#record")} data-magnetic>See the delivered record <span className="arr" /></button>
           </div>
         </div>
       </NightPlate>

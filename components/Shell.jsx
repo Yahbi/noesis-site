@@ -5,8 +5,8 @@
 const SECTIONS = [
   ["investment",  "Investment"],
   ["development", "Development"],
+  ["owners-rep",  "Management"],   // served at /management/; the view key predates the rename
   ["properties",  "Portfolio"],
-  ["owners-rep",  "Owner's Rep"],
   ["firm",        "Firm"],
   ["inquiries",   "Contact"],      // URL stays /inquiries/ — renaming it would break the sitemap and any shared links
 ];
@@ -313,7 +313,7 @@ function Footer({ go }) {
           <div className="col-7">
             <div className="eyebrow" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · Est. 2009 · Los Angeles · Miami · Marbella · Tel Aviv</div>
             <h2 className="h-1 u-mt-24" style={{ maxWidth: "16ch" }}>
-              We develop, we invest, and we deliver — <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
+              We invest, we develop, we manage — <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
             </h2>
             <div className="u-flex u-gap-24 u-mt-40" style={{ flexWrap: "wrap" }}>
               {SECTIONS.map(([k, l]) => (

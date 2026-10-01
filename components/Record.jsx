@@ -369,9 +369,109 @@ function SmallLotNote() {
   );
 }
 
+// ── THE FULL RECORD ────────────────────────────────────────────────────────
+// Every project — the 22 with galleries and the 6 record-only entries — in one
+// sortable table. Each value comes from the project's own record: size from its
+// "House"/"Size" fact or, for record-only entries, the square footage stated in
+// its note; anything not documented reads "—" rather than an estimate.
+const RECORD_COLS = [
+  ["name", "Project"], ["market", "Market"], ["type", "Type"], ["year", "Year"], ["status", "Status"], ["size", "Size"],
+];
+
+function recordRows() {
+  const list = typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : [];
+  const further = typeof FURTHER_RECORD !== "undefined" ? FURTHER_RECORD : [];
+  const mk = (loc) => (typeof marketOf === "function" ? marketOf(loc) : loc);
+  const fact = (p, keys) => { const f = (p.facts || []).find(([k]) => keys.indexOf(k) !== -1); return f ? f[1] : ""; };
+  const rows = list.map((p) => ({
+    id: p.id, name: p.name, loc: p.loc, market: mk(p.loc),
+    type: ASSET_OF[p.categoryKey] || p.category,
+    year: p.rendering ? "" : (p.year || ""),
+    status: p.rendering ? (p.stage || "In development") : "Delivered",
+    delivered: !p.rendering,
+    size: fact(p, ["House", "Size"]) || fact(p, ["Units"]),
+  }));
+  further.forEach(([name, loc, year, note, cat]) => {
+    const sf = (note.match(/(\d,\d{3})[- ]square[- ]f(?:oo|ee)t/) || [])[1];
+    rows.push({ id: null, name, loc, market: mk(loc), type: ASSET_OF[cat] || "", year, status: "Delivered", delivered: true,
+      size: sf ? "~" + sf + " sf" : "" });
+  });
+  return rows;
+}
+
+function RecordTable({ go }) {
+  const rows = React.useMemo(recordRows, []);
+  const [sort, setSort] = React.useState({ key: "year", dir: -1 });
+  const keyOf = (r, k) => {
+    if (k === "year") return r.delivered ? +r.year || 0 : 9999;          // in development sorts as newest
+    if (k === "status") return (r.delivered ? "1" : "0") + r.status;
+    if (k === "size") return parseInt(String(r.size).replace(/[^\d]/g, ""), 10) || 0;
+    return String(r[k] || "").toLowerCase();
+  };
+  const sorted = rows.slice().sort((a, b) => {
+    const x = keyOf(a, sort.key), y = keyOf(b, sort.key);
+    if (x < y) return -sort.dir;
+    if (x > y) return sort.dir;
+    return a.name.localeCompare(b.name);          // ties always read A→Z
+  });
+  const markets = new Set(rows.map((r) => r.market)).size;
+  const delivered = rows.filter((r) => r.delivered).length;
+  const flip = (k) => setSort((s) => ({ key: k, dir: s.key === k ? -s.dir : (k === "year" || k === "size" ? -1 : 1) }));
+  return (
+    <div className="rtab">
+      <div className="rtab__sum">
+        <span><b>{rows.length}</b> projects</span>
+        <span><b>{delivered}</b> delivered</span>
+        <span><b>{rows.length - delivered}</b> in development</span>
+        <span><b>{markets}</b> markets in the record</span>
+      </div>
+      <div className="rtab__scroll" role="region" aria-label="The full record, sortable" tabIndex={0}>
+        <table className="rtab__t">
+          <caption className="sr-only">Every Noesis project since 2009. Select a column heading to sort.</caption>
+          <thead>
+            <tr>
+              {RECORD_COLS.map(([k, label]) => (
+                <th key={k} scope="col" aria-sort={sort.key === k ? (sort.dir > 0 ? "ascending" : "descending") : "none"}>
+                  <button className={"rtab__sortb" + (sort.key === k ? " is-on" : "")} onClick={() => flip(k)}>
+                    {label}<span className="rtab__dir" aria-hidden="true">{sort.key === k ? (sort.dir > 0 ? "↑" : "↓") : ""}</span>
+                  </button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((r) => (
+              <tr key={r.name} className={r.delivered ? "" : "is-dev"}>
+                <th scope="row">
+                  {r.id
+                    ? <a href={storyHref(r.id)} onClick={storyNav(go, r.id)}>{r.name}</a>
+                    : <span>{r.name}</span>}
+                  <span className="rtab__loc">{r.loc}</span>
+                </th>
+                <td>{r.market}</td>
+                <td>{r.type}</td>
+                <td className="rtab__num">{r.year || "—"}</td>
+                <td><span className={"rtab__st" + (r.delivered ? "" : " rtab__st--dev")}>{r.status}</span></td>
+                <td className="rtab__num">{r.size || "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="rtab__note">
+        As of September 2026, from the firm's project records; unaudited. Year is the year of delivery.
+        Sizes are as documented for each project — living area for houses, per-unit or unit count for
+        apartment buildings — and "—" where the record states none. Projects in development are shown as
+        architectural renderings on their pages.
+      </p>
+    </div>
+  );
+}
+
 window.MarketsMap = MarketsMap;
 window.Pipeline = Pipeline;
 window.Chronicle = Chronicle;
+window.RecordTable = RecordTable;
 window.ProjectLocation = ProjectLocation;
 window.StageTrack = StageTrack;
 window.SmallLotNote = SmallLotNote;

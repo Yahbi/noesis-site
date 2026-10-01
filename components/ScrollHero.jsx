@@ -13,7 +13,7 @@
 // Casa Mani — approach, street, rear, living room, family room, kitchen, pool — so
 // the first four screens of an investment firm were a room-by-room tour of one
 // Beverly Hills residence. It now runs in the CIM register: the city from above
-// -> we build it (a Noesis pour) -> downtown -> one delivered residence -> the
+// -> a Noesis project under construction -> downtown -> one delivered residence -> the
 // basin at dusk. No interiors: a kitchen is the contractor register.
 //
 // Plates 1, 3 and 5 are Seedream 4.5 renders at 5–6K, baked by
@@ -23,7 +23,7 @@
 // Their alt text names a place, never a Noesis project — they are not our work.
 const HERO_PLATES = [
   ["city-west", "Los Angeles from above the Westside"],
-  ["local:assets/img/build-pour.jpg", "A Noesis concrete pour, Los Angeles"],
+  ["local:assets/img/build-pour.jpg", "A concrete pour on a Noesis project, Los Angeles"],
   ["city-dtla", "Downtown Los Angeles"],
   ["5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg", "Casa Mani, Beverly Hills"],
   ["city-basin", "The Los Angeles basin at dusk"],
@@ -186,16 +186,16 @@ function ScrollHero({ go, setIntent }) {
             <div className="wrap">
               <div className="eyebrow shero__rise shero__rise--1"><span className="dot" /> Noesis — Est. 2009</div>
               <h1 className="h-display shero__rise shero__rise--2" style={{ maxWidth: "15ch", color: "var(--ink)" }}>
-                We build what we invest in.
+                We manage what we invest in.
               </h1>
               <p className="lede shero__rise shero__rise--3" style={{ maxWidth: "46ch" }}>
-                A Beverly Hills–based real-estate investment and development firm. We acquire,
-                build and hold residential assets — and represent select owners from entitlement
-                through delivery.
+                A Beverly Hills real-estate investment and management firm. We acquire,
+                develop and hold residential assets across Los Angeles, Miami, Marbella and Tel Aviv —
+                and manage projects for a select group of owners.
               </p>
               <div className="u-flex u-gap-16 u-mt-40 shero__rise shero__rise--4" style={{ flexWrap: "wrap" }}>
                 <button className="btn" onClick={() => goInvestor("investment")} data-magnetic>Investment Approach</button>
-                <button className="btn btn--ghost" onClick={() => go("development")} data-magnetic>Explore Development</button>
+                <button className="btn btn--ghost" onClick={() => go("owners-rep")} data-magnetic>Our Management</button>
               </div>
             </div>
           </div>
@@ -203,11 +203,11 @@ function ScrollHero({ go, setIntent }) {
           <div className="shero__beat shero__beat--right" ref={rightRef}>
             <div className="eyebrow"><span className="dot" /> Development</div>
             <p className="pull u-mt-16" style={{ color: "var(--ink)", maxWidth: "16ch" }}>
-              Conceived, entitled, designed and <em>built by our own team.</em>
+              Conceived, entitled and designed — <em>delivered under our management.</em>
             </p>
             <p className="body u-mt-16" style={{ maxWidth: "40ch" }}>
-              Land taken through entitlement, design and construction by one team —
-              across single-family, small-lot and apartment assets.
+              Land taken through entitlement, design and construction under one team's
+              management — across single-family, small-lot and apartment assets.
             </p>
           </div>
 
@@ -226,13 +226,13 @@ function ScrollHero({ go, setIntent }) {
           <div className="shero__close" ref={closeRef}>
             <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Los Angeles · Miami · Marbella · Tel Aviv</div>
             <h2 className="h-display u-mt-16" style={{ color: "var(--ink)", maxWidth: "18ch", marginInline: "auto" }}>
-              Development execution. Investment judgment.
+              Investment judgment. Management discipline.
             </h2>
             <div className="u-flex u-gap-16 u-mt-40" style={{ justifyContent: "center", flexWrap: "wrap" }}>
               <button className="btn shero__close-cta" onClick={() => goInvestor("inquiries")} data-magnetic>
                 Start a Conversation <span className="arr" />
               </button>
-              <button className="btn btn--ghost shero__close-cta" onClick={() => go("properties")} data-magnetic>
+              <button className="btn btn--ghost shero__close-cta" onClick={() => go("properties#record")} data-magnetic>
                 See the Record
               </button>
             </div>
