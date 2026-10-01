@@ -1736,7 +1736,64 @@ function ProjectIndex({
     className: "pidx__flag"
   }, "Architectural rendering"))));
 }
+const SITE_FRAMES = [["sf-site-01", "The boom pump over a deck pour"], ["sf-site-02", "Post-tension deck, before the pour"], ["sf-site-03", "Placing and finishing the slab"], ["sf-site-04", "Framing a hillside residence above the city"]];
+function SiteStrip({
+  eyebrow,
+  title,
+  note
+}) {
+  return React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,40px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " ", eyebrow || "On Site"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "16ch"
+    }
+  }, title)), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "44ch"
+    }
+  }, note))), React.createElement("div", {
+    className: "sstrip"
+  }, SITE_FRAMES.map(([img, cap]) => React.createElement("figure", {
+    key: img,
+    className: "sstrip__f"
+  }, React.createElement("span", {
+    className: "sstrip__m"
+  }, React.createElement("img", {
+    src: wix(img, {
+      w: 1400
+    }),
+    srcSet: wixSet(img, [800, 1400, 2000]),
+    sizes: "(max-width: 760px) 92vw, 25vw",
+    alt: cap + ", Los Angeles",
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  })), React.createElement("figcaption", null, cap))))));
+}
 window.bandSrc = bandSrc;
+window.SiteStrip = SiteStrip;
 window.NightPlate = NightPlate;
 window.NightCta = NightCta;
 window.ProjectIndex = ProjectIndex;
@@ -1820,7 +1877,9 @@ function useInView(ref, margin) {
   return seen;
 }
 function MarketsMap({
-  tone
+  tone,
+  focus,
+  compact
 }) {
   const ref = React.useRef(null);
   const inView = useInView(ref);
@@ -1838,11 +1897,15 @@ function MarketsMap({
     return i === -1 ? MARKET_ORDER.length : i;
   };
   const legend = tally.concat(ACTIVE_MARKETS.map(m => [m, null])).sort((a, b) => rank(a[0]) - rank(b[0]));
+  const canvasStyle = focus ? focusFrame(pins.find(p => p.key === focus)) : undefined;
   return React.createElement("div", {
-    className: "mmap" + (tone === "night" ? " mmap--night" : "") + (inView ? " is-in" : ""),
+    className: "mmap" + (tone === "night" ? " mmap--night" : "") + (focus ? " mmap--focus" : "") + (inView ? " is-in" : ""),
     ref: ref
   }, React.createElement("div", {
     className: "mmap__stage"
+  }, React.createElement("div", {
+    className: "mmap__canvas",
+    style: canvasStyle
   }, React.createElement("img", {
     className: "mmap__dots",
     src: "assets/img/map-dots.svg",
@@ -1863,7 +1926,7 @@ function MarketsMap({
     }
   })), pins.map(p => React.createElement("g", {
     key: p.key,
-    className: "mmap__pin" + (p.home ? " mmap__pin--home" : "") + (p.active ? " mmap__pin--active" : ""),
+    className: "mmap__pin" + (p.home ? " mmap__pin--home" : "") + (p.active ? " mmap__pin--active" : "") + (p.key === focus ? " is-focus" : ""),
     transform: `translate(${p.xy[0].toFixed(2)} ${p.xy[1].toFixed(2)})`
   }, React.createElement("circle", {
     className: "mmap__pulse",
@@ -1871,7 +1934,7 @@ function MarketsMap({
   }), React.createElement("circle", {
     className: "mmap__dot",
     r: p.home ? 1.15 : 0.85
-  })))), pins.map(p => React.createElement("div", {
+  })))), pins.filter(p => !focus || p.key === focus).map(p => React.createElement("div", {
     key: p.key,
     className: `mmap__label mmap__label--${p.place}`,
     style: {
@@ -1882,7 +1945,7 @@ function MarketsMap({
     className: "mmap__name"
   }, p.label), React.createElement("span", {
     className: "mmap__n"
-  }, p.active ? "Active market" : `${p.n} ${p.n === 1 ? "project" : "projects"}`)))), React.createElement("ul", {
+  }, p.active ? "Active market" : `${p.n} ${p.n === 1 ? "project" : "projects"}`))))), !compact && React.createElement("ul", {
     className: "mmap__legend",
     "aria-label": `${total} projects by market, and the markets the firm is active in`
   }, legend.map(([m, c]) => React.createElement("li", {
@@ -1893,6 +1956,28 @@ function MarketsMap({
   }, c == null ? "Active" : c), React.createElement("span", {
     className: "mmap__lm"
   }, m)))));
+}
+const FOCUS_ZOOM = 1.3;
+const FOCUS_ASPECT = 3 / 4;
+function focusFrame(pin) {
+  if (!pin) return undefined;
+  const mapAspect = MAP_GRID.cols / MAP_GRID.rows;
+  const h = FOCUS_ASPECT * FOCUS_ZOOM;
+  const w = h * mapAspect;
+  const fx = (pin.xy[0] + 0.5) / MAP_GRID.cols,
+    fy = (pin.xy[1] + 0.5) / MAP_GRID.rows;
+  const left = Math.min(0, Math.max(1 - w, 0.5 - fx * w));
+  const top = Math.min(0, Math.max(FOCUS_ASPECT - h, FOCUS_ASPECT / 2 - fy * h));
+  return {
+    width: `${(w * 100).toFixed(2)}%`,
+    height: `${(FOCUS_ZOOM * 100).toFixed(2)}%`,
+    left: `${(left * 100).toFixed(2)}%`,
+    top: `${(top / FOCUS_ASPECT * 100).toFixed(2)}%`
+  };
+}
+function pinForMarket(market) {
+  const hit = MAP_PINS.find(p => (p.markets || []).indexOf(market) !== -1 || p.label === market);
+  return hit ? hit.key : null;
 }
 const PIPELINE_STAGES = ["In design", "Construction documents", "Permits ready", "Permits issued", "Issued for construction"];
 const ASSET_OF = {
@@ -2072,9 +2157,171 @@ function Chronicle({
     className: "chron__swatch chron__swatch--future"
   }), " In development \xB7 ", data.pipeline)));
 }
+const PLACE_PLATES = {
+  "Los Angeles": ["city-west", "Los Angeles from above the Westside"],
+  "West Hollywood": ["city-west", "Los Angeles from above the Westside"],
+  "Beverly Hills": ["geo-beverly", "The residential flats of Beverly Hills"],
+  "Hidden Hills": ["geo-hiddenhills", "The oak-studded hills of Hidden Hills"],
+  "Joshua Tree": ["geo-desert", "The high desert near Joshua Tree"],
+  "Miami Beach": ["geo-miami", "Biscayne Bay and Miami Beach"],
+  "Tel Aviv": ["geo-telaviv", "The Tel Aviv coastline"]
+};
+const NUMBER_WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one"];
+const inWords = n => NUMBER_WORDS[n] || String(n);
+function ProjectLocation({
+  p
+}) {
+  const market = typeof marketOf === "function" ? marketOf(p.loc) : p.loc;
+  const tally = typeof recordMarkets === "function" ? recordMarkets() : [];
+  const hit = tally.find(([m]) => m === market);
+  const n = hit ? hit[1] : 1;
+  const plate = PLACE_PLATES[market];
+  const pin = pinForMarket(market);
+  const media = plate && typeof bandSrc === "function" ? bandSrc(plate[0]) : null;
+  return React.createElement("section", {
+    className: "section ploc"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,44px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Location"), React.createElement("h2", {
+    className: "h-1 u-mt-16"
+  }, market), p.loc !== market && React.createElement("p", {
+    className: "ploc__loc"
+  }, p.loc)), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "44ch"
+    }
+  }, n > 1 ? `One of ${inWords(n)} Noesis projects in ${market}, of twenty-eight across the record.` : `The firm's project in ${market} — one of twenty-eight across the record.`))), React.createElement("div", {
+    className: "ploc__grid reveal"
+  }, React.createElement("div", {
+    className: "ploc__map"
+  }, pin && React.createElement(MarketsMap, {
+    focus: pin,
+    compact: true
+  })), media && React.createElement("figure", {
+    className: "ploc__plate"
+  }, React.createElement("img", {
+    src: media.src,
+    srcSet: media.srcSet,
+    sizes: "(max-width: 860px) 92vw, 45vw",
+    alt: plate[1],
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  }), React.createElement("figcaption", null, plate[1])))));
+}
+function StageTrack({
+  p
+}) {
+  const at = PIPELINE_STAGES.indexOf(p.stage);
+  if (!p.rendering || at === -1) return null;
+  return React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,40px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Where It Stands"), React.createElement("h2", {
+    className: "h-1 u-mt-16"
+  }, p.stage, ".")), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "44ch"
+    }
+  }, "Stage ", at + 1, " of ", PIPELINE_STAGES.length, " before construction begins, as of September 2026. Plans, approvals and timelines change; see the disclosures."))), React.createElement("ol", {
+    className: "stage reveal",
+    "aria-label": `${p.name}: ${p.stage}, stage ${at + 1} of ${PIPELINE_STAGES.length}`
+  }, PIPELINE_STAGES.map((st, i) => React.createElement("li", {
+    key: st,
+    className: "stage__step" + (i <= at ? " is-done" : "") + (i === at ? " is-now" : "")
+  }, React.createElement("span", {
+    className: "stage__bar"
+  }), React.createElement("span", {
+    className: "stage__n"
+  }, String(i + 1).padStart(2, "0")), React.createElement("span", {
+    className: "stage__t"
+  }, st))))));
+}
+function SmallLotNote() {
+  return React.createElement("section", {
+    className: "section section--tint",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap grid-12 reveal",
+    style: {
+      alignItems: "start"
+    }
+  }, React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Product"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "12ch"
+    }
+  }, "Why small-lot.")), React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("p", {
+    className: "body-lg",
+    style: {
+      maxWidth: "56ch"
+    }
+  }, "Los Angeles' Small Lot Subdivision Ordinance, in force since 2005, lets a lot zoned for apartments be divided into individually owned parcels, each carrying its own home."), React.createElement("div", {
+    className: "sln u-mt-40"
+  }, React.createElement("div", null, React.createElement("span", {
+    className: "sln__k"
+  }, "For the buyer"), React.createElement("span", {
+    className: "sln__v"
+  }, "The land under the house, owned outright \u2014 a fee-simple home, not a condominium unit, in neighbourhoods where a single-family lot is out of reach.")), React.createElement("div", null, React.createElement("span", {
+    className: "sln__k"
+  }, "For the city"), React.createElement("span", {
+    className: "sln__v"
+  }, "More homes for sale on infill land, at the scale of the street rather than of a tower.")), React.createElement("div", null, React.createElement("span", {
+    className: "sln__k"
+  }, "For the developer"), React.createElement("span", {
+    className: "sln__v"
+  }, "A for-sale exit on land priced as multifamily \u2014 the shape of the opportunistic strategy."))))));
+}
 window.MarketsMap = MarketsMap;
 window.Pipeline = Pipeline;
 window.Chronicle = Chronicle;
+window.ProjectLocation = ProjectLocation;
+window.StageTrack = StageTrack;
+window.SmallLotNote = SmallLotNote;
 const SHOT = {
   casaMani: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",
   leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
@@ -2769,7 +3016,10 @@ function Development({
     className: "flow__name"
   }, t), React.createElement("p", {
     className: "flow__desc"
-  }, d)))))), React.createElement("section", {
+  }, d)))))), React.createElement(SiteStrip, {
+    title: "Built by our own hands.",
+    note: "Noesis Builders, Inc. holds the general contractor's license, so the team that underwrites a project also builds it, from the first pour to the last finish. Frames from the firm's Los Angeles sites."
+  }), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap grid-12",
@@ -3719,8 +3969,43 @@ function Firm({
 }
 window.Firm = Firm;
 const INQ_ENDPOINT = "";
+const INQ_ROUTES = [["Investors & family offices", "investment", "city-night", "Capital alongside the operator. Read the strategies, the criteria and the record, then ask for a confidential introduction."], ["Owners & developers", "owners-rep", "sf-site-03", "A project you own, and one accountable advocate for it — from entitlement and design through construction to handover."], ["Brokers & sellers", "investment", "geo-beverly", "A site or a building that fits the brief. Product, activity, hold and markets are stated plainly; we would rather hear early."]];
+const INQ_STEPS = [["01", "We read it", "Every inquiry is read by the principal, not a queue, and answered within one business day."], ["02", "A first conversation", "A call, or a meeting at the Beverly Hills office, to understand what you are looking for and whether we are the right firm for it."], ["03", "Then the detail", "Where there is a fit, we share specifics. For investors, offering material is provided only to those eligible to receive it, and only through the offering documents."]];
+const INQ_CLOCKS = [["Beverly Hills", "Head office", "America/Los_Angeles"], ["Miami Beach", "Market", "America/New_York"], ["Marbella", "Market", "Europe/Madrid"], ["Tel Aviv", "Market", "Asia/Jerusalem"]];
+function LocalTimes() {
+  const [now, setNow] = React.useState(() => new Date());
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(id);
+  }, []);
+  const at = tz => {
+    try {
+      return new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: tz
+      }).format(now);
+    } catch (e) {
+      return "";
+    }
+  };
+  return React.createElement("div", {
+    className: "ltimes"
+  }, INQ_CLOCKS.map(([city, role, tz]) => React.createElement("div", {
+    key: city,
+    className: "ltimes__c"
+  }, React.createElement("span", {
+    className: "ltimes__t"
+  }, at(tz)), React.createElement("span", {
+    className: "ltimes__city"
+  }, city), React.createElement("span", {
+    className: "ltimes__role"
+  }, role))));
+}
 function Inquiries({
-  intent
+  intent,
+  go
 }) {
   return React.createElement("main", {
     className: "page-enter"
@@ -3803,6 +4088,130 @@ function Inquiries({
     className: "col-7 reveal"
   }, React.createElement(InquiryForm, {
     intent: intent
+  })))), React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(28px,3.5vw,48px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Who This Reaches"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "16ch"
+    }
+  }, "Three ways in.")), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "44ch"
+    }
+  }, "The same team answers all three. If you would rather read first, each door leads to the part of the firm it concerns."))), React.createElement("div", {
+    className: "iroutes"
+  }, INQ_ROUTES.map(([t, route, img, d]) => {
+    const media = img.indexOf("sf-") === 0 ? {
+      src: wix(img, {
+        w: 800
+      }),
+      srcSet: wixSet(img, [800, 1400])
+    } : bandSrc(img);
+    return React.createElement("a", {
+      key: t,
+      className: "iroute",
+      href: BASE + pathFor(route),
+      onClick: e => {
+        if (!go || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        go(route);
+      }
+    }, React.createElement("span", {
+      className: "iroute__media"
+    }, React.createElement("img", {
+      src: media.src,
+      srcSet: media.srcSet,
+      sizes: "(max-width: 860px) 92vw, 30vw",
+      alt: "",
+      loading: "lazy",
+      decoding: "async",
+      onError: imgFallback
+    })), React.createElement("span", {
+      className: "iroute__t"
+    }, t), React.createElement("span", {
+      className: "iroute__d"
+    }, d), React.createElement("span", {
+      className: "iroute__cta"
+    }, "Read first ", React.createElement("span", {
+      className: "arr"
+    })));
+  })))), React.createElement("section", {
+    className: "section section--tint",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap grid-12",
+    style: {
+      alignItems: "start"
+    }
+  }, React.createElement("div", {
+    className: "col-4 reveal"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " After You Write"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
+    style: {
+      maxWidth: "14ch"
+    }
+  }, "What happens next.")), React.createElement("div", {
+    className: "col-8 isteps reveal"
+  }, INQ_STEPS.map(([n, t, d]) => React.createElement("div", {
+    key: n,
+    className: "istep"
+  }, React.createElement("span", {
+    className: "istep__n"
+  }, n), React.createElement("span", {
+    className: "istep__t"
+  }, t), React.createElement("span", {
+    className: "istep__d"
+  }, d)))))), React.createElement(NightPlate, {
+    className: "night--map"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal"
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Where We Are"), React.createElement("h2", {
+    className: "h-1 u-mt-16 night__title"
+  }, "Run from Beverly Hills. ", React.createElement("em", null, "Built on three continents."))), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body-lg",
+    style: {
+      maxWidth: "42ch"
+    }
+  }, "The firm is run from Beverly Hills and builds from Los Angeles and Joshua Tree to Miami Beach, Marbella and Tel Aviv \u2014 four time zones, one team."))), React.createElement("div", {
+    className: "u-mt-64 reveal"
+  }, React.createElement(LocalTimes, null)), React.createElement("div", {
+    className: "u-mt-64"
+  }, React.createElement(MarketsMap, {
+    tone: "night"
   })))), React.createElement("section", {
     className: "cine",
     style: {
@@ -4246,7 +4655,11 @@ function Approach({
     className: "flow__name"
   }, t), React.createElement("p", {
     className: "flow__desc"
-  }, d)))))), React.createElement("section", {
+  }, d)))))), React.createElement(SiteStrip, {
+    eyebrow: "On The Ground",
+    title: "Where the work is checked.",
+    note: "Owner's representation is decided on site \u2014 at the pour, the inspection and the punch walk, not in a monthly report. These are the firm's own Los Angeles jobs."
+  }), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
     className: "wrap grid-12",
@@ -4537,7 +4950,7 @@ const GAL = {
   "villa-marbella": ["sf-marbella-01", "sf-marbella-02", "sf-marbella-03", "sf-marbella-04", "sf-marbella-05", "sf-marbella-06", "sf-marbella-07", "sf-marbella-08", "sf-marbella-09", "sf-marbella-10", "sf-marbella-11", "sf-marbella-12"],
   "eclipse": ["sf-eclipse-01", "sf-eclipse-02"],
   "neo-whisper": ["sf-whisper-01", "sf-whisper-02"],
-  "casa-noa": ["sf-noa-01", "sf-noa-02", "sf-noa-03"]
+  "casa-noa": ["sf-noa-01", "sf-noa-02", "sf-noa-03", "sf-noa-04"]
 };
 const APT = {
   ying: ["ying_ext_tall", "ying_wide", "ying_int_1", "ying_int_2", "ying_int_3", "ying_int_4", "ying_int_5", "ying_int_6", "ying_int_7"],
@@ -4748,20 +5161,20 @@ const CATEGORIES = [{
     id: "casablanca-homes",
     name: "Casablanca Homes",
     loc: "Los Angeles",
-    gallery: ["casablanca"],
+    gallery: ["casablanca", "sf-casablanca-01"],
     cover: "casablanca",
     rendering: true,
-    text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.",
-    facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]]
+    text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.\n\nCasablanca Homes is one half of the firm's Sycamore collection on North Sycamore Avenue — sixteen three-level homes across two sites, each with a two-car garage and a private rooftop terrace. Its massing is a stack of offset volumes, picked out in colour at the upper floors.",
+    facts: [["Type", "Small-lot subdivision"], ["Street", "North Sycamore Avenue"], ["Homes", "Three levels · rooftop terrace"], ["Imagery", "Architectural rendering"]]
   }, {
     id: "alexandria-homes",
     name: "Alexandria Homes",
     loc: "Los Angeles",
-    gallery: ["alexandria"],
+    gallery: ["alexandria", "sf-alexandria-01"],
     cover: "alexandria",
     rendering: true,
-    text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.",
-    facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]]
+    text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.\n\nAlexandria Homes is the second half of the Sycamore collection on North Sycamore Avenue — three-level homes with two-car garages and private rooftop terraces, clad in vertical timber with perforated metal screens at the balconies.",
+    facts: [["Type", "Small-lot subdivision"], ["Street", "North Sycamore Avenue"], ["Homes", "Three levels · rooftop terrace"], ["Imagery", "Architectural rendering"]]
   }]
 }];
 const FURTHER_RECORD = [["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark.", "sfr"], ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property.", "sfr"], ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths.", "sfr"], ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors.", "sfr"], ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside.", "apt"], ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings.", "apt"]];
@@ -5566,7 +5979,9 @@ function ProjectStory({
       maxWidth: "22ch",
       margin: "18px auto 0"
     }
-  }, outcome))), p.gallery.length > 1 && React.createElement("section", {
+  }, outcome))), typeof StageTrack !== "undefined" && React.createElement(StageTrack, {
+    p: p
+  }), p.categoryKey === "sls" && typeof SmallLotNote !== "undefined" && React.createElement(SmallLotNote, null), p.gallery.length > 1 && React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -5640,7 +6055,9 @@ function ProjectStory({
     }
   }, "View ", React.createElement("span", {
     className: "arr"
-  }))))))))), next && React.createElement("section", {
+  }))))))))), typeof ProjectLocation !== "undefined" && React.createElement(ProjectLocation, {
+    p: p
+  }), next && React.createElement("section", {
     className: "cine story__next",
     style: {
       minHeight: "70svh",
@@ -5881,7 +6298,8 @@ function App() {
   }) : view === "firm" ? React.createElement(Firm, {
     go: go
   }) : view === "inquiries" ? React.createElement(Inquiries, {
-    intent: intent
+    intent: intent,
+    go: go
   }) : view === "disclosures" ? React.createElement(Disclosures, {
     go: go
   }) : view === "story" ? React.createElement(React.Fragment, null, React.createElement("button", {

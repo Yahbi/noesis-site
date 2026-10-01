@@ -21,7 +21,7 @@ const GAL = {
   "villa-marbella": ["sf-marbella-01","sf-marbella-02","sf-marbella-03","sf-marbella-04","sf-marbella-05","sf-marbella-06","sf-marbella-07","sf-marbella-08","sf-marbella-09","sf-marbella-10","sf-marbella-11","sf-marbella-12"],
   "eclipse": ["sf-eclipse-01","sf-eclipse-02"],
   "neo-whisper": ["sf-whisper-01","sf-whisper-02"],
-  "casa-noa": ["sf-noa-01","sf-noa-02","sf-noa-03"],
+  "casa-noa": ["sf-noa-01","sf-noa-02","sf-noa-03","sf-noa-04"],
 };
 
 // Apartment galleries (existing curated PHOTO keys).
@@ -120,12 +120,12 @@ const CATEGORIES = [
     key: "sls", label: "Small-Lot Subdivisions",
     blurb: "Detached, fee-simple homes on subdivided infill parcels — the density of an apartment site with the privacy and ownership of a house, in high-demand Los Angeles neighborhoods.",
     items: [
-      { id: "casablanca-homes", name: "Casablanca Homes", loc: "Los Angeles", gallery: ["casablanca"], cover: "casablanca", rendering: true,
-        text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.",
-        facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]] },
-      { id: "alexandria-homes", name: "Alexandria Homes", loc: "Los Angeles", gallery: ["alexandria"], cover: "alexandria", rendering: true,
-        text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.",
-        facts: [["Type", "Small-lot subdivision"], ["City", "Los Angeles"], ["Imagery", "Architectural rendering"]] },
+      { id: "casablanca-homes", name: "Casablanca Homes", loc: "Los Angeles", gallery: ["casablanca", "sf-casablanca-01"], cover: "casablanca", rendering: true,
+        text: "A small-lot subdivision delivering detached, fee-simple homes with the design language and finish level of the firm's luxury portfolio — letting buyers own new construction in dense, high-demand Los Angeles neighborhoods.\n\nCasablanca Homes is one half of the firm's Sycamore collection on North Sycamore Avenue — sixteen three-level homes across two sites, each with a two-car garage and a private rooftop terrace. Its massing is a stack of offset volumes, picked out in colour at the upper floors.",
+        facts: [["Type", "Small-lot subdivision"], ["Street", "North Sycamore Avenue"], ["Homes", "Three levels · rooftop terrace"], ["Imagery", "Architectural rendering"]] },
+      { id: "alexandria-homes", name: "Alexandria Homes", loc: "Los Angeles", gallery: ["alexandria", "sf-alexandria-01"], cover: "alexandria", rendering: true,
+        text: "Detached small-lot homes developed and built by Noesis, combining the privacy of single-family living with the efficiency and density of an infill subdivision.\n\nAlexandria Homes is the second half of the Sycamore collection on North Sycamore Avenue — three-level homes with two-car garages and private rooftop terraces, clad in vertical timber with perforated metal screens at the balconies.",
+        facts: [["Type", "Small-lot subdivision"], ["Street", "North Sycamore Avenue"], ["Homes", "Three levels · rooftop terrace"], ["Imagery", "Architectural rendering"]] },
     ],
   },
 ];

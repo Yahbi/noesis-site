@@ -10,7 +10,8 @@ Manifest shape:
       {"slug": "casbah",
        "src_dir": "/abs/path/to/HIGH RES",
        "picks": [22, 0, 4],          # indices into the sorted image listing
-       "trim_white": false}          # optional: crop flat white margins first
+       "trim_white": false,          # optional: crop flat white margins first
+       "start": 1}                   # optional: first NN, to append to an existing set
     ]
   }
 
@@ -95,7 +96,10 @@ def main(argv):
         slug = proj["slug"]
         files = list_sources(proj["src_dir"])
         keys = []
-        for n, pick in enumerate(proj["picks"], start=1):
+        start = int(proj.get("start", 1))
+        if start < 1:
+            fail(f"{slug}: start must be 1 or more")
+        for n, pick in enumerate(proj["picks"], start=start):
             if not 0 <= pick < len(files):
                 fail(f"{slug}: pick {pick} out of range (source has {len(files)} images)")
             src = files[pick]

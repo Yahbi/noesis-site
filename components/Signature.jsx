@@ -117,7 +117,48 @@ function ProjectIndex({ items, go }) {
   );
 }
 
+
+// Construction photography from the firm's own sites — the evidence that the
+// developer is also the builder. Captioned as a place and an activity, never as
+// a named project, because the frames are not catalogued by job.
+const SITE_FRAMES = [
+  ["sf-site-01", "The boom pump over a deck pour"],
+  ["sf-site-02", "Post-tension deck, before the pour"],
+  ["sf-site-03", "Placing and finishing the slab"],
+  ["sf-site-04", "Framing a hillside residence above the city"],
+];
+
+function SiteStrip({ eyebrow, title, note }) {
+  return (
+    <section className="section" style={{ borderTop: 0 }}>
+      <div className="wrap">
+        <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,40px)" }}>
+          <div className="col-7">
+            <div className="eyebrow"><span className="dot" /> {eyebrow || "On Site"}</div>
+            <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "16ch" }}>{title}</h2>
+          </div>
+          <div className="col-5">
+            <p className="body" style={{ color: "var(--muted)", maxWidth: "44ch" }}>{note}</p>
+          </div>
+        </div>
+        <div className="sstrip">
+          {SITE_FRAMES.map(([img, cap]) => (
+            <figure key={img} className="sstrip__f">
+              <span className="sstrip__m">
+                <img src={wix(img, { w: 1400 })} srcSet={wixSet(img, [800, 1400, 2000])}
+                  sizes="(max-width: 760px) 92vw, 25vw" alt={cap + ", Los Angeles"} loading="lazy" decoding="async" onError={imgFallback} />
+              </span>
+              <figcaption>{cap}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 window.bandSrc = bandSrc;
+window.SiteStrip = SiteStrip;
 window.NightPlate = NightPlate;
 window.NightCta = NightCta;
 window.ProjectIndex = ProjectIndex;

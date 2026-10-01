@@ -15,7 +15,55 @@
 // ─────────────────────────────────────────────────────────────────────────────
 const INQ_ENDPOINT = "";
 
-function Inquiries({ intent }) {
+// Three readers arrive here, and each wants something different from the firm.
+const INQ_ROUTES = [
+  ["Investors & family offices", "investment", "city-night",
+    "Capital alongside the operator. Read the strategies, the criteria and the record, then ask for a confidential introduction."],
+  ["Owners & developers", "owners-rep", "sf-site-03",
+    "A project you own, and one accountable advocate for it — from entitlement and design through construction to handover."],
+  ["Brokers & sellers", "investment", "geo-beverly",
+    "A site or a building that fits the brief. Product, activity, hold and markets are stated plainly; we would rather hear early."],
+];
+
+// What happens after the form is sent — stated, so nobody has to guess.
+const INQ_STEPS = [
+  ["01", "We read it", "Every inquiry is read by the principal, not a queue, and answered within one business day."],
+  ["02", "A first conversation", "A call, or a meeting at the Beverly Hills office, to understand what you are looking for and whether we are the right firm for it."],
+  ["03", "Then the detail", "Where there is a fit, we share specifics. For investors, offering material is provided only to those eligible to receive it, and only through the offering documents."],
+];
+
+// Local time in every market the firm builds in — the office, and the rest.
+const INQ_CLOCKS = [
+  ["Beverly Hills", "Head office", "America/Los_Angeles"],
+  ["Miami Beach", "Market", "America/New_York"],
+  ["Marbella", "Market", "Europe/Madrid"],
+  ["Tel Aviv", "Market", "Asia/Jerusalem"],
+];
+
+function LocalTimes() {
+  const [now, setNow] = React.useState(() => new Date());
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(id);
+  }, []);
+  const at = (tz) => {
+    try { return new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }).format(now); }
+    catch (e) { return ""; }
+  };
+  return (
+    <div className="ltimes">
+      {INQ_CLOCKS.map(([city, role, tz]) => (
+        <div key={city} className="ltimes__c">
+          <span className="ltimes__t">{at(tz)}</span>
+          <span className="ltimes__city">{city}</span>
+          <span className="ltimes__role">{role}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Inquiries({ intent, go }) {
   return (
     <main className="page-enter">
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
@@ -51,6 +99,81 @@ function Inquiries({ intent }) {
           </div>
         </div>
       </section>
+
+      {/* WHO TO TALK TO — three readers, three doors */}
+      <section className="section">
+        <div className="wrap">
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> Who This Reaches</div>
+              <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "16ch" }}>Three ways in.</h2>
+            </div>
+            <div className="col-5">
+              <p className="body" style={{ color: "var(--muted)", maxWidth: "44ch" }}>
+                The same team answers all three. If you would rather read first, each door leads to
+                the part of the firm it concerns.
+              </p>
+            </div>
+          </div>
+          <div className="iroutes">
+            {INQ_ROUTES.map(([t, route, img, d]) => {
+              const media = img.indexOf("sf-") === 0
+                ? { src: wix(img, { w: 800 }), srcSet: wixSet(img, [800, 1400]) }
+                : bandSrc(img);
+              return (
+                <a key={t} className="iroute" href={BASE + pathFor(route)}
+                  onClick={(e) => { if (!go || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; e.preventDefault(); go(route); }}>
+                  <span className="iroute__media">
+                    <img src={media.src} srcSet={media.srcSet} sizes="(max-width: 860px) 92vw, 30vw" alt="" loading="lazy" decoding="async" onError={imgFallback} />
+                  </span>
+                  <span className="iroute__t">{t}</span>
+                  <span className="iroute__d">{d}</span>
+                  <span className="iroute__cta">Read first <span className="arr" /></span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT HAPPENS NEXT */}
+      <section className="section section--tint" style={{ borderTop: 0 }}>
+        <div className="wrap grid-12" style={{ alignItems: "start" }}>
+          <div className="col-4 reveal">
+            <div className="eyebrow"><span className="dot" /> After You Write</div>
+            <h2 className="h-2 u-mt-16" style={{ maxWidth: "14ch" }}>What happens next.</h2>
+          </div>
+          <div className="col-8 isteps reveal">
+            {INQ_STEPS.map(([n, t, d]) => (
+              <div key={n} className="istep">
+                <span className="istep__n">{n}</span>
+                <span className="istep__t">{t}</span>
+                <span className="istep__d">{d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHERE WE ARE — run from Beverly Hills, building on three continents */}
+      <NightPlate className="night--map">
+        <div className="wrap">
+          <div className="grid-12 u-end reveal">
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> Where We Are</div>
+              <h2 className="h-1 u-mt-16 night__title">Run from Beverly Hills. <em>Built on three continents.</em></h2>
+            </div>
+            <div className="col-5">
+              <p className="body-lg" style={{ maxWidth: "42ch" }}>
+                The firm is run from Beverly Hills and builds from Los Angeles and Joshua Tree to
+                Miami Beach, Marbella and Tel Aviv — four time zones, one team.
+              </p>
+            </div>
+          </div>
+          <div className="u-mt-64 reveal"><LocalTimes /></div>
+          <div className="u-mt-64"><MarketsMap tone="night" /></div>
+        </div>
+      </NightPlate>
 
       {/* CLOSING PLATE — atmosphere, not evidence: the caption that named a
           delivered project went with the photograph it described. */}

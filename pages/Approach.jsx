@@ -156,6 +156,10 @@ function Approach({ go, setIntent }) {
         </div>
       </section>
 
+      {/* ON SITE — what representation looks like on the ground */}
+      <SiteStrip eyebrow="On The Ground" title="Where the work is checked."
+        note="Owner's representation is decided on site — at the pour, the inspection and the punch walk, not in a monthly report. These are the firm's own Los Angeles jobs." />
+
       {/* THE PRECONSTRUCTION ADVANTAGE — in-house design capability de-risks delivery */}
       <section className="section section--lead">
         <div className="wrap grid-12" style={{ alignItems: "start" }}>

@@ -56,7 +56,7 @@ function useInView(ref, margin) {
   return seen;
 }
 
-function MarketsMap({ tone }) {
+function MarketsMap({ tone, focus, compact }) {
   const ref = React.useRef(null);
   const inView = useInView(ref);
   const tally = typeof recordMarkets === "function" ? recordMarkets() : [];
@@ -66,10 +66,12 @@ function MarketsMap({ tone }) {
   const total = tally.reduce((n, [, c]) => n + c, 0);
   const rank = (m) => { const i = MARKET_ORDER.indexOf(m); return i === -1 ? MARKET_ORDER.length : i; };
   const legend = tally.concat(ACTIVE_MARKETS.map((m) => [m, null])).sort((a, b) => rank(a[0]) - rank(b[0]));
+  const canvasStyle = focus ? focusFrame(pins.find((p) => p.key === focus)) : undefined;
 
   return (
-    <div className={"mmap" + (tone === "night" ? " mmap--night" : "") + (inView ? " is-in" : "")} ref={ref}>
+    <div className={"mmap" + (tone === "night" ? " mmap--night" : "") + (focus ? " mmap--focus" : "") + (inView ? " is-in" : "")} ref={ref}>
       <div className="mmap__stage">
+        <div className="mmap__canvas" style={canvasStyle}>
         <img className="mmap__dots" src="assets/img/map-dots.svg" alt="" loading="lazy" decoding="async" />
         <svg className="mmap__layer" viewBox={`-0.5 -0.5 ${MAP_GRID.cols} ${MAP_GRID.rows}`} aria-hidden="true">
           {MAP_ROUTE.map(([a, b], i) => (
@@ -77,30 +79,55 @@ function MarketsMap({ tone }) {
               style={{ transitionDelay: `${0.2 + i * 0.45}s` }} />
           ))}
           {pins.map((p) => (
-            <g key={p.key} className={"mmap__pin" + (p.home ? " mmap__pin--home" : "") + (p.active ? " mmap__pin--active" : "")} transform={`translate(${p.xy[0].toFixed(2)} ${p.xy[1].toFixed(2)})`}>
+            <g key={p.key} className={"mmap__pin" + (p.home ? " mmap__pin--home" : "") + (p.active ? " mmap__pin--active" : "") + (p.key === focus ? " is-focus" : "")} transform={`translate(${p.xy[0].toFixed(2)} ${p.xy[1].toFixed(2)})`}>
               <circle className="mmap__pulse" r="1" />
               <circle className="mmap__dot" r={p.home ? 1.15 : 0.85} />
             </g>
           ))}
         </svg>
-        {pins.map((p) => (
+        {pins.filter((p) => !focus || p.key === focus).map((p) => (
           <div key={p.key} className={`mmap__label mmap__label--${p.place}`}
             style={{ left: `${(p.xy[0] + 0.5) / MAP_GRID.cols * 100}%`, top: `${(p.xy[1] + 0.5) / MAP_GRID.rows * 100}%` }}>
             <span className="mmap__name">{p.label}</span>
             <span className="mmap__n">{p.active ? "Active market" : `${p.n} ${p.n === 1 ? "project" : "projects"}`}</span>
           </div>
         ))}
+        </div>
       </div>
 
-      <ul className="mmap__legend" aria-label={`${total} projects by market, and the markets the firm is active in`}>
+      {!compact && <ul className="mmap__legend" aria-label={`${total} projects by market, and the markets the firm is active in`}>
         {legend.map(([m, c]) => (
           <li key={m} className={c == null ? "mmap__active" : ""}>
             <span className="mmap__lc">{c == null ? "Active" : c}</span><span className="mmap__lm">{m}</span>
           </li>
         ))}
-      </ul>
+      </ul>}
     </div>
   );
+}
+
+// Focused maps frame one market in a 4:3 window: the whole map is scaled so its
+// height is FOCUS_ZOOM x the window's, then slid to centre the pin, clamped so
+// the window never shows past the map's edge. All values are fractions of the
+// window, so the frame holds at every width without measuring anything.
+const FOCUS_ZOOM = 1.3;
+const FOCUS_ASPECT = 3 / 4;   // window height / width
+function focusFrame(pin) {
+  if (!pin) return undefined;
+  const mapAspect = MAP_GRID.cols / MAP_GRID.rows;
+  const h = FOCUS_ASPECT * FOCUS_ZOOM;          // canvas height, in window widths
+  const w = h * mapAspect;                       // canvas width, in window widths
+  const fx = (pin.xy[0] + 0.5) / MAP_GRID.cols, fy = (pin.xy[1] + 0.5) / MAP_GRID.rows;
+  const left = Math.min(0, Math.max(1 - w, 0.5 - fx * w));
+  const top = Math.min(0, Math.max(FOCUS_ASPECT - h, FOCUS_ASPECT / 2 - fy * h));
+  return { width: `${(w * 100).toFixed(2)}%`, height: `${(FOCUS_ZOOM * 100).toFixed(2)}%`,
+    left: `${(left * 100).toFixed(2)}%`, top: `${(top / FOCUS_ASPECT * 100).toFixed(2)}%` };
+}
+
+// The pin a market sits under (Beverly Hills -> the Los Angeles pin).
+function pinForMarket(market) {
+  const hit = MAP_PINS.find((p) => (p.markets || []).indexOf(market) !== -1 || p.label === market);
+  return hit ? hit.key : null;
 }
 
 // ── PIPELINE ───────────────────────────────────────────────────────────────
@@ -227,6 +254,124 @@ function Chronicle({ go }) {
   );
 }
 
+
+// ── PROJECT PAGE PIECES ────────────────────────────────────────────────────
+// Place photographs by market — context, never the project itself; every
+// caption names the place. Neighbourhoods of Los Angeles share the city plate.
+const PLACE_PLATES = {
+  "Los Angeles":    ["city-west", "Los Angeles from above the Westside"],
+  "West Hollywood": ["city-west", "Los Angeles from above the Westside"],
+  "Beverly Hills":  ["geo-beverly", "The residential flats of Beverly Hills"],
+  "Hidden Hills":   ["geo-hiddenhills", "The oak-studded hills of Hidden Hills"],
+  "Joshua Tree":    ["geo-desert", "The high desert near Joshua Tree"],
+  "Miami Beach":    ["geo-miami", "Biscayne Bay and Miami Beach"],
+  "Tel Aviv":       ["geo-telaviv", "The Tel Aviv coastline"],
+};
+const NUMBER_WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one"];
+const inWords = (n) => NUMBER_WORDS[n] || String(n);
+
+function ProjectLocation({ p }) {
+  const market = typeof marketOf === "function" ? marketOf(p.loc) : p.loc;
+  const tally = typeof recordMarkets === "function" ? recordMarkets() : [];
+  const hit = tally.find(([m]) => m === market);
+  const n = hit ? hit[1] : 1;
+  const plate = PLACE_PLATES[market];
+  const pin = pinForMarket(market);
+  const media = plate && typeof bandSrc === "function" ? bandSrc(plate[0]) : null;
+  return (
+    <section className="section ploc">
+      <div className="wrap">
+        <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,44px)" }}>
+          <div className="col-7">
+            <div className="eyebrow"><span className="dot" /> Location</div>
+            <h2 className="h-1 u-mt-16">{market}</h2>
+            {p.loc !== market && <p className="ploc__loc">{p.loc}</p>}
+          </div>
+          <div className="col-5">
+            <p className="body" style={{ color: "var(--muted)", maxWidth: "44ch" }}>
+              {n > 1
+                ? `One of ${inWords(n)} Noesis projects in ${market}, of twenty-eight across the record.`
+                : `The firm's project in ${market} — one of twenty-eight across the record.`}
+            </p>
+          </div>
+        </div>
+        <div className="ploc__grid reveal">
+          <div className="ploc__map">{pin && <MarketsMap focus={pin} compact />}</div>
+          {media && (
+            <figure className="ploc__plate">
+              <img src={media.src} srcSet={media.srcSet} sizes="(max-width: 860px) 92vw, 45vw"
+                alt={plate[1]} loading="lazy" decoding="async" onError={imgFallback} />
+              <figcaption>{plate[1]}</figcaption>
+            </figure>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Where an in-development project stands, on the same five stages as the pipeline.
+function StageTrack({ p }) {
+  const at = PIPELINE_STAGES.indexOf(p.stage);
+  if (!p.rendering || at === -1) return null;
+  return (
+    <section className="section" style={{ borderTop: 0 }}>
+      <div className="wrap">
+        <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,40px)" }}>
+          <div className="col-7">
+            <div className="eyebrow"><span className="dot" /> Where It Stands</div>
+            <h2 className="h-1 u-mt-16">{p.stage}.</h2>
+          </div>
+          <div className="col-5">
+            <p className="body" style={{ color: "var(--muted)", maxWidth: "44ch" }}>
+              Stage {at + 1} of {PIPELINE_STAGES.length} before construction begins, as of September 2026.
+              Plans, approvals and timelines change; see the disclosures.
+            </p>
+          </div>
+        </div>
+        <ol className="stage reveal" aria-label={`${p.name}: ${p.stage}, stage ${at + 1} of ${PIPELINE_STAGES.length}`}>
+          {PIPELINE_STAGES.map((st, i) => (
+            <li key={st} className={"stage__step" + (i <= at ? " is-done" : "") + (i === at ? " is-now" : "")}>
+              <span className="stage__bar" />
+              <span className="stage__n">{String(i + 1).padStart(2, "0")}</span>
+              <span className="stage__t">{st}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+// The small-lot product, explained once, on the projects that use it.
+function SmallLotNote() {
+  return (
+    <section className="section section--tint" style={{ borderTop: 0 }}>
+      <div className="wrap grid-12 reveal" style={{ alignItems: "start" }}>
+        <div className="col-5">
+          <div className="eyebrow"><span className="dot" /> The Product</div>
+          <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "12ch" }}>Why small-lot.</h2>
+        </div>
+        <div className="col-7">
+          <p className="body-lg" style={{ maxWidth: "56ch" }}>
+            Los Angeles' Small Lot Subdivision Ordinance, in force since 2005, lets a lot zoned for
+            apartments be divided into individually owned parcels, each carrying its own home.
+          </p>
+          <div className="sln u-mt-40">
+            <div><span className="sln__k">For the buyer</span><span className="sln__v">The land under the house, owned outright — a fee-simple home, not a condominium unit, in neighbourhoods where a single-family lot is out of reach.</span></div>
+            <div><span className="sln__k">For the city</span><span className="sln__v">More homes for sale on infill land, at the scale of the street rather than of a tower.</span></div>
+            <div><span className="sln__k">For the developer</span><span className="sln__v">A for-sale exit on land priced as multifamily — the shape of the opportunistic strategy.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 window.MarketsMap = MarketsMap;
 window.Pipeline = Pipeline;
 window.Chronicle = Chronicle;
+window.ProjectLocation = ProjectLocation;
+window.StageTrack = StageTrack;
+window.SmallLotNote = SmallLotNote;

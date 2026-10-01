@@ -187,6 +187,10 @@ function Development({ go }) {
         </div>
       </section>
 
+      {/* ON SITE — the firm's own construction photography */}
+      <SiteStrip title="Built by our own hands."
+        note="Noesis Builders, Inc. holds the general contractor's license, so the team that underwrites a project also builds it, from the first pour to the last finish. Frames from the firm's Los Angeles sites." />
+
       {/* BUILDER'S PROOF */}
       <section className="section">
         <div className="wrap grid-12" style={{ alignItems: "start" }}>

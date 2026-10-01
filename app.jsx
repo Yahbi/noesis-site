@@ -211,7 +211,7 @@ function App() {
         : view === "investment" ? <Investment go={go} setIntent={setIntent} />
         : view === "owners-rep" ? <Approach go={go} setIntent={setIntent} />
         : view === "firm" ? <Firm go={go} />
-        : view === "inquiries" ? <Inquiries intent={intent} />
+        : view === "inquiries" ? <Inquiries intent={intent} go={go} />
         : view === "disclosures" ? <Disclosures go={go} />
         : view === "story" ? (
           <>

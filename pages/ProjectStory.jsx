@@ -180,6 +180,12 @@ function ProjectStory({ project, go }) {
         </section>
       )}
 
+      {/* 4b — WHERE IT STANDS (in development, with a published stage) */}
+      {typeof StageTrack !== "undefined" && <StageTrack p={p} />}
+
+      {/* 4c — THE PRODUCT (small-lot subdivisions) */}
+      {p.categoryKey === "sls" && typeof SmallLotNote !== "undefined" && <SmallLotNote />}
+
       {/* 5 — FULL GALLERY (opens the shared Lightbox) */}
       {p.gallery.length > 1 && (
         <section className="section">
@@ -211,6 +217,9 @@ function ProjectStory({ project, go }) {
           </div>
         </section>
       )}
+
+      {/* 5b — LOCATION: the market on the map, and the place itself */}
+      {typeof ProjectLocation !== "undefined" && <ProjectLocation p={p} />}
 
       {/* 6 — CONTINUE: next-project teaser (endless scroll) + previous + all-properties.
              The big teaser is a real <button> containing only text spans (valid), with the
