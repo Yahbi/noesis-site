@@ -216,15 +216,13 @@ function Development({ go }) {
       <PracticeSwitch go={go} current="development" />
 
       {/* CTA */}
-      <section className="section section--ink">
-        <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>See what we have <em className="accent">delivered.</em></h2></div>
-          <div className="col-4 u-tr u-flex u-gap-16" style={{ justifyContent: "flex-end", flexWrap: "wrap" }}>
-            <button className="btn" onClick={() => go("properties")} data-magnetic>The Portfolio <span className="arr" /></button>
-            <button className="btn btn--ghost" onClick={() => go("inquiries")} data-magnetic>Bring us a site</button>
-          </div>
-        </div>
-      </section>
+      <NightCta img="5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg" focus="50% 60%"
+        alt="Le Bijou, Beverly Hills — delivered by Noesis in 2015"
+        title={<>See what we have <em>delivered.</em></>}
+        actions={<>
+          <button className="btn" onClick={() => go("properties")} data-magnetic>The Portfolio <span className="arr" /></button>
+          <button className="btn btn--ghost" onClick={() => go("inquiries")} data-magnetic>Bring us a site</button>
+        </>} />
     </main>
   );
 }

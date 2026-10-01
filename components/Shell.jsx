@@ -44,7 +44,7 @@ function SocialRow({ size = 18, color }) {
 // The brand mark: a short stroke that bridges the O and the E (riding the E's
 // middle bar) — NOT a strike across the whole word. We measure the live glyph
 // positions so the segment stays exact at any size and after the font loads.
-function Logo({ onClick, className }) {
+function Logo({ onClick, className, decorative }) {
   const wordRef = React.useRef(null);
   const barRef = React.useRef(null);
 
@@ -74,6 +74,16 @@ function Logo({ onClick, className }) {
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
   }, []);
 
+  // The footer's full-width wordmark is set dressing, not a control: it renders
+  // as a plain block hidden from assistive tech, with the same measured bar.
+  if (decorative) {
+    return (
+      <div className={`logo ${className || ""}`} aria-hidden="true">
+        <span className="logo__word" ref={wordRef}>NOESIS</span>
+        <span className="logo__bar" ref={barRef} />
+      </div>
+    );
+  }
   return (
     <button className={`logo ${className || ""}`} aria-label="Noesis — home" onClick={onClick}>
       <span className="logo__word" ref={wordRef}>NOESIS</span>
@@ -138,7 +148,7 @@ function Nav({ active, go, setIntent }) {
     // inside it is focusable the instant it opens — retry until focus takes.
     let tries = 0;
     const t = setInterval(() => {
-      const first = document.querySelector("#nav-drawer .nav__drawer-links button");
+      const first = document.querySelector("#nav-drawer .nav__drawer-links a, #nav-drawer .nav__drawer-links button");
       if (first) {
         first.focus();
         if (document.activeElement === first) { clearInterval(t); return; }
@@ -300,8 +310,7 @@ function Footer({ go }) {
       <div className="wrap">
         <div className="grid-12" style={{ alignItems: "end", rowGap: 40 }}>
           <div className="col-7">
-            <Logo className="footer__logo" onClick={() => go("top")} />
-            <div className="eyebrow u-mt-24" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
+            <div className="eyebrow" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
             <h2 className="h-1 u-mt-24" style={{ maxWidth: "16ch" }}>
               We develop, we invest, and we deliver — <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
             </h2>
@@ -337,6 +346,7 @@ function Footer({ go }) {
           </div>
         </div>
       </div>
+      <div className="wrap footer__giant-wrap"><Logo decorative className="footer__giant" /></div>
     </footer>
   );
 }

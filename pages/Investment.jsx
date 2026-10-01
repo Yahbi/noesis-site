@@ -351,11 +351,11 @@ function Investment({ go, setIntent }) {
       </section>
 
       {/* WHY THE RECORD DE-RISKS THE THESIS */}
-      <section className="section section--ink">
+      <NightPlate band="city-night" alt="Los Angeles at blue hour, looking east along the Wilshire corridor">
         <div className="wrap grid-12 u-end reveal">
           <div className="col-7">
             <div className="eyebrow"><span className="dot" /> Why the Record Matters</div>
-            <h2 className="h-1 u-mt-16 caps" style={{ color: "var(--ink)", maxWidth: "18ch" }}>The operator is the edge.</h2>
+            <h2 className="h-1 u-mt-16 caps night__title" style={{ maxWidth: "18ch" }}>The operator is <em>the edge.</em></h2>
           </div>
           <div className="col-5">
             <p className="body-lg">
@@ -366,7 +366,7 @@ function Investment({ go, setIntent }) {
             <button className="btn btn--ghost u-mt-24" onClick={() => go("properties")} data-magnetic>See the delivered record <span className="arr" /></button>
           </div>
         </div>
-      </section>
+      </NightPlate>
 
       {/* THE OPERATOR — the ink band above says the operator is the edge; name him
           before the ask. Facts verbatim from Firm.jsx FIRM_FOUNDER. */}

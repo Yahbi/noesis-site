@@ -70,6 +70,10 @@ function routeFromLocation() {
   return ROUTE_PATHS[seg] != null ? seg : "home";
 }
 
+// Route curtain timing — must match .rt transitions in signature.css.
+const CURTAIN_IN_MS = 560;
+const CURTAIN_OUT_MS = 820;
+
 function App() {
   const [view, setView] = React.useState(() => {
     const r = routeFromLocation();
@@ -93,7 +97,7 @@ function App() {
 
   // Single navigation entry point used by Nav, Footer and in-page CTAs.
   // `silent` applies a route without pushing history (popstate / initial load).
-  const go = React.useCallback((id, silent) => {
+  const goNow = React.useCallback((id, silent) => {
     const target = (id === "top" || id === "hero") ? "home" : id;
     if (!silent) { try { history.pushState(null, "", BASE + pathFor(target)); } catch (e) {} }
 
@@ -109,6 +113,29 @@ function App() {
     // Unknown target (legacy in-page anchor) — fall back to the gateway.
     setView("home"); scrollTop();
   }, [view]);
+
+  // Route curtain. A user-initiated route change is covered by a night panel
+  // carrying the wordmark: the view swaps and scrolls to top underneath it, then
+  // it lifts away. Plain timers drive every step, so with frozen transitions (a
+  // hidden tab) the route still changes and the panel still ends hidden; reduced
+  // motion, history navigation and the initial load skip it entirely.
+  const curtainRef = React.useRef(null);
+  const curtainBusy = React.useRef(false);
+  const go = React.useCallback((id, silent) => {
+    const el = curtainRef.current;
+    const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (silent || !el || document.hidden || reduced) { goNow(id, silent); return; }
+    if (curtainBusy.current) return;
+    curtainBusy.current = true;
+    el.classList.remove("is-out");
+    el.classList.add("is-in");
+    setTimeout(() => {
+      goNow(id, silent);
+      el.classList.remove("is-in");
+      el.classList.add("is-out");
+      setTimeout(() => { el.classList.remove("is-out"); curtainBusy.current = false; }, CURTAIN_OUT_MS);
+    }, CURTAIN_IN_MS);
+  }, [goNow]);
 
   // Back / forward.
   const applyRoute = React.useCallback(() => {
@@ -197,6 +224,9 @@ function App() {
         ) : <Projects setPage={projectsNav} setIntent={setIntent} />}
 
       <Footer go={go} />
+      <div className="rt" ref={curtainRef} aria-hidden="true">
+        <Logo decorative className="rt__logo" />
+      </div>
 
       {/* Internal design panel — only with ?tweaks=1, never for visitors */}
       {/[?&]tweaks=1/.test(window.location.search) && (

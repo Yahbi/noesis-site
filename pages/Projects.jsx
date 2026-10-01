@@ -384,19 +384,16 @@ function Projects({ setPage, setIntent }) {
         </div>
       </section>}
 
-      <section className="section section--ink">
-        <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>This standard, on <em className="accent">your project.</em></h2></div>
-          <div className="col-4 u-tr cta-row">
-            <button className="btn" onClick={() => goWith("investor", "inquiries")} data-magnetic>
-              Request an Introduction <span className="arr" />
-            </button>
-            <button className="btn btn--ghost" onClick={() => goWith("owner", "owners-rep")} data-magnetic>
-              How We Manage
-            </button>
-          </div>
-        </div>
-      </section>
+      <NightCta img="sf-mani-01" alt="Casa Mani, Beverly Hills — delivered by Noesis in 2017"
+        title={<>This standard, on <em>your project.</em></>}
+        actions={<>
+          <button className="btn" onClick={() => goWith("investor", "inquiries")} data-magnetic>
+            Request an Introduction <span className="arr" />
+          </button>
+          <button className="btn btn--ghost" onClick={() => goWith("owner", "owners-rep")} data-magnetic>
+            How We Manage
+          </button>
+        </>} />
     </main>
   );
 }

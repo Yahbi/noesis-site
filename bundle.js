@@ -854,7 +854,8 @@ function SocialRow({
 }
 function Logo({
   onClick,
-  className
+  className,
+  decorative
 }) {
   const wordRef = React.useRef(null);
   const barRef = React.useRef(null);
@@ -895,6 +896,18 @@ function Logo({
       window.removeEventListener("resize", onResize);
     };
   }, []);
+  if (decorative) {
+    return React.createElement("div", {
+      className: `logo ${className || ""}`,
+      "aria-hidden": "true"
+    }, React.createElement("span", {
+      className: "logo__word",
+      ref: wordRef
+    }, "NOESIS"), React.createElement("span", {
+      className: "logo__bar",
+      ref: barRef
+    }));
+  }
   return React.createElement("button", {
     className: `logo ${className || ""}`,
     "aria-label": "Noesis \u2014 home",
@@ -971,7 +984,7 @@ function Nav({
     window.addEventListener("keydown", onKey);
     let tries = 0;
     const t = setInterval(() => {
-      const first = document.querySelector("#nav-drawer .nav__drawer-links button");
+      const first = document.querySelector("#nav-drawer .nav__drawer-links a, #nav-drawer .nav__drawer-links button");
       if (first) {
         first.focus();
         if (document.activeElement === first) {
@@ -1182,11 +1195,8 @@ function Footer({
     }
   }, React.createElement("div", {
     className: "col-7"
-  }, React.createElement(Logo, {
-    className: "footer__logo",
-    onClick: () => go("top")
-  }), React.createElement("div", {
-    className: "eyebrow u-mt-24",
+  }, React.createElement("div", {
+    className: "eyebrow",
     style: {
       color: "var(--muted)"
     }
@@ -1284,7 +1294,12 @@ function Footer({
       e.preventDefault();
       go("disclosures");
     }
-  }, "Disclosures")))));
+  }, "Disclosures")))), React.createElement("div", {
+    className: "wrap footer__giant-wrap"
+  }, React.createElement(Logo, {
+    decorative: true,
+    className: "footer__giant"
+  })));
 }
 window.Nav = Nav;
 window.Footer = Footer;
@@ -1555,13 +1570,233 @@ function ScrollHero({
   }, "See the Record"))))));
 }
 window.ScrollHero = ScrollHero;
+function bandSrc(name) {
+  const base = "assets/img/" + name;
+  return {
+    src: base + "-w1400.jpg",
+    srcSet: `${base}-w800.jpg 800w, ${base}-w1400.jpg 1400w, ${base}.jpg 2600w`
+  };
+}
+function NightPlate({
+  band,
+  img,
+  alt,
+  focus,
+  className,
+  children,
+  id,
+  spy
+}) {
+  const media = band ? bandSrc(band) : img ? {
+    src: wix(img, {
+      w: 2000
+    }),
+    srcSet: wixSet(img, [1400, 2000, 2600])
+  } : null;
+  return React.createElement("section", {
+    id: id,
+    "data-spy": spy,
+    className: "night" + (className ? " " + className : "")
+  }, media && React.createElement("img", {
+    className: "night__img",
+    src: media.src,
+    srcSet: media.srcSet,
+    sizes: "100vw",
+    alt: alt || "",
+    loading: "lazy",
+    decoding: "async",
+    "data-parallax": "0.1",
+    style: focus ? {
+      objectPosition: focus
+    } : undefined,
+    onError: imgFallback
+  }), React.createElement("div", {
+    className: "night__veil",
+    "aria-hidden": "true"
+  }), React.createElement("div", {
+    className: "night__in"
+  }, children));
+}
+function NightCta({
+  band,
+  img,
+  alt,
+  focus,
+  title,
+  actions
+}) {
+  return React.createElement(NightPlate, {
+    band: band,
+    img: img,
+    alt: alt,
+    focus: focus,
+    className: "night--cta"
+  }, React.createElement("div", {
+    className: "wrap grid-12 u-end reveal"
+  }, React.createElement("div", {
+    className: "col-8"
+  }, React.createElement("h2", {
+    className: "h-1 caps night__title"
+  }, title)), React.createElement("div", {
+    className: "col-4 u-tr cta-row night__actions"
+  }, actions)));
+}
+function storyClick(go, id) {
+  return e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    go("story:" + id);
+  };
+}
+function ProjectIndex({
+  items,
+  go
+}) {
+  const [active, setActive] = React.useState(0);
+  const [warm, setWarm] = React.useState(false);
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setWarm(true);
+      return;
+    }
+    const io = new IntersectionObserver(ents => {
+      if (ents.some(x => x.isIntersecting)) {
+        setWarm(true);
+        io.disconnect();
+      }
+    }, {
+      rootMargin: "600px 0px"
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const cur = items[active];
+  return React.createElement("div", {
+    className: "pidx",
+    ref: ref
+  }, React.createElement("ol", {
+    className: "pidx__list"
+  }, items.map((it, i) => React.createElement("li", {
+    key: it.id
+  }, React.createElement("a", {
+    className: "pidx__row" + (i === active ? " is-on" : ""),
+    href: BASE + pathFor("story:" + it.id),
+    "aria-label": `${it.name}, ${it.loc} — view the project story`,
+    onMouseEnter: () => setActive(i),
+    onFocus: () => setActive(i),
+    onClick: storyClick(go, it.id)
+  }, React.createElement("span", {
+    className: "pidx__n"
+  }, String(i + 1).padStart(2, "0")), React.createElement("span", {
+    className: "pidx__name"
+  }, it.name), React.createElement("span", {
+    className: "pidx__meta"
+  }, React.createElement("span", null, it.loc, it.year ? ` · ${it.year}` : ""), React.createElement("span", {
+    className: "pidx__asset"
+  }, it.asset, it.rendering ? " · Rendering" : "")), React.createElement("span", {
+    className: "pidx__go",
+    "aria-hidden": "true"
+  }, React.createElement("span", {
+    className: "arr"
+  })), React.createElement("span", {
+    className: "pidx__thumb",
+    "aria-hidden": "true"
+  }, React.createElement("img", {
+    src: wix(it.img, {
+      w: 800
+    }),
+    srcSet: wixSet(it.img, [800, 1400]),
+    sizes: "92vw",
+    alt: "",
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  })))))), React.createElement("div", {
+    className: "pidx__stage",
+    "aria-hidden": "true"
+  }, React.createElement("div", {
+    className: "pidx__frame"
+  }, warm && items.map((it, i) => React.createElement("img", {
+    key: it.id,
+    className: i === active ? "is-on" : "",
+    src: wix(it.img, {
+      w: 1400
+    }),
+    srcSet: wixSet(it.img, [800, 1400, 2000]),
+    sizes: "(max-width: 900px) 1px, 44vw",
+    alt: "",
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  }))), React.createElement("div", {
+    className: "pidx__cap"
+  }, React.createElement("span", null, cur.role), cur.rendering && React.createElement("span", {
+    className: "pidx__flag"
+  }, "Architectural rendering"))));
+}
+window.bandSrc = bandSrc;
+window.NightPlate = NightPlate;
+window.NightCta = NightCta;
+window.ProjectIndex = ProjectIndex;
 const SHOT = {
   casaMani: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",
   leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
   yingYang: "ying_ext_tall",
   casablanca: "casablanca"
 };
-const HOME_WORK = [[SHOT.casaMani, "casa-mani", "Casa Mani", "Beverly Hills", "Developed & built", "Private residence", "2017"], [SHOT.leBijou, "le-bijou", "Le Bijou", "Beverly Hills", "Developed & built", "Private residence", "2015"], [SHOT.yingYang, "ying-yang-lofts", "Ying Yang Lofts", "Los Angeles", "Designed & built", "Apartment building", "2019"], [SHOT.casablanca, "casablanca-homes", "Casablanca Homes", "Los Angeles", "Noesis development", "Small-lot subdivision", "", true]];
+const HOME_WORK = [{
+  id: "casa-mani",
+  img: SHOT.casaMani,
+  name: "Casa Mani",
+  loc: "Beverly Hills",
+  year: "2017",
+  role: "Developed & built",
+  asset: "Private residence"
+}, {
+  id: "villa-casbah",
+  img: "sf-casbah-01",
+  name: "Villa Casbah",
+  loc: "Beverly Grove",
+  year: "2021",
+  role: "Developed & built",
+  asset: "Private residence"
+}, {
+  id: "one-oak",
+  img: "sf-oneoak-01",
+  name: "One Oak",
+  loc: "Sunset Strip",
+  year: "2015",
+  role: "Developed & built",
+  asset: "Private residence"
+}, {
+  id: "aura-house",
+  img: "sf-aura-01",
+  name: "Aura House",
+  loc: "Tel Aviv",
+  year: "2017",
+  role: "Developed & built",
+  asset: "Private residence"
+}, {
+  id: "ying-yang-lofts",
+  img: SHOT.yingYang,
+  name: "Ying Yang Lofts",
+  loc: "Los Angeles",
+  year: "2019",
+  role: "Designed & built",
+  asset: "Apartment building"
+}, {
+  id: "casablanca-homes",
+  img: SHOT.casablanca,
+  name: "Casablanca Homes",
+  loc: "Los Angeles",
+  year: "",
+  role: "Noesis development",
+  asset: "Small-lot subdivision",
+  rendering: true
+}];
+const HOME_STATEMENT = [["Since 2009 we have found the land, entitled it, designed it and built it — and", false], ["invested alongside the capital behind it.", true], ["One team, from first underwriting to final handover.", false]];
 const HOME_STATS = [["28", "Projects"], ["21", "Private residences"], ["5", "Apartment buildings"], ["2", "Small-lot subdivisions"], ["2009", "Founded"]];
 const HOME_PILLARS = [["01", "Investment", "investment", "We originate and steward residential investments for an aligned network of private capital, with the operator invested alongside."], ["02", "Development", "development", "We conceive, entitle, design and build the assets we underwrite — one integrated team from land to handover."]];
 function scrubEligible() {
@@ -1775,20 +2010,20 @@ function Home({
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
-    className: "reveal",
+    className: "statement",
     style: {
-      marginBottom: "clamp(28px,3.5vw,48px)"
+      marginBottom: "clamp(48px,6vw,96px)"
     }
   }, React.createElement("div", {
-    className: "eyebrow"
+    className: "eyebrow reveal"
   }, React.createElement("span", {
     className: "dot"
   }), " What We Do"), React.createElement("p", {
-    className: "wwd__lead u-mt-24",
-    style: {
-      maxWidth: "22ch"
-    }
-  }, "We invest in real estate \u2014 and ", React.createElement("em", null, "build what we invest in."))), React.createElement("div", {
+    className: "statement__t u-mt-24"
+  }, HOME_STATEMENT.flatMap(([text, em], k) => text.split(" ").map((w, i) => React.createElement("span", {
+    key: k + "-" + i,
+    className: "w" + (em ? " w--em" : "")
+  }, w, " "))))), React.createElement("div", {
     className: "gateway reveal",
     "data-spy": "development,investment"
   }, HOME_PILLARS.map(([n, t, route, d]) => React.createElement("button", {
@@ -1833,66 +2068,37 @@ function Home({
     "data-magnetic": true
   }, "View the full portfolio ", React.createElement("span", {
     className: "arr"
-  })))), React.createElement("div", {
-    className: "collage reveal u-mt-64"
-  }, HOME_WORK.map(([img, id, name, loc, role, asset, year, rendering]) => React.createElement("a", {
-    key: name,
-    className: "pcard",
-    href: BASE + pathFor("story:" + id),
-    "aria-label": `${name}, ${loc} — view the project story`,
-    onClick: e => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-      e.preventDefault();
-      go("story:" + id);
-    }
-  }, React.createElement("div", {
-    className: "pcard__media"
-  }, React.createElement("img", {
-    className: "pcard__img",
-    src: wix(img, {
-      w: 1400
-    }),
-    srcSet: wixSet(img),
-    sizes: "(max-width: 600px) 92vw, (max-width: 1100px) 45vw, 23vw",
-    alt: name,
-    loading: "lazy",
-    decoding: "async",
-    onError: imgFallback
-  })), React.createElement("div", {
-    className: "pcard__cap"
-  }, React.createElement("div", null, React.createElement("h3", {
-    className: "pcard__name"
-  }, name), React.createElement("div", {
-    className: "pcard__loc"
-  }, loc, year ? ` · ${year}` : "", rendering && React.createElement("span", {
-    className: "pcard__render"
-  }, "Rendering"))), React.createElement("div", {
-    className: "label label--sm",
-    style: {
-      color: "var(--accent-deep)",
-      textAlign: "right",
-      whiteSpace: "nowrap"
-    }
-  }, role, React.createElement("br", null), React.createElement("span", {
-    style: {
-      color: "var(--muted)"
-    }
-  }, asset)))))))), React.createElement("section", {
+  })))), React.createElement(ProjectIndex, {
+    items: HOME_WORK,
+    go: go
+  }))), React.createElement(NightPlate, {
     id: "record",
-    className: "section",
-    "data-spy": "properties",
-    style: {
-      paddingTop: 0,
-      borderTop: 0
-    }
+    spy: "properties",
+    band: "city-night",
+    className: "night--record",
+    alt: "Los Angeles at blue hour, looking east along the Wilshire corridor"
   }, React.createElement("div", {
     className: "wrap"
   }, React.createElement("div", {
-    className: "eyebrow reveal"
+    className: "grid-12 u-end reveal"
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
   }, React.createElement("span", {
     className: "dot"
-  }), " The Record"), React.createElement("div", {
-    className: "statband reveal u-mt-24"
+  }), " The Record"), React.createElement("h2", {
+    className: "h-1 u-mt-16 night__title"
+  }, "Seventeen years, ", React.createElement("em", null, "one team."))), React.createElement("div", {
+    className: "col-5 u-tr"
+  }, React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => go("properties"),
+    "data-magnetic": true
+  }, "See the full record ", React.createElement("span", {
+    className: "arr"
+  })))), React.createElement("div", {
+    className: "statband statband--xl u-mt-64"
   }, HOME_STATS.map(([v, l]) => React.createElement("div", {
     key: l
   }, React.createElement("div", {
@@ -1908,7 +2114,6 @@ function Home({
     id: "owners",
     className: "section",
     style: {
-      paddingTop: 0,
       borderTop: 0
     }
   }, React.createElement("div", {
@@ -2235,36 +2440,23 @@ function Development({
   }, l))))))), React.createElement(PracticeSwitch, {
     go: go,
     current: "development"
-  }), React.createElement("section", {
-    className: "section section--ink"
-  }, React.createElement("div", {
-    className: "wrap grid-12 u-end reveal"
-  }, React.createElement("div", {
-    className: "col-8"
-  }, React.createElement("h2", {
-    className: "h-1 caps",
-    style: {
-      color: "var(--ink)"
-    }
-  }, "See what we have ", React.createElement("em", {
-    className: "accent"
-  }, "delivered."))), React.createElement("div", {
-    className: "col-4 u-tr u-flex u-gap-16",
-    style: {
-      justifyContent: "flex-end",
-      flexWrap: "wrap"
-    }
-  }, React.createElement("button", {
-    className: "btn",
-    onClick: () => go("properties"),
-    "data-magnetic": true
-  }, "The Portfolio ", React.createElement("span", {
-    className: "arr"
-  })), React.createElement("button", {
-    className: "btn btn--ghost",
-    onClick: () => go("inquiries"),
-    "data-magnetic": true
-  }, "Bring us a site")))));
+  }), React.createElement(NightCta, {
+    img: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
+    focus: "50% 60%",
+    alt: "Le Bijou, Beverly Hills \u2014 delivered by Noesis in 2015",
+    title: React.createElement(React.Fragment, null, "See what we have ", React.createElement("em", null, "delivered.")),
+    actions: React.createElement(React.Fragment, null, React.createElement("button", {
+      className: "btn",
+      onClick: () => go("properties"),
+      "data-magnetic": true
+    }, "The Portfolio ", React.createElement("span", {
+      className: "arr"
+    })), React.createElement("button", {
+      className: "btn btn--ghost",
+      onClick: () => go("inquiries"),
+      "data-magnetic": true
+    }, "Bring us a site"))
+  }));
 }
 window.Development = Development;
 const ASSET_MIX = [["Private residences", 21, "75%"], ["Apartment buildings", 5, "18%"], ["Small-lot subdivisions", 2, "7%"]];
@@ -2689,8 +2881,9 @@ function Investment({
     className: "wwd-cap__t"
   }, t), React.createElement("p", {
     className: "wwd-cap__d"
-  }, d)))))), React.createElement("section", {
-    className: "section section--ink"
+  }, d)))))), React.createElement(NightPlate, {
+    band: "city-night",
+    alt: "Los Angeles at blue hour, looking east along the Wilshire corridor"
   }, React.createElement("div", {
     className: "wrap grid-12 u-end reveal"
   }, React.createElement("div", {
@@ -2700,12 +2893,11 @@ function Investment({
   }, React.createElement("span", {
     className: "dot"
   }), " Why the Record Matters"), React.createElement("h2", {
-    className: "h-1 u-mt-16 caps",
+    className: "h-1 u-mt-16 caps night__title",
     style: {
-      color: "var(--ink)",
       maxWidth: "18ch"
     }
-  }, "The operator is the edge.")), React.createElement("div", {
+  }, "The operator is ", React.createElement("em", null, "the edge."))), React.createElement("div", {
     className: "col-5"
   }, React.createElement("p", {
     className: "body-lg"
@@ -3045,28 +3237,18 @@ function Firm({
     }
   }, React.createElement("div", {
     className: "label"
-  }, "General contracting by Noesis Builders, Inc. \xA0\xB7\xA0 California license # 1046562 (Class B)")))), React.createElement("section", {
-    className: "section section--ink"
-  }, React.createElement("div", {
-    className: "wrap grid-12 u-end reveal"
-  }, React.createElement("div", {
-    className: "col-8"
-  }, React.createElement("h2", {
-    className: "h-1 caps",
-    style: {
-      color: "var(--ink)"
-    }
-  }, "Let's build something ", React.createElement("em", {
-    className: "accent"
-  }, "exceptional."))), React.createElement("div", {
-    className: "col-4 u-tr"
-  }, React.createElement("button", {
-    className: "btn",
-    onClick: () => go("inquiries"),
-    "data-magnetic": true
-  }, "Start a Conversation ", React.createElement("span", {
-    className: "arr"
-  }))))));
+  }, "General contracting by Noesis Builders, Inc. \xA0\xB7\xA0 California license # 1046562 (Class B)")))), React.createElement(NightCta, {
+    band: "city-west",
+    alt: "Los Angeles from above the Westside",
+    title: React.createElement(React.Fragment, null, "Let's build something ", React.createElement("em", null, "exceptional.")),
+    actions: React.createElement("button", {
+      className: "btn",
+      onClick: () => go("inquiries"),
+      "data-magnetic": true
+    }, "Start a Conversation ", React.createElement("span", {
+      className: "arr"
+    }))
+  }));
 }
 window.Firm = Firm;
 const INQ_ENDPOINT = "";
@@ -3762,31 +3944,22 @@ function Approach({
   }, "We represent a select number of owners and institutions on projects we do not own, applying the discipline we bring to our own developments."))))), React.createElement(PracticeSwitch, {
     go: go,
     current: "owners-rep"
-  }), React.createElement("section", {
-    className: "section section--ink"
-  }, React.createElement("div", {
-    className: "wrap grid-12 u-end reveal"
-  }, React.createElement("div", {
-    className: "col-8"
-  }, React.createElement("h2", {
-    className: "h-1 caps",
-    style: {
-      color: "var(--ink)"
-    }
-  }, "Let's build something ", React.createElement("em", {
-    className: "accent"
-  }, "exceptional."))), React.createElement("div", {
-    className: "col-4 u-tr"
-  }, React.createElement("button", {
-    className: "btn",
-    onClick: () => {
-      if (setIntent) setIntent("owner");
-      go("inquiries");
-    },
-    "data-magnetic": true
-  }, "Discuss Your Project ", React.createElement("span", {
-    className: "arr"
-  }))))));
+  }), React.createElement(NightCta, {
+    band: "build-pour",
+    focus: "50% 45%",
+    alt: "A concrete pour on a Los Angeles construction site",
+    title: React.createElement(React.Fragment, null, "Let's build something ", React.createElement("em", null, "exceptional.")),
+    actions: React.createElement("button", {
+      className: "btn",
+      onClick: () => {
+        if (setIntent) setIntent("owner");
+        go("inquiries");
+      },
+      "data-magnetic": true
+    }, "Discuss Your Project ", React.createElement("span", {
+      className: "arr"
+    }))
+  }));
 }
 window.Approach = Approach;
 const DISCLOSURE_AS_OF = "September 2026";
@@ -4451,32 +4624,22 @@ function Projects({
     }
   }, loc, " \xB7 ", year)), React.createElement("p", {
     className: "row__desc"
-  }, note)))))), React.createElement("section", {
-    className: "section section--ink"
-  }, React.createElement("div", {
-    className: "wrap grid-12 u-end reveal"
-  }, React.createElement("div", {
-    className: "col-8"
-  }, React.createElement("h2", {
-    className: "h-1 caps",
-    style: {
-      color: "var(--ink)"
-    }
-  }, "This standard, on ", React.createElement("em", {
-    className: "accent"
-  }, "your project."))), React.createElement("div", {
-    className: "col-4 u-tr cta-row"
-  }, React.createElement("button", {
-    className: "btn",
-    onClick: () => goWith("investor", "inquiries"),
-    "data-magnetic": true
-  }, "Request an Introduction ", React.createElement("span", {
-    className: "arr"
-  })), React.createElement("button", {
-    className: "btn btn--ghost",
-    onClick: () => goWith("owner", "owners-rep"),
-    "data-magnetic": true
-  }, "How We Manage")))));
+  }, note)))))), React.createElement(NightCta, {
+    img: "sf-mani-01",
+    alt: "Casa Mani, Beverly Hills \u2014 delivered by Noesis in 2017",
+    title: React.createElement(React.Fragment, null, "This standard, on ", React.createElement("em", null, "your project.")),
+    actions: React.createElement(React.Fragment, null, React.createElement("button", {
+      className: "btn",
+      onClick: () => goWith("investor", "inquiries"),
+      "data-magnetic": true
+    }, "Request an Introduction ", React.createElement("span", {
+      className: "arr"
+    })), React.createElement("button", {
+      className: "btn btn--ghost",
+      onClick: () => goWith("owner", "owners-rep"),
+      "data-magnetic": true
+    }, "How We Manage"))
+  }));
 }
 function Lightbox({
   project,
@@ -5117,6 +5280,8 @@ function routeFromLocation() {
   if (seg === "portfolio") return sub ? "story:" + sub : "properties";
   return ROUTE_PATHS[seg] != null ? seg : "home";
 }
+const CURTAIN_IN_MS = 560;
+const CURTAIN_OUT_MS = 820;
 function App() {
   const [view, setView] = React.useState(() => {
     const r = routeFromLocation();
@@ -5140,7 +5305,7 @@ function App() {
       behavior: "auto"
     });
   };
-  const go = React.useCallback((id, silent) => {
+  const goNow = React.useCallback((id, silent) => {
     const target = id === "top" || id === "hero" ? "home" : id;
     if (!silent) {
       try {
@@ -5167,6 +5332,29 @@ function App() {
     setView("home");
     scrollTop();
   }, [view]);
+  const curtainRef = React.useRef(null);
+  const curtainBusy = React.useRef(false);
+  const go = React.useCallback((id, silent) => {
+    const el = curtainRef.current;
+    const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (silent || !el || document.hidden || reduced) {
+      goNow(id, silent);
+      return;
+    }
+    if (curtainBusy.current) return;
+    curtainBusy.current = true;
+    el.classList.remove("is-out");
+    el.classList.add("is-in");
+    setTimeout(() => {
+      goNow(id, silent);
+      el.classList.remove("is-in");
+      el.classList.add("is-out");
+      setTimeout(() => {
+        el.classList.remove("is-out");
+        curtainBusy.current = false;
+      }, CURTAIN_OUT_MS);
+    }, CURTAIN_IN_MS);
+  }, [goNow]);
   const applyRoute = React.useCallback(() => {
     window.__ROUTE = null;
     go(routeFromLocation(), true);
@@ -5244,7 +5432,14 @@ function App() {
     setIntent: setIntent
   }), React.createElement(Footer, {
     go: go
-  }), /[?&]tweaks=1/.test(window.location.search) && React.createElement(TweaksPanel, null, React.createElement(TweakSection, {
+  }), React.createElement("div", {
+    className: "rt",
+    ref: curtainRef,
+    "aria-hidden": "true"
+  }, React.createElement(Logo, {
+    decorative: true,
+    className: "rt__logo"
+  })), /[?&]tweaks=1/.test(window.location.search) && React.createElement(TweaksPanel, null, React.createElement(TweakSection, {
     label: "Accent"
   }), React.createElement(TweakColor, {
     label: "Accent color",

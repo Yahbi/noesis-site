@@ -275,12 +275,9 @@ function Approach({ go, setIntent }) {
 
       <PracticeSwitch go={go} current="owners-rep" />
 
-      <section className="section section--ink">
-        <div className="wrap grid-12 u-end reveal">
-          <div className="col-8"><h2 className="h-1 caps" style={{ color: "var(--ink)" }}>Let's build something <em className="accent">exceptional.</em></h2></div>
-          <div className="col-4 u-tr"><button className="btn" onClick={() => { if (setIntent) setIntent("owner"); go("inquiries"); }} data-magnetic>Discuss Your Project <span className="arr" /></button></div>
-        </div>
-      </section>
+      <NightCta band="build-pour" focus="50% 45%" alt="A concrete pour on a Los Angeles construction site"
+        title={<>Let's build something <em>exceptional.</em></>}
+        actions={<button className="btn" onClick={() => { if (setIntent) setIntent("owner"); go("inquiries"); }} data-magnetic>Discuss Your Project <span className="arr" /></button>} />
     </main>
   );
 }

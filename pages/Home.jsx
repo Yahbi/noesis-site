@@ -10,14 +10,24 @@ const SHOT = {
   casablanca: "casablanca",
 };
 
-// Four projects, one per asset class the firm actually works in, so the homepage
-// shows the range rather than six variations of the same house. Role, asset type,
-// place and year on each; the full record lives on Portfolio.
+// Six projects across every asset class and both continents, set as an index:
+// names as type, the photograph answering the cursor. Role, place and year on
+// each; the full record lives on Portfolio.
 const HOME_WORK = [
-  [SHOT.casaMani,   "casa-mani",       "Casa Mani",      "Beverly Hills",  "Developed & built",  "Private residence",      "2017"],
-  [SHOT.leBijou,    "le-bijou",        "Le Bijou",       "Beverly Hills",  "Developed & built",  "Private residence",      "2015"],
-  [SHOT.yingYang,   "ying-yang-lofts", "Ying Yang Lofts","Los Angeles",    "Designed & built",   "Apartment building",     "2019"],
-  [SHOT.casablanca, "casablanca-homes","Casablanca Homes","Los Angeles",   "Noesis development",  "Small-lot subdivision",  "", true],
+  { id: "casa-mani",        img: SHOT.casaMani,   name: "Casa Mani",        loc: "Beverly Hills",  year: "2017", role: "Developed & built",  asset: "Private residence" },
+  { id: "villa-casbah",     img: "sf-casbah-01",  name: "Villa Casbah",     loc: "Beverly Grove",  year: "2021", role: "Developed & built",  asset: "Private residence" },
+  { id: "one-oak",          img: "sf-oneoak-01",  name: "One Oak",          loc: "Sunset Strip",   year: "2015", role: "Developed & built",  asset: "Private residence" },
+  { id: "aura-house",       img: "sf-aura-01",    name: "Aura House",       loc: "Tel Aviv",       year: "2017", role: "Developed & built",  asset: "Private residence" },
+  { id: "ying-yang-lofts",  img: SHOT.yingYang,   name: "Ying Yang Lofts",  loc: "Los Angeles",    year: "2019", role: "Designed & built",   asset: "Apartment building" },
+  { id: "casablanca-homes", img: SHOT.casablanca, name: "Casablanca Homes", loc: "Los Angeles",    year: "",     role: "Noesis development", asset: "Small-lot subdivision", rendering: true },
+];
+
+// The opening statement, lit word by word as it scrolls past (motion.js
+// bindManifesto). Split into words here so the markup stays React-owned.
+const HOME_STATEMENT = [
+  ["Since 2009 we have found the land, entitled it, designed it and built it — and", false],
+  ["invested alongside the capital behind it.", true],
+  ["One team, from first underwriting to final handover.", false],
 ];
 
 // Full record — 22 gallery projects + 6 record-only entries.
@@ -137,10 +147,12 @@ function Home({ go, setIntent }) {
       {/* 2 ── DEVELOPMENT + INVESTMENT — the two primary businesses ── */}
       <section id="pillars" className="section">
         <div className="wrap">
-          <div className="reveal" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
-            <div className="eyebrow"><span className="dot" /> What We Do</div>
-            <p className="wwd__lead u-mt-24" style={{ maxWidth: "22ch" }}>
-              We invest in real estate — and <em>build what we invest in.</em>
+          <div className="statement" style={{ marginBottom: "clamp(48px,6vw,96px)" }}>
+            <div className="eyebrow reveal"><span className="dot" /> What We Do</div>
+            <p className="statement__t u-mt-24">
+              {HOME_STATEMENT.flatMap(([text, em], k) => text.split(" ").map((w, i) => (
+                <span key={k + "-" + i} className={"w" + (em ? " w--em" : "")}>{w} </span>
+              )))}
             </p>
           </div>
 
@@ -172,40 +184,23 @@ function Home({ go, setIntent }) {
           </div>
 
 
-          <div className="collage reveal u-mt-64">
-            {HOME_WORK.map(([img, id, name, loc, role, asset, year, rendering]) => (
-              <a key={name} className="pcard" href={BASE + pathFor("story:" + id)}
-                aria-label={`${name}, ${loc} — view the project story`}
-                onClick={(e) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-                  e.preventDefault(); go("story:" + id);
-                }}>
-                <div className="pcard__media"><img className="pcard__img" src={wix(img, { w: 1400 })}
-                  srcSet={wixSet(img)}
-                  sizes="(max-width: 600px) 92vw, (max-width: 1100px) 45vw, 23vw"
-                  alt={name} loading="lazy" decoding="async" onError={imgFallback} /></div>
-                <div className="pcard__cap">
-                  <div>
-                    <h3 className="pcard__name">{name}</h3>
-                    <div className="pcard__loc">
-                      {loc}{year ? ` · ${year}` : ""}
-                      {rendering && <span className="pcard__render">Rendering</span>}
-                    </div>
-                  </div>
-                  <div className="label label--sm" style={{ color: "var(--accent-deep)", textAlign: "right", whiteSpace: "nowrap" }}>
-                    {role}<br /><span style={{ color: "var(--muted)" }}>{asset}</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
+          <ProjectIndex items={HOME_WORK} go={go} />
         </div>
       </section>
-      {/* 4 ── TRACK RECORD ────────────────────────────────────────── */}
-      <section id="record" className="section" data-spy="properties" style={{ paddingTop: 0, borderTop: 0 }}>
+      {/* 4 ── TRACK RECORD — the one night plate on the homepage ────── */}
+      <NightPlate id="record" spy="properties" band="city-night" className="night--record"
+        alt="Los Angeles at blue hour, looking east along the Wilshire corridor">
         <div className="wrap">
-          <div className="eyebrow reveal"><span className="dot" /> The Record</div>
-          <div className="statband reveal u-mt-24">
+          <div className="grid-12 u-end reveal">
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> The Record</div>
+              <h2 className="h-1 u-mt-16 night__title">Seventeen years, <em>one team.</em></h2>
+            </div>
+            <div className="col-5 u-tr">
+              <button className="btn btn--ghost" onClick={() => go("properties")} data-magnetic>See the full record <span className="arr" /></button>
+            </div>
+          </div>
+          <div className="statband statband--xl u-mt-64">
             {HOME_STATS.map(([v, l]) => (
               <div key={l}><div className="num">{v}</div><div className="statband__l">{l}</div></div>
             ))}
@@ -222,11 +217,11 @@ function Home({ go, setIntent }) {
             own project records. Past results are not indicative of future results.{" "}
             <button className="statband__more" onClick={() => go("disclosures")}>Full disclosures</button>
           </p>
-
         </div>
-      </section>
+      </NightPlate>
+
       {/* 5 ── OWNER'S REPRESENTATION — the accessory line, kept subordinate ── */}
-      <section id="owners" className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      <section id="owners" className="section" style={{ borderTop: 0 }}>
         <div className="wrap">
           <button className="accessory reveal" data-spy="owners-rep" onClick={() => goOwner("owners-rep")} aria-label="Owner's Representation and Project Management — open the page">
             <span className="accessory__lbl">Also — Owner's Representation &amp; Project Management</span>

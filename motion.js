@@ -38,7 +38,15 @@
     document.querySelectorAll(".cine__cap").forEach(function (c) { c.style.opacity = "1"; c.style.transform = "none"; });
     document.documentElement.classList.add("hero-in");
     document.querySelectorAll(".lx-h .ln > span").forEach(function (s) { s.style.transform = "none"; });
-    document.querySelectorAll(".manifesto .w").forEach(function (w) { w.style.opacity = "1"; });
+    document.querySelectorAll(".manifesto .w, .statement .w").forEach(function (w) { w.style.opacity = "1"; });
+    document.querySelectorAll("[data-mx]").forEach(unmask);
+  }
+  // Undo a clip-path mask (image wipe or title rise) and its inner image zoom.
+  function unmask(el) {
+    el.style.clipPath = ""; el.style.transform = "";
+    el.removeAttribute("data-mx");
+    var img = el.querySelector("img");
+    if (img) { img.style.transform = ""; img.style.transition = ""; }
   }
   function killPreloader(instant) {
     var p = document.getElementById("preloader");
@@ -136,10 +144,12 @@
 
   // ── Reveal helpers ───────────────────────────────────────────────────────
   function revealUp(el, delay) {
+    var heads = maskTitles(el);
     gsap.set(el, { opacity: 0, y: 42 });
     st({
       trigger: el, start: "top 86%", once: true,
       onEnter: function () {
+        riseTitles(heads, delay);
         gsap.to(el, {
           opacity: 1, y: 0, duration: 1.0, delay: delay || 0, ease: "expo.out",
           // Release the compositing layer once the reveal is done — will-change
@@ -193,17 +203,57 @@
 
   // ── Manifesto — pinned interlude; words brighten as the visitor scrolls ───
   function bindManifesto() {
-    var m = document.querySelector(".manifesto");
-    if (!m) return;
-    var words = m.querySelectorAll(".w");
-    if (!words.length) return;
-    // No pin — an arrested page reads as lag. Words brighten as the section
-    // flows past naturally, completing just before its center crosses mid-view.
-    var tl = gsap.timeline({
-      scrollTrigger: { trigger: m, start: "top 78%", end: "center 42%", scrub: 0.3 },
+    document.querySelectorAll(".manifesto, .statement").forEach(function (m) {
+      var words = m.querySelectorAll(".w");
+      if (!words.length) return;
+      // No pin — an arrested page reads as lag. Words brighten as the block
+      // flows past naturally, completing before it leaves the reading zone.
+      var tl = gsap.timeline({
+        scrollTrigger: { trigger: m, start: "top 82%", end: "bottom 52%", scrub: 0.4 },
+      });
+      tl.to(words, { opacity: 1, stagger: { each: 0.04 }, ease: "none" });
+      if (tl.scrollTrigger) triggers.push(tl.scrollTrigger);
     });
-    tl.to(words, { opacity: 1, stagger: { each: 0.04 }, ease: "none" });
-    if (tl.scrollTrigger) triggers.push(tl.scrollTrigger);
+  }
+
+  // ── Image wipes — each framed photograph rises out of its own frame ───────
+  // The frame clips from the bottom while the photograph settles from a slight
+  // zoom: the architecture arrives, rather than fading up like body copy. Every
+  // masked element carries data-mx so the safety nets can find and undo it.
+  var CLIP_SEL = "main .band__media, main .pcard__media, main .thumb, main .split__media, " +
+    "main .sector__img, main .pfeat__media, main .pair figure, main .geo__item, main .pidx__frame";
+  function bindImageReveals() {
+    document.querySelectorAll(CLIP_SEL).forEach(function (el) {
+      if (el.closest(".shero, #hero")) return;
+      var img = el.querySelector("img");
+      el.setAttribute("data-mx", "");
+      gsap.set(el, { clipPath: "inset(100% 0% 0% 0%)" });
+      if (img) { img.style.transition = "none"; gsap.set(img, { scale: 1.22 }); }
+      st({
+        trigger: el, start: "top 90%", once: true,
+        onEnter: function () {
+          gsap.to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.3, ease: "expo.inOut",
+            onComplete: function () { unmask(el); } });
+          if (img) gsap.to(img, { scale: 1, duration: 1.9, ease: "expo.out" });
+        },
+      });
+    });
+  }
+
+  // ── Section titles rise through a mask as their block reveals ─────────────
+  function maskTitles(el) {
+    var heads = el.matches(".h-1") ? [el] : Array.prototype.slice.call(el.querySelectorAll(".h-1"));
+    heads.forEach(function (h) {
+      h.setAttribute("data-mx", "");
+      gsap.set(h, { clipPath: "inset(0% 0% 100% 0%)", yPercent: 30 });
+    });
+    return heads;
+  }
+  function riseTitles(heads, delay) {
+    if (!heads.length) return;
+    gsap.to(heads, { clipPath: "inset(0% 0% -25% 0%)", yPercent: 0, duration: 1.35, delay: (delay || 0) + 0.1,
+      ease: "expo.out", stagger: 0.08,
+      onComplete: function () { heads.forEach(unmask); } });
   }
 
   // ── Cinematic image wipe — an ivory curtain slides off each .cine plate ───
@@ -318,6 +368,7 @@
     bindCounters();
     bindParallax();
     bindCine();
+    bindImageReveals();
     bindManifesto();
     bindMagnetic();
 
@@ -382,6 +433,10 @@
         el.style.transform = "none";
         stuck++;
       }
+    });
+    // A mask on anything already scrolled into view should have opened by now.
+    document.querySelectorAll("[data-mx]").forEach(function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) unmask(el);
     });
     if (stuck) document.documentElement.classList.remove("motion-ready");
   }

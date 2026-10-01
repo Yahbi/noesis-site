@@ -33,6 +33,7 @@ fi
   components/Placeholder.jsx \
   components/Shell.jsx \
   components/ScrollHero.jsx \
+  components/Signature.jsx \
   pages/Home.jsx \
   pages/Development.jsx \
   pages/Investment.jsx \
@@ -67,7 +68,7 @@ shell, n = re.subn(r"  <!-- React \+ Babel.*</body>", prod_scripts, src, flags=r
 assert n == 1, "script block not found"
 # The template carries a hardcoded ?v= on styles.css; without restamping it every
 # build, browsers keep serving their cached stylesheet no matter what changed.
-shell = re.sub(r'styles\.css\?v=\d+', f'styles.css?v={v}', shell)
+shell = re.sub(r'(styles|signature)\.css\?v=\d+', lambda m: f'{m.group(1)}.css?v={v}', shell)
 # Optional, provider-agnostic analytics: create analytics.html containing the
 # snippet your provider gives you (Cloudflare, Plausible, Fathom...) and it is
 # injected into every page. Absent file = no tracking, no cookie banner needed.

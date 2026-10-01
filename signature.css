@@ -1,0 +1,160 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Noesis — signature layer
+   The night plate, the project index, the scroll-lit statement and the footer
+   wordmark. Loaded after styles.css; everything here is additive.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── NIGHT TOKENS ─────────────────────────────────────────────────────────────
+   The night plate and the footer re-point the type tokens rather than restyling
+   components, so every primitive inside them (eyebrow, h-1, btn--ghost, the
+   statband, the footer links) inverts without per-component overrides.
+   --accent becomes the lifted red: #B02F27 on #0F0F11 is 2.4:1, #E8756C is 6.6:1.
+   --accent-cta and --accent-deep stay: they are button FILLS carrying white text. */
+.night, .footer {
+  --night:      #0F0F11;
+  --ink:        #F2F1EC;
+  --ink-2:      #E4E3DD;
+  --ink-soft:   rgba(242,241,236,.80);
+  --muted:      rgba(242,241,236,.66);
+  --muted-2:    rgba(242,241,236,.46);
+  --rule:       rgba(242,241,236,.16);
+  --rule-soft:  rgba(242,241,236,.08);
+  --accent:     #E8756C;
+  --bone:       #0F0F11;
+  color: var(--ink);
+  background: var(--night);
+}
+.night em, .footer em { color: var(--accent); }
+
+/* ── NIGHT PLATE ──────────────────────────────────────────────────────────── */
+.night { position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(120px, 14vw, 220px) 0 clamp(64px, 7vw, 112px); }
+.night__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  z-index: -2; opacity: .66; filter: saturate(.92) contrast(1.05); }
+/* Two layers: a vertical curve that seats the plate against white above and
+   keeps a deep floor where the type sits, and a left wash for the title column. */
+.night__veil { position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(15,15,17,.80) 0%, rgba(15,15,17,.30) 28%, rgba(15,15,17,.42) 58%, rgba(15,15,17,.94) 100%),
+    linear-gradient(90deg, rgba(15,15,17,.58) 0%, rgba(15,15,17,.12) 55%, rgba(15,15,17,0) 80%); }
+.night__in { position: relative; }
+.night__title { color: var(--ink); max-width: 17ch; }
+.night__title em { font-style: italic; }
+.night .eyebrow { color: var(--ink-soft); }
+.night .body-lg, .night .body, .night .lede { color: var(--ink-soft); }
+.night--cta { padding: clamp(170px, 20vw, 320px) 0 clamp(72px, 8vw, 124px); }
+.night__actions { justify-content: flex-end; flex-wrap: wrap; }
+
+/* The record, at the scale a record deserves */
+.night--record { padding-top: clamp(130px, 15vw, 240px); }
+.statband--xl { border-top: 1px solid var(--rule); padding-top: clamp(36px, 4vw, 56px); gap: clamp(16px, 2.4vw, 40px); }
+.statband--xl .num { font-family: var(--serif); font-weight: 400; color: var(--ink);
+  font-size: clamp(52px, 6.4vw, 112px); line-height: .92; letter-spacing: -.035em;
+  font-feature-settings: "lnum", "tnum"; }
+.statband--xl > div:first-child .num { color: var(--accent); }
+.statband--xl .statband__l { color: var(--muted); margin-top: 16px; }
+.night .statband__note { color: var(--muted); border-top-color: var(--rule); }
+.night .statband__more { color: var(--ink); border-bottom-color: var(--rule); }
+
+/* ── STATEMENT — lit word by word as it scrolls past ─────────────────────── */
+.statement__t { margin: 0; font-family: var(--serif); font-weight: 400;
+  font-size: clamp(30px, 4.2vw, 66px); line-height: 1.1; letter-spacing: -.024em;
+  color: var(--ink); max-width: 23ch; text-wrap: pretty; }
+.statement__t .w--em { font-style: italic; color: var(--accent); }
+html.motion-ready .statement .w { opacity: .16; }
+
+/* ── PROJECT INDEX ────────────────────────────────────────────────────────── */
+.pidx { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+  gap: clamp(32px, 5vw, 96px); align-items: start; margin-top: clamp(28px, 3.5vw, 52px); }
+.pidx__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.pidx__row { position: relative; display: grid; align-items: center; gap: 0 20px;
+  grid-template-columns: 40px minmax(0, 1fr) auto 28px;
+  padding: clamp(18px, 2.1vw, 30px) 0; border-bottom: 1px solid var(--rule);
+  color: var(--ink); text-decoration: none; }
+.pidx__row::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: var(--ink); transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform .8s var(--ease-glide); }
+.pidx__n { font: 500 11px/1 var(--sans); letter-spacing: .18em; color: var(--muted); transition: color .3s; }
+.pidx__name { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.4vw, 54px);
+  line-height: 1.02; letter-spacing: -.022em; transition: transform .7s var(--ease-glide), color .35s; }
+.pidx__meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; text-align: right;
+  font: 400 12.5px/1.3 var(--sans); letter-spacing: .02em; color: var(--muted); }
+.pidx__asset { font-size: 10.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.pidx__go { display: flex; justify-content: flex-end; color: var(--accent);
+  opacity: 0; transform: translateX(-10px); transition: opacity .3s, transform .5s var(--ease-glide); }
+.pidx__row.is-on::after { transform: scaleX(1); }
+.pidx__row.is-on .pidx__n { color: var(--accent-deep); }
+.pidx__row.is-on .pidx__name { transform: translateX(14px); }
+.pidx__row.is-on .pidx__go { opacity: 1; transform: none; }
+.pidx__list:hover .pidx__row:not(.is-on) .pidx__name { color: var(--muted); }
+.pidx__row:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.pidx__thumb { display: none; }
+
+.pidx__stage { position: sticky; top: 112px; }
+.pidx__frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bone-3); }
+.pidx__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: var(--grade); opacity: 0; transform: scale(1.06);
+  transition: opacity .7s ease, transform 1.6s var(--ease-glide); }
+.pidx__frame img.is-on { opacity: 1; transform: scale(1); }
+.pidx__cap { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px;
+  font: 500 10.5px/1.4 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.pidx__flag { color: var(--accent-deep); }
+
+@media (max-width: 900px) {
+  .pidx { grid-template-columns: 1fr; }
+  .pidx__stage { display: none; }
+  .pidx__row { grid-template-columns: 30px minmax(0, 1fr) 22px; row-gap: 8px;
+    grid-template-areas: "thumb thumb thumb" "n name go" ". meta meta"; padding: 22px 0 24px; }
+  .pidx__thumb { display: block; grid-area: thumb; aspect-ratio: 3 / 2; overflow: hidden;
+    margin-bottom: 14px; background: var(--bone-3); }
+  .pidx__thumb img { width: 100%; height: 100%; object-fit: cover; filter: var(--grade); }
+  .pidx__n { grid-area: n; }
+  .pidx__name { grid-area: name; }
+  .pidx__go { grid-area: go; opacity: 1; transform: none; }
+  .pidx__meta { grid-area: meta; flex-direction: row; flex-wrap: wrap; align-items: baseline;
+    justify-content: flex-start; gap: 4px 12px; text-align: left; }
+  .pidx__row.is-on .pidx__name { transform: none; }
+  .pidx__list:hover .pidx__row:not(.is-on) .pidx__name { color: inherit; }
+}
+
+/* ── FOOTER — night ground, the wordmark at the scale of the page ─────────── */
+.footer { border-top: 1px solid rgba(242,241,236,.10); padding-bottom: 0; overflow: hidden; }
+.footer .h-1 { color: var(--ink); }
+.footer a { color: var(--ink-soft); }
+.footer a:hover { color: var(--ink); }
+.footer .btn--ghost { color: var(--ink); border-color: rgba(242,241,236,.55); }
+.footer .btn--ghost:hover { background: var(--ink); color: var(--night); border-color: var(--ink); }
+.footer .clocks b { color: var(--ink); }
+/* The wordmark is sized to the content column: NOESIS in Jost 300 at -.05em
+   tracking measures ~2.95em wide, so (column width / 3) fills it edge to edge.
+   Geometry matches the nav mark (line-height normal, bar in em) so the measured
+   red bar lands on the E's middle arm at any size; the negative margins only trim
+   the empty line box above the caps and below the baseline. */
+.footer__giant-wrap { overflow: hidden; padding-top: clamp(48px, 7vw, 104px); }
+.footer__giant { display: flex; padding: 0; cursor: default; line-height: normal;
+  font-size: calc((min(100vw, var(--maxw)) - 2 * var(--pad-x)) / 3.06);
+  margin: -.2em 0 -.27em; }
+.footer__giant .logo__word { font-size: 1em; letter-spacing: -.05em; color: rgba(242,241,236,.94); user-select: none; }
+/* Brand red for the mark itself — decorative, so the lifted text red is not needed. */
+.footer__giant .logo__bar { font-size: 1em; background: #C9352B; }
+
+/* ── ROUTE CURTAIN — timings mirror CURTAIN_IN_MS / CURTAIN_OUT_MS in app.jsx ── */
+.rt { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
+  background: #0F0F11; pointer-events: none; visibility: hidden; transform: translateY(100%); }
+.rt.is-in { visibility: visible; pointer-events: auto; transform: translateY(0);
+  transition: transform .56s cubic-bezier(.76, 0, .24, 1); }
+.rt.is-out { visibility: visible; transform: translateY(-100%);
+  transition: transform .8s cubic-bezier(.76, 0, .24, 1); }
+.rt__logo { font-size: clamp(34px, 4.4vw, 64px); line-height: normal; padding: 0; cursor: default;
+  opacity: 0; transform: translateY(18px); transition: opacity .35s ease .18s, transform .6s cubic-bezier(.16, 1, .3, 1) .12s; }
+.rt__logo .logo__word { font-size: 1em; color: #F2F1EC; }
+.rt__logo .logo__bar { font-size: 1em; background: #C9352B; }
+.rt.is-in .rt__logo { opacity: 1; transform: none; }
+
+/* ── MOTION SAFETY — no mask survives reduced motion ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html.motion-ready .statement .w { opacity: 1; }
+  [data-mx] { clip-path: none !important; transform: none !important; }
+  .pidx__frame img, .pidx__name, .pidx__row::after { transition: none; }
+  .rt { display: none; }
+}
