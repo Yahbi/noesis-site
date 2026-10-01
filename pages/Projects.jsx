@@ -152,6 +152,44 @@ function recordMarkets() {
   return Object.entries(tally).sort((a, b) => b[1] - a[1]);
 }
 
+// One project card. A real href, not role="button": every project has its own
+// static page, and a faked button left them unreachable by a crawler and
+// unopenable in a new tab. Modifier-clicks fall through to the browser.
+function ProjectCard({ p, wide, onOpen }) {
+  const cover = p.cover || p.gallery[0];
+  const count = p.gallery.length;
+  return (
+    <a className={`pcard ${wide ? "pcard--wide" : ""}`} href={BASE + pathFor("story:" + p.id)}
+      aria-label={`Open the ${p.name} story`}
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault(); onOpen(p);
+      }}>
+      <div className="pcard__media">
+        <img className="pcard__img" src={wix(cover, { w: 1400 })}
+          srcSet={wixSet(cover)}
+          sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw"
+          alt={p.name} loading="lazy" decoding="async" onError={imgFallback} />
+        <div className="pcard__over">
+          {count > 1 && <span className="pcard__count">{count} Photos</span>}
+          <span className="pcard__cta">View Project <span className="arr" /></span>
+        </div>
+      </div>
+      <div className="pcard__cap">
+        <div>
+          <h3 className="pcard__name">{p.name}</h3>
+          <div className="pcard__loc">
+            {p.loc}
+            {p.rendering && <span className="pcard__render">Rendering</span>}
+          </div>
+        </div>
+        {p.year && !p.rendering && <div className="pcard__yr">{p.year}</div>}
+        {p.rendering && p.stage && <div className="pcard__yr pcard__stage">{p.stage}</div>}
+      </div>
+    </a>
+  );
+}
+
 // One featured project, image beside the facts. Extracted so a category with only
 // two projects can present both at this scale instead of stranding one lonely card
 // in a grid built for twelve.
@@ -192,6 +230,20 @@ function Projects({ setPage, setIntent }) {
   // takes from here seeds the inquiry form with the audience they self-selected.
   const goWith = (who, id) => { if (setIntent) setIntent(who); setPage(id); };
   const [tab, setTab] = React.useState("sfr");
+  // A market picked from the hero tally filters the whole record, across categories.
+  const [market, setMarket] = React.useState(null);
+  const resultsRef = React.useRef(null);
+  const pickMarket = (name) => {
+    const next = market === name ? null : name;
+    setMarket(next);
+    if (!next) return;
+    setTimeout(() => {
+      const el = resultsRef.current; if (!el) return;
+      const l = window.__motion && window.__motion.lenis;
+      if (l && l.scrollTo) l.scrollTo(el, { offset: -150 });
+      else el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 40);
+  };
   const tabsRef = React.useRef(null);
   const indRef = React.useRef(null);
   // Slide the indicator to the active tab (and follow font settle / resize).
@@ -244,6 +296,8 @@ function Projects({ setPage, setIntent }) {
   // thinks about them.
   const markets = React.useMemo(recordMarkets, []);
   const openStory = (p) => setPage("story:" + p.id);   // each card opens the immersive story
+  const inMarket = market ? PROJECT_LIST.filter((p) => marketOf(p.loc) === market) : [];
+  const recordInMarket = market ? FURTHER_RECORD.filter((r) => marketOf(r[1]) === market) : [];
 
   return (
     <main className="page-enter">
@@ -260,10 +314,15 @@ function Projects({ setPage, setIntent }) {
               team — the delivered proof behind what we build, what we hold, and how we manage.
             </p>
             <div className="mkt u-mt-24">
-              <div className="label">Markets</div>
-              <ul className="mkt__list">
+              <div className="label">Markets · filter the record</div>
+              <ul className="mkt__list" role="group" aria-label="Filter the record by market">
                 {markets.map(([name, n]) => (
-                  <li key={name}><span className="mkt__n">{name}</span><span className="mkt__c">{n}</span></li>
+                  <li key={name}>
+                    <button className={"mkt__b" + (market === name ? " is-on" : "")} aria-pressed={market === name}
+                      onClick={() => pickMarket(name)}>
+                      <span className="mkt__n">{name}</span><span className="mkt__c">{n}</span>
+                    </button>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -279,22 +338,58 @@ function Projects({ setPage, setIntent }) {
           <div className="ptabs" ref={tabsRef} role="group" aria-label="Filter the record by category">
             <span className="ptabs__ind" ref={indRef} aria-hidden="true" />
             {CATEGORIES.map(c => (
-              <button key={c.key} data-k={c.key} aria-pressed={tab === c.key}
-                onClick={() => setTab(c.key)}
-                className={`ptab ${tab === c.key ? "is-active" : ""}`}>
+              <button key={c.key} data-k={c.key} aria-pressed={!market && tab === c.key}
+                onClick={() => { setTab(c.key); setMarket(null); }}
+                className={`ptab ${!market && tab === c.key ? "is-active" : ""}`}>
                 {c.label}<span className="ptab__n">{c.items.length}</span>
               </button>
             ))}
           </div>
-          <div className="label">{cat.items.length} projects</div>
+          {market
+            ? <button className="mkt__chip" onClick={() => setMarket(null)} aria-label={`Clear the ${market} filter`}>
+                {market} · {inMarket.length + recordInMarket.length} <span aria-hidden="true">×</span>
+              </button>
+            : <div className="label">{cat.items.length} projects</div>}
         </div>
         <div className="wrap">
           <p className="body-lg pcat__lede" key={cat.key}>{cat.blurb}</p>
         </div>
       </section>
 
+      {/* MARKET VIEW — the record in one market, across every category */}
+      {market && (
+        <section className="section" ref={resultsRef}>
+          <div className="wrap">
+            <div className="grid-12 u-end" style={{ marginBottom: "clamp(28px,3.5vw,48px)" }}>
+              <div className="col-8">
+                <div className="eyebrow"><span className="dot" /> The Record in</div>
+                <h2 className="h-1 u-mt-16">{market}</h2>
+              </div>
+              <div className="col-4 u-tr">
+                <button className="btn btn--ghost" onClick={() => setMarket(null)}>All projects <span className="arr" /></button>
+              </div>
+            </div>
+            {inMarket.length > 0 && (
+              <div className="pgrid pgrid--3">
+                {inMarket.map((p) => <ProjectCard key={p.id} p={p} onOpen={openStory} />)}
+              </div>
+            )}
+            {recordInMarket.length > 0 && (
+              <div className="mrec u-mt-48">
+                <div className="label">Also delivered here · photography not yet published</div>
+                <ul className="mrec__list">
+                  {recordInMarket.map(([name, loc, year]) => (
+                    <li key={name}><span className="mrec__n">{name}</span><span className="mrec__m">{loc} · {year}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* FEATURED */}
-      <section className="section" style={{ paddingBottom: "clamp(36px, 4.5vw, 64px)" }}>
+      {!market && <section className="section" style={{ paddingBottom: "clamp(36px, 4.5vw, 64px)" }}>
         <div className="wrap">
           <div className="eyebrow" style={{ marginBottom: 28 }}><span className="dot" /> {duo ? cat.label : `Featured \u00b7 ${cat.label}`}</div>
           {duo
@@ -305,10 +400,10 @@ function Projects({ setPage, setIntent }) {
               ))
             : <FeatureBlock p={feat} open={openStory} />}
         </div>
-      </section>
+      </section>}
 
       {/* GALLERY GRID */}
-      {rest.length > 0 && <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
+      {!market && rest.length > 0 && <section className="section" style={{ paddingTop: 0, borderTop: 0 }}>
         <div className="wrap">
           {[["Delivered", rest.filter((p) => !p.rendering)],
             ["In development", rest.filter((p) => p.rendering)]].map(([groupLabel, group]) => (
@@ -320,43 +415,9 @@ function Projects({ setPage, setIntent }) {
             <span className="pgroup__rule" />
           </div>
           <div className={`pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`}>
-            {group.map((p, i) => {
-              const cover = p.cover || p.gallery[0];
-              const count = p.gallery.length;
-              return (
-                // A real href, not role="button": every project has its own static
-                // page, and a faked button left all 17 of them unreachable by a
-                // crawler and unopenable in a new tab. Modifier-clicks fall through.
-                <a key={p.id} className={`pcard ${cat.key === "sfr" && i === 0 ? "pcard--wide" : ""}`} href={BASE + pathFor("story:" + p.id)}
-                  aria-label={`Open the ${p.name} story`}
-                  onClick={(e) => {
-                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-                    e.preventDefault(); openStory(p);
-                  }}>
-                  <div className="pcard__media">
-                    <img className="pcard__img" src={wix(cover, { w: 1400 })}
-                      srcSet={wixSet(cover)}
-                      sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw"
-                      alt={p.name} loading="lazy" decoding="async" onError={imgFallback} />
-                    <div className="pcard__over">
-                      {count > 1 && <span className="pcard__count">{count} Photos</span>}
-                      <span className="pcard__cta">View Project <span className="arr" /></span>
-                    </div>
-                  </div>
-                  <div className="pcard__cap">
-                    <div>
-                      <h3 className="pcard__name">{p.name}</h3>
-                      <div className="pcard__loc">
-                        {p.loc}
-                        {p.rendering && <span className="pcard__render">Rendering</span>}
-                      </div>
-                    </div>
-                    {p.year && !p.rendering && <div className="pcard__yr">{p.year}</div>}
-                    {p.rendering && p.stage && <div className="pcard__yr pcard__stage">{p.stage}</div>}
-                  </div>
-                </a>
-              );
-            })}
+            {group.map((p, i) => (
+              <ProjectCard key={p.id} p={p} wide={cat.key === "sfr" && i === 0} onOpen={openStory} />
+            ))}
           </div>
             </React.Fragment>
             )
@@ -366,7 +427,7 @@ function Projects({ setPage, setIntent }) {
 
       {/* Further delivered work — record-only entries from the firm's project docs
           (no photography digitized yet; facts verbatim from the completed-projects record). */}
-      {record.length > 0 && <section className="section section--tint" style={{ borderTop: 0, marginTop: "clamp(56px, 6vw, 92px)" }}>
+      {!market && record.length > 0 && <section className="section section--tint" style={{ borderTop: 0, marginTop: "clamp(56px, 6vw, 92px)" }}>
         <div className="wrap">
           <div className="eyebrow reveal"><span className="dot" /> Further Delivered Work · 2011 — 2017</div>
           <div className="rows u-mt-24">

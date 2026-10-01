@@ -94,7 +94,10 @@ def bake_band(entry, src_dir, out_dir):
     master = load_master(src_dir / entry["src"], max(w for _, w in BAND_RUNGS))
     print(f"{name} <- {entry['src']}")
     for suffix, width in BAND_RUNGS:
-        write_jpeg(resize_width(master, width), out_dir / f"{name}{suffix or ''}.jpg")
+        rung = resize_width(master, width)
+        write_jpeg(rung, out_dir / f"{name}{suffix or ''}.jpg")
+        if suffix:   # pages serve the -w1400/-w800 rungs as WebP; the master stays JPEG
+            rung.save(out_dir / f"{name}{suffix}.webp", "WEBP", quality=80, method=6)
 
 
 def main(argv):

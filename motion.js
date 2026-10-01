@@ -10,6 +10,10 @@
 
   var REDUCED = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   var NO_HOVER = !!(window.matchMedia && window.matchMedia("(hover: none)").matches);
+  // Phones and touch tablets take the light path: no preloader, and the hero's
+  // text is never faded in — it is the page's largest paint, and on a phone the
+  // fade was most of a second added to it.
+  var LIGHT = NO_HOVER || !!(window.matchMedia && window.matchMedia("(max-width: 760px)").matches);
   var HAS_GSAP = !!(window.gsap && window.ScrollTrigger);
   var gsap = window.gsap;
   var ScrollTrigger = window.ScrollTrigger;
@@ -65,6 +69,12 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
+
+  // The head template used to set this, but it checked for GSAP before the
+  // deferred GSAP scripts had run, so it never fired and every CSS-gated motion
+  // (headline line rise, scroll-lit statement, map arcs, track fills) sat inert.
+  // motion.js runs after GSAP and before the app renders, so this is the moment.
+  if (!REDUCED && !document.hidden) document.documentElement.classList.add("motion-ready");
 
   // ── Smooth scroll (Lenis) ────────────────────────────────────────────────
   function initLenis() {
@@ -133,7 +143,42 @@
   }
 
   // ── Scene teardown ───────────────────────────────────────────────────────
+  // ── Late content ─────────────────────────────────────────────────────────
+  // The scene is bound once per route. Anything React adds afterwards — a new
+  // Portfolio tab, a market filter — arrives already under the CSS gate and was
+  // never bound to a reveal, so it would sit invisible. Watch <main> and bring
+  // such nodes in. A route change replaces <main> itself, which the next build
+  // re-observes, so this never double-handles a fresh page.
+  var GATE_SEL = ".reveal, [data-reveal], .tracks > .track, .pillars > .pillar, .flow > .flow__step, " +
+    ".rows > .row, .statband > div, .cap-grid > .cap";
+  var lateObserver = null;
+  function watchLateContent() {
+    if (lateObserver) { lateObserver.disconnect(); lateObserver = null; }
+    var main = document.querySelector("main");
+    if (!main || !window.MutationObserver) return;
+    lateObserver = new MutationObserver(function (muts) {
+      var fresh = [];
+      muts.forEach(function (mu) {
+        mu.addedNodes.forEach(function (n) {
+          if (n.nodeType !== 1) return;
+          if (n.matches && n.matches(GATE_SEL)) fresh.push(n);
+          if (n.querySelectorAll) n.querySelectorAll(GATE_SEL).forEach(function (el) { fresh.push(el); });
+        });
+      });
+      if (!fresh.length) return;
+      if (document.hidden) { fresh.forEach(function (el) { el.style.opacity = "1"; }); return; }
+      gsap.fromTo(fresh, { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "expo.out", stagger: 0.04, overwrite: true });
+      // Belt: a frozen tween must not strand them.
+      setTimeout(function () {
+        fresh.forEach(function (el) { if (parseFloat(getComputedStyle(el).opacity) < 0.05) { el.style.opacity = "1"; el.style.transform = "none"; } });
+      }, 1600);
+    });
+    lateObserver.observe(main, { childList: true, subtree: true });
+  }
+
   function clearScene() {
+    if (lateObserver) { lateObserver.disconnect(); lateObserver = null; }
     triggers.forEach(function (t) { t.kill(); });
     triggers = [];
     splits.forEach(function (s) { try { s.revert(); } catch (e) {} });
@@ -302,6 +347,12 @@
     // transition fired by html.hero-in (see ensureHeroIn). An inline gsap
     // transform here once stranded the headline hidden after a timeline race.
 
+    // Reveal wrappers inside the hero are skipped by the page-wide reveal pass
+    // (the hero has its own entrance), so release them here or the CSS gate
+    // would keep the whole hero blank until the safety sweep.
+    var heroGated = scope.querySelectorAll(GATE_SEL);
+    if (heroGated.length) gsap.set(heroGated, { opacity: 1, y: 0 });
+    if (LIGHT) { eyebrows = []; fades = []; heroImg = null; }   // text paints at once; the plate drifts in CSS
     if (heroImg) gsap.set(heroImg, { scale: 1.22, transformOrigin: "50% 55%" });
     if (eyebrows.length) gsap.set(eyebrows, { opacity: 0, y: 16 });
     if (fades.length) gsap.set(fades, { opacity: 0, y: 26 });
@@ -345,14 +396,17 @@
       [".tracks", ".track"], [".pillars", ".pillar"], [".flow", ".flow__step"],
       [".rows", ".row"], [".statband", ".statband > div"], [".cap-grid", ".cap"],
     ];
+    // Every container, not only the first: the CSS gate hides all of them, so a
+    // second .rows or .statband on a page would otherwise wait for the sweep.
     groups.forEach(function (g) {
-      var c = document.querySelector(g[0]); if (!c) return;
-      var items = c.querySelectorAll(g[1]); if (!items.length) return;
-      var opts = {};
-      if (g[0] === ".flow") opts.onEnter = function () {
-        c.querySelectorAll(".flow__step").forEach(function (s) { s.classList.add("is-in"); });
-      };
-      staggerGroup(c, items, opts);
+      document.querySelectorAll(g[0]).forEach(function (c) {
+        var items = c.querySelectorAll(g[1]); if (!items.length) return;
+        var opts = {};
+        if (g[0] === ".flow") opts.onEnter = function () {
+          c.querySelectorAll(".flow__step").forEach(function (s) { s.classList.add("is-in"); });
+        };
+        staggerGroup(c, items, opts);
+      });
     });
 
     // Project / strategy / sector cards: stagger any grid that holds <article> or sector cards.
@@ -371,6 +425,7 @@
     bindImageReveals();
     bindManifesto();
     bindMagnetic();
+    watchLateContent();
 
     if (firstRun) {
       firstRun = false;
@@ -387,13 +442,16 @@
   // The preloader animates and LIFTS via pure CSS (see styles.css), so it always
   // clears — even with frozen rAF or a JS error. Here we only time the hero reveal
   // to the CSS lift and remove the node afterwards. setTimeout fires in any tab.
+  // The head script removes the preloader outright on phones and on every load
+  // after the first in a session; then the hero is revealed with no wait at all.
+  var PRELOADER_LIFT_MS = 1000;   // mirrors the plLift delay in styles.css
   function runPreloader(onReveal) {
     var p = document.getElementById("preloader");
     setTimeout(function () {
       ensureHeroIn();             // plain timer — the headline can never stay hidden
       onReveal && onReveal();
-    }, 1650);
-    setTimeout(function () { if (p && p.parentNode) p.parentNode.removeChild(p); }, 2900);
+    }, p ? PRELOADER_LIFT_MS : 0);
+    if (p) setTimeout(function () { if (p.parentNode) p.parentNode.removeChild(p); }, PRELOADER_LIFT_MS + 900);
   }
 
   // ── Boot ─────────────────────────────────────────────────────────────────

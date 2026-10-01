@@ -124,8 +124,8 @@ function Firm({ go }) {
               <figcaption>My Genesee — Beverly Grove</figcaption>
             </figure>
             <figure>
-              <img src="assets/img/firm-living-w800.jpg"
-                srcSet="assets/img/firm-living-w800.jpg 800w, assets/img/firm-living-w1400.jpg 1400w, assets/img/firm-living.jpg 2200w"
+              <img src="assets/img/firm-living-w800.webp"
+                srcSet="assets/img/firm-living-w800.webp 800w, assets/img/firm-living-w1400.webp 1400w, assets/img/firm-living.jpg 2200w"
                 sizes="(max-width: 860px) 92vw, 38vw"
                 alt="A Noesis living room above Los Angeles" loading="lazy" decoding="async" onError={imgFallback} />
               <figcaption>Delivered work · Los Angeles</figcaption>

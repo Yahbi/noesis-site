@@ -51,32 +51,18 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://static.wixstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400..600;1,400&family=Jost:wght@300..500&display=swap" rel="stylesheet">
+  <!-- Self-hosted type (latin subsets): no third-party stylesheet on the critical path. -->
+  <link rel="preload" href="assets/fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link rel="stylesheet" href="styles.css?v=1790874505">
-  <link rel="stylesheet" href="signature.css?v=1790874505">
+  <link rel="stylesheet" href="site.css?v=1790876275">
 
-  <!-- Motion stack: GSAP + ScrollTrigger + Lenis smooth-scroll + SplitType -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" integrity="sha384-li4UtcFCH6QeUqR4JyV58/VgTprMuz9aauj+oWtew7V4Y7ZVjnvz5px9Y3UCG0Ea" crossorigin="anonymous"></script>
-  <script>
-    /* Gate the "hide-before-reveal" CSS on motion actually being available,
-       so a CDN failure or reduced-motion never leaves content invisible. */
-    (function () {
-      try {
-        var rm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        // Only pre-hide content for the reveal animation when motion is available AND
-        // the tab is visible (rAF runs). Hidden tabs freeze rAF, so we must not hide.
-        if (window.gsap && window.ScrollTrigger && !rm && !document.hidden) {
-          document.documentElement.classList.add("motion-ready");
-        }
-      } catch (e) {}
-    })();
-  </script>
+  <!-- Motion stack, self-hosted (byte-identical to the pinned CDN builds; SRI kept) -->
+  <script defer src="assets/vendor/gsap-3.12.5.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+  <script defer src="assets/vendor/ScrollTrigger-3.12.5.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+  <script defer src="assets/vendor/lenis-1.0.42.min.js" integrity="sha384-li4UtcFCH6QeUqR4JyV58/VgTprMuz9aauj+oWtew7V4Y7ZVjnvz5px9Y3UCG0Ea" crossorigin="anonymous"></script>
+  <!-- motion-ready is set by motion.js, which runs after the deferred GSAP scripts. -->
 
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://yahbi.github.io/noesis-site/"}, {"@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://yahbi.github.io/noesis-site/portfolio/"}, {"@type": "ListItem", "position": 3, "name": "Stanley Lofts", "item": "https://yahbi.github.io/noesis-site/portfolio/stanley-lofts/"}]}</script>
   <link rel="preload" as="image" imagesrcset="https://static.wixstatic.com/media/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg/v1/fit/w_1200,h_1200,al_c,q_88,enc_avif,quality_auto/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg 1200w, https://static.wixstatic.com/media/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg/v1/fit/w_2000,h_2000,al_c,q_88,enc_avif,quality_auto/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg 2000w, https://static.wixstatic.com/media/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg/v1/fit/w_2600,h_2600,al_c,q_88,enc_avif,quality_auto/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg 2600w, https://static.wixstatic.com/media/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg/v1/fit/w_3400,h_3400,al_c,q_88,enc_avif,quality_auto/5c383b_4526984e710449c982db5b10fd6a008d~mv2_d_4928_3280_s_4_2.jpg 3400w" imagesizes="100vw" fetchpriority="high">
@@ -92,6 +78,19 @@
     </div>
     <div class="preloader__count">00</div>
   </div>
+  <script>
+    /* The preloader is a first-impression moment, shown once per session on
+       desktop. Phones and repeat loads drop it before the first paint. */
+    (function () {
+      var skip = false;
+      try {
+        skip = window.matchMedia("(hover: none), (max-width: 760px), (prefers-reduced-motion: reduce)").matches
+          || sessionStorage.getItem("nx-pl") === "1";
+        sessionStorage.setItem("nx-pl", "1");
+      } catch (e) {}
+      if (skip) { var pl = document.getElementById("preloader"); if (pl) pl.parentNode.removeChild(pl); }
+    })();
+  </script>
   <script>
     /* Position the bronze branding bar across the O–E of the preloader wordmark
        (same measure as the nav logo) so the loading screen shows the real mark. */
@@ -133,10 +132,10 @@
   <div id="root"></div>
 
   <!-- Production: precompiled bundle, no in-browser compilation -->
-  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
-  <script defer src="motion.js?v=1790874505"></script>
-  <script defer src="bundle.js?v=1790874505"></script>
+  <script defer src="assets/vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+  <script defer src="assets/vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+  <script defer src="motion.js?v=1790876275"></script>
+  <script defer src="bundle.js?v=1790876275"></script>
 
 </body>
 </html>

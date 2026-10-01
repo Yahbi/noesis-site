@@ -133,15 +133,15 @@ function Development({ go }) {
         <div className="wrap">
           <div className="pair reveal" style={{ marginBottom: "clamp(36px,4.5vw,64px)" }}>
             <figure>
-              <img src="assets/img/dev-detail-w800.jpg"
-                srcSet="assets/img/dev-detail-w800.jpg 800w, assets/img/dev-detail-w1400.jpg 1400w, assets/img/dev-detail.jpg 2200w"
+              <img src="assets/img/dev-detail-w800.webp"
+                srcSet="assets/img/dev-detail-w800.webp 800w, assets/img/dev-detail-w1400.webp 1400w, assets/img/dev-detail.jpg 2200w"
                 sizes="(max-width: 860px) 92vw, 52vw"
                 alt="Interior detailing — patterned tile and custom vanity" loading="lazy" decoding="async" onError={imgFallback} />
               <figcaption>Interior detailing — materials sourced worldwide</figcaption>
             </figure>
             <figure>
               <img src="assets/img/city-dtla.jpg"
-                srcSet="assets/img/city-dtla-w800.jpg 800w, assets/img/city-dtla-w1400.jpg 1400w, assets/img/city-dtla.jpg 2600w"
+                srcSet="assets/img/city-dtla-w800.webp 800w, assets/img/city-dtla-w1400.webp 1400w, assets/img/city-dtla.jpg 2600w"
                 sizes="(max-width: 860px) 100vw, 40vw"
                 alt="Downtown Los Angeles" loading="lazy" onError={imgFallback} />
               <figcaption>The market — Los Angeles</figcaption>

@@ -17,8 +17,8 @@
 function bandSrc(name) {
   const base = "assets/img/" + name;
   return {
-    src: base + "-w1400.jpg",
-    srcSet: `${base}-w800.jpg 800w, ${base}-w1400.jpg 1400w, ${base}.jpg 2600w`,
+    src: base + "-w1400.webp",
+    srcSet: `${base}-w800.webp 800w, ${base}-w1400.webp 1400w, ${base}.jpg 2600w`,
   };
 }
 

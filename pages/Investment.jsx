@@ -156,7 +156,7 @@ function Investment({ go, setIntent }) {
           <div className="band reveal">
             <div className="band__media">
               <img src="assets/img/city-midrise.jpg"
-                srcSet="assets/img/city-midrise-w800.jpg 800w, assets/img/city-midrise-w1400.jpg 1400w, assets/img/city-midrise.jpg 2600w"
+                srcSet="assets/img/city-midrise-w800.webp 800w, assets/img/city-midrise-w1400.webp 1400w, assets/img/city-midrise.jpg 2600w"
                 sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>
@@ -201,7 +201,7 @@ function Investment({ go, setIntent }) {
           <div className="split reveal">
             <div className="split__media">
               <img src="assets/img/city-mixeduse.jpg"
-                srcSet="assets/img/city-mixeduse-w800.jpg 800w, assets/img/city-mixeduse-w1400.jpg 1400w, assets/img/city-mixeduse.jpg 2600w"
+                srcSet="assets/img/city-mixeduse-w800.webp 800w, assets/img/city-mixeduse-w1400.webp 1400w, assets/img/city-mixeduse.jpg 2600w"
                 sizes="(max-width: 860px) 100vw, 46vw"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>
@@ -239,8 +239,8 @@ function Investment({ go, setIntent }) {
           <div className="geo geo--5 reveal u-mt-64">
             {INV_GEO.map(([key, img, place, note]) => (
               <figure key={key} className="geo__item">
-                <img src={`assets/img/${img}-w1400.jpg`}
-                  srcSet={`assets/img/${img}-w800.jpg 800w, assets/img/${img}-w1400.jpg 1400w, assets/img/${img}.jpg 2600w`}
+                <img src={`assets/img/${img}-w1400.webp`}
+                  srcSet={`assets/img/${img}-w800.webp 800w, assets/img/${img}-w1400.webp 1400w, assets/img/${img}.jpg 2600w`}
                   sizes="(max-width: 860px) 92vw, 45vw"
                   alt={place} loading="lazy" decoding="async" onError={imgFallback} />
                 <figcaption>
@@ -344,8 +344,8 @@ function Investment({ go, setIntent }) {
           <div className="grid-12 reveal" style={{ alignItems: "center", marginBottom: "clamp(40px,5vw,72px)" }}>
             <div className="col-7">
               <div className="thumb thumb--wide" style={{ overflow: "hidden" }}>
-                <img src="assets/img/inv-multifamily-w1400.jpg"
-                  srcSet="assets/img/inv-multifamily-w800.jpg 800w, assets/img/inv-multifamily-w1400.jpg 1400w, assets/img/inv-multifamily.jpg 2200w"
+                <img src="assets/img/inv-multifamily-w1400.webp"
+                  srcSet="assets/img/inv-multifamily-w800.webp 800w, assets/img/inv-multifamily-w1400.webp 1400w, assets/img/inv-multifamily.jpg 2200w"
                   sizes="(max-width: 900px) 92vw, 55vw"
                   alt="A Noesis multifamily building, Los Angeles" loading="lazy" decoding="async"
                   className="img--warm" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={imgFallback} />

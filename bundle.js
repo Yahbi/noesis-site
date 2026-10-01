@@ -664,15 +664,15 @@ function wix(id, opts = {}) {
   if (/^sf-[a-z]+-\d{2}$/.test(id)) {
     const want = opts.w || 1600;
     const base = "assets/img/" + id;
-    if (want <= 900) return base + "-w800.jpg";
-    if (want <= 1500) return base + "-w1400.jpg";
+    if (want <= 900) return base + "-w800.webp";
+    if (want <= 1500) return base + "-w1400.webp";
     return base + ".jpg";
   }
   if (ENHANCED[id]) {
     const want = opts.w || 1600;
     const base = ENHANCED[id].replace(/\.jpg$/, "");
-    if (want <= 900) return base + "-w800.jpg";
-    if (want <= 1500) return base + "-w1400.jpg";
+    if (want <= 900) return base + "-w800.webp";
+    if (want <= 1500) return base + "-w1400.webp";
     return ENHANCED[id];
   }
   if (typeof ENHANCED_HI !== "undefined" && ENHANCED_HI[id]) {
@@ -1573,8 +1573,8 @@ window.ScrollHero = ScrollHero;
 function bandSrc(name) {
   const base = "assets/img/" + name;
   return {
-    src: base + "-w1400.jpg",
-    srcSet: `${base}-w800.jpg 800w, ${base}-w1400.jpg 1400w, ${base}.jpg 2600w`
+    src: base + "-w1400.webp",
+    srcSet: `${base}-w800.webp 800w, ${base}-w1400.webp 1400w, ${base}.jpg 2600w`
   };
 }
 function NightPlate({
@@ -2465,6 +2465,7 @@ function Home({
       el.muted = true;
       el.__inView = true;
       const attach = () => {
+        if (window.innerWidth < 760) return;
         const u = film("noesis-film", {
           ambient: true
         });
@@ -2955,8 +2956,8 @@ function Development({
       marginBottom: "clamp(36px,4.5vw,64px)"
     }
   }, React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/dev-detail-w800.jpg",
-    srcSet: "assets/img/dev-detail-w800.jpg 800w, assets/img/dev-detail-w1400.jpg 1400w, assets/img/dev-detail.jpg 2200w",
+    src: "assets/img/dev-detail-w800.webp",
+    srcSet: "assets/img/dev-detail-w800.webp 800w, assets/img/dev-detail-w1400.webp 1400w, assets/img/dev-detail.jpg 2200w",
     sizes: "(max-width: 860px) 92vw, 52vw",
     alt: "Interior detailing \u2014 patterned tile and custom vanity",
     loading: "lazy",
@@ -2964,7 +2965,7 @@ function Development({
     onError: imgFallback
   }), React.createElement("figcaption", null, "Interior detailing \u2014 materials sourced worldwide")), React.createElement("figure", null, React.createElement("img", {
     src: "assets/img/city-dtla.jpg",
-    srcSet: "assets/img/city-dtla-w800.jpg 800w, assets/img/city-dtla-w1400.jpg 1400w, assets/img/city-dtla.jpg 2600w",
+    srcSet: "assets/img/city-dtla-w800.webp 800w, assets/img/city-dtla-w1400.webp 1400w, assets/img/city-dtla.jpg 2600w",
     sizes: "(max-width: 860px) 100vw, 40vw",
     alt: "Downtown Los Angeles",
     loading: "lazy",
@@ -3252,7 +3253,7 @@ function Investment({
     className: "band__media"
   }, React.createElement("img", {
     src: "assets/img/city-midrise.jpg",
-    srcSet: "assets/img/city-midrise-w800.jpg 800w, assets/img/city-midrise-w1400.jpg 1400w, assets/img/city-midrise.jpg 2600w",
+    srcSet: "assets/img/city-midrise-w800.webp 800w, assets/img/city-midrise-w1400.webp 1400w, assets/img/city-midrise.jpg 2600w",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
@@ -3301,7 +3302,7 @@ function Investment({
     className: "split__media"
   }, React.createElement("img", {
     src: "assets/img/city-mixeduse.jpg",
-    srcSet: "assets/img/city-mixeduse-w800.jpg 800w, assets/img/city-mixeduse-w1400.jpg 1400w, assets/img/city-mixeduse.jpg 2600w",
+    srcSet: "assets/img/city-mixeduse-w800.webp 800w, assets/img/city-mixeduse-w1400.webp 1400w, assets/img/city-mixeduse.jpg 2600w",
     sizes: "(max-width: 860px) 100vw, 46vw",
     alt: "",
     "aria-hidden": "true",
@@ -3359,8 +3360,8 @@ function Investment({
     key: key,
     className: "geo__item"
   }, React.createElement("img", {
-    src: `assets/img/${img}-w1400.jpg`,
-    srcSet: `assets/img/${img}-w800.jpg 800w, assets/img/${img}-w1400.jpg 1400w, assets/img/${img}.jpg 2600w`,
+    src: `assets/img/${img}-w1400.webp`,
+    srcSet: `assets/img/${img}-w800.webp 800w, assets/img/${img}-w1400.webp 1400w, assets/img/${img}.jpg 2600w`,
     sizes: "(max-width: 860px) 92vw, 45vw",
     alt: place,
     loading: "lazy",
@@ -3525,8 +3526,8 @@ function Investment({
       overflow: "hidden"
     }
   }, React.createElement("img", {
-    src: "assets/img/inv-multifamily-w1400.jpg",
-    srcSet: "assets/img/inv-multifamily-w800.jpg 800w, assets/img/inv-multifamily-w1400.jpg 1400w, assets/img/inv-multifamily.jpg 2200w",
+    src: "assets/img/inv-multifamily-w1400.webp",
+    srcSet: "assets/img/inv-multifamily-w800.webp 800w, assets/img/inv-multifamily-w1400.webp 1400w, assets/img/inv-multifamily.jpg 2200w",
     sizes: "(max-width: 900px) 92vw, 55vw",
     alt: "A Noesis multifamily building, Los Angeles",
     loading: "lazy",
@@ -3811,8 +3812,8 @@ function Firm({
     loading: "lazy",
     onError: imgFallback
   }), React.createElement("figcaption", null, "My Genesee \u2014 Beverly Grove")), React.createElement("figure", null, React.createElement("img", {
-    src: "assets/img/firm-living-w800.jpg",
-    srcSet: "assets/img/firm-living-w800.jpg 800w, assets/img/firm-living-w1400.jpg 1400w, assets/img/firm-living.jpg 2200w",
+    src: "assets/img/firm-living-w800.webp",
+    srcSet: "assets/img/firm-living-w800.webp 800w, assets/img/firm-living-w1400.webp 1400w, assets/img/firm-living.jpg 2200w",
     sizes: "(max-width: 860px) 92vw, 38vw",
     alt: "A Noesis living room above Los Angeles",
     loading: "lazy",
@@ -4222,7 +4223,7 @@ function Inquiries({
     className: "cine__img img--warm",
     "data-parallax": "0.1",
     src: "assets/img/city-basin.jpg",
-    srcSet: "assets/img/city-basin-w800.jpg 800w, assets/img/city-basin-w1400.jpg 1400w, assets/img/city-basin.jpg 2600w",
+    srcSet: "assets/img/city-basin-w800.webp 800w, assets/img/city-basin-w1400.webp 1400w, assets/img/city-basin.jpg 2600w",
     sizes: "100vw",
     alt: "The Los Angeles basin at dusk",
     loading: "lazy",
@@ -4805,7 +4806,7 @@ function Approach({
     className: "band__media"
   }, React.createElement("img", {
     src: "assets/img/city-west.jpg",
-    srcSet: "assets/img/city-west-w800.jpg 800w, assets/img/city-west-w1400.jpg 1400w, assets/img/city-west.jpg 2600w",
+    srcSet: "assets/img/city-west-w800.webp 800w, assets/img/city-west-w1400.webp 1400w, assets/img/city-west.jpg 2600w",
     sizes: "(max-width: 900px) 100vw, min(1480px, 92vw)",
     alt: "",
     "aria-hidden": "true",
@@ -5188,6 +5189,57 @@ function recordMarkets() {
   FURTHER_RECORD.forEach(r => add(r[1]));
   return Object.entries(tally).sort((a, b) => b[1] - a[1]);
 }
+function ProjectCard({
+  p,
+  wide,
+  onOpen
+}) {
+  const cover = p.cover || p.gallery[0];
+  const count = p.gallery.length;
+  return React.createElement("a", {
+    className: `pcard ${wide ? "pcard--wide" : ""}`,
+    href: BASE + pathFor("story:" + p.id),
+    "aria-label": `Open the ${p.name} story`,
+    onClick: e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      onOpen(p);
+    }
+  }, React.createElement("div", {
+    className: "pcard__media"
+  }, React.createElement("img", {
+    className: "pcard__img",
+    src: wix(cover, {
+      w: 1400
+    }),
+    srcSet: wixSet(cover),
+    sizes: "(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw",
+    alt: p.name,
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  }), React.createElement("div", {
+    className: "pcard__over"
+  }, count > 1 && React.createElement("span", {
+    className: "pcard__count"
+  }, count, " Photos"), React.createElement("span", {
+    className: "pcard__cta"
+  }, "View Project ", React.createElement("span", {
+    className: "arr"
+  })))), React.createElement("div", {
+    className: "pcard__cap"
+  }, React.createElement("div", null, React.createElement("h3", {
+    className: "pcard__name"
+  }, p.name), React.createElement("div", {
+    className: "pcard__loc"
+  }, p.loc, p.rendering && React.createElement("span", {
+    className: "pcard__render"
+  }, "Rendering"))), p.year && !p.rendering && React.createElement("div", {
+    className: "pcard__yr"
+  }, p.year), p.rendering && p.stage && React.createElement("div", {
+    className: "pcard__yr pcard__stage"
+  }, p.stage)));
+}
 function FeatureBlock({
   p,
   open,
@@ -5255,6 +5307,24 @@ function Projects({
     setPage(id);
   };
   const [tab, setTab] = React.useState("sfr");
+  const [market, setMarket] = React.useState(null);
+  const resultsRef = React.useRef(null);
+  const pickMarket = name => {
+    const next = market === name ? null : name;
+    setMarket(next);
+    if (!next) return;
+    setTimeout(() => {
+      const el = resultsRef.current;
+      if (!el) return;
+      const l = window.__motion && window.__motion.lenis;
+      if (l && l.scrollTo) l.scrollTo(el, {
+        offset: -150
+      });else el.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 40);
+  };
   const tabsRef = React.useRef(null);
   const indRef = React.useRef(null);
   React.useEffect(() => {
@@ -5303,6 +5373,8 @@ function Projects({
   const record = FURTHER_RECORD.filter(r => r[4] === cat.key);
   const markets = React.useMemo(recordMarkets, []);
   const openStory = p => setPage("story:" + p.id);
+  const inMarket = market ? PROJECT_LIST.filter(p => marketOf(p.loc) === market) : [];
+  const recordInMarket = market ? FURTHER_RECORD.filter(r => marketOf(r[1]) === market) : [];
   return React.createElement("main", {
     className: "page-enter"
   }, React.createElement("section", {
@@ -5330,15 +5402,21 @@ function Projects({
     className: "mkt u-mt-24"
   }, React.createElement("div", {
     className: "label"
-  }, "Markets"), React.createElement("ul", {
-    className: "mkt__list"
+  }, "Markets \xB7 filter the record"), React.createElement("ul", {
+    className: "mkt__list",
+    role: "group",
+    "aria-label": "Filter the record by market"
   }, markets.map(([name, n]) => React.createElement("li", {
     key: name
+  }, React.createElement("button", {
+    className: "mkt__b" + (market === name ? " is-on" : ""),
+    "aria-pressed": market === name,
+    onClick: () => pickMarket(name)
   }, React.createElement("span", {
     className: "mkt__n"
   }, name), React.createElement("span", {
     className: "mkt__c"
-  }, n)))))))), React.createElement("section", {
+  }, n))))))))), React.createElement("section", {
     className: "section--tight",
     style: {
       borderTop: "1px solid var(--rule)",
@@ -5369,19 +5447,71 @@ function Projects({
   }), CATEGORIES.map(c => React.createElement("button", {
     key: c.key,
     "data-k": c.key,
-    "aria-pressed": tab === c.key,
-    onClick: () => setTab(c.key),
-    className: `ptab ${tab === c.key ? "is-active" : ""}`
+    "aria-pressed": !market && tab === c.key,
+    onClick: () => {
+      setTab(c.key);
+      setMarket(null);
+    },
+    className: `ptab ${!market && tab === c.key ? "is-active" : ""}`
   }, c.label, React.createElement("span", {
     className: "ptab__n"
-  }, c.items.length)))), React.createElement("div", {
+  }, c.items.length)))), market ? React.createElement("button", {
+    className: "mkt__chip",
+    onClick: () => setMarket(null),
+    "aria-label": `Clear the ${market} filter`
+  }, market, " \xB7 ", inMarket.length + recordInMarket.length, " ", React.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7")) : React.createElement("div", {
     className: "label"
   }, cat.items.length, " projects")), React.createElement("div", {
     className: "wrap"
   }, React.createElement("p", {
     className: "body-lg pcat__lede",
     key: cat.key
-  }, cat.blurb))), React.createElement("section", {
+  }, cat.blurb))), market && React.createElement("section", {
+    className: "section",
+    ref: resultsRef
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end",
+    style: {
+      marginBottom: "clamp(28px,3.5vw,48px)"
+    }
+  }, React.createElement("div", {
+    className: "col-8"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Record in"), React.createElement("h2", {
+    className: "h-1 u-mt-16"
+  }, market)), React.createElement("div", {
+    className: "col-4 u-tr"
+  }, React.createElement("button", {
+    className: "btn btn--ghost",
+    onClick: () => setMarket(null)
+  }, "All projects ", React.createElement("span", {
+    className: "arr"
+  })))), inMarket.length > 0 && React.createElement("div", {
+    className: "pgrid pgrid--3"
+  }, inMarket.map(p => React.createElement(ProjectCard, {
+    key: p.id,
+    p: p,
+    onOpen: openStory
+  }))), recordInMarket.length > 0 && React.createElement("div", {
+    className: "mrec u-mt-48"
+  }, React.createElement("div", {
+    className: "label"
+  }, "Also delivered here \xB7 photography not yet published"), React.createElement("ul", {
+    className: "mrec__list"
+  }, recordInMarket.map(([name, loc, year]) => React.createElement("li", {
+    key: name
+  }, React.createElement("span", {
+    className: "mrec__n"
+  }, name), React.createElement("span", {
+    className: "mrec__m"
+  }, loc, " \xB7 ", year))))))), !market && React.createElement("section", {
     className: "section",
     style: {
       paddingBottom: "clamp(36px, 4.5vw, 64px)"
@@ -5407,7 +5537,7 @@ function Projects({
   }))) : React.createElement(FeatureBlock, {
     p: feat,
     open: openStory
-  }))), rest.length > 0 && React.createElement("section", {
+  }))), !market && rest.length > 0 && React.createElement("section", {
     className: "section",
     style: {
       paddingTop: 0,
@@ -5427,55 +5557,12 @@ function Projects({
     className: "pgroup__rule"
   })), React.createElement("div", {
     className: `pgrid ${cat.key === "sfr" ? "pgrid--3" : "pgrid--2"}`
-  }, group.map((p, i) => {
-    const cover = p.cover || p.gallery[0];
-    const count = p.gallery.length;
-    return (React.createElement("a", {
-        key: p.id,
-        className: `pcard ${cat.key === "sfr" && i === 0 ? "pcard--wide" : ""}`,
-        href: BASE + pathFor("story:" + p.id),
-        "aria-label": `Open the ${p.name} story`,
-        onClick: e => {
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-          e.preventDefault();
-          openStory(p);
-        }
-      }, React.createElement("div", {
-        className: "pcard__media"
-      }, React.createElement("img", {
-        className: "pcard__img",
-        src: wix(cover, {
-          w: 1400
-        }),
-        srcSet: wixSet(cover),
-        sizes: "(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw",
-        alt: p.name,
-        loading: "lazy",
-        decoding: "async",
-        onError: imgFallback
-      }), React.createElement("div", {
-        className: "pcard__over"
-      }, count > 1 && React.createElement("span", {
-        className: "pcard__count"
-      }, count, " Photos"), React.createElement("span", {
-        className: "pcard__cta"
-      }, "View Project ", React.createElement("span", {
-        className: "arr"
-      })))), React.createElement("div", {
-        className: "pcard__cap"
-      }, React.createElement("div", null, React.createElement("h3", {
-        className: "pcard__name"
-      }, p.name), React.createElement("div", {
-        className: "pcard__loc"
-      }, p.loc, p.rendering && React.createElement("span", {
-        className: "pcard__render"
-      }, "Rendering"))), p.year && !p.rendering && React.createElement("div", {
-        className: "pcard__yr"
-      }, p.year), p.rendering && p.stage && React.createElement("div", {
-        className: "pcard__yr pcard__stage"
-      }, p.stage)))
-    );
-  })))))), record.length > 0 && React.createElement("section", {
+  }, group.map((p, i) => React.createElement(ProjectCard, {
+    key: p.id,
+    p: p,
+    wide: cat.key === "sfr" && i === 0,
+    onOpen: openStory
+  }))))))), !market && record.length > 0 && React.createElement("section", {
     className: "section section--tint",
     style: {
       borderTop: 0,

@@ -34,6 +34,7 @@ Image.MAX_IMAGE_PIXELS = None
 MASTER_W = 2000
 RUNGS = ((None, MASTER_W), ("-w1400", 1400), ("-w800", 800))
 JPEG_OPTS = {"quality": 84, "optimize": True, "progressive": True, "subsampling": 1}
+WEBP_OPTS = {"quality": 80, "method": 6}
 IMAGE_SUFFIXES = (".jpg", ".jpeg", ".png")
 WHITE_FLOOR = 246          # a pixel this bright on every channel counts as margin
 
@@ -71,6 +72,8 @@ def bake_one(master, out_dir, stem, dry_run):
         if not dry_run:
             r = master.resize((width, round(master.height * width / master.width)), Image.LANCZOS)
             r.save(out_dir / name, "JPEG", **JPEG_OPTS)
+            if suffix:   # the -w1400/-w800 rungs the pages serve are WebP; the master stays JPEG
+                r.save(out_dir / f"{stem}{suffix}.webp", "WEBP", **WEBP_OPTS)
         written.append(name)
     return written
 

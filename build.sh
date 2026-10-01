@@ -59,8 +59,8 @@ src = open("Noesis Website.html", encoding="utf-8").read()
 src = src.replace("https://yahbi.github.io/noesis-site/", SITE_URL)
 
 prod_scripts = f'''  <!-- Production: precompiled bundle, no in-browser compilation -->
-  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
-  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+  <script defer src="assets/vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+  <script defer src="assets/vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
   <script defer src="motion.js?v={v}"></script>
   <script defer src="bundle.js?v={v}"></script>
 
@@ -69,7 +69,19 @@ shell, n = re.subn(r"  <!-- React \+ Babel.*</body>", prod_scripts, src, flags=r
 assert n == 1, "script block not found"
 # The template carries a hardcoded ?v= on styles.css; without restamping it every
 # build, browsers keep serving their cached stylesheet no matter what changed.
-shell = re.sub(r'(styles|signature)\.css\?v=\d+', lambda m: f'{m.group(1)}.css?v={v}', shell)
+# One stylesheet request in production: styles.css + signature.css, concatenated
+# with comments stripped (the sources are heavily annotated; visitors need none
+# of it). The dev template keeps loading the two annotated files.
+def _strip_css(text):
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+    lines = [ln.strip() for ln in text.splitlines()]
+    return "\n".join(ln for ln in lines if ln) + "\n"
+_site_css = _strip_css(open("styles.css", encoding="utf-8").read()) + _strip_css(open("signature.css", encoding="utf-8").read())
+open("site.css", "w", encoding="utf-8").write(_site_css)
+shell, _n = re.subn(r'  <link rel="stylesheet" href="styles\.css\?v=\d+">\n  <link rel="stylesheet" href="signature\.css\?v=\d+">',
+                    f'  <link rel="stylesheet" href="site.css?v={v}">', shell)
+assert _n == 1, "stylesheet links not found"
+print(f"site.css: {len(_site_css.encode())} bytes (from {len(open('styles.css','rb').read()) + len(open('signature.css','rb').read())})")
 # Optional, provider-agnostic analytics: create analytics.html containing the
 # snippet your provider gives you (Cloudflare, Plausible, Fathom...) and it is
 # injected into every page. Absent file = no tracking, no cookie banner needed.

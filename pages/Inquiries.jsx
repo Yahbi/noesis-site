@@ -180,7 +180,7 @@ function Inquiries({ intent, go }) {
       <section className="cine" style={{ height: "min(44vh, 420px)", minHeight: 300 }}>
         <img className="cine__img img--warm" data-parallax="0.1"
           src="assets/img/city-basin.jpg"
-          srcSet="assets/img/city-basin-w800.jpg 800w, assets/img/city-basin-w1400.jpg 1400w, assets/img/city-basin.jpg 2600w"
+          srcSet="assets/img/city-basin-w800.webp 800w, assets/img/city-basin-w1400.webp 1400w, assets/img/city-basin.jpg 2600w"
           sizes="100vw"
           alt="The Los Angeles basin at dusk"
           loading="lazy" onError={imgFallback} />

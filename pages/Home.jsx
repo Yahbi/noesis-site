@@ -100,7 +100,9 @@ function Home({ go, setIntent }) {
         <video className="cine__vid" autoPlay loop muted playsInline preload="none"
           ref={(el) => {
             if (!el || el.__keeper) return; el.__keeper = true; el.muted = true; el.__inView = true;
-            const attach = () => { const u = film("noesis-film", { ambient: true }); if (u && el.isConnected && !el.src) { el.src = u; el.load(); tryPlay(); } };
+            // Phones keep the still: an 18 MB ambient loop is a poor trade on a cellular
+            // connection, and the plate carries a slow camera drift instead (CSS).
+            const attach = () => { if (window.innerWidth < 760) return; const u = film("noesis-film", { ambient: true }); if (u && el.isConnected && !el.src) { el.src = u; el.load(); tryPlay(); } };
             const tryPlay = () => {
               if (!el.isConnected) { clearInterval(el.__iv); document.removeEventListener("visibilitychange", tryPlay); if (el.__io) el.__io.disconnect(); return; }
               if (!document.hidden && el.__inView) { if (el.paused) { const p = el.play(); if (p && p.catch) p.catch(() => {}); } }

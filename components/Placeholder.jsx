@@ -94,8 +94,8 @@ function wix(id, opts = {}) {
   if (/^sf-[a-z]+-\d{2}$/.test(id)) {
     const want = opts.w || 1600;
     const base = "assets/img/" + id;
-    if (want <= 900) return base + "-w800.jpg";
-    if (want <= 1500) return base + "-w1400.jpg";
+    if (want <= 900) return base + "-w800.webp";
+    if (want <= 1500) return base + "-w1400.webp";
     return base + ".jpg";
   }
   // Enhanced original available -> serve the nearest DERIVED width, not always the
@@ -104,8 +104,8 @@ function wix(id, opts = {}) {
   if (ENHANCED[id]) {
     const want = opts.w || 1600;
     const base = ENHANCED[id].replace(/\.jpg$/, "");
-    if (want <= 900) return base + "-w800.jpg";
-    if (want <= 1500) return base + "-w1400.jpg";
+    if (want <= 900) return base + "-w800.webp";
+    if (want <= 1500) return base + "-w1400.webp";
     return ENHANCED[id];                      // 2200px master — their true optical ceiling
   }
   // High tier: gallery photos whose 2560-2832px natives were upscaled to a 3400px

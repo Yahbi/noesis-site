@@ -261,7 +261,7 @@ function Approach({ go, setIntent }) {
           <div className="band reveal">
             <div className="band__media">
               <img src="assets/img/city-west.jpg"
-                srcSet="assets/img/city-west-w800.jpg 800w, assets/img/city-west-w1400.jpg 1400w, assets/img/city-west.jpg 2600w"
+                srcSet="assets/img/city-west-w800.webp 800w, assets/img/city-west-w1400.webp 1400w, assets/img/city-west.jpg 2600w"
                 sizes="(max-width: 900px) 100vw, min(1480px, 92vw)"
                 alt="" aria-hidden="true" loading="lazy" onError={imgFallback} />
             </div>
