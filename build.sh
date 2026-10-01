@@ -34,6 +34,7 @@ fi
   components/Shell.jsx \
   components/ScrollHero.jsx \
   components/Signature.jsx \
+  components/Record.jsx \
   pages/Home.jsx \
   pages/Development.jsx \
   pages/Investment.jsx \

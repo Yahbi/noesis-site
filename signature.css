@@ -138,6 +138,130 @@ html.motion-ready .statement .w { opacity: .16; }
 /* Brand red for the mark itself — decorative, so the lifted text red is not needed. */
 .footer__giant .logo__bar { font-size: 1em; background: #C9352B; }
 
+/* ── MARKETS MAP ──────────────────────────────────────────────────────────
+   Dots from tools/build-map.py; pins, arcs and labels are projected onto the
+   same grid in components/Record.jsx. */
+.mmap__stage { position: relative; aspect-ratio: 195 / 62; }
+.mmap__dots { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .5;
+  -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, #000 62%, transparent 100%); }
+.mmap--night .mmap__dots { opacity: .55; }
+.mmap__layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.mmap__arc { fill: none; stroke: var(--accent); stroke-width: .3; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 0; opacity: .85;
+  transition: stroke-dashoffset 1.9s cubic-bezier(.65, 0, .35, 1); }
+html.motion-ready .mmap:not(.is-in) .mmap__arc { stroke-dashoffset: 1; }
+.mmap__dot { fill: var(--accent); }
+.mmap__pulse { fill: none; stroke: var(--accent); stroke-width: .22; opacity: 0;
+  transform-box: fill-box; transform-origin: center; animation: mmapPulse 3s ease-out infinite; }
+.mmap__pin:nth-child(odd) .mmap__pulse { animation-delay: 1.2s; }
+@keyframes mmapPulse { 0% { transform: scale(1); opacity: .85; } 100% { transform: scale(3.6); opacity: 0; } }
+.mmap__label { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  white-space: nowrap; pointer-events: none; transform: translate(-50%, 16px); }
+.mmap__label--above { transform: translate(-50%, calc(-100% - 16px)); }
+.mmap__name { font: 500 10.5px/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--ink); }
+.mmap__n { font: italic 400 14px/1.2 var(--serif); color: var(--muted); }
+.mmap__legend { list-style: none; margin: clamp(32px, 3.5vw, 52px) 0 0; padding: 24px 0 0;
+  border-top: 1px solid var(--rule); display: grid; gap: 20px 16px;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
+.mmap__legend li { display: flex; flex-direction: column; gap: 8px; }
+.mmap__lc { font-family: var(--serif); font-size: clamp(28px, 2.8vw, 44px); line-height: .95; color: var(--ink);
+  font-feature-settings: "lnum"; }
+.mmap__legend li:first-child .mmap__lc { color: var(--accent); }
+.mmap__active .mmap__lc { font-style: italic; color: var(--accent); }
+.mmap__pin--active .mmap__dot { fill: none; stroke: var(--accent); stroke-width: .32; }
+.mmap__lm { font: 500 10.5px/1.35 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.night--map { padding-bottom: clamp(56px, 6vw, 96px); }
+.night--map + .night--record { padding-top: clamp(96px, 10vw, 160px); border-top: 1px solid rgba(242,241,236,.08); }
+@media (max-width: 760px) {
+  .mmap__label { display: none; }
+  .mmap__arc { stroke-width: .55; }
+  .mmap__dots, .mmap--night .mmap__dots { opacity: .85; }
+}
+
+/* Five market plates: the two home markets large, the three abroad beneath. */
+.geo--5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.geo--5 .geo__item { grid-column: span 2; }
+.geo--5 .geo__item:nth-child(-n+2) { grid-column: span 3; }
+.geo--5 .geo__item:nth-child(-n+2) img { aspect-ratio: 16 / 9; }
+@media (max-width: 860px) {
+  .geo--5 { grid-template-columns: 1fr; }
+  .geo--5 .geo__item, .geo--5 .geo__item:nth-child(-n+2) { grid-column: auto; }
+}
+
+/* ── PIPELINE ─────────────────────────────────────────────────────────────── */
+.pipe__head, .pipe__row { display: grid; align-items: center; gap: 12px clamp(16px, 2.4vw, 36px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr) minmax(150px, .5fr); }
+.pipe__head { padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.pipe__stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px;
+  font: 500 9.5px/1.35 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.pipe__list { list-style: none; margin: 0; padding: 0; }
+.pipe__row { padding: clamp(18px, 2vw, 26px) 0; border-bottom: 1px solid var(--rule); }
+.pipe__id { display: flex; align-items: center; gap: 18px; color: var(--ink); text-decoration: none; }
+.pipe__thumb { flex: none; width: clamp(64px, 6.4vw, 96px); aspect-ratio: 3 / 2; overflow: hidden; background: var(--bone-3); }
+.pipe__thumb img { width: 100%; height: 100%; object-fit: cover; filter: var(--grade); transition: transform .8s var(--ease-glide); }
+.pipe__id:hover .pipe__thumb img { transform: scale(1.08); }
+.pipe__txt { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.pipe__name { font-family: var(--serif); font-size: clamp(22px, 2.1vw, 32px); line-height: 1.05; letter-spacing: -.015em;
+  transition: color .25s; }
+.pipe__id:hover .pipe__name, .pipe__id:focus-visible .pipe__name { color: var(--accent-deep); }
+.pipe__meta { font: 400 12.5px/1.35 var(--sans); color: var(--muted); }
+.pipe__track { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.pipe__seg { height: 6px; background: var(--rule); position: relative; }
+.pipe__seg.is-done { transform-origin: 0 50%; transition: transform .7s cubic-bezier(.65, 0, .35, 1); }
+html.motion-ready .pipe:not(.is-in) .pipe__seg.is-done { transform: scaleX(0); }
+.pipe__seg.is-done { background: var(--ink); }
+.pipe__seg.is-now { background: var(--accent); }
+.pipe__stage { font: 500 10.5px/1.35 var(--sans); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent-deep); text-align: right; }
+.pipe__note { margin: 18px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); max-width: 72ch; }
+@media (max-width: 760px) {
+  .pipe__head { display: none; }
+  .pipe__row { grid-template-columns: 1fr; }
+  .pipe__stage { text-align: left; }
+}
+
+/* ── CHRONICLE ────────────────────────────────────────────────────────────── */
+.chron__cap { min-height: 1.5em; margin-bottom: 20px; font-family: var(--serif);
+  font-size: clamp(18px, 1.7vw, 25px); line-height: 1.3; color: var(--ink); }
+.chron__hint { font: 400 13px/1.5 var(--sans); color: var(--muted); }
+.chron__chart { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: end; }
+.chron__col { display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+.chron__stack { display: flex; flex-direction: column-reverse; justify-content: flex-start; align-items: stretch;
+  gap: 5px; width: 64%; min-height: 214px; padding-top: 12px; position: relative; }
+.chron__col { border-bottom: 1px solid var(--ink); }
+.chron__brick { display: block; height: 22px; background: var(--ink); text-decoration: none; transform-origin: 50% 100%;
+  transition: background .2s, transform .35s var(--ease-glide); }
+html.motion-ready .chron:not(.is-in) .chron__brick { transform: scaleY(0); }
+.chron.is-in .chron__brick { transition: background .2s, transform .6s var(--ease-glide) calc(var(--col, 0) * 45ms); }
+.chron.is-in .chron__brick:hover, .chron.is-in .chron__brick:focus-visible { transition-delay: 0s; }
+.chron__brick:hover, .chron__brick:focus-visible { background: var(--accent); transform: scaleX(1.14); }
+.chron__brick:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.chron__brick--future { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); }
+.chron__brick--future:hover, .chron__brick--future:focus-visible { background: var(--accent); }
+.chron__col--now { background: var(--accent-soft); }
+.chron__flag { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+  font: 500 9.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); white-space: nowrap; }
+.chron__year { order: 2; width: 100%; padding: 12px 0 0; text-align: center;
+  font: 500 10.5px/1 var(--sans); letter-spacing: .08em; color: var(--muted); }
+.chron__col { position: relative; padding-bottom: 0; }
+.chron__col .chron__year { position: absolute; top: 100%; }
+.chron__chart { padding-bottom: 30px; }
+.chron__col--now .chron__year { color: var(--accent-deep); font-weight: 500; }
+.chron__key { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 18px;
+  font: 500 10.5px/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.chron__key span { display: inline-flex; align-items: center; gap: 10px; }
+.chron__swatch { display: inline-block; width: 18px; height: 8px; background: var(--ink); }
+.chron__swatch--future { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent); }
+@media (max-width: 760px) {
+  .chron__stack { width: 70%; min-height: 200px; gap: 4px; }
+  .chron__brick { height: 20px; }
+  .chron__flag { display: none; }
+  .chron__col .chron__year { writing-mode: vertical-rl; transform: rotate(180deg); padding: 8px 0 0; text-align: right;
+    top: calc(100% + 6px); height: auto; width: auto; left: 50%; margin-left: -6px; }
+  .chron__chart { padding-bottom: 44px; }
+}
+
 /* ── ROUTE CURTAIN — timings mirror CURTAIN_IN_MS / CURTAIN_OUT_MS in app.jsx ── */
 .rt { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
   background: #0F0F11; pointer-events: none; visibility: hidden; transform: translateY(100%); }
@@ -157,4 +281,7 @@ html.motion-ready .statement .w { opacity: .16; }
   [data-mx] { clip-path: none !important; transform: none !important; }
   .pidx__frame img, .pidx__name, .pidx__row::after { transition: none; }
   .rt { display: none; }
+  .mmap__pulse { animation: none; }
+  .mmap__arc { transition: none; stroke-dashoffset: 0 !important; }
+  .pipe__seg, .chron__brick { transition: none !important; transform: none !important; }
 }

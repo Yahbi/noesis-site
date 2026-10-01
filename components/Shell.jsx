@@ -299,6 +299,7 @@ function CityClocks() {
   return (
     <div className="clocks">
       <span>Beverly Hills<b>{at("America/Los_Angeles")}</b></span>
+      <span>Marbella<b>{at("Europe/Madrid")}</b></span>
       <span>Tel Aviv<b>{at("Asia/Jerusalem")}</b></span>
     </div>
   );
@@ -310,7 +311,7 @@ function Footer({ go }) {
       <div className="wrap">
         <div className="grid-12" style={{ alignItems: "end", rowGap: 40 }}>
           <div className="col-7">
-            <div className="eyebrow" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · California · Est. 2009 · International</div>
+            <div className="eyebrow" style={{ color: "var(--muted)" }}><span className="dot" /> Beverly Hills · Est. 2009 · Los Angeles · Miami · Marbella · Tel Aviv</div>
             <h2 className="h-1 u-mt-24" style={{ maxWidth: "16ch" }}>
               We develop, we invest, and we deliver — <em className="accent" style={{ fontStyle: "italic" }}>alongside.</em>
             </h2>

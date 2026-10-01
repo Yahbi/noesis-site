@@ -141,6 +141,17 @@ const FURTHER_RECORD = [
   ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings.", "apt"],
 ];
 
+// Markets, counted off the record itself — every gallery project plus the
+// record-only entries — as [market, count] pairs, largest first. Shared with the
+// markets map so the map and the Portfolio tally can never disagree.
+function recordMarkets() {
+  const tally = {};
+  const add = (loc) => { const key = marketOf(loc); if (key) tally[key] = (tally[key] || 0) + 1; };
+  CATEGORIES.forEach(c => c.items.forEach(p => add(p.loc)));
+  FURTHER_RECORD.forEach(r => add(r[1]));
+  return Object.entries(tally).sort((a, b) => b[1] - a[1]);
+}
+
 // One featured project, image beside the facts. Extracted so a category with only
 // two projects can present both at this scale instead of stranding one lonely card
 // in a grid built for twelve.
@@ -231,18 +242,7 @@ function Projects({ setPage, setIntent }) {
   // Markets, counted off the record itself. The last token of loc is the city or
   // state; "Los Angeles" absorbs its neighbourhoods, which is how a reader
   // thinks about them.
-  const markets = React.useMemo(() => {
-    const tally = {};
-    CATEGORIES.forEach(c => c.items.forEach(p => {
-      const key = marketOf(p.loc);
-      if (key) tally[key] = (tally[key] || 0) + 1;
-    }));
-    FURTHER_RECORD.forEach(r => {
-      const key = marketOf(r[1]);
-      if (key) tally[key] = (tally[key] || 0) + 1;
-    });
-    return Object.entries(tally).sort((a, b) => b[1] - a[1]);
-  }, []);
+  const markets = React.useMemo(recordMarkets, []);
   const openStory = (p) => setPage("story:" + p.id);   // each card opens the immersive story
 
   return (
@@ -507,3 +507,5 @@ window.Projects = Projects;
 window.Lightbox = Lightbox;
 window.PROJECT_LIST = PROJECT_LIST;
 window.PROJECTS = PROJECTS;
+window.FURTHER_RECORD = FURTHER_RECORD;
+window.recordMarkets = recordMarkets;

@@ -213,6 +213,25 @@ function Development({ go }) {
         </div>
       </section>
 
+      {/* THE PIPELINE */}
+      <section className="section">
+        <div className="wrap">
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,40px)" }}>
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> In Development</div>
+              <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "16ch" }}>The work on the boards.</h2>
+            </div>
+            <div className="col-5">
+              <p className="body" style={{ color: "var(--muted)", maxWidth: "46ch" }}>
+                From a residence in design in Joshua Tree to a house issued for construction in Hidden
+                Hills — every project in development, on the stage it has reached.
+              </p>
+            </div>
+          </div>
+          <div className="reveal"><Pipeline go={go} /></div>
+        </div>
+      </section>
+
       <PracticeSwitch go={go} current="development" />
 
       {/* CTA */}

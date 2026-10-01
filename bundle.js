@@ -1178,7 +1178,7 @@ function CityClocks() {
   };
   return React.createElement("div", {
     className: "clocks"
-  }, React.createElement("span", null, "Beverly Hills", React.createElement("b", null, at("America/Los_Angeles"))), React.createElement("span", null, "Tel Aviv", React.createElement("b", null, at("Asia/Jerusalem"))));
+  }, React.createElement("span", null, "Beverly Hills", React.createElement("b", null, at("America/Los_Angeles"))), React.createElement("span", null, "Marbella", React.createElement("b", null, at("Europe/Madrid"))), React.createElement("span", null, "Tel Aviv", React.createElement("b", null, at("Asia/Jerusalem"))));
 }
 function Footer({
   go
@@ -1202,7 +1202,7 @@ function Footer({
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " Beverly Hills \xB7 California \xB7 Est. 2009 \xB7 International"), React.createElement("h2", {
+  }), " Beverly Hills \xB7 Est. 2009 \xB7 Los Angeles \xB7 Miami \xB7 Marbella \xB7 Tel Aviv"), React.createElement("h2", {
     className: "h-1 u-mt-24",
     style: {
       maxWidth: "16ch"
@@ -1544,7 +1544,7 @@ function ScrollHero({
     }
   }, React.createElement("span", {
     className: "dot"
-  }), " Beverly Hills \xB7 International"), React.createElement("h2", {
+  }), " Los Angeles \xB7 Miami \xB7 Marbella \xB7 Tel Aviv"), React.createElement("h2", {
     className: "h-display u-mt-16",
     style: {
       color: "var(--ink)",
@@ -1740,6 +1740,341 @@ window.bandSrc = bandSrc;
 window.NightPlate = NightPlate;
 window.NightCta = NightCta;
 window.ProjectIndex = ProjectIndex;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+const MAP_GRID = {
+  lon0: -128,
+  lat1: 56,
+  step: 0.75,
+  k: Math.cos(34 * Math.PI / 180),
+  cols: 195,
+  rows: 62
+};
+function mapPoint(lon, lat) {
+  return [(lon - MAP_GRID.lon0) * MAP_GRID.k / MAP_GRID.step, (MAP_GRID.lat1 - lat) / MAP_GRID.step];
+}
+const MAP_PINS = [{
+  key: "la",
+  label: "Los Angeles",
+  lon: -118.4,
+  lat: 34.07,
+  markets: ["Los Angeles", "Beverly Hills", "West Hollywood", "Hidden Hills"],
+  place: "below",
+  home: true
+}, {
+  key: "jt",
+  label: "Joshua Tree",
+  lon: -116.31,
+  lat: 34.13,
+  markets: ["Joshua Tree"],
+  place: "above"
+}, {
+  key: "mia",
+  label: "Miami Beach",
+  lon: -80.13,
+  lat: 25.79,
+  markets: ["Miami Beach"],
+  place: "below"
+}, {
+  key: "mbl",
+  label: "Marbella",
+  lon: -4.88,
+  lat: 36.51,
+  active: true,
+  place: "above"
+}, {
+  key: "tlv",
+  label: "Tel Aviv",
+  lon: 34.78,
+  lat: 32.08,
+  markets: ["Tel Aviv"],
+  place: "below"
+}];
+const ACTIVE_MARKETS = ["Marbella"];
+const MARKET_ORDER = ["Los Angeles", "Beverly Hills", "West Hollywood", "Hidden Hills", "Joshua Tree", "Miami Beach", "Marbella", "Tel Aviv"];
+const MAP_ROUTE = [["la", "jt"], ["la", "mia"], ["mia", "mbl"], ["mbl", "tlv"]];
+function arcPath([x1, y1], [x2, y2]) {
+  const mx = (x1 + x2) / 2,
+    my = (y1 + y2) / 2;
+  const lift = Math.hypot(x2 - x1, y2 - y1) * 0.22;
+  return `M${x1.toFixed(2)} ${y1.toFixed(2)} Q${mx.toFixed(2)} ${(my - lift).toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)}`;
+}
+function useInView(ref, margin) {
+  const [seen, setSeen] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver(ents => {
+      if (ents.some(x => x.isIntersecting)) {
+        setSeen(true);
+        io.disconnect();
+      }
+    }, {
+      rootMargin: margin || "0px 0px -15% 0px"
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return seen;
+}
+function MarketsMap({
+  tone
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref);
+  const tally = typeof recordMarkets === "function" ? recordMarkets() : [];
+  const count = names => tally.reduce((n, [m, c]) => n + (names.indexOf(m) !== -1 ? c : 0), 0);
+  const pins = MAP_PINS.map(p => ({
+    ...p,
+    xy: mapPoint(p.lon, p.lat),
+    n: p.markets ? count(p.markets) : 0
+  }));
+  const at = k => pins.find(p => p.key === k).xy;
+  const total = tally.reduce((n, [, c]) => n + c, 0);
+  const rank = m => {
+    const i = MARKET_ORDER.indexOf(m);
+    return i === -1 ? MARKET_ORDER.length : i;
+  };
+  const legend = tally.concat(ACTIVE_MARKETS.map(m => [m, null])).sort((a, b) => rank(a[0]) - rank(b[0]));
+  return React.createElement("div", {
+    className: "mmap" + (tone === "night" ? " mmap--night" : "") + (inView ? " is-in" : ""),
+    ref: ref
+  }, React.createElement("div", {
+    className: "mmap__stage"
+  }, React.createElement("img", {
+    className: "mmap__dots",
+    src: "assets/img/map-dots.svg",
+    alt: "",
+    loading: "lazy",
+    decoding: "async"
+  }), React.createElement("svg", {
+    className: "mmap__layer",
+    viewBox: `-0.5 -0.5 ${MAP_GRID.cols} ${MAP_GRID.rows}`,
+    "aria-hidden": "true"
+  }, MAP_ROUTE.map(([a, b], i) => React.createElement("path", {
+    key: a + b,
+    className: "mmap__arc",
+    d: arcPath(at(a), at(b)),
+    pathLength: "1",
+    style: {
+      transitionDelay: `${0.2 + i * 0.45}s`
+    }
+  })), pins.map(p => React.createElement("g", {
+    key: p.key,
+    className: "mmap__pin" + (p.home ? " mmap__pin--home" : "") + (p.active ? " mmap__pin--active" : ""),
+    transform: `translate(${p.xy[0].toFixed(2)} ${p.xy[1].toFixed(2)})`
+  }, React.createElement("circle", {
+    className: "mmap__pulse",
+    r: "1"
+  }), React.createElement("circle", {
+    className: "mmap__dot",
+    r: p.home ? 1.15 : 0.85
+  })))), pins.map(p => React.createElement("div", {
+    key: p.key,
+    className: `mmap__label mmap__label--${p.place}`,
+    style: {
+      left: `${(p.xy[0] + 0.5) / MAP_GRID.cols * 100}%`,
+      top: `${(p.xy[1] + 0.5) / MAP_GRID.rows * 100}%`
+    }
+  }, React.createElement("span", {
+    className: "mmap__name"
+  }, p.label), React.createElement("span", {
+    className: "mmap__n"
+  }, p.active ? "Active market" : `${p.n} ${p.n === 1 ? "project" : "projects"}`)))), React.createElement("ul", {
+    className: "mmap__legend",
+    "aria-label": `${total} projects by market, and the markets the firm is active in`
+  }, legend.map(([m, c]) => React.createElement("li", {
+    key: m,
+    className: c == null ? "mmap__active" : ""
+  }, React.createElement("span", {
+    className: "mmap__lc"
+  }, c == null ? "Active" : c), React.createElement("span", {
+    className: "mmap__lm"
+  }, m)))));
+}
+const PIPELINE_STAGES = ["In design", "Construction documents", "Permits ready", "Permits issued", "Issued for construction"];
+const ASSET_OF = {
+  sfr: "Private residence",
+  apt: "Apartment building",
+  sls: "Small-lot subdivision"
+};
+function storyHref(id) {
+  return BASE + pathFor("story:" + id);
+}
+function storyNav(go, id) {
+  return e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    go("story:" + id);
+  };
+}
+function Pipeline({
+  go,
+  asOf
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref);
+  const list = (typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : []).filter(p => p.rendering && PIPELINE_STAGES.indexOf(p.stage) !== -1).map(p => ({
+    ...p,
+    at: PIPELINE_STAGES.indexOf(p.stage)
+  })).sort((a, b) => b.at - a.at);
+  if (!list.length) return null;
+  return React.createElement("div", {
+    className: "pipe" + (inView ? " is-in" : ""),
+    ref: ref
+  }, React.createElement("div", {
+    className: "pipe__head",
+    "aria-hidden": "true"
+  }, React.createElement("span", null), React.createElement("span", {
+    className: "pipe__stages"
+  }, PIPELINE_STAGES.map(s => React.createElement("span", {
+    key: s
+  }, s)))), React.createElement("ol", {
+    className: "pipe__list"
+  }, list.map(p => React.createElement("li", {
+    key: p.id,
+    className: "pipe__row"
+  }, React.createElement("a", {
+    className: "pipe__id",
+    href: storyHref(p.id),
+    onClick: storyNav(go, p.id)
+  }, React.createElement("span", {
+    className: "pipe__thumb"
+  }, React.createElement("img", {
+    src: wix(p.cover || p.gallery[0], {
+      w: 400
+    }),
+    alt: "",
+    loading: "lazy",
+    decoding: "async",
+    onError: imgFallback
+  })), React.createElement("span", {
+    className: "pipe__txt"
+  }, React.createElement("span", {
+    className: "pipe__name"
+  }, p.name), React.createElement("span", {
+    className: "pipe__meta"
+  }, p.loc, " \xB7 ", ASSET_OF[p.categoryKey] || p.category))), React.createElement("span", {
+    className: "pipe__track",
+    role: "img",
+    "aria-label": `${p.name}: ${p.stage}, stage ${p.at + 1} of ${PIPELINE_STAGES.length}`
+  }, PIPELINE_STAGES.map((s, i) => React.createElement("span", {
+    key: s,
+    className: "pipe__seg" + (i <= p.at ? " is-done" : "") + (i === p.at ? " is-now" : ""),
+    style: {
+      transitionDelay: `${0.15 + i * 0.12}s`
+    }
+  }))), React.createElement("span", {
+    className: "pipe__stage"
+  }, p.stage)))), React.createElement("p", {
+    className: "pipe__note"
+  }, "Projects in development with a published stage, as of ", asOf || "September 2026", ". Imagery for every project shown here is an architectural rendering. Plans, approvals and timelines change; see the disclosures."));
+}
+const CHRONICLE_FROM = 2009;
+function chronicleData() {
+  const list = typeof PROJECT_LIST !== "undefined" ? PROJECT_LIST : [];
+  const further = typeof FURTHER_RECORD !== "undefined" ? FURTHER_RECORD : [];
+  const delivered = list.filter(p => !p.rendering && p.year).map(p => ({
+    id: p.id,
+    name: p.name,
+    loc: p.loc,
+    year: +p.year
+  })).concat(further.map(r => ({
+    id: null,
+    name: r[0],
+    loc: r[1],
+    year: +r[2]
+  })));
+  const last = delivered.reduce((m, p) => Math.max(m, p.year), CHRONICLE_FROM);
+  const years = [];
+  for (let y = CHRONICLE_FROM; y <= last; y++) {
+    years.push({
+      key: String(y),
+      label: String(y),
+      items: delivered.filter(p => p.year === y).sort((a, b) => a.name.localeCompare(b.name))
+    });
+  }
+  const pipeline = list.filter(p => p.rendering).map(p => ({
+    id: p.id,
+    name: p.name,
+    loc: p.loc,
+    stage: p.stage || "In development",
+    future: true
+  }));
+  years.push({
+    key: "now",
+    label: "Today",
+    items: pipeline,
+    now: true
+  });
+  return {
+    years,
+    delivered: delivered.length,
+    pipeline: pipeline.length
+  };
+}
+function Chronicle({
+  go
+}) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref);
+  const data = React.useMemo(chronicleData, []);
+  const [active, setActive] = React.useState(null);
+  const describe = (it, y) => it.future ? `${it.name} · ${it.loc} · in development — ${it.stage}` : `${it.name} · ${it.loc} · delivered ${y.label}`;
+  return React.createElement("div", {
+    className: "chron" + (inView ? " is-in" : ""),
+    ref: ref
+  }, React.createElement("div", {
+    className: "chron__cap",
+    "aria-live": "polite"
+  }, active ? active : React.createElement("span", {
+    className: "chron__hint"
+  }, "Hover or focus a project to read it.")), React.createElement("div", {
+    className: "chron__chart"
+  }, data.years.map((y, col) => React.createElement("div", {
+    key: y.key,
+    style: {
+      "--col": col
+    },
+    className: "chron__col" + (y.now ? " chron__col--now" : "") + (y.key === String(CHRONICLE_FROM) ? " chron__col--founded" : "")
+  }, React.createElement("div", {
+    className: "chron__stack"
+  }, y.key === String(CHRONICLE_FROM) && !y.items.length && React.createElement("span", {
+    className: "chron__flag"
+  }, "Founded"), y.items.map(it => {
+    const text = describe(it, y);
+    const common = {
+      className: "chron__brick" + (it.future ? " chron__brick--future" : ""),
+      "aria-label": text,
+      title: text,
+      onMouseEnter: () => setActive(text),
+      onFocus: () => setActive(text),
+      onMouseLeave: () => setActive(null),
+      onBlur: () => setActive(null)
+    };
+    return it.id ? React.createElement("a", _extends({
+      key: it.name,
+      href: storyHref(it.id),
+      onClick: storyNav(go, it.id)
+    }, common)) : React.createElement("span", _extends({
+      key: it.name,
+      tabIndex: 0
+    }, common));
+  })), React.createElement("div", {
+    className: "chron__year"
+  }, y.label)))), React.createElement("div", {
+    className: "chron__key"
+  }, React.createElement("span", null, React.createElement("i", {
+    className: "chron__swatch"
+  }), " Delivered \xB7 ", data.delivered), React.createElement("span", null, React.createElement("i", {
+    className: "chron__swatch chron__swatch--future"
+  }), " In development \xB7 ", data.pipeline)));
+}
+window.MarketsMap = MarketsMap;
+window.Pipeline = Pipeline;
+window.Chronicle = Chronicle;
 const SHOT = {
   casaMani: "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg",
   leBijou: "5c383b_597ed5a457654c23a1f2afb1a72b8bb8~mv2.jpg",
@@ -1962,7 +2297,7 @@ function Home({
     className: "dot"
   }), " Noesis \u2014 Est. 2009"), React.createElement("div", {
     className: "eyebrow u-hide-720"
-  }, "Beverly Hills \xB7 International")), React.createElement("div", {
+  }, "Los Angeles \xB7 Miami \xB7 Marbella \xB7 Tel Aviv")), React.createElement("div", {
     className: "wrap",
     style: {
       position: "relative",
@@ -2072,6 +2407,33 @@ function Home({
     items: HOME_WORK,
     go: go
   }))), React.createElement(NightPlate, {
+    id: "markets",
+    spy: "properties",
+    className: "night--map"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal"
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " Where We Build"), React.createElement("h2", {
+    className: "h-1 u-mt-16 night__title"
+  }, "From Beverly Hills to ", React.createElement("em", null, "Tel Aviv."))), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body-lg",
+    style: {
+      maxWidth: "44ch"
+    }
+  }, "The deepest record is in Los Angeles, where the firm was founded. The work now runs from Joshua Tree and Miami Beach to Marbella and Tel Aviv \u2014 one team and one standard across three continents."))), React.createElement("div", {
+    className: "u-mt-64"
+  }, React.createElement(MarketsMap, {
+    tone: "night"
+  })))), React.createElement(NightPlate, {
     id: "record",
     spy: "properties",
     band: "city-night",
@@ -2437,7 +2799,39 @@ function Development({
     className: "principal__num"
   }, v), React.createElement("div", {
     className: "principal__lbl"
-  }, l))))))), React.createElement(PracticeSwitch, {
+  }, l))))))), React.createElement("section", {
+    className: "section"
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,40px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " In Development"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "16ch"
+    }
+  }, "The work on the boards.")), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "46ch"
+    }
+  }, "From a residence in design in Joshua Tree to a house issued for construction in Hidden Hills \u2014 every project in development, on the stage it has reached."))), React.createElement("div", {
+    className: "reveal"
+  }, React.createElement(Pipeline, {
+    go: go
+  })))), React.createElement(PracticeSwitch, {
     go: go,
     current: "development"
   }), React.createElement(NightCta, {
@@ -2461,8 +2855,8 @@ function Development({
 window.Development = Development;
 const ASSET_MIX = [["Private residences", 21, "75%"], ["Apartment buildings", 5, "18%"], ["Small-lot subdivisions", 2, "7%"]];
 const INV_STRATEGIES = [["01", "Opportunistic", "Short-Term · 2–3 Years", "Acquisition and new development of residential single-family and small-lot subdivisions, created for a for-sale exit.", ["Residential SFD & small-lot subdivisions", "Acquisition & new development", "Average hold 2–3 years", "Eventual for-sale assets"]], ["02", "Value-Add", "Mid-Term · 7–10 Years", "Commercial apartment buildings and office, improved through leasing, capital improvements and partial redevelopment.", ["Apartment buildings & office", "Leasing, capital improvements, partial redevelopment", "Average hold 7–10 years", "Eventual for-sale assets"]], ["03", "Hybrid Stabilized", "Long-Term", "Apartment buildings, small-lot subdivisions and office — acquired, developed and stabilized for a long-term hold.", ["Apartment buildings, SLS & office", "Acquisition, development & stabilization", "Long-term hold", "Income & durability focused"]]];
-const INV_GEO = [["geo-la", "city-west", "Los Angeles", "Beverly Hills, West Hollywood, the Westside — where the record was built."], ["geo-desert", "geo-desert", "The California desert", "Joshua Tree and Hidden Hills, where the current pipeline sits."], ["geo-miami", "geo-miami", "Miami Beach", "Biscayne Point, and the firm's first ground-up house on the East Coast."]];
-const INV_CRITERIA = [["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]], ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]], ["Hold", ["2–3 years, for-sale exit", "7–10 years, value-add", "Long-term, stabilized"]], ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Tel Aviv"]]];
+const INV_GEO = [["geo-la", "city-west", "Los Angeles", "Beverly Hills, West Hollywood, the Westside — where the record was built."], ["geo-desert", "geo-desert", "The California desert", "Joshua Tree and Hidden Hills, where the current pipeline sits."], ["geo-miami", "geo-miami", "Miami Beach", "Biscayne Point, and the firm's first ground-up house on the East Coast."], ["geo-marbella", "geo-marbella", "Marbella", "The Costa del Sol — where the firm now builds in Europe."], ["geo-telaviv", "geo-telaviv", "Tel Aviv", "The Mediterranean coast, and the firm's first house delivered abroad."]];
+const INV_CRITERIA = [["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]], ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]], ["Hold", ["2–3 years, for-sale exit", "7–10 years, value-add", "Long-term, stabilized"]], ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Marbella", "Tel Aviv"]]];
 const INV_PRINCIPLES = [["01", "Alignment first", "The operator co-invests. We earn when our partners earn — risk is shared, not transferred."], ["02", "Design-led value", "Returns are created by building the right thing well, in the right place, at the right basis."], ["03", "Disciplined basis", "We underwrite conservatively and walk away often. The price of entry sets the margin of safety."], ["04", "Hands-on stewardship", "We manage what we own — through the full cycle, in person, with a builder's rigor."]];
 function StrategyTabs() {
   const [i, setI] = React.useState(0);
@@ -2593,7 +2987,7 @@ function Investment({
   }, "Since 2009 we have originated, structured and stewarded real-estate investments for an aligned network of private capital \u2014 family offices, principals and institutions \u2014 with the operator invested alongside in every one."))), React.createElement("div", {
     className: "wrap"
   }, React.createElement(HeroRail, {
-    items: [["2009", "Founded"], ["28", "Projects"], ["3", "Strategies"], ["7", "Markets"]]
+    items: [["2009", "Founded"], ["28", "Projects"], ["3", "Strategies"], ["8", "Markets"]]
   }))), React.createElement("section", {
     className: "section",
     style: {
@@ -2708,14 +3102,16 @@ function Investment({
       maxWidth: "24ch"
     }
   }, "The record started in Los Angeles. It no longer ends there."), React.createElement("div", {
-    className: "geo reveal u-mt-40"
+    className: "reveal u-mt-48"
+  }, React.createElement(MarketsMap, null)), React.createElement("div", {
+    className: "geo geo--5 reveal u-mt-64"
   }, INV_GEO.map(([key, img, place, note]) => React.createElement("figure", {
     key: key,
     className: "geo__item"
   }, React.createElement("img", {
     src: `assets/img/${img}-w1400.jpg`,
     srcSet: `assets/img/${img}-w800.jpg 800w, assets/img/${img}-w1400.jpg 1400w, assets/img/${img}.jpg 2600w`,
-    sizes: "(max-width: 860px) 92vw, 30vw",
+    sizes: "(max-width: 860px) 92vw, 45vw",
     alt: place,
     loading: "lazy",
     decoding: "async",
@@ -2826,6 +3222,42 @@ function Investment({
       maxWidth: "64ch"
     }
   }, "Counted by project, not by capital. Twenty-one of the twenty-eight are delivered; the balance is in construction, permitting or design."))))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0,
+      paddingTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(24px,3vw,40px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Pipeline"), React.createElement("h2", {
+    className: "h-2 u-mt-16",
+    style: {
+      maxWidth: "22ch"
+    }
+  }, "What is in development, and how far along.")), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "46ch"
+    }
+  }, "Each project moves through the same five stages before a shovel goes in. The track shows where each one stands today."))), React.createElement("div", {
+    className: "reveal"
+  }, React.createElement(Pipeline, {
+    go: go
+  })))), React.createElement("section", {
     className: "section"
   }, React.createElement("div", {
     className: "wrap"
@@ -3040,7 +3472,7 @@ function Firm({
   }, "Noesis is the Greek word for understanding. We are a real-estate investment and development firm \u2014 founded in 2009, based in Beverly Hills, working internationally."))), React.createElement("div", {
     className: "wrap"
   }, React.createElement(HeroRail, {
-    items: [["2009", "Founded"], ["Beverly Hills", "Base"], ["International", "Reach"], ["28", "Projects"]]
+    items: [["2009", "Founded"], ["Beverly Hills", "Base"], ["3", "Countries"], ["28", "Projects"]]
   }))), React.createElement("section", {
     className: "section section--lead"
   }, React.createElement("div", {
@@ -3077,6 +3509,41 @@ function Firm({
   }, t), React.createElement("p", {
     className: "wwd-cap__d"
   }, d)))))), React.createElement("section", {
+    className: "section",
+    style: {
+      borderTop: 0
+    }
+  }, React.createElement("div", {
+    className: "wrap"
+  }, React.createElement("div", {
+    className: "grid-12 u-end reveal",
+    style: {
+      marginBottom: "clamp(28px,3.5vw,52px)"
+    }
+  }, React.createElement("div", {
+    className: "col-7"
+  }, React.createElement("div", {
+    className: "eyebrow"
+  }, React.createElement("span", {
+    className: "dot"
+  }), " The Record by Year"), React.createElement("h2", {
+    className: "h-1 u-mt-16 caps",
+    style: {
+      maxWidth: "16ch"
+    }
+  }, "Seventeen years, project by project.")), React.createElement("div", {
+    className: "col-5"
+  }, React.createElement("p", {
+    className: "body",
+    style: {
+      color: "var(--muted)",
+      maxWidth: "46ch"
+    }
+  }, "Each block is a project, set in the year it was delivered. Today's column holds the work in development. Figures as of September 2026, from the firm's project records."))), React.createElement("div", {
+    className: "reveal"
+  }, React.createElement(Chronicle, {
+    go: go
+  })))), React.createElement("section", {
     className: "section",
     style: {
       paddingTop: 0,
@@ -4298,6 +4765,16 @@ const CATEGORIES = [{
   }]
 }];
 const FURTHER_RECORD = [["Minotti Residence", "Los Angeles", "2012", "Sold prior to completion — broke records for price per square foot. Five bedrooms, 5.5 baths, with the floating stairs that became a Noesis Group trademark.", "sfr"], ["Maison D'O", "Los Angeles", "2012", "Sold before completion. A bright, open-air plan of roughly 3,900 square feet built around the swimming pool as the centerpiece of the property.", "sfr"], ["First Take Home", "Los Angeles", "2011", "Sold pre-completion and set the precedent for many residences in the area — approximately 4,600 square feet, five bedrooms and five baths.", "sfr"], ["Suntro House", "Melrose, Los Angeles", "2017", "A uniquely modern retreat pairing flow and functionality — nearly 3,900 square feet, five bedrooms and five full baths, with towering windows and glass pocket doors.", "sfr"], ["Leva Townhomes", "Los Angeles", "2014", "Innovation by design — two brand-new townhomes added in the rear while the front building kept its original charm, fully remodeled inside.", "apt"], ["Seek More Apartments", "Los Angeles", "2017", "Multifamily development on North Sycamore — part of the firm's expansion from single-family residences into apartment buildings.", "apt"]];
+function recordMarkets() {
+  const tally = {};
+  const add = loc => {
+    const key = marketOf(loc);
+    if (key) tally[key] = (tally[key] || 0) + 1;
+  };
+  CATEGORIES.forEach(c => c.items.forEach(p => add(p.loc)));
+  FURTHER_RECORD.forEach(r => add(r[1]));
+  return Object.entries(tally).sort((a, b) => b[1] - a[1]);
+}
 function FeatureBlock({
   p,
   open,
@@ -4411,18 +4888,7 @@ function Projects({
   const duo = cat.items.length <= 2;
   const rest = duo ? [] : cat.items.slice(1);
   const record = FURTHER_RECORD.filter(r => r[4] === cat.key);
-  const markets = React.useMemo(() => {
-    const tally = {};
-    CATEGORIES.forEach(c => c.items.forEach(p => {
-      const key = marketOf(p.loc);
-      if (key) tally[key] = (tally[key] || 0) + 1;
-    }));
-    FURTHER_RECORD.forEach(r => {
-      const key = marketOf(r[1]);
-      if (key) tally[key] = (tally[key] || 0) + 1;
-    });
-    return Object.entries(tally).sort((a, b) => b[1] - a[1]);
-  }, []);
+  const markets = React.useMemo(recordMarkets, []);
   const openStory = p => setPage("story:" + p.id);
   return React.createElement("main", {
     className: "page-enter"
@@ -4818,6 +5284,8 @@ window.Projects = Projects;
 window.Lightbox = Lightbox;
 window.PROJECT_LIST = PROJECT_LIST;
 window.PROJECTS = PROJECTS;
+window.FURTHER_RECORD = FURTHER_RECORD;
+window.recordMarkets = recordMarkets;
 function storyParas(text) {
   return (text || "").split("\n\n").map(s => s.trim()).filter(Boolean);
 }

@@ -224,7 +224,7 @@ function ScrollHero({ go, setIntent }) {
 
           <div className="shero__closeback" ref={closeBackRef} aria-hidden="true" />
           <div className="shero__close" ref={closeRef}>
-            <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Beverly Hills · International</div>
+            <div className="eyebrow" style={{ justifyContent: "center" }}><span className="dot" /> Los Angeles · Miami · Marbella · Tel Aviv</div>
             <h2 className="h-display u-mt-16" style={{ color: "var(--ink)", maxWidth: "18ch", marginInline: "auto" }}>
               Development execution. Investment judgment.
             </h2>

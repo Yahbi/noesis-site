@@ -56,7 +56,7 @@ function Firm({ go }) {
           </div>
         </div>
           <div className="wrap">
-            <HeroRail items={[["2009", "Founded"], ["Beverly Hills", "Base"], ["International", "Reach"], ["28", "Projects"]]} />
+            <HeroRail items={[["2009", "Founded"], ["Beverly Hills", "Base"], ["3", "Countries"], ["28", "Projects"]]} />
           </div>
       </section>
 
@@ -93,6 +93,25 @@ function Firm({ go }) {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* THE RECORD BY YEAR — every delivered project, in the year it was finished */}
+      <section className="section" style={{ borderTop: 0 }}>
+        <div className="wrap">
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(28px,3.5vw,52px)" }}>
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> The Record by Year</div>
+              <h2 className="h-1 u-mt-16 caps" style={{ maxWidth: "16ch" }}>Seventeen years, project by project.</h2>
+            </div>
+            <div className="col-5">
+              <p className="body" style={{ color: "var(--muted)", maxWidth: "46ch" }}>
+                Each block is a project, set in the year it was delivered. Today's column holds the
+                work in development. Figures as of September 2026, from the firm's project records.
+              </p>
+            </div>
+          </div>
+          <div className="reveal"><Chronicle go={go} /></div>
         </div>
       </section>
 

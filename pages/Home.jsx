@@ -118,7 +118,7 @@ function Home({ go, setIntent }) {
 
         <div className="wrap u-flex u-between" style={{ position: "relative", zIndex: 1, width: "100%" }}>
           <div className="eyebrow"><span className="dot" /> Noesis — Est. 2009</div>
-          <div className="eyebrow u-hide-720">Beverly Hills · International</div>
+          <div className="eyebrow u-hide-720">Los Angeles · Miami · Marbella · Tel Aviv</div>
         </div>
 
         <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%" }}>
@@ -187,7 +187,27 @@ function Home({ go, setIntent }) {
           <ProjectIndex items={HOME_WORK} go={go} />
         </div>
       </section>
-      {/* 4 ── TRACK RECORD — the one night plate on the homepage ────── */}
+      {/* 3b ── WHERE WE BUILD — the corridor the record spans, drawn ── */}
+      <NightPlate id="markets" spy="properties" className="night--map">
+        <div className="wrap">
+          <div className="grid-12 u-end reveal">
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> Where We Build</div>
+              <h2 className="h-1 u-mt-16 night__title">From Beverly Hills to <em>Tel Aviv.</em></h2>
+            </div>
+            <div className="col-5">
+              <p className="body-lg" style={{ maxWidth: "44ch" }}>
+                The deepest record is in Los Angeles, where the firm was founded. The work now runs
+                from Joshua Tree and Miami Beach to Marbella and Tel Aviv — one team and one standard
+                across three continents.
+              </p>
+            </div>
+          </div>
+          <div className="u-mt-64"><MarketsMap tone="night" /></div>
+        </div>
+      </NightPlate>
+
+      {/* 4 ── TRACK RECORD — the skyline closes the night chapter ─────── */}
       <NightPlate id="record" spy="properties" band="city-night" className="night--record"
         alt="Los Angeles at blue hour, looking east along the Wilshire corridor">
         <div className="wrap">

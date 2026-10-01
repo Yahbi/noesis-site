@@ -24,19 +24,21 @@ const INV_STRATEGIES = [
 // Deliberately silent on cheque size and deal structure — those are Igal's to
 // state, and inventing them would be worse than omitting them.
 // Markets, with a plate each. Los Angeles reuses the Westside aerial already on
-// the site; the other two are new. All three are context, not Noesis work — the
-// captions name a place, never a project.
+// the site; the rest are place photographs. All are context, not Noesis work —
+// the captions name a place, never a project.
 const INV_GEO = [
   ["geo-la", "city-west", "Los Angeles", "Beverly Hills, West Hollywood, the Westside — where the record was built."],
   ["geo-desert", "geo-desert", "The California desert", "Joshua Tree and Hidden Hills, where the current pipeline sits."],
   ["geo-miami", "geo-miami", "Miami Beach", "Biscayne Point, and the firm's first ground-up house on the East Coast."],
+  ["geo-marbella", "geo-marbella", "Marbella", "The Costa del Sol — where the firm now builds in Europe."],
+  ["geo-telaviv", "geo-telaviv", "Tel Aviv", "The Mediterranean coast, and the firm's first house delivered abroad."],
 ];
 
 const INV_CRITERIA = [
   ["Product", ["Single-family residences", "Small-lot subdivisions", "Apartment buildings", "Office"]],
   ["Activity", ["Land acquisition & entitlement", "Ground-up development", "Value-add repositioning"]],
   ["Hold", ["2–3 years, for-sale exit", "7–10 years, value-add", "Long-term, stabilized"]],
-  ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Tel Aviv"]],
+  ["Markets", ["Los Angeles & Beverly Hills", "West Hollywood & Hidden Hills", "Miami Beach", "Marbella", "Tel Aviv"]],
 ];
 
 const INV_PRINCIPLES = [
@@ -142,7 +144,7 @@ function Investment({ go, setIntent }) {
           </div>
         </div>
           <div className="wrap">
-            <HeroRail items={[["2009", "Founded"], ["28", "Projects"], ["3", "Strategies"], ["7", "Markets"]]} />
+            <HeroRail items={[["2009", "Founded"], ["28", "Projects"], ["3", "Strategies"], ["8", "Markets"]]} />
           </div>
       </section>
 
@@ -233,12 +235,13 @@ function Investment({ go, setIntent }) {
           <h2 className="h-2 u-mt-16 reveal" style={{ maxWidth: "24ch" }}>
             The record started in Los Angeles. It no longer ends there.
           </h2>
-          <div className="geo reveal u-mt-40">
+          <div className="reveal u-mt-48"><MarketsMap /></div>
+          <div className="geo geo--5 reveal u-mt-64">
             {INV_GEO.map(([key, img, place, note]) => (
               <figure key={key} className="geo__item">
                 <img src={`assets/img/${img}-w1400.jpg`}
                   srcSet={`assets/img/${img}-w800.jpg 800w, assets/img/${img}-w1400.jpg 1400w, assets/img/${img}.jpg 2600w`}
-                  sizes="(max-width: 860px) 92vw, 30vw"
+                  sizes="(max-width: 860px) 92vw, 45vw"
                   alt={place} loading="lazy" decoding="async" onError={imgFallback} />
                 <figcaption>
                   <span className="geo__place">{place}</span>
@@ -313,6 +316,25 @@ function Investment({ go, setIntent }) {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* THE PIPELINE — what is in development now, on the stage it has reached */}
+      <section className="section" style={{ borderTop: 0, paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="grid-12 u-end reveal" style={{ marginBottom: "clamp(24px,3vw,40px)" }}>
+            <div className="col-7">
+              <div className="eyebrow"><span className="dot" /> The Pipeline</div>
+              <h2 className="h-2 u-mt-16" style={{ maxWidth: "22ch" }}>What is in development, and how far along.</h2>
+            </div>
+            <div className="col-5">
+              <p className="body" style={{ color: "var(--muted)", maxWidth: "46ch" }}>
+                Each project moves through the same five stages before a shovel goes in. The track
+                shows where each one stands today.
+              </p>
+            </div>
+          </div>
+          <div className="reveal"><Pipeline go={go} /></div>
         </div>
       </section>
 
