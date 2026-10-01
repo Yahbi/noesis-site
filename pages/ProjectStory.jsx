@@ -201,7 +201,7 @@ function ProjectStory({ project, go }) {
             </div>
             <div className="collage reveal">
               {p.gallery.map((img, i) => (
-                <article key={img} className="pcard" role="button" tabIndex={0} aria-label={`${p.name} — photograph ${i + 1}`}
+                <div key={img} className="pcard" role="button" tabIndex={0} aria-label={`View ${p.name}, photograph ${i + 1}`}
                   onClick={() => setLb({ index: i })}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLb({ index: i }); } }}>
                   <div className="pcard__media">
@@ -211,7 +211,7 @@ function ProjectStory({ project, go }) {
                       sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
                     <div className="pcard__over"><span className="pcard__cta" style={{ marginTop: "auto" }}>View <span className="arr" /></span></div>
                   </div>
-                </article>
+                </div>
               ))}
             </div>
           </div>
@@ -232,7 +232,7 @@ function ProjectStory({ project, go }) {
           <div className="cine__grad" />
           <div className="cine__cap">
             <div className="wrap" style={{ paddingBottom: "clamp(40px,7vw,92px)" }}>
-              <button className="story__next-hit" onClick={() => go("story:" + next.id)} data-magnetic aria-label={`Open next project — ${next.name}`}>
+              <button className="story__next-hit" onClick={() => go("story:" + next.id)} data-magnetic>
                 <span className="eyebrow"><span className="dot" /> Next Project</span>
                 <span className="h-display story__next-name u-mt-8">{next.name}</span>
               </button>

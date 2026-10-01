@@ -61,7 +61,9 @@
   font-size: clamp(30px, 4.2vw, 66px); line-height: 1.1; letter-spacing: -.024em;
   color: var(--ink); max-width: 23ch; text-wrap: pretty; }
 .statement__t .w--em { font-style: italic; color: var(--accent); }
-html.motion-ready .statement .w { opacity: .16; }
+/* Lit from a grey that still clears 3:1 for large text (#8A8A90 on white,
+   3.4:1) to ink — an opacity dim read as 1.4:1 and failed contrast at rest. */
+html.motion-ready .statement .w { color: #8A8A90; }
 
 /* ── PROJECT INDEX ────────────────────────────────────────────────────────── */
 .pidx { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
@@ -390,7 +392,8 @@ html.motion-ready .chron:not(.is-in) .chron__brick { transform: scaleY(0); }
 
 /* ── MOTION SAFETY — no mask survives reduced motion ─────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  html.motion-ready .statement .w { opacity: 1; }
+  html.motion-ready .statement .w { color: inherit; }
+  html.motion-ready .statement .w--em { color: var(--accent); }
   [data-mx] { clip-path: none !important; transform: none !important; }
   .pidx__frame img, .pidx__name, .pidx__row::after { transition: none; }
   .rt { display: none; }

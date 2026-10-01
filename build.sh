@@ -281,15 +281,23 @@ def page(path, route, title, desc, heading, blurb):
     # The hero image is the LCP element on home and every story cover — tell the
     # browser before the bundle even parses.
     hero = None
+    hero_media = ""
     if route == "home":
-        hero = "5c383b_a9f6aa50d3a44559aee6289afe36ebcf~mv2_d_6720_4480_s_4_2.jpg"
+        # The still the fallback hero actually renders (Home.jsx SHOT.casaMani) —
+        # this pointed at a retired frame, so phones fetched a hero they never
+        # showed while the real one waited for React. Phones and touch devices
+        # get the still; desktop gets the scroll hero's first plate.
+        hero = "5c383b_88e3828f1ca0459ea909e745c3b79196~mv2_d_6720_4480_s_4_2.jpg"
+        hero_media = ' media="(max-width: 1023px), (hover: none)"'
+        plate = ", ".join(f"assets/img/hero-1-{w}.jpg {w}w" for w in (1400, 2000, 2600))
+        h = h.replace("</head>", f'  <link rel="preload" as="image" imagesrcset="{plate}" imagesizes="100vw" media="(min-width: 1024px) and (hover: hover)" fetchpriority="high">\n</head>', 1)
     elif route.startswith("story:"):
         hero = story_wid.get(route[6:])
     if hero in locally_served:
         hero = None
     if hero:
         srcset = ", ".join(f"https://static.wixstatic.com/media/{hero}/v1/fit/w_{w},h_{w},al_c,q_88,enc_avif,quality_auto/{hero} {w}w" for w in (1200, 2000, 2600, 3400))
-        h = h.replace("</head>", f'  <link rel="preload" as="image" imagesrcset="{srcset}" imagesizes="100vw" fetchpriority="high">\n</head>', 1)
+        h = h.replace("</head>", f'  <link rel="preload" as="image" imagesrcset="{srcset}" imagesizes="100vw"{hero_media} fetchpriority="high">\n</head>', 1)
     h = re.sub(r"<title>.*?</title>", _lit("<title>" + html.escape(title) + "</title>"), h, count=1, flags=re.S)
     h = re.sub(r'<meta name="description" content=".*?">',
                _lit('<meta name="description" content="' + html.escape(desc, quote=True) + '">'), h, count=1, flags=re.S)

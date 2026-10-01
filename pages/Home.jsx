@@ -160,7 +160,7 @@ function Home({ go, setIntent }) {
 
           <div className="gateway reveal" data-spy="development,investment">
             {HOME_PILLARS.map(([n, t, route, d]) => (
-              <button key={n} className="gate" onClick={() => go(route)} aria-label={`${t} — open the ${t} page`}>
+              <button key={n} className="gate" onClick={() => go(route)}>
                 <span className="gate__n">{n}</span>
                 <span className="gate__t">{t}</span>
                 <span className="gate__d">{d}</span>

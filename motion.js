@@ -42,7 +42,7 @@
     document.querySelectorAll(".cine__cap").forEach(function (c) { c.style.opacity = "1"; c.style.transform = "none"; });
     document.documentElement.classList.add("hero-in");
     document.querySelectorAll(".lx-h .ln > span").forEach(function (s) { s.style.transform = "none"; });
-    document.querySelectorAll(".manifesto .w, .statement .w").forEach(function (w) { w.style.opacity = "1"; });
+    document.querySelectorAll(".manifesto .w, .statement .w").forEach(function (w) { w.style.opacity = "1"; w.style.color = ""; });
     document.querySelectorAll("[data-mx]").forEach(unmask);
   }
   // Undo a clip-path mask (image wipe or title rise) and its inner image zoom.
@@ -256,7 +256,16 @@
       var tl = gsap.timeline({
         scrollTrigger: { trigger: m, start: "top 82%", end: "bottom 52%", scrub: 0.4 },
       });
-      tl.to(words, { opacity: 1, stagger: { each: 0.04 }, ease: "none" });
+      if (m.classList.contains("statement")) {
+        // The statement lights by colour, not opacity, so every state passes contrast.
+        var root = getComputedStyle(document.documentElement);
+        var ink = root.getPropertyValue("--ink").trim() || "#232326";
+        var accent = root.getPropertyValue("--accent").trim() || "#B02F27";
+        tl.to(words, { color: function (i, el) { return el.classList.contains("w--em") ? accent : ink; },
+          stagger: { each: 0.04 }, ease: "none" });
+      } else {
+        tl.to(words, { opacity: 1, stagger: { each: 0.04 }, ease: "none" });
+      }
       if (tl.scrollTrigger) triggers.push(tl.scrollTrigger);
     });
   }

@@ -239,7 +239,7 @@ function Chronicle({ go }) {
                 };
                 return it.id
                   ? <a key={it.name} href={storyHref(it.id)} onClick={storyNav(go, it.id)} {...common} />
-                  : <span key={it.name} tabIndex={0} {...common} />;
+                  : <span key={it.name} role="img" tabIndex={0} {...common} />;
               })}
             </div>
             <div className="chron__year">{y.label}</div>

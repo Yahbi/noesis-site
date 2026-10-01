@@ -779,8 +779,7 @@ function PracticeSwitch({
   }, others.map(([id, title, desc]) => React.createElement("button", {
     key: id,
     className: "pswitch__card",
-    onClick: () => go(id),
-    "aria-label": `${title} — open the page`
+    onClick: () => go(id)
   }, React.createElement("span", {
     className: "pswitch__t"
   }, title), React.createElement("span", {
@@ -1683,7 +1682,6 @@ function ProjectIndex({
   }, React.createElement("a", {
     className: "pidx__row" + (i === active ? " is-on" : ""),
     href: BASE + pathFor("story:" + it.id),
-    "aria-label": `${it.name}, ${it.loc} — view the project story`,
     onMouseEnter: () => setActive(i),
     onFocus: () => setActive(i),
     onClick: storyClick(go, it.id)
@@ -2145,6 +2143,7 @@ function Chronicle({
       onClick: storyNav(go, it.id)
     }, common)) : React.createElement("span", _extends({
       key: it.name,
+      role: "img",
       tabIndex: 0
     }, common));
   })), React.createElement("div", {
@@ -2612,8 +2611,7 @@ function Home({
   }, HOME_PILLARS.map(([n, t, route, d]) => React.createElement("button", {
     key: n,
     className: "gate",
-    onClick: () => go(route),
-    "aria-label": `${t} — open the ${t} page`
+    onClick: () => go(route)
   }, React.createElement("span", {
     className: "gate__n"
   }, n), React.createElement("span", {
@@ -5199,7 +5197,6 @@ function ProjectCard({
   return React.createElement("a", {
     className: `pcard ${wide ? "pcard--wide" : ""}`,
     href: BASE + pathFor("story:" + p.id),
-    "aria-label": `Open the ${p.name} story`,
     onClick: e => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       e.preventDefault();
@@ -5399,13 +5396,13 @@ function Projects({
   }, React.createElement("p", {
     className: "lede"
   }, "Luxury residences and buildings conceived, developed and delivered by the Noesis team \u2014 the delivered proof behind what we build, what we hold, and how we manage."), React.createElement("div", {
-    className: "mkt u-mt-24"
+    className: "mkt u-mt-24",
+    role: "group",
+    "aria-label": "Filter the record by market"
   }, React.createElement("div", {
     className: "label"
   }, "Markets \xB7 filter the record"), React.createElement("ul", {
-    className: "mkt__list",
-    role: "group",
-    "aria-label": "Filter the record by market"
+    className: "mkt__list"
   }, markets.map(([name, n]) => React.createElement("li", {
     key: name
   }, React.createElement("button", {
@@ -5458,7 +5455,7 @@ function Projects({
   }, c.items.length)))), market ? React.createElement("button", {
     className: "mkt__chip",
     onClick: () => setMarket(null),
-    "aria-label": `Clear the ${market} filter`
+    "aria-label": `${market} · ${inMarket.length + recordInMarket.length} — clear the filter`
   }, market, " \xB7 ", inMarket.length + recordInMarket.length, " ", React.createElement("span", {
     "aria-hidden": "true"
   }, "\xD7")) : React.createElement("div", {
@@ -6100,12 +6097,12 @@ function ProjectStory({
     className: "arr"
   })))), React.createElement("div", {
     className: "collage reveal"
-  }, p.gallery.map((img, i) => React.createElement("article", {
+  }, p.gallery.map((img, i) => React.createElement("div", {
     key: img,
     className: "pcard",
     role: "button",
     tabIndex: 0,
-    "aria-label": `${p.name} — photograph ${i + 1}`,
+    "aria-label": `View ${p.name}, photograph ${i + 1}`,
     onClick: () => setLb({
       index: i
     }),
@@ -6178,8 +6175,7 @@ function ProjectStory({
   }, React.createElement("button", {
     className: "story__next-hit",
     onClick: () => go("story:" + next.id),
-    "data-magnetic": true,
-    "aria-label": `Open next project — ${next.name}`
+    "data-magnetic": true
   }, React.createElement("span", {
     className: "eyebrow"
   }, React.createElement("span", {

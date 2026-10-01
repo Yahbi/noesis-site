@@ -160,7 +160,6 @@ function ProjectCard({ p, wide, onOpen }) {
   const count = p.gallery.length;
   return (
     <a className={`pcard ${wide ? "pcard--wide" : ""}`} href={BASE + pathFor("story:" + p.id)}
-      aria-label={`Open the ${p.name} story`}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault(); onOpen(p);
@@ -313,9 +312,9 @@ function Projects({ setPage, setIntent }) {
               Luxury residences and buildings conceived, developed and delivered by the Noesis
               team — the delivered proof behind what we build, what we hold, and how we manage.
             </p>
-            <div className="mkt u-mt-24">
+            <div className="mkt u-mt-24" role="group" aria-label="Filter the record by market">
               <div className="label">Markets · filter the record</div>
-              <ul className="mkt__list" role="group" aria-label="Filter the record by market">
+              <ul className="mkt__list">
                 {markets.map(([name, n]) => (
                   <li key={name}>
                     <button className={"mkt__b" + (market === name ? " is-on" : "")} aria-pressed={market === name}
@@ -346,7 +345,7 @@ function Projects({ setPage, setIntent }) {
             ))}
           </div>
           {market
-            ? <button className="mkt__chip" onClick={() => setMarket(null)} aria-label={`Clear the ${market} filter`}>
+            ? <button className="mkt__chip" onClick={() => setMarket(null)} aria-label={`${market} · ${inMarket.length + recordInMarket.length} — clear the filter`}>
                 {market} · {inMarket.length + recordInMarket.length} <span aria-hidden="true">×</span>
               </button>
             : <div className="label">{cat.items.length} projects</div>}

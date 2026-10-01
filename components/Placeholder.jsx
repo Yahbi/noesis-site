@@ -250,8 +250,7 @@ function PracticeSwitch({ go, current }) {
         <div className="eyebrow reveal"><span className="dot" /> The rest of the firm</div>
         <div className="pswitch reveal u-mt-24">
           {others.map(([id, title, desc]) => (
-            <button key={id} className="pswitch__card" onClick={() => go(id)}
-              aria-label={`${title} — open the page`}>
+            <button key={id} className="pswitch__card" onClick={() => go(id)}>
               <span className="pswitch__t">{title}</span>
               <span className="pswitch__d">{desc}</span>
               <span className="pswitch__cta">Explore <span className="arr" /></span>

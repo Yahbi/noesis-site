@@ -81,7 +81,6 @@ function ProjectIndex({ items, go }) {
           <li key={it.id}>
             <a className={"pidx__row" + (i === active ? " is-on" : "")}
               href={BASE + pathFor("story:" + it.id)}
-              aria-label={`${it.name}, ${it.loc} — view the project story`}
               onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}
               onClick={storyClick(go, it.id)}>
               <span className="pidx__n">{String(i + 1).padStart(2, "0")}</span>
