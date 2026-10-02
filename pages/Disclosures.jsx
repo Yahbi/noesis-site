@@ -44,10 +44,10 @@ const DISCLOSURES = [
     "in progress should be read as committed or complete."],
 
   ["Renderings and imagery",
-    "Projects that are not yet built are illustrated with architectural renderings, and are labelled " +
-    "as such wherever they appear — on portfolio cards, on their own pages and in the record. " +
-    "Renderings are design intent, not a photograph of a building, and the finished work may differ. " +
-    "Every other photograph on this site is of a completed Noesis project."],
+    "Projects in development are identified in the portfolio and record; architectural renderings " +
+    "are labelled in their galleries and project views. Renderings show design intent, and the " +
+    "finished work may differ. The site also includes project photography, construction imagery " +
+    "and contextual photographs of cities and markets. Contextual imagery does not depict a Noesis project."],
 
   ["The record and how it is counted",
     "The record counts every project Noesis has taken from land through entitlement, design and " +

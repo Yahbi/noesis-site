@@ -85,6 +85,33 @@ function routeFromLocation() {
 const CURTAIN_IN_MS = 560;
 const CURTAIN_OUT_MS = 820;
 
+function updateRouteMetadata(route) {
+  const meta = window.__NOESIS_META && window.__NOESIS_META[route];
+  if (!meta) return;
+  document.title = meta.title;
+  const set = (selector, attribute, value) => {
+    const element = document.querySelector(selector);
+    if (element) element.setAttribute(attribute, value);
+  };
+  set('link[rel="canonical"]', "href", meta.url);
+  for (const [key, value] of Object.entries({ title: meta.title, description: meta.description, url: meta.url, image: meta.image, "image:alt": meta.imageAlt })) {
+    set(`meta[property="og:${key}"]`, "content", value);
+  }
+  for (const [key, value] of Object.entries({ title: meta.title, description: meta.description, image: meta.image })) {
+    set(`meta[name="twitter:${key}"]`, "content", value);
+  }
+  set('meta[name="description"]', "content", meta.description);
+  const organization = document.querySelector('script[type="application/ld+json"]:not(#route-breadcrumbs)');
+  if (organization) {
+    try { const schema = JSON.parse(organization.textContent); schema.image = meta.image; organization.textContent = JSON.stringify(schema); } catch (e) {}
+  }
+  let crumbs = document.getElementById("route-breadcrumbs");
+  if (meta.breadcrumbs) {
+    if (!crumbs) { crumbs = document.createElement("script"); crumbs.id = "route-breadcrumbs"; crumbs.type = "application/ld+json"; document.head.appendChild(crumbs); }
+    crumbs.textContent = JSON.stringify(meta.breadcrumbs);
+  } else if (crumbs) crumbs.remove();
+}
+
 function App() {
   const [view, setView] = React.useState(() => {
     const r = routeFromLocation();
@@ -94,9 +121,11 @@ function App() {
     const r = routeFromLocation();
     return r.indexOf("story:") === 0 ? r.slice(6) : null;
   });
+  const inquirySession = React.useRef({});           // In-memory only; survives internal routes, never reloads.
   const [intent, setIntent] = React.useState(null);    // "investor" | "owner" | null — seeds the inquiry form
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const returnTo = React.useRef("properties");         // where a story's Back button lands
+  const lastRoute = React.useRef(null);
 
   const lenis = () => (window.__motion && window.__motion.lenis) || null;
 
@@ -230,6 +259,15 @@ function App() {
     } else {
       document.title = ROUTE_TITLES[view] || ROUTE_TITLES.home;
     }
+    const route = view === "story" ? "story:" + story : view;
+    updateRouteMetadata(route);
+    const main = document.querySelector("main");
+    if (main) {
+      main.id = "main-content";
+      main.tabIndex = -1;
+      if (lastRoute.current !== null && lastRoute.current !== route) main.focus({ preventScroll: true });
+    }
+    lastRoute.current = route;
   }, [view, story]);
 
   // Projects routes straight through; only "home" needs the explicit branch
@@ -250,7 +288,7 @@ function App() {
         : view === "investment" ? <Investment go={go} setIntent={setIntent} />
         : view === "owners-rep" ? <Approach go={go} setIntent={setIntent} />
         : view === "firm" ? <Firm go={go} />
-        : view === "inquiries" ? <Inquiries intent={intent} go={go} />
+        : view === "inquiries" ? <Inquiries intent={intent} go={go} session={inquirySession} />
         : view === "disclosures" ? <Disclosures go={go} />
         : view === "story" ? (
           <>

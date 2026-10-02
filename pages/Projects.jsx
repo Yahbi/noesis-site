@@ -170,7 +170,7 @@ function ProjectCard({ p, wide, onOpen }) {
           sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw"
           alt={p.name} loading="lazy" decoding="async" onError={imgFallback} />
         <div className="pcard__over">
-          {count > 1 && <span className="pcard__count">{count} Photos</span>}
+          {count > 1 && <span className="pcard__count">{count} Images</span>}
           <span className="pcard__cta">View Project <span className="arr" /></span>
         </div>
       </div>
@@ -204,7 +204,7 @@ function FeatureBlock({ p, open, flip }) {
           srcSet={wixSet(p.cover || p.gallery[0])}
           sizes="(max-width: 860px) 100vw, 60vw"
           alt={p.name} decoding="async" onError={imgFallback} />
-        {p.gallery.length > 1 && <div className="pfeat__badge">{p.gallery.length} Photos</div>}
+        {p.gallery.length > 1 && <div className="pfeat__badge">{p.gallery.length} Images</div>}
         {p.rendering && <div className="pfeat__badge pfeat__badge--render">Architectural rendering</div>}
       </a>
       <div>
@@ -495,6 +495,16 @@ function Lightbox({ project, start, onClose }) {
     setOpen(true);
     const prevFocus = document.activeElement;   // restore focus to the trigger on close
     document.body.style.overflow = "hidden";
+    // The dialog is nested inside main. Inert each ancestor's siblings, never
+    // the ancestor itself, so background controls leave the accessibility tree.
+    const background = [];
+    let branch = dialogRef.current;
+    while (branch && branch.parentElement && branch !== document.body) {
+      Array.from(branch.parentElement.children).filter((el) => el !== branch).forEach((el) => {
+        background.push([el, el.inert]); el.inert = true;
+      });
+      branch = branch.parentElement;
+    }
     const lenis = window.__motion && window.__motion.lenis;
     if (lenis && lenis.stop) lenis.stop();
     const onKey = (e) => {
@@ -505,18 +515,24 @@ function Lightbox({ project, start, onClose }) {
         const f = dialogRef.current.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
         if (!f.length) return;
         const first = f[0], last = f[f.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        if (e.shiftKey && (document.activeElement === first || !dialogRef.current.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && (document.activeElement === last || !dialogRef.current.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
       }
     };
     window.addEventListener("keydown", onKey);
-    const t = setTimeout(() => { const c = dialogRef.current && dialogRef.current.querySelector(".lb__close"); if (c) c.focus(); }, 0);
+    let tries = 0;
+    const t = setInterval(() => {
+      const close = dialogRef.current && dialogRef.current.querySelector(".lb__close");
+      if (close) { close.focus(); if (document.activeElement === close) { clearInterval(t); return; } }
+      if (++tries > 20) clearInterval(t);
+    }, 40);
     return () => {
-      clearTimeout(t);
+      clearInterval(t);
       document.body.style.overflow = "";
+      background.forEach(([el, inert]) => { el.inert = inert; });
       if (lenis && lenis.start) lenis.start();
       window.removeEventListener("keydown", onKey);
-      if (prevFocus && prevFocus.focus) prevFocus.focus();
+      if (prevFocus && prevFocus.isConnected && prevFocus.focus) prevFocus.focus();
     };
   }, [go, onClose]);
 
@@ -539,7 +555,7 @@ function Lightbox({ project, start, onClose }) {
       <div className="lb__head">
         <div>
           <div className="lb__title">{project.name}</div>
-          <div className="lb__sub">{project.loc}{project.year ? ` · ${project.year}` : ""}</div>
+          <div className="lb__sub">{project.loc}{project.year ? ` · ${project.year}` : ""}{project.rendering ? " · Architectural renderings" : ""}</div>
         </div>
         <div className="lb__headR">
           {multi && <div className="lb__count"><b>{pad(i + 1)}</b> &nbsp;/&nbsp; {pad(imgs.length)}</div>}
@@ -551,16 +567,16 @@ function Lightbox({ project, start, onClose }) {
 
       <div className="lb__stage">
         {multi && (
-          <button className="lb__arrow lb__arrow--prev" onClick={() => go(-1)} aria-label="Previous photo">
+          <button className="lb__arrow lb__arrow--prev" onClick={() => go(-1)} aria-label="Previous image">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M14 3 L6 11 l8 8" /></svg>
           </button>
         )}
-        <img className="lb__img" key={i} alt={`${project.name} — photograph ${i + 1}`}
+        <img className="lb__img" key={i} alt={`${project.name} — ${project.rendering ? "rendering" : "image"} ${i + 1}`}
           src={wix(imgs[i], { w: 2000 })}
           srcSet={`${wix(imgs[i], { w: 1400 })} 1400w, ${wix(imgs[i], { w: 2000 })} 2000w, ${wix(imgs[i], { w: 2600 })} 2600w, ${wix(imgs[i], { w: 3400 })} 3400w`}
           sizes="(max-width: 900px) 100vw, 90vw" onError={imgFallback} />
         {multi && (
-          <button className="lb__arrow lb__arrow--next" onClick={() => go(1)} aria-label="Next photo">
+          <button className="lb__arrow lb__arrow--next" onClick={() => go(1)} aria-label="Next image">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M8 3 l8 8 l-8 8" /></svg>
           </button>
         )}
@@ -572,7 +588,7 @@ function Lightbox({ project, start, onClose }) {
         <div className="lb__rail">
           {imgs.map((im, k) => (
             <button key={im} type="button" className={`lb__thumb ${k === i ? "is-active" : ""}`}
-              onClick={() => setI(k)} aria-label={`View photograph ${k + 1} of ${imgs.length}`}
+              onClick={() => setI(k)} aria-label={`View ${project.rendering ? "rendering" : "image"} ${k + 1} of ${imgs.length}`}
               aria-current={k === i ? "true" : undefined}>
               <img src={wix(im, { w: 220 })} alt="" onError={imgFallback} />
             </button>

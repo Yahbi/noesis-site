@@ -68,7 +68,7 @@ function ProjectStory({ project, go }) {
 
       {/* 1 — COVER (this is the view's hero: buildHero animates it, no curtain) */}
       <section className="cine story__cover" style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-        <img className="cine__img img--warm" alt={p.name} fetchpriority="high" sizes="100vw" onError={onImgError}
+        <img className="cine__img img--warm" alt={`${p.name}${p.rendering ? " — architectural rendering" : ""}`} fetchpriority="high" sizes="100vw" onError={onImgError}
           src={wix(cover, { w: 2000 })}
           srcSet={`${wix(cover, { w: 1200 })} 1200w, ${wix(cover, { w: 2000 })} 2000w, ${wix(cover, { w: 2600 })} 2600w, ${wix(cover, { w: 3400 })} 3400w`} />
         <div className="cine__grad" />
@@ -77,7 +77,7 @@ function ProjectStory({ project, go }) {
             shrink-to-fit and centred instead of on the site's left content margin. */}
         <div className="wrap" style={{ position: "relative", zIndex: 1, width: "100%", paddingBottom: "clamp(52px,9vh,120px)" }}>
           <div className="eyebrow" data-hero-fade>
-            <span className="dot" /> {p.category}{p.year ? ` · ${p.year}` : ""}
+            <span className="dot" /> {p.category}{p.year ? ` · ${p.year}` : ""}{p.rendering ? " · Rendering" : ""}
           </div>
           <h1 className="h-display u-mt-16" style={{ color: "var(--ink)", maxWidth: "15ch" }}>{p.name}</h1>
           <div className="lede u-mt-16" data-hero-fade style={{ maxWidth: "40ch" }}>{p.loc}</div>
@@ -95,7 +95,7 @@ function ProjectStory({ project, go }) {
             </div>
             {p.rendering && (
               <p className="story__note u-mt-16">
-                The images on this page are architectural renderings. This project is not built.
+                This project is in development. Architectural renderings show design intent; completed work may differ.
               </p>
             )}
           </div>
@@ -152,12 +152,13 @@ function ProjectStory({ project, go }) {
           {scenes[i] && (
             <section className="cine story__scene" style={{ height: "min(92vh, 900px)", minHeight: 460 }}>
               <img className="cine__img img--warm" data-parallax="0.16" loading="lazy" sizes="100vw" onError={onImgError}
-                alt={`${p.name} — view ${i + 1}`}
+                alt={`${p.name} — ${p.rendering ? "rendering" : "view"} ${i + 1}`}
                 src={wix(scenes[i], { w: 2000 })}
                 srcSet={`${wix(scenes[i], { w: 1200 })} 1200w, ${wix(scenes[i], { w: 2000 })} 2000w, ${wix(scenes[i], { w: 3000 })} 3000w`} />
               {/* No caption sits on these — they get the edge-seating wash, not the
                   heavy scrim built to keep a headline legible. */}
               <div className="cine__grad cine__grad--plate" />
+              {p.rendering && <span className="story__render">Architectural rendering</span>}
             </section>
           )}
           {bodyParas[i] && (
@@ -201,14 +202,15 @@ function ProjectStory({ project, go }) {
             </div>
             <div className="collage reveal">
               {p.gallery.map((img, i) => (
-                <div key={img} className="pcard" role="button" tabIndex={0} aria-label={`View ${p.name}, photograph ${i + 1}`}
+                <div key={img} className="pcard" role="button" tabIndex={0} aria-label={`View ${p.name}, ${p.rendering ? "rendering" : "image"} ${i + 1}`}
                   onClick={() => setLb({ index: i })}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLb({ index: i }); } }}>
                   <div className="pcard__media">
-                    <img className="pcard__img" alt={`${p.name} — ${i + 1}`} loading="lazy" onError={onImgError}
+                    <img className="pcard__img" alt={`${p.name} — ${p.rendering ? "rendering" : "image"} ${i + 1}`} loading="lazy" onError={onImgError}
                       src={wix(img, { w: 900 })}
                       srcSet={`${wix(img, { w: 800 })} 800w, ${wix(img, { w: 1400 })} 1400w`}
                       sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
+                    {p.rendering && <span className="story__render story__render--tile">Rendering</span>}
                     <div className="pcard__over"><span className="pcard__cta" style={{ marginTop: "auto" }}>View <span className="arr" /></span></div>
                   </div>
                 </div>
@@ -226,14 +228,14 @@ function ProjectStory({ project, go }) {
              prev / all-properties links as siblings — no interactive nesting. */}
       {next && (
         <section className="cine story__next" style={{ minHeight: "70svh", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-          <img className="cine__img img--warm" alt={next.name} loading="lazy" onError={onImgError} sizes="100vw"
+          <img className="cine__img img--warm" alt={`${next.name}${next.rendering ? " — architectural rendering" : ""}`} loading="lazy" onError={onImgError} sizes="100vw"
             src={wix(next.cover || next.gallery[0], { w: 2000 })}
             srcSet={`${wix(next.cover || next.gallery[0], { w: 1200 })} 1200w, ${wix(next.cover || next.gallery[0], { w: 2000 })} 2000w`} />
           <div className="cine__grad" />
           <div className="cine__cap">
             <div className="wrap" style={{ paddingBottom: "clamp(40px,7vw,92px)" }}>
               <button className="story__next-hit" onClick={() => go("story:" + next.id)} data-magnetic>
-                <span className="eyebrow"><span className="dot" /> Next Project</span>
+                <span className="eyebrow"><span className="dot" /> Next Project{next.rendering ? " · Rendering" : ""}</span>
                 <span className="h-display story__next-name u-mt-8">{next.name}</span>
               </button>
               <div className="story__endnav">

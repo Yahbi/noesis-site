@@ -2,16 +2,11 @@
 // owner) and the office details. Split out of the one-pager in the multi-page pass.
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LEAD DELIVERY — the single most valuable action on this site.
-//
-// While INQ_ENDPOINT is empty the form falls back to opening the visitor's mail
-// client. That fallback is unreliable: phones without a configured mail app and
-// browser-based webmail users often get NOTHING, so real inquiries are lost.
-//
-// TO GO LIVE: create a free form endpoint (formspree.io or usebasin.com), point
-// it at info@noesisusa.com, and paste the URL below. Nothing else changes —
-// submissions then POST directly and the visitor sees a proper confirmation.
-//   e.g. const INQ_ENDPOINT = "https://formspree.io/f/xxxxxxxx";
+// LEAD DELIVERY
+// Empty endpoint: prepare a visible, copyable email draft; no message is sent.
+// Configure an owner-approved HTTPS form endpoint only after inbox delivery has
+// been verified. HTTP failures/timeouts retain the inquiry and offer the draft.
+// Never place an API key or private credential in this client-side file.
 // ─────────────────────────────────────────────────────────────────────────────
 const INQ_ENDPOINT = "";
 
@@ -63,7 +58,7 @@ function LocalTimes() {
   );
 }
 
-function Inquiries({ intent, go }) {
+function Inquiries({ intent, go, session }) {
   return (
     <main className="page-enter">
       <section style={{ paddingTop: "clamp(120px, 12vh, 150px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
@@ -95,7 +90,7 @@ function Inquiries({ intent, go }) {
             </div>
           </div>
           <div className="col-7 reveal">
-            <InquiryForm intent={intent} />
+            <InquiryForm intent={intent} go={go} session={session} />
           </div>
         </div>
       </section>
@@ -195,133 +190,189 @@ function Inquiries({ intent, go }) {
   );
 }
 
-function InquiryForm({ intent }) {
-  const investor = intent === "investor";
-  const owner = intent === "owner";
-  const [sent, setSent] = React.useState(false);   // false | "endpoint" | "mailto"
+// Mirror only editable details into the App-owned ref synchronously. A route
+// change may unmount the form before an effect runs. Never use browser storage,
+// URLs or analytics for these personal details; a fresh page starts empty.
+function useInquiryValue(session, key, initial) {
+  const [value, setValue] = React.useState(() => {
+    if (!Object.prototype.hasOwnProperty.call(session.current, key)) {
+      session.current[key] = typeof initial === "function" ? initial() : initial;
+    }
+    return session.current[key];
+  });
+  return [value, (next) => {
+    const updated = typeof next === "function" ? next(session.current[key]) : next;
+    session.current[key] = updated;
+    setValue(updated);
+  }];
+}
+
+const emptyInquiryFields = () => ({ name: "", email: "", location: "", message: "", accredited: false });
+
+function InquiryForm({ intent, go, session }) {
+  const localSession = React.useRef({});
+  const memory = session || localSession;
+  const initialRole = (value) => value === "investor" ? "Investor — capital partnership"
+    : value === "owner" ? "Owner — development or asset management" : "";
+  const [role, setRole] = useInquiryValue(memory, "role", () => initialRole(intent));
+  const [fields, setFields] = useInquiryValue(memory, "fields", emptyInquiryFields);
+  const [sent, setSent] = React.useState(false); // false | "endpoint" | "draft"
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState("");
-  const [role, setRole] = React.useState("");
-  React.useEffect(() => { if (investor) setRole("Investor — capital partnership"); }, [investor]);
-  React.useEffect(() => { if (owner) setRole("Owner — development or asset management"); }, [owner]);
+  const [draft, setDraft] = React.useState({ subject: "", body: "" });
+  const [copyStatus, setCopyStatus] = React.useState("");
+  const busy = React.useRef(false);
+  const draftRef = React.useRef(null);
+  const investor = role === "Investor — capital partnership";
+  const owner = role === "Owner — development or asset management";
+  const hasDetails = Boolean(role || Object.values(fields).some(Boolean));
+  const clearDetails = () => {
+    setFields(emptyInquiryFields()); setRole(""); setSent(false);
+    setDraft({ subject: "", body: "" }); setError(""); setCopyStatus("");
+    requestAnimationFrame(() => document.getElementById("f-name")?.focus());
+  };
 
+  const update = (e) => {
+    const { name, value, checked, type } = e.target;
+    setFields((previous) => ({ ...previous, [name]: type === "checkbox" ? checked : value }));
+  };
+  const prepare = (fd) => {
+    const g = (key) => String(fd.get(key) || "").trim();
+    setDraft({
+      subject: `Inquiry — ${g("role").split(" — ")[0]} — ${g("name")}`,
+      body: `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location") || "—"}\nReaching out as: ${g("role")}${fd.get("accredited") ? "\nAccredited investor confirmation: Yes" : ""}\n\n${g("message")}`,
+    });
+    setCopyStatus("");
+    setSent("draft");
+  };
   const submit = async (e) => {
     e.preventDefault();
+    if (busy.current) return;
+    const form = e.currentTarget;
     setError("");
-    const fd = new FormData(e.currentTarget);
-    const g = (k) => (fd.get(k) || "").toString();
-    // Honeypot — only automated submitters fill this. Silently accept and drop,
-    // so the bot sees success and does not retry with a different shape.
-    if (g("company_website")) { setSent("endpoint"); return; }
-    if (INQ_ENDPOINT) {
-      try {
-        setSubmitting(true);
-        const res = await fetch(INQ_ENDPOINT, { method: "POST", body: fd, headers: { Accept: "application/json" } });
-        if (!res.ok) throw new Error("bad status");
-        setSent("endpoint");
-      } catch (err) {
-        setError("Something went wrong sending your message. Please email info@noesisusa.com directly.");
-      } finally { setSubmitting(false); }
+    if (!form.reportValidity()) return;
+    const fd = new FormData(form);
+    if (fd.get("company_website")) return; // Ignore spam without claiming delivery.
+    for (const key of ["name", "message"]) {
+      if (!String(fd.get(key) || "").trim()) {
+        setError(key === "name" ? "Please enter your name." : "Please enter a message.");
+        form.elements.namedItem(key).focus();
+        return;
+      }
+    }
+    if (!INQ_ENDPOINT || e.nativeEvent?.submitter?.value === "draft") {
+      prepare(fd);
       return;
     }
-    const subject = `Inquiry${role ? " — " + role.split(" — ")[0] : ""}${g("name") ? " — " + g("name") : ""}`;
-    const body = `Name: ${g("name")}\nEmail: ${g("email")}\nLocation: ${g("location")}\nReaching out as: ${role || "—"}\n\n${g("message")}`;
-    setDraft(body);
-    window.location.href = `mailto:info@noesisusa.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent("mailto");
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    busy.current = true;
+    setSubmitting(true);
+    try {
+      const res = await fetch(INQ_ENDPOINT, {
+        method: "POST", body: fd, headers: { Accept: "application/json" }, signal: controller.signal,
+      });
+      if (!res.ok) throw new Error("Submission not accepted");
+      setSent("endpoint");
+    } catch (err) {
+      setError("We couldn't confirm your submission. Your details are still here. Try again, or prepare an email instead.");
+    } finally {
+      clearTimeout(timeout);
+      busy.current = false;
+      setSubmitting(false);
+    }
+  };
+  const draftText = `To: info@noesisusa.com\nSubject: ${draft.subject}\n\n${draft.body}`;
+  const copyDraft = async () => {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+      await navigator.clipboard.writeText(draftText);
+      setCopyStatus("Copied to clipboard. Paste it into an email to info@noesisusa.com and send it there.");
+    } catch (err) {
+      if (draftRef.current) { draftRef.current.focus(); draftRef.current.select(); }
+      setCopyStatus("Copy is unavailable here. Select the message below and copy it manually, then email info@noesisusa.com.");
+    }
   };
 
   if (sent) return (
-    <div className="inq-panel" role="status" aria-live="polite"
-      ref={(el) => { if (el && !el.__focused) { el.__focused = true; el.focus(); } }}
-      tabIndex={-1} style={{ outline: "none" }}>
-      <div className="eyebrow"><span className="dot" /> {sent === "endpoint" ? "Received" : "Almost there"}</div>
-      <h2 className="h-2 u-mt-16">{sent === "endpoint" ? "Thank you." : "One last step."}</h2>
+    <div className="inq-panel" aria-labelledby="inquiry-result-title"
+      ref={(el) => { if (el && !el.__focused) { el.__focused = true; el.focus({ preventScroll: true }); el.scrollIntoView({ block: "start" }); } }} tabIndex={-1} style={{ scrollMarginTop: 100 }}>
+      <div className="eyebrow"><span className="dot" /> {sent === "endpoint" ? "Submitted" : "Email draft"}</div>
+      <h2 id="inquiry-result-title" className="h-2 u-mt-16">{sent === "endpoint" ? "Thank you." : "Your message is ready."}</h2>
       {sent === "endpoint" ? (
-        <p className="body u-mt-16">
-          {investor
-            ? "Your inquiry is reviewed personally by our principal and held in confidence."
-            : "We've received your message and will respond within one business day."}
-        </p>
+        <p className="body u-mt-16" role="status">Your inquiry was submitted. You can also reach us at <a href="mailto:info@noesisusa.com">info@noesisusa.com</a>.</p>
       ) : (
         <>
-          <p className="body u-mt-16">
-            We've opened a pre-filled message in your mail app — <strong>press send there</strong> and it reaches our
-            principal directly. Nothing has been sent yet.
-          </p>
-          <p className="body u-mt-16" style={{ color: "var(--muted)" }}>
-            If no mail app opened, copy your message below and send it to{" "}
-            <a href="mailto:info@noesisusa.com" style={{ color: "var(--accent-deep)" }}>info@noesisusa.com</a>,{" "}
-            or call <a href="tel:+13108553634" style={{ color: "var(--accent-deep)" }}>(310) 855·3634</a>.
-          </p>
-          <button type="button" className="btn btn--ghost u-mt-16"
-            onClick={() => {
-              const done = () => { setCopied(true); setTimeout(() => setCopied(false), 2400); };
-              if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(draft).then(done, () => setCopied(false));
-              } else {
-                const t = document.createElement("textarea");
-                t.value = draft; t.style.position = "fixed"; t.style.opacity = "0";
-                document.body.appendChild(t); t.select();
-                try { document.execCommand("copy"); done(); } catch (err) { /* clipboard unavailable */ }
-                document.body.removeChild(t);
-              }
-            }}>
-            {copied ? "Copied to clipboard" : "Copy my message"}
-          </button>
+          <p className="body u-mt-16"><strong>Nothing has been sent yet.</strong> Open this draft in your email app, or copy it into your email service, then send it to info@noesisusa.com.</p>
+          <div className="u-flex u-gap-16 u-mt-24" style={{ flexWrap: "wrap", gap: 16 }}>
+            <a className="btn" href={`mailto:info@noesisusa.com?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.body)}`}>Open email app</a>
+            <button type="button" className="btn btn--ghost" onClick={copyDraft}>Copy my message</button>
+          </div>
+          <p className="body u-mt-16" role="status" aria-live="polite">{copyStatus}</p>
+          <div className="field u-mt-24">
+            <label htmlFor="inquiry-draft">Your email draft</label>
+            <textarea id="inquiry-draft" ref={draftRef} readOnly rows="10" value={draftText} />
+          </div>
+          <p className="body u-mt-16">If no mail app opens, use the draft above in your email service, or call <a href="tel:+13108553634">(310) 855·3634</a>.</p>
         </>
       )}
-      <button className="btn btn--ghost u-mt-40" onClick={() => setSent(false)}>Write another</button>
+      <button type="button" className="btn btn--ghost u-mt-40" onClick={() => {
+        if (sent === "endpoint") { clearDetails(); return; }
+        setError(""); setSent(false);
+        requestAnimationFrame(() => document.getElementById("f-name")?.focus());
+      }}>{sent === "endpoint" ? "Write another" : "Edit my message"}</button>
+      {sent === "draft" && <button type="button" className="btn btn--ghost u-mt-16" onClick={clearDetails}>Clear my details</button>}
     </div>
   );
 
   return (
-    <form onSubmit={submit} className="inq-panel">
-      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : owner ? "Confidential project inquiry" : "Send a message"}</div>
+    <form onSubmit={submit} className="inq-panel" aria-busy={submitting} aria-describedby="inquiry-delivery-note">
+      <div className="eyebrow" style={{ marginBottom: 22 }}><span className="dot" /> {investor ? "Confidential investor introduction" : owner ? "Confidential project inquiry" : "Write a message"}</div>
       <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
         <label htmlFor="f-company-website">Do not fill this in</label>
         <input id="f-company-website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
+      <p id="inquiry-delivery-note" className="form-note">{INQ_ENDPOINT ? "Submit your inquiry directly, or prepare a draft to send from your own email." : "This form prepares an email draft. You will send it from your own email app or service."}</p>
+      <p className="form-note">Your entries stay here while you browse this site. Reloading or closing this page clears them. <a href={BASE + pathFor("disclosures")} onClick={(e) => {
+        if (!go || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault(); go("disclosures");
+      }}>Read our disclosures</a>.</p>
       <p className="form-note">Fields marked <span className="req" aria-hidden="true">*</span> are required.</p>
-      <div className="form-grid">
-        <div className="field"><label htmlFor="f-name">Name <span className="req" aria-hidden="true">*</span></label><input id="f-name" name="name" type="text" placeholder="Your name" required /></div>
-        <div className="field"><label htmlFor="f-email">Email <span className="req" aria-hidden="true">*</span></label><input id="f-email" name="email" type="email" placeholder="you@email.com" required /></div>
-        <div className="field"><label htmlFor="f-loc">Location</label><input id="f-loc" name="location" type="text" placeholder="City / country" /></div>
-        <div className="field">
-          <label htmlFor="f-role">I'm reaching out as <span className="req" aria-hidden="true">*</span></label>
-          <select id="f-role" name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
-            <option value="" disabled>Select one</option>
-            <option>Investor — capital partnership</option>
-            <option>Owner — development or asset management</option>
-            <option>Developer — owner's representation</option>
-            <option>Broker / seller — a site or a building</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div className="field" style={{ gridColumn: "1 / -1" }}><label htmlFor="f-msg">Message <span className="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" rows="5" placeholder="Tell us about your interest in investing, or your project." required></textarea></div>
-        {/* Every firm that raises privately states the audience limitation in the
-            form itself, not only in the footer. Self-certification here; real
-            verification belongs at the offering, not on a website. */}
-        {investor && (
-          <div className="field field--check" style={{ gridColumn: "1 / -1" }}>
-            <label htmlFor="f-accredited" className="check">
-              <input id="f-accredited" name="accredited" type="checkbox" required />
-              <span>
-                I confirm I am an accredited investor. I understand this inquiry is not an offer, that
-                no offering is implied, and that any offering would be made only through its own
-                documents. <span className="req" aria-hidden="true">*</span>
-              </span>
-            </label>
+      <fieldset disabled={submitting} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+        <legend className="sr-only">Your inquiry</legend>
+        <div className="form-grid">
+          <div className="field"><label htmlFor="f-name">Name <span className="req" aria-hidden="true">*</span></label><input id="f-name" name="name" type="text" autoComplete="name" maxLength={160} value={fields.name} onChange={update} placeholder="Your name" required /></div>
+          <div className="field"><label htmlFor="f-email">Email <span className="req" aria-hidden="true">*</span></label><input id="f-email" name="email" type="email" autoComplete="email" maxLength={254} value={fields.email} onChange={update} placeholder="you@email.com" required /></div>
+          <div className="field"><label htmlFor="f-loc">Location</label><input id="f-loc" name="location" type="text" autoComplete="address-level2" maxLength={160} value={fields.location} onChange={update} placeholder="City / country" /></div>
+          <div className="field">
+            <label htmlFor="f-role">I'm reaching out as <span className="req" aria-hidden="true">*</span></label>
+            <select id="f-role" name="role" value={role} onChange={(e) => { setRole(e.target.value); setFields((previous) => ({ ...previous, accredited: false })); }} required>
+              <option value="" disabled>Select one</option>
+              <option>Investor — capital partnership</option>
+              <option>Owner — development or asset management</option>
+              <option>Developer — owner's representation</option>
+              <option>Broker / seller — a site or a building</option>
+              <option>Other</option>
+            </select>
           </div>
-        )}
-      </div>
-      <div role="status" aria-live="polite">
-        {error && <p className="body u-mt-24" style={{ color: "var(--accent-deep)" }}>{error}</p>}
-      </div>
-      <div className="u-mt-40 u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--muted)" }}>INFO@NOESISUSA.COM · T (310) 855·3634</div>
-        <button type="submit" className="btn" disabled={submitting}>{submitting ? "Sending…" : "Send Inquiry"} <span className="arr" /></button>
-      </div>
+          <div className="field" style={{ gridColumn: "1 / -1" }}><label htmlFor="f-msg">Message <span className="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" rows="5" maxLength={5000} value={fields.message} onChange={update} placeholder="Tell us about your interest in investing, or your project." required /></div>
+          {investor && (
+            <div className="field field--check" style={{ gridColumn: "1 / -1" }}>
+              <label htmlFor="f-accredited" className="check">
+                <input id="f-accredited" name="accredited" type="checkbox" checked={fields.accredited} onChange={update} required />
+                <span>I confirm I am an accredited investor. I understand this inquiry is not an offer, that no offering is implied, and that any offering would be made only through its own documents. <span className="req" aria-hidden="true">*</span></span>
+              </label>
+            </div>
+          )}
+        </div>
+        <div role="alert">{error && <p className="body u-mt-24" style={{ color: "var(--accent-deep)" }}>{error}</p>}</div>
+        <div className="u-mt-40 u-flex u-between u-center" style={{ flexWrap: "wrap", gap: 16 }}>
+          <div className="mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--muted)" }}>INFO@NOESISUSA.COM · T (310) 855·3634</div>
+          <button type="submit" className="btn">{submitting ? "Sending…" : INQ_ENDPOINT ? "Send inquiry" : "Prepare email"} <span className="arr" /></button>
+          {INQ_ENDPOINT && <button type="submit" value="draft" className="btn btn--ghost">Prepare email instead</button>}
+          {hasDetails && <button type="button" className="btn btn--ghost" onClick={clearDetails}>Clear my details</button>}
+        </div>
+      </fieldset>
     </form>
   );
 }

@@ -231,7 +231,7 @@ function Development({ go }) {
             <div className="col-5">
               <p className="body" style={{ color: "var(--muted)", maxWidth: "46ch" }}>
                 From a residence in design in Joshua Tree to a house issued for construction in Hidden
-                Hills — every project in development, on the stage it has reached.
+                Hills — projects in development with a published stage, shown at the stage reached.
               </p>
             </div>
           </div>

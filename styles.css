@@ -1938,6 +1938,7 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
 /* Required-field marker and its legend. The fields were already marked
    `required` in HTML, but nothing said so until a submit failed (WCAG 3.3.2). */
 .req { color: var(--accent-cta); font-weight: 500; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .form-note { font-family: var(--sans); font-size: 13px; color: var(--muted);
   margin-bottom: clamp(14px, 1.6vw, 20px); }
 
@@ -2045,3 +2046,9 @@ a.pcard:hover, a.pfeat__media:hover { text-decoration: none; }
   .pgrid--3 .pcard--wide { grid-column: span 1; }
   .pgrid--3 .pcard--wide .pcard__media { aspect-ratio: 4 / 5; }
 }
+
+/* A rendering label remains readable on full-bleed story imagery. */
+.story__render { position: absolute; z-index: 2; left: var(--pad-x); bottom: 24px;
+  padding: 8px 12px; background: rgba(23,23,25,.86); color: #fff;
+  font: 11px var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+.story__render--tile { left: 12px; bottom: 12px; font-size: 10px; }

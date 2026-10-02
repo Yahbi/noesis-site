@@ -18,15 +18,16 @@ V="${BUILD_V:-$(date +%s)}"
 #   SITE_URL="https://noesisusa.com/" BASE_PATH="/" ./build.sh
 # See GOLIVE.md for the full cutover sequence.
 SITE_URL="${SITE_URL:-https://yahbi.github.io/noesis-site/}"
-BASE_PATH="${BASE_PATH:-/noesis-site/}"
+BASE_PATH="${BASE_PATH:-}"
+PYTHONDONTWRITEBYTECODE=1 python3 tools/site_config.py "$SITE_URL" "$BASE_PATH"
 
 # 1) Transform JSX -> plain JS, concatenated in load order (same as the dev HTML).
 # Use the LOCAL babel explicitly. `npx babel` silently falls back to the
 # deprecated Babel 5.8.38 package from npm when node_modules is missing, which
 # cannot parse modern syntax — the build then fails in confusing ways.
 if [ ! -x node_modules/.bin/babel ]; then
-  echo "babel missing — running npm install" >&2
-  npm install --no-audit --no-fund >/dev/null
+  echo "Local Babel missing. Install the lockfile dependencies before building (npm ci)." >&2
+  exit 1
 fi
 ./node_modules/.bin/babel \
   tweaks-panel.jsx \
@@ -56,10 +57,12 @@ mv bundle.min.tmp bundle.js
 echo "bundle.js: $(wc -c < bundle.js) bytes · motion.min.js: $(wc -c < motion.min.js) bytes"
 
 # 2) Generate the production shell + one static page per route.
-python3 - "$V" "$SITE_URL" "$BASE_PATH" <<'PY'
+PYTHONDONTWRITEBYTECODE=1 python3 - "$V" "$SITE_URL" "$BASE_PATH" <<'PY'
 import re, sys, os, html, json, shutil
+from tools.site_config import resolve
 
 v, SITE_URL, BASE_PATH = sys.argv[1], sys.argv[2], sys.argv[3]
+SITE_URL, BASE_PATH = resolve(SITE_URL, BASE_PATH)
 src = open("Noesis Website.html", encoding="utf-8").read()
 # The dev template hardcodes the github.io URL; normalise it to whatever SITE_URL
 # is so a domain switch updates canonical, og:url AND the JSON-LD in one move.
@@ -69,6 +72,7 @@ prod_scripts = f'''  <!-- Production: precompiled bundle, no in-browser compilat
   <script defer src="assets/vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
   <script defer src="assets/vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
   <script defer src="motion.min.js?v={v}"></script>
+  <script defer src="route-meta.js?v={v}"></script>
   <script defer src="bundle.js?v={v}"></script>
 
 </body>'''
@@ -243,7 +247,7 @@ story_cover.update(story_local)
 # Small-lot entries carry an inline gallery of PHOTO keys rather than a GAL
 # reference, so neither map above reached them and they fell back to the site
 # default card.
-gal_inline = dict(re.findall(r'id:\s*"([a-z0-9-]+)"[^}]{0,500}?gallery:\s*\["(\w+)"\]', proj_src))
+gal_inline = dict(re.findall(r'id:\s*"([a-z0-9-]+)"[^}]{0,500}?gallery:\s*\["(\w+)"(?:\s*,|\])', proj_src))
 for pid, key in gal_inline.items():
     if pid not in story_cover and key in photo_map:
         story_cover[pid] = cdn_card(photo_map[key])
@@ -251,12 +255,32 @@ for pid, key in gal_inline.items():
 OG_IMAGES = {
     "development/": SITE_URL + "assets/img/dev-facade.jpg",
     "investment/":  SITE_URL + "assets/img/inv-sunset.jpg",
-    "owners-rep/":  SITE_URL + "assets/img/or-living.jpg",
+    "management/":  SITE_URL + "assets/img/or-living.jpg",
     "firm/":        SITE_URL + "assets/img/firm-living.jpg",
     "portfolio/":   cdn_card("5c383b_38f5ef1da26e4204b8e465e79f378f2e~mv2.jpg"),      # One Oak
 }
 for pid, url in story_cover.items():
     OG_IMAGES[f"portfolio/{pid}/"] = url
+
+def breadcrumbs(path, heading):
+    if not path:
+        return None
+    segments = [("Home", SITE_URL)]
+    if path.startswith("portfolio/") and path != "portfolio/":
+        segments.append(("Portfolio", SITE_URL + "portfolio/"))
+    segments.append((CRUMB.get(path, heading), SITE_URL + path))
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u}
+                                for i, (n, u) in enumerate(segments)]}
+
+# Navigation updates the same metadata as a direct static-page visit.
+default_image = re.search(r'<meta property="og:image" content="([^"]+)"', shell).group(1)
+route_meta = {route: {"title": title, "description": desc, "url": SITE_URL + path,
+                     "image": OG_IMAGES.get(path, default_image), "imageAlt": heading + " | Noesis Group",
+                     "breadcrumbs": breadcrumbs(path, heading)}
+              for path, route, title, desc, heading, _ in ROUTES}
+open("route-meta.js", "w", encoding="utf-8").write(
+    "window.__NOESIS_META=" + json.dumps(route_meta, separators=(",", ":")) + ";\n")
 
 def _lit(text):
     """A re.sub replacement taken literally — no backslash or \\g interpretation."""
@@ -277,14 +301,7 @@ def page(path, route, title, desc, heading, blurb):
         h = re.sub(r'("image":\s*)"[^"]*"', lambda m: m.group(1) + json.dumps(og), h, count=1)
     # Breadcrumb trail for crawlers on every sub-page.
     if path:
-        segs = [("Home", SITE_URL)]
-        if path.startswith("portfolio/") and path != "portfolio/":
-            segs.append(("Portfolio", SITE_URL + "portfolio/"))
-        segs.append((CRUMB.get(path, heading), canonical))
-        crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
-                  "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u}
-                                       for i, (n, u) in enumerate(segs)]}
-        h = h.replace("</head>", '  <script type="application/ld+json">' + json.dumps(crumbs) + "</script>\n</head>", 1)
+        h = h.replace("</head>", '  <script id="route-breadcrumbs" type="application/ld+json">' + json.dumps(breadcrumbs(path, heading)) + "</script>\n</head>", 1)
     # The hero image is the LCP element on home and every story cover — tell the
     # browser before the bundle even parses.
     hero = None
@@ -308,6 +325,8 @@ def page(path, route, title, desc, heading, blurb):
     h = re.sub(r"<title>.*?</title>", _lit("<title>" + html.escape(title) + "</title>"), h, count=1, flags=re.S)
     h = re.sub(r'<meta name="description" content=".*?">',
                _lit('<meta name="description" content="' + html.escape(desc, quote=True) + '">'), h, count=1, flags=re.S)
+    h = re.sub(r'<meta property="og:image:alt" content=".*?">',
+               _lit('<meta property="og:image:alt" content="' + html.escape(route_meta[route]["imageAlt"], quote=True) + '">'), h, count=1)
     h = re.sub(r'<meta property="og:title" content=".*?">',
                _lit('<meta property="og:title" content="' + html.escape(title, quote=True) + '">'), h, count=1, flags=re.S)
     h = re.sub(r'<meta name="twitter:title" content=".*?">',

@@ -121,9 +121,9 @@
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"><div class="cursor__ring"></div><div class="cursor__dot"></div></div>
 
-  <!-- Focus the target directly: with <base> set, a bare "#root" resolves
+  <!-- Focus the target directly: with <base> set, a bare fragment resolves
        against the base URL and navigates home instead of skipping. -->
-  <a href="#root" class="skip-link" onclick="var r=document.getElementById('root');if(r){event.preventDefault();r.setAttribute('tabindex','-1');r.focus();r.scrollIntoView();}">Skip to content</a>
+  <a href="#main-content" class="skip-link" onclick="var r=document.querySelector('main');if(r){event.preventDefault();r.id='main-content';r.setAttribute('tabindex','-1');r.focus();r.scrollIntoView();}">Skip to content</a>
   <div id="root"></div>
 
   <!-- React + Babel (pinned + integrity) -->
@@ -132,6 +132,7 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
   <!-- Tweaks panel (gives us useTweaks, TweaksPanel, controls) -->
+  <script src="route-meta.js"></script>
   <script type="text/babel" src="tweaks-panel.jsx?v=1784997287"></script>
 
   <!-- Components -->

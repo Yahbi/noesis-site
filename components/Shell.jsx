@@ -97,6 +97,7 @@ function Nav({ active, go, setIntent }) {
   const [scrolled, setScrolled] = React.useState(false);
   const [over, setOver] = React.useState(true);
   const [spy, setSpy] = React.useState(null);      // block currently under the scan line
+  const headerRef = React.useRef(null);
   const linksRef = React.useRef(null);
   const indRef = React.useRef(null);
   // On a sub-page the bar marks the route; on the gateway it follows the scroll.
@@ -138,11 +139,28 @@ function Nav({ active, go, setIntent }) {
     return () => { mq.removeEventListener ? mq.removeEventListener("change", onChange) : mq.removeListener(onChange); };
   }, [open]);
 
-  // Escape closes; focus moves into the drawer on open and returns to the burger on close.
+  // Treat the full-screen mobile menu as a modal: keep keyboard and assistive
+  // technology focus inside it, including the close button in the header.
   React.useEffect(() => {
     if (!open) return;
     const trigger = document.activeElement;
-    const onKey = (e) => { if (e.key === "Escape") { e.preventDefault(); setOpen(false); } };
+    const header = headerRef.current;
+    const background = Array.from(document.querySelectorAll("main, .footer, .skip-link, .back-home"))
+      .map((el) => [el, el.inert]);
+    background.forEach(([el]) => { el.inert = true; });
+    const onKey = (e) => {
+      if (e.key === "Escape") { e.preventDefault(); setOpen(false); return; }
+      if (e.key !== "Tab" || !header) return;
+      const controls = Array.from(header.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]'))
+        .filter((el) => el.getClientRects().length && getComputedStyle(el).visibility !== "hidden");
+      const first = controls[0], last = controls[controls.length - 1];
+      if (!first) return;
+      if (e.shiftKey && (document.activeElement === first || !header.contains(document.activeElement))) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !header.contains(document.activeElement))) {
+        e.preventDefault(); first.focus();
+      }
+    };
     window.addEventListener("keydown", onKey);
     // The drawer is `visibility:hidden` until its 0.3s fade begins, so nothing
     // inside it is focusable the instant it opens — retry until focus takes.
@@ -158,7 +176,8 @@ function Nav({ active, go, setIntent }) {
     return () => {
       clearInterval(t);
       window.removeEventListener("keydown", onKey);
-      if (trigger && trigger.focus) trigger.focus();
+      background.forEach(([el, inert]) => { el.inert = inert; });
+      if (trigger && trigger.isConnected && trigger.focus) trigger.focus();
     };
   }, [open]);
 
@@ -235,7 +254,8 @@ function Nav({ active, go, setIntent }) {
   const cls = `nav ${scrolled ? "nav--scrolled" : ""} ${over && !scrolled && !open ? "nav--over" : ""}`;
 
   return (
-    <header className={cls}>
+    <header className={cls} ref={headerRef} role={open ? "dialog" : undefined}
+      aria-modal={open ? "true" : undefined} aria-label={open ? "Site menu" : undefined}>
       <div className="wrap nav__inner u-flex u-between u-center">
         <Logo onClick={() => tap("top")} />
 
